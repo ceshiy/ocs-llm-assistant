@@ -1,0 +1,17 @@
+# 依赖
+node_modules/
+
+# 环境变量（含 API Key）
+.env
+
+# 调试产物
+debug_images/
+111.txt
+
+# 测试脚本
+test-vision.js
+test-image-extractor.user.js
+
+# 系统文件
+.DS_Store
+Thumbs.db
