@@ -2,6 +2,12 @@
 
 基于 LLM 的网课答题助手，支持文字题和图片题。包含油猴脚本和服务端代理两部分。
 
+## 重要说明
+
+> **DeepSeek 不支持多模态（图片识别）。** 如果题目包含图片，请务必配置 `LLM_VISION_MODEL` 为支持 vision 的模型（如 mimo、GPT-4o 等），否则图片内容无法传给大模型，题干不完整，回答正确率会极大降低。
+>
+> 回答正确与否完全取决于大模型的能力，与本项目无关。本项目仅提供代理转发和图片处理能力。
+
 ## 功能特性
 
 - 支持单选题、多选题、判断题、填空题
@@ -15,7 +21,6 @@
 ```
 .
 ├── OCS 网课助手-4.13.19.js   # 油猴脚本（客户端）
-├── OCS-LLM-题库配置.json      # 题库配置示例
 └── server/                     # 服务端代理
     ├── server.js               # 主服务
     ├── server-utils.js         # 工具函数
@@ -66,12 +71,14 @@ docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 | `LLM_API_URL` | LLM API 地址 | `https://api.deepseek.com/v1/chat/completions` |
 | `LLM_API_KEY` | API Key（必填） | - |
 | `LLM_MODEL` | 文字题模型 | `deepseek-chat` |
-| `LLM_VISION_MODEL` | 图片题模型（为空则用 LLM_MODEL） | - |
+| `LLM_VISION_MODEL` | 图片题模型（**图片题必填**） | - |
 | `LLM_MAX_TOKENS` | 最大 token 数（0=不限制） | `0` |
 | `PORT` | 服务端口 | `3000` |
 | `SERVER_BASE_URL` | 服务外网地址 | `http://localhost:3000` |
 | `ALLOWED_ORIGINS` | CORS 允许的来源 | `*` |
 | `JSON_LIMIT` | 请求体大小限制 | `15mb` |
+
+> **注意：** `LLM_VISION_MODEL` 必须配置为支持多模态（vision）的模型。DeepSeek 仅支持纯文本，无法识别图片。
 
 ## API 接口
 
@@ -107,10 +114,12 @@ docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 
 任何兼容 OpenAI Chat Completions 格式的 API 均可使用：
 
-- DeepSeek
-- mimo（支持 vision）
-- OpenAI
-- 其他 OpenAI 兼容服务
+| 模型 | 纯文字题 | 图片题 |
+|------|----------|--------|
+| DeepSeek | 支持 | **不支持**（无多模态） |
+| mimo | 支持 | 支持 |
+| GPT-4o | 支持 | 支持 |
+| 其他 OpenAI 兼容服务 | 视模型能力而定 | 需支持 vision |
 
 ## License
 
