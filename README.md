@@ -78,7 +78,9 @@ docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 | `ALLOWED_ORIGINS` | CORS 允许的来源 | `*` |
 | `JSON_LIMIT` | 请求体大小限制 | `15mb` |
 
-> **注意：** `LLM_VISION_MODEL` 必须配置为支持多模态（vision）的模型。DeepSeek 仅支持纯文本，无法识别图片。
+> **注意：**
+> - `LLM_VISION_MODEL` 必须配置为支持多模态（vision）的模型。DeepSeek 仅支持纯文本，无法识别图片。
+> - `LLM_MAX_TOKENS` 设置过小会导致大模型回答被截断，答案无法解析。默认为 0（不限制），如有需要请自行修改。
 
 ## API 接口
 
