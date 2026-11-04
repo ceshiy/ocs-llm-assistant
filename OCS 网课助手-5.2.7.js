@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name       				OCS 网课助手
-// @version    				4.13.19
+// @version    				5.2.7
 // @description				OCS(online-course-script) 网课助手，官网 https://docs.ocsjs.com ，专注于帮助大学生从网课中释放出来 让自己的时间把握在自己的手中，拥有人性化的操作页面，流畅的步骤提示，支持  【超星学习通】 【知到智慧树】 【职教云】 【智慧职教】 【中国大学MOOC】 【雨课堂】 等网课的学习，作业。具体的功能请查看脚本悬浮窗中的教程页面。
 // @author     				enncy
 // @license    				MIT
 // @match      				*://*.zhihuishu.com/*
-// @match      				*://*.hike-teaching-center.polymas.com/*
+// @match      				*://*.polymas.com/*
 // @match      				*://*.chaoxing.com/*
 // @match      				*://*.edu.cn/*
 // @match      				*://*.org.cn/*
@@ -25,7 +25,9 @@
 // @match      				*://*.ccqmxx.com/*
 // @match      				*://*.jxgmxy.com/*
 // @match      				*://*.jnzyjsxy.cn/*
+// @match      				*://*.smjyxy.cn/*
 // @match      				*://*.sslibrary.com/*
+// @match      				*://*.xuexi365.com/*
 // @match      				*://*.icve.com.cn/*
 // @match      				*://*.ai.icve.com.cn/*
 // @match      				*://*.course.icve.com.cn/*
@@ -35,6 +37,7 @@
 // @match      				*://*.zyk.icve.com.cn/*
 // @match      				*://*.icourse163.org/*
 // @match      				*://*.yuketang.cn/*
+// @match      				*://*.gdufemooc.cn/*
 // @grant      				GM_info
 // @grant      				GM_getTab
 // @grant      				GM_saveTab
@@ -59,13 +62,8 @@
 // @connect    				zaizhexue.top
 // @connect    				localhost
 // @connect    				127.0.0.1
-// @connect                 ocs.ceshiy.fun
-// @connect                 api.ceshiy.fun
-// @connect                 *.chaoxing.com
-// @connect                 p.ananas.chaoxing.com
+// @connect    				aliyuncs.com
 // @antifeature				payment
-// @downloadURL https://update.greasyfork.org/scripts/457151/OCS%20%E7%BD%91%E8%AF%BE%E5%8A%A9%E6%89%8B.user.js
-// @updateURL https://update.greasyfork.org/scripts/457151/OCS%20%E7%BD%91%E8%AF%BE%E5%8A%A9%E6%89%8B.meta.js
 // ==/UserScript==
 
 var __defProp = Object.defineProperty;
@@ -137,18 +135,18 @@ var __publicField = (obj, key, value) => {
   var _getRawTag = getRawTag$1;
   var objectProto = Object.prototype;
   var nativeObjectToString = objectProto.toString;
-  function objectToString$1(value) {
+  function objectToString$2(value) {
     return nativeObjectToString.call(value);
   }
-  var _objectToString = objectToString$1;
-  var Symbol$1 = _Symbol, getRawTag = _getRawTag, objectToString = _objectToString;
+  var _objectToString = objectToString$2;
+  var Symbol$1 = _Symbol, getRawTag = _getRawTag, objectToString$1 = _objectToString;
   var nullTag = "[object Null]", undefinedTag = "[object Undefined]";
   var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : void 0;
   function baseGetTag$1(value) {
     if (value == null) {
       return value === void 0 ? undefinedTag : nullTag;
     }
-    return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
+    return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString$1(value);
   }
   var _baseGetTag = baseGetTag$1;
   function isObjectLike$1(value) {
@@ -270,7 +268,7 @@ var __publicField = (obj, key, value) => {
     debounced.flush = flush;
     return debounced;
   }
-  var debounce_1$2 = debounce;
+  var debounce_1$1 = debounce;
   const $ = {
     uuid() {
       return "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(/[xy]/g, function(c) {
@@ -298,7 +296,7 @@ var __publicField = (obj, key, value) => {
       };
     },
     onresize(el, handler) {
-      const resize = debounce_1$2(() => {
+      const resize = debounce_1$1(() => {
         if (el.parentNode === null) {
           window.removeEventListener("resize", resize);
         } else {
@@ -380,8 +378,8 @@ var __publicField = (obj, key, value) => {
       this._text = StringUtils.hide(this._text, start2, end, replacer);
       return this;
     }
-    static of(text) {
-      return new StringUtils(text);
+    static of(text2) {
+      return new StringUtils(text2);
     }
     toString() {
       return this._text;
@@ -430,15 +428,15 @@ var __publicField = (obj, key, value) => {
     let firstBigrams = /* @__PURE__ */ new Map();
     for (let i = 0; i < first.length - 1; i++) {
       const bigram = first.substring(i, i + 2);
-      const count = firstBigrams.has(bigram) ? firstBigrams.get(bigram) + 1 : 1;
-      firstBigrams.set(bigram, count);
+      const count2 = firstBigrams.has(bigram) ? firstBigrams.get(bigram) + 1 : 1;
+      firstBigrams.set(bigram, count2);
     }
     let intersectionSize = 0;
     for (let i = 0; i < second.length - 1; i++) {
       const bigram = second.substring(i, i + 2);
-      const count = firstBigrams.has(bigram) ? firstBigrams.get(bigram) : 0;
-      if (count > 0) {
-        firstBigrams.set(bigram, count - 1);
+      const count2 = firstBigrams.has(bigram) ? firstBigrams.get(bigram) : 0;
+      if (count2 > 0) {
+        firstBigrams.set(bigram, count2 - 1);
         intersectionSize++;
       }
     }
@@ -477,6 +475,29 @@ var __publicField = (obj, key, value) => {
     exclude.push(...["①②③④⑤⑥⑦⑧⑨"]);
     return str.trim().toLocaleLowerCase().replace(RegExp(`[^\\u2E80-\\u9FFFA-Za-z0-9${exclude.join("")}]*`, "g"), "");
   }
+  function normalizeString(str) {
+    return clearString(
+      str.replace(/[，。！？；：""''、（）【】《》\s]/g, "").replace(/[,.\-!?;:'"()[\]<>]/g, "").replace(/[ａ-ｚＡ-Ｚ０-９]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 65248)).replace(/％/g, "%")
+    );
+  }
+  function answerNormalizedMatch(answers, options) {
+    const _answers = answers.map(removeRedundant).map(normalizeString);
+    const _options = options.map(removeRedundant).map(normalizeString);
+    return _answers.length !== 0 ? _options.map((opt, i) => {
+      let level = 0;
+      if (opt) {
+        for (const ans of _answers) {
+          if (ans === opt) {
+            level = 2;
+            break;
+          } else if (ans.includes(opt)) {
+            level = 1;
+          }
+        }
+      }
+      return { opt, original: options[i], level };
+    }).filter(({ level }) => level > 0).sort((a, b) => b.level - a.level).map(({ original }) => original) : [];
+  }
   function answerSimilar(answers, options) {
     const _answers = answers.map(removeRedundant).map((a) => clearString(a));
     const _options = options.map(removeRedundant).map((o) => clearString(o));
@@ -488,6 +509,33 @@ var __publicField = (obj, key, value) => {
     }) : _options.map(() => ({ rating: 0, target: "" }));
     return similar;
   }
+  function answerSimilarWithGap(answers, options) {
+    var _a, _b;
+    const _answers = answers.map(removeRedundant).map((a) => clearString(a));
+    const _options = options.map(removeRedundant).map((o) => clearString(o));
+    if (_answers.length === 0) {
+      return _options.map(() => ({ rating: 0, target: "", gap: 0 }));
+    }
+    const ratings = _options.map((option) => {
+      if (option.trim() === "") {
+        return { rating: 0, target: "" };
+      }
+      return src.findBestMatch(option, _answers).bestMatch;
+    });
+    const sortedRatings = [...ratings].sort((a, b) => b.rating - a.rating);
+    const maxRating = (_b = (_a = sortedRatings[0]) == null ? void 0 : _a.rating) != null ? _b : 0;
+    let secondRating = 0;
+    for (let i = 1; i < sortedRatings.length; i++) {
+      if (sortedRatings[i].rating < maxRating) {
+        secondRating = sortedRatings[i].rating;
+        break;
+      }
+    }
+    return ratings.map((r) => ({
+      ...r,
+      gap: r.rating === maxRating ? maxRating - secondRating : 0
+    }));
+  }
   function answerExactMatch(answers, options) {
     const _answers = answers.map(removeRedundant);
     const _options = options.map(removeRedundant);
@@ -497,7 +545,7 @@ var __publicField = (obj, key, value) => {
     return result;
   }
   function removeRedundant(str) {
-    return (str == null ? void 0 : str.trim().replace(/[A-Z]{1}[^A-Za-z0-9\u2E80-\u9FFF]+([A-Za-z0-9\u2E80-\u9FFF]+)/, "$1")) || "";
+    return (str == null ? void 0 : str.trim().replace(/^[A-Z]{1}[^A-Za-z0-9⺀-鿿]+([A-Za-z0-9⺀-鿿]+)/, "$1").replace(/^[A-Z]{1}([⺀-鿿][A-Za-z0-9⺀-鿿]*)/, "$1")) || "";
   }
   function request(url, opts) {
     return new Promise((resolve, reject) => {
@@ -508,45 +556,34 @@ var __publicField = (obj, key, value) => {
           if (typeof GM_xmlhttpRequest !== "undefined") {
             const contentType = headers["Content-Type"] || headers["content-type"];
             const requestData = contentType === "application/x-www-form-urlencoded" ? new URLSearchParams(data).toString() : Object.keys(data).length ? JSON.stringify(data) : void 0;
-            console.log('[OCS调试] 请求URL:', url);
-            console.log('[OCS调试] 请求数据:', requestData);
-            console.log('[OCS调试] 请求头:', headers);
-            console.log('[OCS调试] 开始 GM_xmlhttpRequest 调用...');
             GM_xmlhttpRequest({
               url,
               method: method.toUpperCase(),
               data: requestData,
               headers: Object.keys(headers).length ? headers : void 0,
               responseType: responseType === "json" ? "json" : void 0,
-              timeout: 60000,
               onload: (response) => {
-                console.log('[OCS调试] onload 回调, status:', response.status);
-                console.log('[OCS调试] 响应内容:', response.responseText?.substring(0, 500));
+                if (opts.anyStatus) {
+                  resolve({ status: response.status, responseText: response.responseText || "" });
+                  return;
+                }
                 if (response.status === 200) {
                   if (responseType === "json") {
                     try {
-                      const parsed = JSON.parse(response.responseText);
-                      console.log('[OCS调试] JSON 解析成功:', JSON.stringify(parsed).substring(0, 200));
-                      resolve(parsed);
+                      resolve(JSON.parse(response.responseText));
                     } catch (error) {
-                      console.error('[OCS调试] JSON 解析失败:', error);
                       reject(error);
                     }
                   } else {
                     resolve(response.responseText || "");
                   }
                 } else {
-                  console.error('[OCS调试] 非200状态:', response.status, response.responseText);
                   reject(response.responseText);
                 }
               },
               onerror: (err) => {
-                console.error('[OCS调试] GM_xmlhttpRequest 错误:', JSON.stringify(err));
+                console.error("GM_xmlhttpRequest error", err);
                 reject(err);
-              },
-              ontimeout: () => {
-                console.error('[OCS调试] GM_xmlhttpRequest 超时');
-                reject(new Error('请求超时'));
               }
             });
           } else {
@@ -555,6 +592,10 @@ var __publicField = (obj, key, value) => {
         } else {
           const fet = env === "node" ? require("node-fetch").default : fetch;
           fet(url, { body: method === "post" ? JSON.stringify(data) : void 0, method, headers }).then((response) => {
+            if (opts.anyStatus) {
+              response.text().then((text2) => resolve({ status: response.status, responseText: text2 })).catch(reject);
+              return;
+            }
             if (responseType === "json") {
               response.json().then(resolve).catch(reject);
             } else {
@@ -569,11 +610,10 @@ var __publicField = (obj, key, value) => {
       }
     });
   }
-  var lib$1 = {};
-  var start$3 = {};
-  var customWindow$1 = {};
-  var interfaces$1 = {};
-  var common$3 = {};
+  var lib = {};
+  var start$1 = {};
+  var interfaces = {};
+  var common$1 = {};
   var events = { exports: {} };
   var R = typeof Reflect === "object" ? Reflect : null;
   var ReflectApply = R && typeof R.apply === "function" ? R.apply : function ReflectApply2(target, receiver, args) {
@@ -939,3362 +979,6 @@ var __publicField = (obj, key, value) => {
       throw new TypeError('The "emitter" argument must be of type EventEmitter. Received type ' + typeof emitter);
     }
   }
-  var __importDefault$5 = commonjsGlobal && commonjsGlobal.__importDefault || function(mod) {
-    return mod && mod.__esModule ? mod : { "default": mod };
-  };
-  Object.defineProperty(common$3, "__esModule", { value: true });
-  common$3.CommonEventEmitter = void 0;
-  const events_1$3 = __importDefault$5(events.exports);
-  class CommonEventEmitter$1 extends events_1$3.default {
-    on(eventName, listener) {
-      return super.on(eventName.toString(), listener);
-    }
-    once(eventName, listener) {
-      return super.once(eventName.toString(), listener);
-    }
-    emit(eventName, ...args) {
-      return super.emit(eventName.toString(), ...args);
-    }
-    off(eventName, listener) {
-      return super.off(eventName.toString(), listener);
-    }
-  }
-  common$3.CommonEventEmitter = CommonEventEmitter$1;
-  var config$3 = {};
-  Object.defineProperty(config$3, "__esModule", { value: true });
-  var cors$1 = {};
-  var utils$1 = {};
-  var common$2 = {};
-  var store$1 = {};
-  var store_provider$1 = {};
-  var _const$1 = {};
-  Object.defineProperty(_const$1, "__esModule", { value: true });
-  _const$1.$const = void 0;
-  _const$1.$const = {
-    TAB_UID: "_uid_",
-    TAB_URLS: "_urls_",
-    TAB_CURRENT_PANEL_NAME: "_current_panel_name_"
-  };
-  var __awaiter$7 = commonjsGlobal && commonjsGlobal.__awaiter || function(thisArg, _arguments, P, generator) {
-    function adopt(value) {
-      return value instanceof P ? value : new P(function(resolve) {
-        resolve(value);
-      });
-    }
-    return new (P || (P = Promise))(function(resolve, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-  Object.defineProperty(store_provider$1, "__esModule", { value: true });
-  store_provider$1.GMStoreProvider = store_provider$1.MemoryStoreProvider = store_provider$1.LocalStoreChangeEvent = void 0;
-  const const_1$3 = _const$1;
-  class LocalStoreChangeEvent$1 extends Event {
-    constructor() {
-      super(...arguments);
-      this.key = "";
-    }
-  }
-  store_provider$1.LocalStoreChangeEvent = LocalStoreChangeEvent$1;
-  class MemoryStoreProvider$1 {
-    get(key, defaultValue) {
-      var _a;
-      return (_a = Reflect.get(MemoryStoreProvider$1._source.store, key)) !== null && _a !== void 0 ? _a : defaultValue;
-    }
-    set(key, value) {
-      var _a;
-      const pre = Reflect.get(MemoryStoreProvider$1._source.store, key);
-      Reflect.set(MemoryStoreProvider$1._source.store, key, value);
-      (_a = MemoryStoreProvider$1.storeListeners.get(key)) === null || _a === void 0 ? void 0 : _a.forEach((lis) => lis(value, pre));
-    }
-    delete(key) {
-      Reflect.deleteProperty(MemoryStoreProvider$1._source.store, key);
-    }
-    list() {
-      return Object.keys(MemoryStoreProvider$1._source.store);
-    }
-    getTab(key) {
-      return __awaiter$7(this, void 0, void 0, function* () {
-        return Reflect.get(MemoryStoreProvider$1._source.tab, key);
-      });
-    }
-    setTab(key, value) {
-      var _a;
-      return __awaiter$7(this, void 0, void 0, function* () {
-        Reflect.set(MemoryStoreProvider$1._source.tab, key, value);
-        (_a = MemoryStoreProvider$1.tabListeners.get(key)) === null || _a === void 0 ? void 0 : _a.forEach((lis) => lis(value, this.getTab(key)));
-      });
-    }
-    addChangeListener(key, listener) {
-      const listeners = MemoryStoreProvider$1.storeListeners.get(key) || [];
-      listeners.push(listener);
-      MemoryStoreProvider$1.storeListeners.set(key, listeners);
-    }
-    removeChangeListener(listener) {
-      MemoryStoreProvider$1.tabListeners.forEach((lis, key) => {
-        const index = lis.findIndex((l) => l === listener);
-        if (index !== -1) {
-          lis.splice(index, 1);
-          MemoryStoreProvider$1.tabListeners.set(key, lis);
-        }
-      });
-    }
-    addTabChangeListener(key, listener) {
-      const listeners = MemoryStoreProvider$1.tabListeners.get(key) || [];
-      listeners.push(listener);
-      MemoryStoreProvider$1.tabListeners.set(key, listeners);
-    }
-    removeTabChangeListener(key, listener) {
-      const listeners = MemoryStoreProvider$1.tabListeners.get(key) || [];
-      const index = listeners.findIndex((l) => l === listener);
-      if (index !== -1) {
-        listeners.splice(index, 1);
-        MemoryStoreProvider$1.tabListeners.set(key, listeners);
-      }
-    }
-  }
-  MemoryStoreProvider$1._source = { store: {}, tab: {} };
-  MemoryStoreProvider$1.storeListeners = /* @__PURE__ */ new Map();
-  MemoryStoreProvider$1.tabListeners = /* @__PURE__ */ new Map();
-  store_provider$1.MemoryStoreProvider = MemoryStoreProvider$1;
-  class GMStoreProvider$1 {
-    constructor() {
-      if (self === top && typeof globalThis.GM_listValues !== "undefined") {
-        for (const val of GM_listValues()) {
-          if (val.startsWith("_tab_change_")) {
-            GM_deleteValue(val);
-          }
-        }
-      }
-    }
-    getTabChangeHandleKey(tabUid, key) {
-      return `_tab_change_${tabUid}_${key}`;
-    }
-    get(key, defaultValue) {
-      return GM_getValue(key, defaultValue);
-    }
-    set(key, value) {
-      GM_setValue(key, value);
-    }
-    delete(key) {
-      GM_deleteValue(key);
-    }
-    list() {
-      return GM_listValues();
-    }
-    getTab(key) {
-      return new Promise((resolve, reject) => {
-        GM_getTab((tab = {}) => resolve(Reflect.get(tab, key)));
-      });
-    }
-    setTab(key, value) {
-      return new Promise((resolve, reject) => {
-        GM_getTab((tab = {}) => {
-          Reflect.set(tab, key, value);
-          GM_saveTab(tab);
-          this.set(this.getTabChangeHandleKey(Reflect.get(tab, const_1$3.$const.TAB_UID), key), value);
-          resolve();
-        });
-      });
-    }
-    addChangeListener(key, listener) {
-      return GM_addValueChangeListener(key, (_, pre, curr, remote) => {
-        listener(curr, pre, remote);
-      });
-    }
-    removeChangeListener(listenerId) {
-      if (typeof listenerId === "number") {
-        GM_removeValueChangeListener(listenerId);
-      }
-    }
-    addTabChangeListener(key, listener) {
-      return __awaiter$7(this, void 0, void 0, function* () {
-        const uid = yield this.getTab(const_1$3.$const.TAB_UID);
-        return GM_addValueChangeListener(this.getTabChangeHandleKey(uid, key), (_, pre, curr) => {
-          listener(curr, pre);
-        });
-      });
-    }
-    removeTabChangeListener(key, listener) {
-      return this.removeChangeListener(listener);
-    }
-  }
-  store_provider$1.GMStoreProvider = GMStoreProvider$1;
-  (function(exports3) {
-    Object.defineProperty(exports3, "__esModule", { value: true });
-    exports3.$store = exports3.MemoryStoreProvider = exports3.GMStoreProvider = void 0;
-    const store_provider_1 = store_provider$1;
-    var store_provider_2 = store_provider$1;
-    Object.defineProperty(exports3, "GMStoreProvider", { enumerable: true, get: function() {
-      return store_provider_2.GMStoreProvider;
-    } });
-    Object.defineProperty(exports3, "MemoryStoreProvider", { enumerable: true, get: function() {
-      return store_provider_2.MemoryStoreProvider;
-    } });
-    exports3.$store = typeof globalThis.unsafeWindow === "undefined" ? new store_provider_1.MemoryStoreProvider() : new store_provider_1.GMStoreProvider();
-  })(store$1);
-  (function(exports3) {
-    var __awaiter2 = commonjsGlobal && commonjsGlobal.__awaiter || function(thisArg, _arguments, P, generator) {
-      function adopt(value) {
-        return value instanceof P ? value : new P(function(resolve) {
-          resolve(value);
-        });
-      }
-      return new (P || (P = Promise))(function(resolve, reject) {
-        function fulfilled(value) {
-          try {
-            step(generator.next(value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function rejected(value) {
-          try {
-            step(generator["throw"](value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function step(result) {
-          result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-        }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-      });
-    };
-    var __rest2 = commonjsGlobal && commonjsGlobal.__rest || function(s, e) {
-      var t2 = {};
-      for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-          t2[p] = s[p];
-      if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-            t2[p[i]] = s[p[i]];
-        }
-      return t2;
-    };
-    var __importDefault2 = commonjsGlobal && commonjsGlobal.__importDefault || function(mod) {
-      return mod && mod.__esModule ? mod : { "default": mod };
-    };
-    Object.defineProperty(exports3, "__esModule", { value: true });
-    exports3.resolveCustomElementName = exports3.$ = void 0;
-    const debounce_12 = __importDefault2(debounce_1$2);
-    const store_12 = store$1;
-    exports3.$ = {
-      createConfigProxy(script2) {
-        var _a, _b;
-        const proxy = new Proxy(script2.cfg, {
-          set(target, propertyKey, value) {
-            const key = exports3.$.namespaceKey(script2.namespace, propertyKey);
-            store_12.$store.set(key, value);
-            return Reflect.set(target, propertyKey, value);
-          },
-          get(target, propertyKey) {
-            const value = store_12.$store.get(exports3.$.namespaceKey(script2.namespace, propertyKey));
-            Reflect.set(target, propertyKey, value);
-            return value;
-          }
-        });
-        for (const key in script2.configs) {
-          if (Object.prototype.hasOwnProperty.call(script2.configs, key)) {
-            const element = Reflect.get(script2.configs, key);
-            Reflect.set(proxy, key, store_12.$store.get(exports3.$.namespaceKey(script2.namespace, key), element.defaultValue));
-          }
-        }
-        if (script2.namespace) {
-          proxy.notes = (_b = (_a = script2.configs) === null || _a === void 0 ? void 0 : _a.notes) === null || _b === void 0 ? void 0 : _b.defaultValue;
-        }
-        return proxy;
-      },
-      getAllRawConfigs(scripts) {
-        const object = {};
-        for (const script2 of scripts) {
-          for (const key in script2.configs) {
-            if (Object.prototype.hasOwnProperty.call(script2.configs, key)) {
-              const _a = script2.configs[key], element = __rest2(_a, ["label"]);
-              Reflect.set(object, exports3.$.namespaceKey(script2.namespace, key), Object.assign({ label: exports3.$.namespaceKey(script2.namespace, key) }, element));
-            }
-          }
-        }
-        return object;
-      },
-      getMatchedScripts(projects, urls) {
-        const scripts = [];
-        for (const project2 of projects) {
-          for (const key in project2.scripts) {
-            if (Object.prototype.hasOwnProperty.call(project2.scripts, key)) {
-              const script2 = project2.scripts[key];
-              const script_matches_urls = script2.matches.map((u) => Array.isArray(u) ? u[1] : u);
-              const script_excludes_urls = (script2.excludes || []).map((u) => Array.isArray(u) ? u[1] : u);
-              if (project2.domains === void 0 || project2.domains.length === 0 || project2.domains.some((d) => urls.some((url) => new URL(url).origin.includes(d)))) {
-                if (script_excludes_urls.some((u) => urls.some((url) => RegExp(u).test(url)))) {
-                  continue;
-                }
-                if (script_matches_urls.some((u) => urls.some((url) => RegExp(u).test(url)))) {
-                  scripts.push(script2);
-                }
-              }
-            }
-          }
-        }
-        return scripts;
-      },
-      namespaceKey(namespace, key) {
-        return namespace ? namespace + "." + key.toString() : key.toString();
-      },
-      uuid() {
-        return "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-          const r = Math.random() * 16 | 0;
-          const v = c === "x" ? r : r & 3 | 8;
-          return v.toString(16);
-        });
-      },
-      random(min, max) {
-        return Math.round(Math.random() * (max - min)) + min;
-      },
-      sleep(period) {
-        return __awaiter2(this, void 0, void 0, function* () {
-          return new Promise((resolve) => {
-            setTimeout(resolve, period);
-          });
-        });
-      },
-      isInBrowser() {
-        return typeof window !== "undefined" && typeof window.document !== "undefined";
-      },
-      onresize(el, handler) {
-        const resize = (0, debounce_12.default)(() => {
-          if (el.parentNode === null) {
-            window.removeEventListener("resize", resize);
-          } else {
-            handler(el);
-          }
-        }, 200);
-        resize();
-        window.addEventListener("resize", resize);
-      },
-      loadCustomElements(elements2) {
-        for (const element of elements2) {
-          const name = resolveCustomElementName(element, "-");
-          if (customElements.get(name) === void 0) {
-            customElements.define(name, element);
-          }
-        }
-      },
-      isInTopWindow() {
-        return self === top;
-      },
-      createCenteredPopupWindow(url, winName, opts) {
-        const { width, height, scrollbars, resizable } = opts;
-        const LeftPosition = screen.width ? (screen.width - width) / 2 : 0;
-        const TopPosition = screen.height ? (screen.height - height) / 2 : 0;
-        const settings = "height=" + height + ",width=" + width + ",top=" + TopPosition + ",left=" + LeftPosition + ",scrollbars=" + (scrollbars ? "yes" : "no") + ",resizable=" + (resizable ? "yes" : "no");
-        return window.open(url, winName, settings);
-      }
-    };
-    function resolveCustomElementName(el, target) {
-      return el.name.replace(/([A-Z])/g, target + "$1").toLowerCase().split(target).slice(1).join(target);
-    }
-    exports3.resolveCustomElementName = resolveCustomElementName;
-  })(common$2);
-  var ui$1 = {};
-  var dom$1 = {};
-  Object.defineProperty(dom$1, "__esModule", { value: true });
-  dom$1.enableElementTouchDraggable = dom$1.enableElementDraggable = dom$1.$$el = dom$1.$el = dom$1.h = void 0;
-  const common_1$b = common$2;
-  function h$1(element, attrsOrChildren, childrenOrHandler) {
-    let name = "";
-    if (typeof element === "function") {
-      name = (0, common_1$b.resolveCustomElementName)(element, "-");
-    } else {
-      name = element;
-    }
-    const el = document.createElement(name);
-    if (attrsOrChildren) {
-      if (Array.isArray(attrsOrChildren)) {
-        for (const child of attrsOrChildren) {
-          if (typeof child === "function") {
-            el.append(document.createElement(child.name));
-          } else {
-            el.append(child);
-          }
-        }
-      } else if (typeof attrsOrChildren === "string") {
-        el.append(attrsOrChildren);
-      } else {
-        const attrs = attrsOrChildren;
-        for (const key in attrs) {
-          if (Object.prototype.hasOwnProperty.call(attrs, key)) {
-            if (key === "style") {
-              Object.assign(el.style, attrs[key]);
-            } else {
-              const value = attrs[key];
-              Reflect.set(el, key, value);
-            }
-          }
-        }
-      }
-    }
-    if (childrenOrHandler) {
-      if (typeof childrenOrHandler === "function") {
-        childrenOrHandler.call(el, el);
-      } else if (Array.isArray(childrenOrHandler)) {
-        for (const child of childrenOrHandler) {
-          if (typeof child === "function") {
-            el.append(document.createElement(child.name));
-          } else {
-            el.append(child);
-          }
-        }
-      } else if (typeof childrenOrHandler === "string") {
-        el.append(childrenOrHandler);
-      }
-    }
-    return el;
-  }
-  dom$1.h = h$1;
-  function $el$1(selector, root2 = window.document) {
-    const el = root2.querySelector(selector);
-    return el === null ? void 0 : el;
-  }
-  dom$1.$el = $el$1;
-  function $$el$1(selector, root2 = window.document) {
-    return Array.from(root2.querySelectorAll(selector));
-  }
-  dom$1.$$el = $$el$1;
-  function enableElementDraggable$1(header2, target, ondrag) {
-    let pos1 = 0;
-    let pos2 = 0;
-    let pos3 = 0;
-    let pos4 = 0;
-    header2.addEventListener("mousedown", dragMouseDown);
-    function dragMouseDown(e) {
-      e = e || window.event;
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      document.addEventListener("mouseup", closeDragElement);
-      document.addEventListener("mousemove", elementDrag);
-    }
-    function elementDrag(e) {
-      e.stopPropagation();
-      e = e || window.event;
-      pos1 = pos3 - e.clientX;
-      pos2 = pos4 - e.clientY;
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      target.style.top = Math.max(target.offsetTop - pos2, 10) + "px";
-      target.style.left = target.offsetLeft - pos1 + "px";
-    }
-    function closeDragElement() {
-      ondrag === null || ondrag === void 0 ? void 0 : ondrag();
-      document.removeEventListener("mouseup", closeDragElement);
-      document.removeEventListener("mousemove", elementDrag);
-    }
-  }
-  dom$1.enableElementDraggable = enableElementDraggable$1;
-  function enableElementTouchDraggable$1(header2, target, ondrag) {
-    let pos1 = 0;
-    let pos2 = 0;
-    let pos3 = 0;
-    let pos4 = 0;
-    header2.addEventListener("touchstart", dragTouchStart);
-    function dragTouchStart(e) {
-      e = e || window.event;
-      const touch = e.touches[0];
-      pos3 = touch.clientX;
-      pos4 = touch.clientY;
-      document.addEventListener("touchend", closeDragElement);
-      document.addEventListener("touchmove", elementDrag);
-    }
-    function elementDrag(e) {
-      e.stopPropagation();
-      e = e || window.event;
-      const touch = e.touches[0];
-      pos1 = pos3 - touch.clientX;
-      pos2 = pos4 - touch.clientY;
-      pos3 = touch.clientX;
-      pos4 = touch.clientY;
-      target.style.top = Math.max(target.offsetTop - pos2, 10) + "px";
-      target.style.left = target.offsetLeft - pos1 + "px";
-    }
-    function closeDragElement() {
-      ondrag === null || ondrag === void 0 ? void 0 : ondrag();
-      document.removeEventListener("touchend", closeDragElement);
-      document.removeEventListener("touchmove", elementDrag);
-    }
-  }
-  dom$1.enableElementTouchDraggable = enableElementTouchDraggable$1;
-  var elements$3 = {};
-  Object.defineProperty(elements$3, "__esModule", { value: true });
-  elements$3.$elements = void 0;
-  elements$3.$elements = {
-    tooltipContainer: void 0,
-    root: void 0,
-    wrapper: void 0
-  };
-  var tampermonkey$1 = {};
-  (function(exports3) {
-    Object.defineProperty(exports3, "__esModule", { value: true });
-    exports3.$gm = void 0;
-    exports3.$gm = {
-      unsafeWindow: typeof globalThis.unsafeWindow === "undefined" ? globalThis.window : globalThis.unsafeWindow,
-      isInGMContext() {
-        return typeof GM_info !== "undefined";
-      },
-      getInfos() {
-        return typeof GM_info === "undefined" ? void 0 : GM_info;
-      },
-      getTab(callback) {
-        return typeof GM_getTab === "undefined" ? void 0 : GM_getTab(callback);
-      },
-      notification(content, options) {
-        var _a;
-        const { onclick, ondone, important, duration = 30, silent = true, extraTitle = "" } = options || {};
-        const { icon, name } = ((_a = exports3.$gm.getInfos()) === null || _a === void 0 ? void 0 : _a.script) || {};
-        GM_notification({
-          title: name + (extraTitle ? "-" + extraTitle : ""),
-          text: content,
-          image: icon || "",
-          highlight: important,
-          onclick,
-          ondone,
-          silent,
-          timeout: duration * 1e3
-        });
-      },
-      getMetadataFromScriptHead(key) {
-        var _a, _b;
-        const metadataString = (_a = this.getInfos()) === null || _a === void 0 ? void 0 : _a.scriptMetaStr;
-        if (!metadataString) {
-          return [];
-        } else {
-          const metadata = ((_b = metadataString.match(/\/\/\s+==UserScript==([\s\S]+)\/\/\s+==\/UserScript==/)) === null || _b === void 0 ? void 0 : _b[1]) || "";
-          const metadataList = (metadata.match(/\/\/\s+@(.+?)\s+(.*?)(?:\n|$)/g) || []).map((line) => {
-            const words = line.match(/[\S]+/g) || [];
-            return {
-              key: (words[1] || "").replace("@", ""),
-              value: words.slice(2).join(" ")
-            };
-          });
-          return metadataList.filter((l) => l.key === key).map((l) => l.value);
-        }
-      }
-    };
-  })(tampermonkey$1);
-  Object.defineProperty(ui$1, "__esModule", { value: true });
-  ui$1.$ui = void 0;
-  const common_1$a = common$2;
-  const dom_1$d = dom$1;
-  const elements_1$5 = elements$3;
-  const tampermonkey_1$3 = tampermonkey$1;
-  ui$1.$ui = {
-    tooltip(target) {
-      target.setAttribute("data-title", target.title);
-      if (tampermonkey_1$3.$gm.isInGMContext()) {
-        target.removeAttribute("title");
-      }
-      const onMouseMove = (e) => {
-        if (elements_1$5.$elements.tooltipContainer && elements_1$5.$elements.tooltipContainer.style.display !== "none") {
-          elements_1$5.$elements.tooltipContainer.style.top = e.y + "px";
-          elements_1$5.$elements.tooltipContainer.style.left = e.x + "px";
-        }
-      };
-      const onTouchMove = (e) => {
-        if (elements_1$5.$elements.tooltipContainer && elements_1$5.$elements.tooltipContainer.style.display !== "none") {
-          const touch = e.touches[0];
-          elements_1$5.$elements.tooltipContainer.style.top = touch.clientY + "px";
-          elements_1$5.$elements.tooltipContainer.style.left = touch.clientX + "px";
-        }
-      };
-      const showTitle = (e) => {
-        const dataTitle = target.getAttribute("data-title");
-        if (elements_1$5.$elements.tooltipContainer) {
-          if (dataTitle) {
-            elements_1$5.$elements.tooltipContainer.innerHTML = dataTitle.split("\n").join("<br>") || "";
-            if (e instanceof MouseEvent) {
-              elements_1$5.$elements.tooltipContainer.style.top = e.y + "px";
-              elements_1$5.$elements.tooltipContainer.style.left = e.x + "px";
-            } else if (e instanceof TouchEvent) {
-              const touch = e.touches[0];
-              elements_1$5.$elements.tooltipContainer.style.top = touch.clientY + "px";
-              elements_1$5.$elements.tooltipContainer.style.left = touch.clientX + "px";
-            }
-            elements_1$5.$elements.tooltipContainer.style.display = "block";
-          } else {
-            elements_1$5.$elements.tooltipContainer.style.display = "none";
-          }
-        }
-        window.addEventListener("mousemove", onMouseMove);
-        window.addEventListener("touchmove", onTouchMove);
-      };
-      const hideTitle = () => {
-        if (elements_1$5.$elements.tooltipContainer) {
-          elements_1$5.$elements.tooltipContainer.style.display = "none";
-        }
-        window.removeEventListener("mousemove", onMouseMove);
-        window.removeEventListener("touchmove", onTouchMove);
-      };
-      hideTitle();
-      target.addEventListener("mouseenter", showTitle);
-      target.addEventListener("click", showTitle);
-      target.addEventListener("mouseout", hideTitle);
-      target.addEventListener("mouseleave", hideTitle);
-      target.addEventListener("touchstart", showTitle);
-      target.addEventListener("touchend", hideTitle);
-      target.addEventListener("touchcancel", hideTitle);
-      target.addEventListener("blur", hideTitle);
-      return target;
-    },
-    scriptPanel(script2, store2, opts) {
-      var _a, _b;
-      const scriptPanel = (0, dom_1$d.h)("script-panel-element", { name: script2.name });
-      script2.onConfigChange("notes", (pre, curr) => {
-        scriptPanel.notesContainer.innerHTML = script2.cfg.notes || "";
-      });
-      script2.panel = scriptPanel;
-      scriptPanel.notesContainer.innerHTML = ((_b = (_a = script2.configs) === null || _a === void 0 ? void 0 : _a.notes) === null || _b === void 0 ? void 0 : _b.defaultValue) || "";
-      let configs = /* @__PURE__ */ Object.create({});
-      const elList = [];
-      for (const key in script2.configs) {
-        if (Object.prototype.hasOwnProperty.call(script2.configs, key)) {
-          const cfg = script2.configs[key];
-          if (cfg.separator) {
-            elList.push(this.configsArea(this.configs(script2.namespace, store2, configs || {}, opts === null || opts === void 0 ? void 0 : opts.onload)));
-            elList.push((0, dom_1$d.h)("div", { className: "separator", style: { margin: "0px 8px" } }, cfg.separator));
-            configs = /* @__PURE__ */ Object.create({});
-          }
-          configs[key] = cfg;
-        }
-      }
-      if (Object.keys(configs).length > 0) {
-        elList.push(this.configsArea(this.configs(script2.namespace, store2, configs || {}, opts === null || opts === void 0 ? void 0 : opts.onload)));
-      }
-      scriptPanel.configsContainer.replaceChildren(...elList);
-      return scriptPanel;
-    },
-    configsArea(configElements) {
-      const configsContainer = (0, dom_1$d.h)("div", { className: "configs card" });
-      const configsBody = (0, dom_1$d.h)("div", { className: "configs-body" });
-      configsBody.append(...Object.entries(configElements).map(([key, el]) => el));
-      configsContainer.append(configsBody);
-      return configsContainer;
-    },
-    configs(namespace, store2, configs, onload) {
-      const elements2 = /* @__PURE__ */ Object.create({});
-      for (const key in configs) {
-        if (Object.prototype.hasOwnProperty.call(configs, key)) {
-          const config2 = configs[key];
-          if (config2.label !== void 0) {
-            const element = (0, dom_1$d.h)("config-element", {
-              key: common_1$a.$.namespaceKey(namespace, key),
-              tag: config2.tag,
-              sync: config2.sync,
-              attrs: config2.attrs,
-              _onload: function(el) {
-                var _a;
-                (_a = config2.onload) === null || _a === void 0 ? void 0 : _a.call(this, el);
-                onload === null || onload === void 0 ? void 0 : onload(el);
-              },
-              defaultValue: config2.defaultValue,
-              options: config2.options,
-              showIf: config2.showIf,
-              elementClassName: config2.elementClassName,
-              labelClassName: config2.labelClassName,
-              providerClassName: config2.providerClassName,
-              enableForAttribute: config2.enableForAttribute
-            });
-            element.store = store2;
-            element.label.textContent = config2.label;
-            elements2[key] = element;
-          }
-        }
-      }
-      return elements2;
-    },
-    notes(lines, tag = "ul") {
-      return (0, dom_1$d.h)(tag, lines.map((line) => (0, dom_1$d.h)("li", Array.isArray(line) ? line.map((node) => typeof node === "string" ? (0, dom_1$d.h)("div", { innerHTML: node }) : node) : [typeof line === "string" ? (0, dom_1$d.h)("div", { innerHTML: line }) : line])));
-    },
-    copy(name, value) {
-      return (0, dom_1$d.h)("span", "📄" + name, (btn) => {
-        btn.className = "copy";
-        btn.addEventListener("click", () => {
-          btn.innerText = "已复制√";
-          navigator.clipboard.writeText(value);
-          setTimeout(() => {
-            btn.innerText = "📄" + name;
-          }, 500);
-        });
-      });
-    },
-    preventText(opts) {
-      const { name, delay = 3, autoRemove = true, ondefault, onprevent } = opts;
-      const span = (0, dom_1$d.h)("span", name);
-      span.style.textDecoration = "underline";
-      span.style.cursor = "pointer";
-      span.onclick = () => {
-        clearTimeout(id);
-        if (autoRemove) {
-          span.remove();
-        }
-        onprevent === null || onprevent === void 0 ? void 0 : onprevent(span);
-      };
-      const id = setTimeout(() => {
-        if (autoRemove) {
-          span.remove();
-        }
-        ondefault(span);
-      }, delay * 1e3);
-      return span;
-    },
-    space(children, options) {
-      return (0, dom_1$d.h)("div", { className: "space" }, (div) => {
-        var _a, _b, _c;
-        for (let index = 0; index < children.length; index++) {
-          const child = (0, dom_1$d.h)("span", { className: "space-item" }, [children[index]]);
-          child.style.display = "inline-block";
-          const x = (_a = options === null || options === void 0 ? void 0 : options.x) !== null && _a !== void 0 ? _a : 12;
-          const y = (_b = options === null || options === void 0 ? void 0 : options.y) !== null && _b !== void 0 ? _b : 0;
-          if (index > 0) {
-            child.style.marginLeft = x / 2 + "px";
-            child.style.marginRight = x / 2 + "px";
-            child.style.marginTop = y / 2 + "px";
-            child.style.marginBottom = y / 2 + "px";
-          } else {
-            child.style.marginRight = x / 2 + "px";
-            child.style.marginBottom = y / 2 + "px";
-          }
-          div.append(child);
-          if (index !== children.length - 1) {
-            div.append((0, dom_1$d.h)("span", [(_c = options === null || options === void 0 ? void 0 : options.separator) !== null && _c !== void 0 ? _c : " "]));
-          }
-        }
-      });
-    },
-    button(text, attrs, handler) {
-      return (0, dom_1$d.h)("input", Object.assign({ type: "button" }, attrs), function(btn) {
-        btn.value = text || "";
-        btn.classList.add("base-style-button");
-        handler === null || handler === void 0 ? void 0 : handler.apply(this, [btn]);
-      });
-    }
-  };
-  (function(exports3) {
-    var __createBinding = commonjsGlobal && commonjsGlobal.__createBinding || (Object.create ? function(o, m, k, k2) {
-      if (k2 === void 0)
-        k2 = k;
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = { enumerable: true, get: function() {
-          return m[k];
-        } };
-      }
-      Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
-      if (k2 === void 0)
-        k2 = k;
-      o[k2] = m[k];
-    });
-    var __exportStar = commonjsGlobal && commonjsGlobal.__exportStar || function(m, exports4) {
-      for (var p in m)
-        if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports4, p))
-          __createBinding(exports4, m, p);
-    };
-    Object.defineProperty(exports3, "__esModule", { value: true });
-    __exportStar(common$2, exports3);
-    __exportStar(ui$1, exports3);
-    __exportStar(dom$1, exports3);
-    __exportStar(elements$3, exports3);
-    __exportStar(tampermonkey$1, exports3);
-    __exportStar(store$1, exports3);
-    __exportStar(_const$1, exports3);
-  })(utils$1);
-  (function(exports3) {
-    var __awaiter2 = commonjsGlobal && commonjsGlobal.__awaiter || function(thisArg, _arguments, P, generator) {
-      function adopt(value) {
-        return value instanceof P ? value : new P(function(resolve) {
-          resolve(value);
-        });
-      }
-      return new (P || (P = Promise))(function(resolve, reject) {
-        function fulfilled(value) {
-          try {
-            step(generator.next(value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function rejected(value) {
-          try {
-            step(generator["throw"](value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function step(result) {
-          result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-        }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-      });
-    };
-    Object.defineProperty(exports3, "__esModule", { value: true });
-    exports3.cors = exports3.CorsEventEmitter = void 0;
-    const utils_12 = utils$1;
-    const common_12 = common$2;
-    const const_12 = _const$1;
-    const store_12 = store$1;
-    class CorsEventEmitter {
-      constructor() {
-        this.eventMap = /* @__PURE__ */ new Map();
-      }
-      eventKey(name) {
-        return "cors.events." + name;
-      }
-      tempKey(...args) {
-        return ["_temp_", ...args].join(".");
-      }
-      keyOfReturn(id) {
-        return this.tempKey("event", id, "return");
-      }
-      keyOfArguments(id) {
-        return this.tempKey("event", id, "arguments");
-      }
-      keyOfState(id) {
-        return this.tempKey("event", id, "state");
-      }
-      emit(name, args = [], callback) {
-        store_12.$store.getTab(const_12.$const.TAB_UID).then((uid) => {
-          const id = common_12.$.uuid().replace(/-/g, "");
-          const key = uid + "." + this.eventKey(name);
-          store_12.$store.set(this.keyOfState(id), 0);
-          store_12.$store.set(this.keyOfArguments(id), args);
-          setTimeout(() => {
-            const listenerId = store_12.$store.addChangeListener(this.keyOfState(id), () => {
-              store_12.$store.removeChangeListener(listenerId);
-              callback === null || callback === void 0 ? void 0 : callback(store_12.$store.get(this.keyOfReturn(id)));
-              store_12.$store.delete(this.keyOfState(id));
-              store_12.$store.delete(this.keyOfReturn(id));
-              store_12.$store.delete(this.keyOfArguments(id));
-            }) || 0;
-            store_12.$store.set(key, (store_12.$store.get(key) ? String(store_12.$store.get(key)).split(",") : []).concat(id).join(","));
-          }, 100);
-        }).catch(console.error);
-      }
-      on(name, handler) {
-        return new Promise((resolve) => {
-          store_12.$store.getTab(const_12.$const.TAB_UID).then((uid) => {
-            const key = uid + "." + this.eventKey(name);
-            const originId = this.eventMap.get(key);
-            if (originId) {
-              resolve(originId);
-            } else {
-              const id = store_12.$store.addChangeListener(key, (curr, pre, remote) => __awaiter2(this, void 0, void 0, function* () {
-                if (remote) {
-                  if (curr === void 0) {
-                    return;
-                  }
-                  const list = String(curr).split(",");
-                  const id2 = list.pop();
-                  if (id2) {
-                    store_12.$store.set(this.keyOfReturn(id2), yield handler(store_12.$store.get(this.keyOfArguments(id2))));
-                    setTimeout(() => {
-                      store_12.$store.set(this.keyOfState(id2), 1);
-                      store_12.$store.set(key, list.join(","));
-                    }, 100);
-                  }
-                }
-              })) || 0;
-              this.eventMap.set(key, id);
-              resolve(id);
-            }
-          }).catch(console.error);
-        });
-      }
-      off(name) {
-        const key = this.eventKey(name);
-        const originId = this.eventMap.get(key);
-        if (originId) {
-          this.eventMap.delete(key);
-          store_12.$store.removeChangeListener(originId);
-        }
-      }
-      defineTopFunction(func) {
-        if (utils_12.$gm.isInGMContext() === false) {
-          return () => {
-          };
-        }
-        const randomId = common_12.$.uuid().replace(/-/g, "");
-        const event_name = "_top_function_." + randomId;
-        if (self === top) {
-          exports3.cors.on(event_name, (args) => __awaiter2(this, void 0, void 0, function* () {
-            return yield func(...args);
-          }));
-        }
-        return (...args) => __awaiter2(this, void 0, void 0, function* () {
-          if (self === top) {
-            return yield func(...args);
-          }
-          const res = yield new Promise((resolve, reject) => {
-            try {
-              exports3.cors.emit(event_name, args, (val) => {
-                resolve(val);
-              });
-            } catch (e) {
-              reject(e);
-            }
-          });
-          return res;
-        });
-      }
-    }
-    exports3.CorsEventEmitter = CorsEventEmitter;
-    if (typeof GM_listValues !== "undefined" && self === top) {
-      window.onload = () => {
-        store_12.$store.list().forEach((key) => {
-          if (/_temp_.event.[0-9a-z]{32}.(state|return|arguments)/.test(key)) {
-            store_12.$store.delete(key);
-          }
-          if (/_top_function_.*/.test(key)) {
-            store_12.$store.delete(key);
-          }
-          if (/[0-9a-z]{32}.cors.events/.test(key)) {
-            store_12.$store.delete(key);
-          }
-        });
-      };
-    }
-    exports3.cors = new CorsEventEmitter();
-  })(cors$1);
-  var project$1 = {};
-  Object.defineProperty(project$1, "__esModule", { value: true });
-  project$1.Project = void 0;
-  class Project$1 {
-    constructor({ name, domains, scripts }) {
-      this.name = name;
-      this.domains = domains;
-      for (const key in scripts) {
-        if (Object.prototype.hasOwnProperty.call(scripts, key)) {
-          const element = scripts[key];
-          element.projectName = name;
-        }
-      }
-      this.scripts = scripts;
-    }
-    static create(opts) {
-      return new Project$1(opts);
-    }
-  }
-  project$1.Project = Project$1;
-  var script$1 = {};
-  var __importDefault$4 = commonjsGlobal && commonjsGlobal.__importDefault || function(mod) {
-    return mod && mod.__esModule ? mod : { "default": mod };
-  };
-  Object.defineProperty(script$1, "__esModule", { value: true });
-  script$1.Script = script$1.BaseScript = void 0;
-  const common_1$9 = common$2;
-  const store_1$3 = store$1;
-  const common_2$1 = common$3;
-  const events_1$2 = __importDefault$4(events.exports);
-  class BaseScript$1 extends common_2$1.CommonEventEmitter {
-  }
-  script$1.BaseScript = BaseScript$1;
-  class Script$1 extends BaseScript$1 {
-    get configs() {
-      if (!this._resolvedConfigs) {
-        this._resolvedConfigs = typeof this._configs === "function" ? this._configs() : this._configs;
-      }
-      return this._resolvedConfigs;
-    }
-    set configs(c) {
-      this._configs = c;
-    }
-    constructor({ name, namespace, matches, excludes, configs, hideInPanel, onstart, onactive, oncomplete, onbeforeunload, onrender, onhistorychange, methods, priority }) {
-      super();
-      this.excludes = [];
-      this.cfg = {};
-      this.methods = /* @__PURE__ */ Object.create({});
-      this.event = new events_1$2.default();
-      this.name = name;
-      this.namespace = namespace;
-      this.matches = matches;
-      this.excludes = excludes;
-      this._configs = configs;
-      this.hideInPanel = hideInPanel;
-      this.onstart = this.errorHandler(onstart);
-      this.onactive = this.errorHandler(onactive);
-      this.oncomplete = this.errorHandler(oncomplete);
-      this.onbeforeunload = this.errorHandler(onbeforeunload);
-      this.onrender = this.errorHandler(onrender);
-      this.onhistorychange = this.errorHandler(onhistorychange);
-      this.methods = (methods === null || methods === void 0 ? void 0 : methods.bind(this)()) || /* @__PURE__ */ Object.create({});
-      this.priority = priority !== null && priority !== void 0 ? priority : 0;
-      if (this.methods) {
-        for (const key in methods) {
-          if (Reflect.has(this.methods, key) && typeof this.methods[key] !== "function") {
-            Reflect.set(this.methods, key, this.errorHandler(this.methods[key]));
-          }
-        }
-      }
-    }
-    onConfigChange(key, handler) {
-      const _key = common_1$9.$.namespaceKey(this.namespace, key.toString());
-      return store_1$3.$store.addChangeListener(_key, (curr, pre, remote) => {
-        handler(curr, pre, !!remote);
-      });
-    }
-    offConfigChange(listener) {
-      store_1$3.$store.removeChangeListener(listener);
-    }
-    fullName() {
-      return this.projectName ? `${this.projectName}-${this.name}` : this.name;
-    }
-    errorHandler(func) {
-      return (...args) => {
-        try {
-          return func === null || func === void 0 ? void 0 : func.apply(this, args);
-        } catch (err) {
-          console.error(err);
-          if (err instanceof Error) {
-            this.emit("scripterror", err.message);
-          } else {
-            this.emit("scripterror", String(err));
-          }
-        }
-      };
-    }
-  }
-  script$1.Script = Script$1;
-  (function(exports3) {
-    var __createBinding = commonjsGlobal && commonjsGlobal.__createBinding || (Object.create ? function(o, m, k, k2) {
-      if (k2 === void 0)
-        k2 = k;
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = { enumerable: true, get: function() {
-          return m[k];
-        } };
-      }
-      Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
-      if (k2 === void 0)
-        k2 = k;
-      o[k2] = m[k];
-    });
-    var __exportStar = commonjsGlobal && commonjsGlobal.__exportStar || function(m, exports4) {
-      for (var p in m)
-        if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports4, p))
-          __createBinding(exports4, m, p);
-    };
-    Object.defineProperty(exports3, "__esModule", { value: true });
-    __exportStar(common$3, exports3);
-    __exportStar(config$3, exports3);
-    __exportStar(cors$1, exports3);
-    __exportStar(project$1, exports3);
-    __exportStar(script$1, exports3);
-    __exportStar(store_provider$1, exports3);
-  })(interfaces$1);
-  var elements$2 = {};
-  var config$2 = {};
-  var _interface$1 = {};
-  Object.defineProperty(_interface$1, "__esModule", { value: true });
-  _interface$1.IElement = void 0;
-  class IElement$1 extends HTMLElement {
-    connectedCallback() {
-    }
-    disconnectedCallback() {
-    }
-    adoptedCallback() {
-    }
-    attributeChangedCallback(name, oldValue, newValue) {
-    }
-  }
-  _interface$1.IElement = IElement$1;
-  Object.defineProperty(config$2, "__esModule", { value: true });
-  config$2.ConfigElement = void 0;
-  const ui_1$3 = ui$1;
-  const dom_1$c = dom$1;
-  const interface_1$d = _interface$1;
-  class ConfigElement$1 extends interface_1$d.IElement {
-    constructor(store2) {
-      super();
-      this.label = (0, dom_1$c.h)("label");
-      this.wrapper = (0, dom_1$c.h)("div", { className: "config-wrapper" });
-      this.key = "";
-      this.store = store2;
-    }
-    get value() {
-      return this.store.get(this.key, this.defaultValue);
-    }
-    set value(value) {
-      this.provider.value = value;
-      this.store.set(this.key, value);
-    }
-    connectedCallback() {
-      var _a, _b, _c;
-      switch (this.tag) {
-        case "select": {
-          this.provider = (0, dom_1$c.h)("select");
-          const value = this.store.get(this.key, this.defaultValue);
-          for (const item of this.options || []) {
-            const option = ui_1$3.$ui.tooltip((0, dom_1$c.h)("option"));
-            if (Array.isArray(item)) {
-              option.value = item[0];
-              option.textContent = (_a = item[1]) !== null && _a !== void 0 ? _a : item[0];
-              if (item[2]) {
-                option.title = item[2];
-              }
-              if (String(item[0]) === String(value)) {
-                option.selected = true;
-                option.toggleAttribute("selected");
-              }
-              this.provider.add(option);
-            } else {
-              option.value = item.value;
-              option.textContent = (_b = item.label) !== null && _b !== void 0 ? _b : item.value;
-              if (item.title) {
-                option.title = item.title;
-              }
-              if (String(item.value) === String(value)) {
-                option.selected = true;
-                option.toggleAttribute("selected");
-              }
-              this.provider.add(option);
-            }
-          }
-          this.provider.onchange = () => {
-            this.store.set(this.key, this.provider.value);
-          };
-          break;
-        }
-        case "textarea": {
-          this.provider = (0, dom_1$c.h)("textarea");
-          this.provider.value = this.store.get(this.key, this.defaultValue);
-          this.provider.onchange = () => {
-            this.store.set(this.key, this.provider.value);
-          };
-          break;
-        }
-        default: {
-          this.provider = (0, dom_1$c.h)("input");
-          if (["checkbox", "radio"].some((t2) => {
-            var _a2;
-            return t2 === ((_a2 = this.attrs) === null || _a2 === void 0 ? void 0 : _a2.type);
-          })) {
-            this.provider.checked = this.store.get(this.key, this.defaultValue);
-            const provider = this.provider;
-            provider.onchange = () => {
-              this.store.set(this.key, provider.checked);
-            };
-          } else {
-            this.provider.value = this.store.get(this.key, this.defaultValue);
-            this.provider.setAttribute("value", this.provider.value);
-            this.provider.onchange = () => {
-              const { min, max, type } = this.attrs || {};
-              if (type === "number") {
-                if (this.provider.value.trim() === "") {
-                  this.provider.value = this.defaultValue;
-                  this.store.set(this.key, this.defaultValue);
-                  return;
-                }
-                const val = parseFloat(this.provider.value);
-                const _min = min ? parseFloat(min) : void 0;
-                const _max = max ? parseFloat(max) : void 0;
-                if (_min && val < _min) {
-                  this.provider.value = _min.toString();
-                  this.store.set(this.key, parseFloat(this.provider.value));
-                } else if (_max && val > _max) {
-                  this.provider.value = _max.toString();
-                  this.store.set(this.key, parseFloat(this.provider.value));
-                } else {
-                  this.store.set(this.key, val);
-                }
-              } else {
-                this.store.set(this.key, this.provider.value);
-              }
-            };
-          }
-          break;
-        }
-      }
-      if (this.enableForAttribute) {
-        this.provider.setAttribute("id", this.key);
-        this.label.setAttribute("for", this.key);
-      }
-      if (this.labelClassName) {
-        this.label.className = this.labelClassName;
-      }
-      if (this.providerClassName) {
-        this.provider.className = this.providerClassName;
-      }
-      if (this.elementClassName) {
-        this.className = this.elementClassName;
-      }
-      this.wrapper.replaceChildren(this.provider);
-      this.append(this.label, this.wrapper);
-      for (const key in this.attrs) {
-        if (key === "style") {
-          Object.assign(this.provider.style, this.attrs[key]);
-          continue;
-        }
-        if (Object.prototype.hasOwnProperty.call(this.attrs, key)) {
-          Reflect.set(this.provider, key, Reflect.get(this.attrs, key));
-        }
-      }
-      if (this.sync) {
-        this.store.addChangeListener(this.key, (curr) => {
-          this.provider.value = curr;
-        });
-      }
-      ui_1$3.$ui.tooltip(this.provider);
-      if (this.showIf) {
-        let show_if = false;
-        if (Array.isArray(this.showIf)) {
-          if (typeof this.showIf[0] !== "string") {
-            throw new Error("EUS Config.showIf first element must be a string");
-          }
-          const val = this.store.get(this.showIf[0], false) || false;
-          const res = this.showIf[1].call(null, val, val, this.store);
-          show_if = Boolean(res);
-        } else {
-          show_if = this.store.get(this.showIf, false) || false;
-        }
-        if (show_if) {
-          this.style.display = "";
-        } else {
-          this.style.display = "none";
-        }
-        if (Array.isArray(this.showIf)) {
-          if (typeof this.showIf[1] !== "function") {
-            throw new Error("EUS Config.showIf second element must be a function");
-          }
-          this.store.addChangeListener(this.showIf[0], (curr, pre) => {
-            if (this.isConnected) {
-              if (this.showIf && Array.isArray(this.showIf)) {
-                const res = this.showIf[1].call(null, curr, pre, this.store);
-                if (res) {
-                  this.style.display = "";
-                } else {
-                  this.style.display = "none";
-                }
-              }
-            }
-          });
-        } else {
-          this.store.addChangeListener(this.showIf, (curr) => {
-            if (this.isConnected) {
-              const res = Boolean(curr);
-              if (res) {
-                this.style.display = "";
-              } else {
-                this.style.display = "none";
-              }
-            }
-          });
-        }
-      }
-      (_c = this._onload) === null || _c === void 0 ? void 0 : _c.call(this.provider, this);
-    }
-  }
-  config$2.ConfigElement = ConfigElement$1;
-  var container$1 = {};
-  Object.defineProperty(container$1, "__esModule", { value: true });
-  container$1.ContainerElement = void 0;
-  const common_1$8 = common$2;
-  const ui_1$2 = ui$1;
-  const dom_1$b = dom$1;
-  const interface_1$c = _interface$1;
-  class ContainerElement$1 extends interface_1$c.IElement {
-    constructor() {
-      super(...arguments);
-      this.header = ui_1$2.$ui.tooltip((0, dom_1$b.h)("header-element", { title: "菜单栏-可拖动区域" }));
-      this.body = (0, dom_1$b.h)("div", { className: "body", clientHeight: window.innerHeight / 2 });
-      this.footer = (0, dom_1$b.h)("div", { className: "footer" });
-    }
-    connectedCallback() {
-      this.append(this.header, this.body, this.footer);
-      common_1$8.$.onresize(this, (cont) => {
-        cont.body.style.maxHeight = window.innerHeight - this.header.clientHeight - 100 + "px";
-        cont.body.style.maxWidth = window.innerWidth - 50 + "px";
-      });
-    }
-  }
-  container$1.ContainerElement = ContainerElement$1;
-  var dropdown$1 = {};
-  Object.defineProperty(dropdown$1, "__esModule", { value: true });
-  dropdown$1.DropdownElement = void 0;
-  const interface_1$b = _interface$1;
-  const dom_1$a = dom$1;
-  class DropdownElement$1 extends interface_1$b.IElement {
-    constructor() {
-      super(...arguments);
-      this.triggerElement = (0, dom_1$a.h)("button");
-      this.content = (0, dom_1$a.h)("div", { className: "dropdown-content" });
-      this.trigger = "hover";
-    }
-    connectedCallback() {
-      this.append(this.triggerElement, this.content);
-      this.classList.add("dropdown");
-      if (this.trigger === "click") {
-        this.triggerElement.onclick = () => {
-          this.content.classList.toggle("show");
-        };
-      } else {
-        this.triggerElement.onmouseover = () => {
-          this.content.classList.add("show");
-        };
-        this.triggerElement.onmouseout = () => {
-          this.content.classList.remove("show");
-        };
-        this.content.onmouseover = () => {
-          this.content.classList.add("show");
-        };
-        this.content.onmouseout = () => {
-          this.content.classList.remove("show");
-        };
-      }
-      this.content.onclick = () => {
-        this.content.classList.remove("show");
-      };
-    }
-  }
-  dropdown$1.DropdownElement = DropdownElement$1;
-  var header$1 = {};
-  Object.defineProperty(header$1, "__esModule", { value: true });
-  header$1.HeaderElement = void 0;
-  const interface_1$a = _interface$1;
-  class HeaderElement$1 extends interface_1$a.IElement {
-    connectedCallback() {
-      this.append(this.visualSwitcher || "");
-    }
-  }
-  header$1.HeaderElement = HeaderElement$1;
-  var message$1 = {};
-  Object.defineProperty(message$1, "__esModule", { value: true });
-  message$1.MessageElement = void 0;
-  const dom_1$9 = dom$1;
-  const interface_1$9 = _interface$1;
-  class MessageElement$1 extends interface_1$9.IElement {
-    constructor() {
-      super(...arguments);
-      this.closer = (0, dom_1$9.h)("span", { className: "message-closer" }, "x");
-      this.contentContainer = (0, dom_1$9.h)("span", { className: "message-content-container" });
-      this.type = "info";
-      this.content = "";
-      this.closeable = true;
-    }
-    connectedCallback() {
-      var _a;
-      this.classList.add(this.type);
-      if (typeof this.content === "string") {
-        this.contentContainer.innerHTML = this.content;
-      } else {
-        this.contentContainer.append(this.content);
-      }
-      this.duration = Math.max((_a = this.duration) !== null && _a !== void 0 ? _a : 5, 0);
-      this.append(this.contentContainer);
-      if (this.closeable) {
-        this.append(this.closer);
-        this.closer.addEventListener("click", () => {
-          var _a2;
-          (_a2 = this.onClose) === null || _a2 === void 0 ? void 0 : _a2.call(this);
-          this.remove();
-        });
-      }
-      if (this.duration) {
-        setTimeout(() => {
-          var _a2;
-          (_a2 = this.onClose) === null || _a2 === void 0 ? void 0 : _a2.call(this);
-          this.remove();
-        }, this.duration * 1e3);
-      }
-    }
-  }
-  message$1.MessageElement = MessageElement$1;
-  var modal$3 = {};
-  var __awaiter$6 = commonjsGlobal && commonjsGlobal.__awaiter || function(thisArg, _arguments, P, generator) {
-    function adopt(value) {
-      return value instanceof P ? value : new P(function(resolve) {
-        resolve(value);
-      });
-    }
-    return new (P || (P = Promise))(function(resolve, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-  Object.defineProperty(modal$3, "__esModule", { value: true });
-  modal$3.ModalElement = void 0;
-  const common_1$7 = common$2;
-  const dom_1$8 = dom$1;
-  const tampermonkey_1$2 = tampermonkey$1;
-  const interface_1$8 = _interface$1;
-  class ModalElement$1 extends interface_1$8.IElement {
-    constructor() {
-      super(...arguments);
-      this._title = (0, dom_1$8.h)("div", { className: "modal-title" });
-      this.body = (0, dom_1$8.h)("div", { className: "modal-body" });
-      this.footerContainer = (0, dom_1$8.h)("div", { className: "modal-footer" });
-      this.modalInput = (0, dom_1$8.h)("input", { className: "modal-input" });
-      this.modalInputType = "input";
-      this.type = "alert";
-      this.content = "";
-      this.inputDefaultValue = "";
-      this.placeholder = "";
-      this.modalStyle = {};
-    }
-    connectedCallback() {
-      var _a;
-      this.classList.add(this.type);
-      Object.assign(this.style, this.modalStyle || {});
-      const profile = (0, dom_1$8.h)("div", {
-        innerText: this.profile || "弹窗来自: OCS " + (((_a = tampermonkey_1$2.$gm.getInfos()) === null || _a === void 0 ? void 0 : _a.script.version) || ""),
-        className: "modal-profile"
-      });
-      this._title.innerText = this.title;
-      this.body.append(typeof this.content === "string" ? (0, dom_1$8.h)("div", { innerHTML: this.content }) : this.content);
-      if (this.modalInputType === "textarea") {
-        this.modalInput = (0, dom_1$8.h)("textarea", { className: "modal-input", style: { height: "100px" } });
-      }
-      this.modalInput.placeholder = this.placeholder || "";
-      this.modalInput.value = this.inputDefaultValue || "";
-      this.append(profile, this._title, this.body, this.footerContainer);
-      this.style.width = (this.width || 400) + "px";
-      if (this.footer === void 0) {
-        this.footerContainer.append(this.modalInput);
-        if (this.cancelButton === void 0) {
-          this.cancelButton = (0, dom_1$8.h)("button", { className: "modal-cancel-button" });
-          this.cancelButton.innerText = this.cancelButtonText || "取消";
-          this.cancelButton.onclick = () => {
-            var _a2, _b;
-            (_a2 = this.onCancel) === null || _a2 === void 0 ? void 0 : _a2.call(this);
-            (_b = this.onClose) === null || _b === void 0 ? void 0 : _b.call(this);
-            this.remove();
-          };
-        }
-        if (this.confirmButton === void 0) {
-          this.confirmButton = (0, dom_1$8.h)("button", { className: "modal-confirm-button" });
-          this.confirmButton.innerText = this.confirmButtonText || "确定";
-          this.confirmButton.onclick = () => __awaiter$6(this, void 0, void 0, function* () {
-            var _b, _c;
-            if ((yield (_b = this.onConfirm) === null || _b === void 0 ? void 0 : _b.call(this, this.modalInput.value)) !== false) {
-              this.remove();
-              (_c = this.onClose) === null || _c === void 0 ? void 0 : _c.call(this, this.modalInput.value);
-            }
-          });
-        }
-        this.cancelButton && this.footerContainer.append(this.cancelButton);
-        this.confirmButton && this.footerContainer.append(this.confirmButton);
-        if (this.type === "simple") {
-          this.footerContainer.remove();
-        } else if (this.type === "prompt") {
-          this.modalInput.focus();
-        }
-      } else {
-        this.footerContainer.append(this.footer);
-      }
-      common_1$7.$.onresize(this.body, (modal2) => {
-        this.body.style.maxHeight = window.innerHeight - 100 + "px";
-        this.body.style.maxWidth = window.innerWidth - 50 + "px";
-      });
-    }
-  }
-  modal$3.ModalElement = ModalElement$1;
-  var script_panel$1 = {};
-  Object.defineProperty(script_panel$1, "__esModule", { value: true });
-  script_panel$1.ScriptPanelElement = void 0;
-  const dom_1$7 = dom$1;
-  const interface_1$7 = _interface$1;
-  class ScriptPanelElement$1 extends interface_1$7.IElement {
-    constructor() {
-      super(...arguments);
-      this.separator = (0, dom_1$7.h)("div", { className: "separator" });
-      this.notesContainer = (0, dom_1$7.h)("div", { className: "notes card" });
-      this.configsContainer = (0, dom_1$7.h)("div", { className: "configs-container card" });
-      this.body = (0, dom_1$7.h)("div", { className: "script-panel-body" });
-      this.lockWrapper = (0, dom_1$7.h)("div", { className: "lock-wrapper" });
-    }
-    connectedCallback() {
-      this.separator.innerText = this.name || "";
-      this.append(this.separator);
-      this.append(this.notesContainer);
-      this.append(this.configsContainer);
-      this.append(this.body);
-    }
-  }
-  script_panel$1.ScriptPanelElement = ScriptPanelElement$1;
-  (function(exports3) {
-    Object.defineProperty(exports3, "__esModule", { value: true });
-    exports3.definedCustomElements = exports3.ScriptPanelElement = exports3.ModalElement = exports3.MessageElement = exports3.HeaderElement = exports3.ContainerElement = exports3.ConfigElement = void 0;
-    const config_1 = config$2;
-    const container_1 = container$1;
-    const dropdown_1 = dropdown$1;
-    const header_1 = header$1;
-    const message_1 = message$1;
-    const modal_1 = modal$3;
-    const script_panel_1 = script_panel$1;
-    var config_2 = config$2;
-    Object.defineProperty(exports3, "ConfigElement", { enumerable: true, get: function() {
-      return config_2.ConfigElement;
-    } });
-    var container_2 = container$1;
-    Object.defineProperty(exports3, "ContainerElement", { enumerable: true, get: function() {
-      return container_2.ContainerElement;
-    } });
-    var header_2 = header$1;
-    Object.defineProperty(exports3, "HeaderElement", { enumerable: true, get: function() {
-      return header_2.HeaderElement;
-    } });
-    var message_2 = message$1;
-    Object.defineProperty(exports3, "MessageElement", { enumerable: true, get: function() {
-      return message_2.MessageElement;
-    } });
-    var modal_2 = modal$3;
-    Object.defineProperty(exports3, "ModalElement", { enumerable: true, get: function() {
-      return modal_2.ModalElement;
-    } });
-    var script_panel_2 = script_panel$1;
-    Object.defineProperty(exports3, "ScriptPanelElement", { enumerable: true, get: function() {
-      return script_panel_2.ScriptPanelElement;
-    } });
-    exports3.definedCustomElements = [
-      config_1.ConfigElement,
-      container_1.ContainerElement,
-      header_1.HeaderElement,
-      modal_1.ModalElement,
-      message_1.MessageElement,
-      script_panel_1.ScriptPanelElement,
-      dropdown_1.DropdownElement
-    ];
-  })(elements$2);
-  var __awaiter$5 = commonjsGlobal && commonjsGlobal.__awaiter || function(thisArg, _arguments, P, generator) {
-    function adopt(value) {
-      return value instanceof P ? value : new P(function(resolve) {
-        resolve(value);
-      });
-    }
-    return new (P || (P = Promise))(function(resolve, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-  var __rest$1 = commonjsGlobal && commonjsGlobal.__rest || function(s, e) {
-    var t2 = {};
-    for (var p in s)
-      if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t2[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-      for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-        if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-          t2[p[i]] = s[p[i]];
-      }
-    return t2;
-  };
-  Object.defineProperty(customWindow$1, "__esModule", { value: true });
-  customWindow$1.modal = customWindow$1.CustomWindow = void 0;
-  const _1$1 = interfaces$1;
-  const elements_1$4 = elements$2;
-  const utils_1$1 = utils$1;
-  const start_1$1 = start$3;
-  const minimizeSvg$1 = '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 13H5v-2h14v2z"/></svg>';
-  const expandSvg$1 = '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M18 4H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H6V6h12v12z"/></svg>';
-  class CustomWindow$1 {
-    constructor(projects, inputStoreProvider, config2) {
-      this.messageContainer = (0, utils_1$1.h)("div", { className: "message-container" });
-      this.extraMenuBar = (0, utils_1$1.h)("div", { className: "extra-menu-bar" });
-      this.defaults = {
-        urls: (urls) => urls && urls.length ? urls : [location.href],
-        panelName: (name) => name || this.config.render.defaultPanelName || ""
-      };
-      this.projects = projects;
-      this.inputStoreProvider = inputStoreProvider;
-      this.config = config2;
-      handleLowLevelBrowser$1();
-      utils_1$1.$.loadCustomElements(elements_1$4.definedCustomElements);
-      this.wrapper = (0, utils_1$1.h)("div");
-      utils_1$1.$elements.tooltipContainer = (0, utils_1$1.h)("div", { className: "tooltip-container" });
-      utils_1$1.$elements.wrapper = this.wrapper;
-      this.root = this.wrapper.attachShadow({ mode: "closed" });
-      utils_1$1.$elements.root = this.root;
-      this.container = (0, utils_1$1.h)("container-element");
-      this.root.append(this.container);
-      const styles = config2.render.styles.map((s) => (0, utils_1$1.h)("style", s));
-      this.container.append(...styles, this.messageContainer);
-      const handlePosition = () => {
-        const pos = config2.store.getPosition();
-        if (pos.x > document.documentElement.clientWidth || pos.x < 0) {
-          config2.store.setPosition(10, 10);
-        }
-        if (pos.y > document.documentElement.clientHeight || pos.y < 0) {
-          config2.store.setPosition(10, 10);
-        }
-        this.container.style.left = pos.x + "px";
-        this.container.style.top = pos.y + "px";
-        const positionHandler = () => {
-          config2.store.setPosition(this.container.offsetLeft, this.container.offsetTop);
-        };
-        (0, utils_1$1.enableElementDraggable)(this.container.header, this.container, positionHandler);
-        (0, utils_1$1.enableElementTouchDraggable)(this.container.header, this.container, positionHandler);
-      };
-      const handleVisible = () => {
-        window.addEventListener("click", (e) => {
-          if (e.detail === Math.max(config2.render.switchPoint, 3)) {
-            this.container.style.top = e.y + "px";
-            this.container.style.left = e.x + "px";
-            config2.store.setPosition(e.x, e.y);
-            this.setVisual("normal");
-          }
-        });
-      };
-      const initCorsModalSystem = () => {
-        _1$1.cors.on("modal", (args) => __awaiter$5(this, void 0, void 0, function* () {
-          const [type, _attrs] = args || [];
-          return new Promise((resolve, reject) => {
-            const attrs = _attrs;
-            attrs.onCancel = () => resolve("");
-            attrs.onConfirm = resolve;
-            attrs.onClose = resolve;
-            modal$2(type, attrs);
-          });
-        }));
-      };
-      const initCorsMessageSystem = () => {
-        _1$1.cors.on("message", (args) => __awaiter$5(this, void 0, void 0, function* () {
-          const [type, attrs] = args || [];
-          console.log("message", type, attrs);
-          this.message(type, attrs);
-        }));
-      };
-      window.addEventListener("keydown", (e) => {
-        if (e.ctrlKey && e.key === config2.render.switchKey) {
-          e.stopPropagation();
-          e.preventDefault();
-          this.setVisual(config2.store.getVisual() === "hidden" ? "normal" : "hidden");
-        }
-      }, { capture: true });
-      handleVisible();
-      this.setVisual(config2.store.getVisual());
-      (() => __awaiter$5(this, void 0, void 0, function* () {
-        const urls = yield config2.store.getRenderURLs();
-        const currentPanelName = yield config2.store.getCurrentPanelName();
-        yield this.rerender(this.defaults.urls(urls), this.defaults.panelName(currentPanelName));
-      }))();
-      initCorsModalSystem();
-      initCorsMessageSystem();
-      handlePosition();
-      this.setFontSize(config2.render.fontsize);
-    }
-    rerender(urls, currentPanelName) {
-      return __awaiter$5(this, void 0, void 0, function* () {
-        this.initHeader(urls, currentPanelName);
-        yield this.renderBody(currentPanelName);
-      });
-    }
-    initHeader(urls, currentPanelName) {
-      const profile = utils_1$1.$ui.tooltip((0, utils_1$1.h)("div", { className: "profile", title: "菜单栏（可拖动区域）" }, this.config.render.title || "无标题"));
-      const scriptDropdowns = [];
-      for (const project2 of this.projects) {
-        const dropdown2 = (0, utils_1$1.h)("dropdown-element");
-        let selected = false;
-        const options = [];
-        const scripts = utils_1$1.$.getMatchedScripts([project2], urls).filter((s) => !s.hideInPanel);
-        if (scripts.length) {
-          for (const key in project2.scripts) {
-            if (Object.prototype.hasOwnProperty.call(project2.scripts, key)) {
-              const script2 = project2.scripts[key];
-              if (!script2.hideInPanel) {
-                const optionSelected = isCurrentPanel$1(project2.name, script2, currentPanelName);
-                const option = (0, utils_1$1.h)("div", { className: "dropdown-option" }, script2.name);
-                if (optionSelected) {
-                  option.classList.add("active");
-                }
-                if (selected !== true && optionSelected) {
-                  selected = true;
-                }
-                option.onclick = () => __awaiter$5(this, void 0, void 0, function* () {
-                  yield this.config.store.setCurrentPanelName(project2.name + "-" + script2.name);
-                });
-                options.push(option);
-              }
-            }
-          }
-          if (selected) {
-            dropdown2.classList.add("active");
-          }
-          dropdown2.triggerElement = (0, utils_1$1.h)("div", { className: "dropdown-trigger-element" }, project2.name);
-          dropdown2.triggerElement.style.padding = "0px 8px";
-          dropdown2.content.append(...options);
-          scriptDropdowns.push(dropdown2);
-        }
-      }
-      const isMinimize = () => this.config.store.getVisual() === "minimize";
-      const visualSwitcher = utils_1$1.$ui.tooltip((0, utils_1$1.h)("div", {
-        className: "switch ",
-        title: isMinimize() ? "点击展开窗口" : "点击最小化窗口",
-        innerHTML: isMinimize() ? expandSvg$1 : minimizeSvg$1,
-        onclick: () => {
-          this.setVisual(isMinimize() ? "normal" : "minimize");
-          visualSwitcher.title = isMinimize() ? "点击展开窗口" : "点击最小化窗口";
-          visualSwitcher.innerHTML = isMinimize() ? expandSvg$1 : minimizeSvg$1;
-        }
-      }));
-      this.container.header.visualSwitcher = visualSwitcher;
-      this.container.header.replaceChildren();
-      this.container.header.append((0, utils_1$1.h)("div", { style: { width: "100%" } }, [
-        (0, utils_1$1.h)("div", { style: { display: "flex", width: "100%" } }, [
-          profile,
-          ...scriptDropdowns,
-          this.container.header.visualSwitcher || ""
-        ]),
-        (0, utils_1$1.h)("div", { style: { display: "flex", width: "100%" } }, [this.extraMenuBar])
-      ]));
-    }
-    renderBody(currentPanelName) {
-      var _a;
-      return __awaiter$5(this, void 0, void 0, function* () {
-        for (const project2 of this.projects) {
-          for (const key in project2.scripts) {
-            if (Object.prototype.hasOwnProperty.call(project2.scripts, key)) {
-              const script2 = project2.scripts[key];
-              if (isCurrentPanel$1(project2.name, script2, currentPanelName)) {
-                const panel = utils_1$1.$ui.scriptPanel(script2, this.inputStoreProvider);
-                script2.projectName = project2.name;
-                script2.panel = panel;
-                script2.header = this.container.header;
-                this.container.body.replaceChildren(panel);
-                (_a = script2.onrender) === null || _a === void 0 ? void 0 : _a.call(script2, { panel, header: this.container.header });
-                script2.emit("render", { panel, header: this.container.header });
-              }
-            }
-          }
-        }
-      });
-    }
-    setFontSize(fontsize) {
-      this.container.style.font = `${fontsize}px  Menlo, Monaco, Consolas, 'Courier New', monospace`;
-    }
-    setVisual(value) {
-      this.container.className = "";
-      if (value === "minimize") {
-        this.container.classList.add("minimize");
-      } else if (value === "hidden") {
-        this.container.classList.add("hidden");
-      } else {
-        this.container.classList.add("normal");
-      }
-      this.config.store.setVisual(value);
-    }
-    changeRenderURLs(urls) {
-      return __awaiter$5(this, void 0, void 0, function* () {
-        const currentPanelName = yield this.config.store.getCurrentPanelName();
-        yield this.rerender(this.defaults.urls(urls), this.defaults.panelName(currentPanelName));
-      });
-    }
-    changePanel(currentPanelName) {
-      return __awaiter$5(this, void 0, void 0, function* () {
-        const urls = (yield this.config.store.getRenderURLs()) || [location.href];
-        yield this.rerender(this.defaults.urls(urls), this.defaults.panelName(currentPanelName));
-      });
-    }
-    pin(script2) {
-      return __awaiter$5(this, void 0, void 0, function* () {
-        if (script2.projectName) {
-          yield this.config.store.setCurrentPanelName(`${script2.projectName}-${script2.name}`);
-        } else if (script2.namespace) {
-          yield this.config.store.setCurrentPanelName(script2.namespace);
-        } else {
-          console.warn("[ERROR]", `${script2.name} 无法置顶， projectName 与 namespace 都为 undefined`);
-        }
-      });
-    }
-    minimize() {
-      this.setVisual("minimize");
-    }
-    normal() {
-      this.setVisual("normal");
-    }
-    hidden() {
-      this.setVisual("hidden");
-    }
-    message(type, attrs) {
-      if (typeof attrs === "string") {
-        attrs = { content: attrs };
-      }
-      const message2 = (0, utils_1$1.h)("message-element", Object.assign({ type }, attrs));
-      this.messageContainer.append(message2);
-      return message2;
-    }
-    menu(label, config2) {
-      return __awaiter$5(this, void 0, void 0, function* () {
-        this.extraMenuBar.style.display = "flex";
-        const btn = (0, utils_1$1.h)("button", label);
-        btn.addEventListener("click", () => {
-          if (config2.scriptPanelLink) {
-            this.pin(config2.scriptPanelLink).then(() => {
-              this.normal();
-            }).catch(console.error);
-          }
-        });
-        if (config2.scriptPanelLink) {
-          const full_name = (config2.scriptPanelLink.projectName ? config2.scriptPanelLink.projectName + " -> " : "") + config2.scriptPanelLink.name;
-          btn.title = "快捷跳转：" + full_name;
-          btn.setAttribute("data-name", (config2.scriptPanelLink.projectName + "-" + config2.scriptPanelLink.name).replace(/\s/g, "_"));
-          btn.classList.add("script-panel-link");
-        }
-        this.extraMenuBar.append(utils_1$1.$ui.tooltip(btn));
-        const name = yield utils_1$1.$store.getTab(utils_1$1.$const.TAB_CURRENT_PANEL_NAME);
-        if (config2.scriptPanelLink) {
-          if (isCurrentPanel$1(config2.scriptPanelLink.projectName, config2.scriptPanelLink, name)) {
-            this.extraMenuBar.querySelectorAll(".script-panel-link").forEach((el) => el.classList.remove("active"));
-            btn.classList.add("active");
-          }
-        }
-        return btn;
-      });
-    }
-    mount(parent) {
-      parent.children[utils_1$1.$.random(0, parent.children.length - 1)].after(this.wrapper);
-    }
-  }
-  customWindow$1.CustomWindow = CustomWindow$1;
-  function isCurrentPanel$1(projectName, script2, currentPanelName) {
-    return projectName + "-" + script2.name === currentPanelName || script2.namespace === currentPanelName;
-  }
-  function handleLowLevelBrowser$1() {
-    if (typeof Element.prototype.replaceChildren === "undefined") {
-      Element.prototype.replaceChildren = function(...nodes) {
-        this.innerHTML = "";
-        for (const node of nodes) {
-          this.append(node);
-        }
-      };
-    }
-  }
-  function modal$2(type, attrs, parent = (start_1$1.$win === null || start_1$1.$win === void 0 ? void 0 : start_1$1.$win.container) || utils_1$1.$elements.root || document.body) {
-    const { maskCloseable = true, onConfirm, onCancel, onClose, notification: notify, notificationOptions, duration } = attrs, _attrs = __rest$1(attrs, ["maskCloseable", "onConfirm", "onCancel", "onClose", "notification", "notificationOptions", "duration"]);
-    if (notify) {
-      utils_1$1.$gm.notification(typeof _attrs.content === "string" ? _attrs.content : _attrs.content.textContent || "", notificationOptions);
-    }
-    const wrapper = (0, utils_1$1.h)("div", { className: "modal-wrapper" }, (wrapper2) => {
-      const modal2 = (0, utils_1$1.h)("modal-element", Object.assign({
-        onConfirm(val) {
-          return __awaiter$5(this, void 0, void 0, function* () {
-            const isClose = yield onConfirm === null || onConfirm === void 0 ? void 0 : onConfirm.apply(modal2, [val]);
-            if (isClose !== false) {
-              wrapper2.remove();
-            }
-            return isClose;
-          });
-        },
-        onCancel() {
-          onCancel === null || onCancel === void 0 ? void 0 : onCancel.apply(modal2);
-          wrapper2.remove();
-        },
-        onClose(val) {
-          onClose === null || onClose === void 0 ? void 0 : onClose.apply(modal2, [val]);
-          wrapper2.remove();
-        },
-        type
-      }, _attrs));
-      wrapper2.append(modal2);
-      modal2.addEventListener("click", (e) => {
-        e.stopPropagation();
-      });
-      if (maskCloseable) {
-        wrapper2.addEventListener("click", () => {
-          onClose === null || onClose === void 0 ? void 0 : onClose.apply(modal2);
-          wrapper2.remove();
-        });
-      }
-    });
-    if (duration) {
-      setTimeout(() => {
-        wrapper.remove();
-      }, duration * 1e3);
-    }
-    parent.append(wrapper);
-    return wrapper;
-  }
-  customWindow$1.modal = modal$2;
-  var __awaiter$4 = commonjsGlobal && commonjsGlobal.__awaiter || function(thisArg, _arguments, P, generator) {
-    function adopt(value) {
-      return value instanceof P ? value : new P(function(resolve) {
-        resolve(value);
-      });
-    }
-    return new (P || (P = Promise))(function(resolve, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e) {
-          reject(e);
-        }
-      }
-      function step(result) {
-        result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  };
-  var __importDefault$3 = commonjsGlobal && commonjsGlobal.__importDefault || function(mod) {
-    return mod && mod.__esModule ? mod : { "default": mod };
-  };
-  Object.defineProperty(start$3, "__esModule", { value: true });
-  start$3.addFunctionEventListener = start$3.start = start$3.$win = void 0;
-  const custom_window_1$1 = customWindow$1;
-  const common_1$6 = common$2;
-  const const_1$2 = _const$1;
-  const elements_1$3 = elements$3;
-  const store_1$2 = store$1;
-  const debounce_1$1 = __importDefault$3(debounce_1$2);
-  let mounted$1 = false;
-  function start$2(startConfig) {
-    return __awaiter$4(this, void 0, void 0, function* () {
-      startConfig.projects = startConfig.projects.map((p) => {
-        for (const key in p.scripts) {
-          if (Object.prototype.hasOwnProperty.call(p.scripts, key)) {
-            p.scripts[key].cfg = common_1$6.$.createConfigProxy(p.scripts[key]);
-          }
-        }
-        return p;
-      });
-      const scripts = common_1$6.$.getMatchedScripts(startConfig.projects, [location.href]).sort((a, b) => b.priority - a.priority);
-      scripts.forEach((script2) => {
-        var _a;
-        script2.startConfig = startConfig;
-        script2.emit("start", startConfig);
-        (_a = script2.onstart) === null || _a === void 0 ? void 0 : _a.call(script2, startConfig);
-      });
-      const uid = yield store_1$2.$store.getTab(const_1$2.$const.TAB_UID);
-      if (uid === void 0) {
-        yield store_1$2.$store.setTab(const_1$2.$const.TAB_UID, common_1$6.$.uuid());
-      }
-      const urls = yield store_1$2.$store.getTab(const_1$2.$const.TAB_URLS);
-      yield store_1$2.$store.setTab(const_1$2.$const.TAB_URLS, Array.from(new Set((urls || []).concat(location.href))));
-      let active = false;
-      if (document.readyState === "interactive") {
-        active = true;
-        mount$1(startConfig);
-        scripts.forEach((script2) => {
-          var _a;
-          return (_a = script2.onactive) === null || _a === void 0 ? void 0 : _a.call(script2, startConfig);
-        });
-      } else if (document.readyState === "complete") {
-        mount$1(startConfig);
-        scripts.forEach((script2) => {
-          var _a;
-          return (_a = script2.onactive) === null || _a === void 0 ? void 0 : _a.call(script2, startConfig);
-        });
-        scripts.forEach((script2) => {
-          var _a;
-          return (_a = script2.oncomplete) === null || _a === void 0 ? void 0 : _a.call(script2, startConfig);
-        });
-      }
-      document.addEventListener("readystatechange", () => {
-        mount$1(startConfig);
-        if (document.readyState === "interactive" && active === false) {
-          scripts.forEach((script2) => {
-            var _a;
-            script2.emit("active", startConfig);
-            (_a = script2.onactive) === null || _a === void 0 ? void 0 : _a.call(script2, startConfig);
-          });
-        }
-        if (document.readyState === "complete") {
-          scripts.forEach((script2) => {
-            var _a;
-            script2.emit("complete");
-            (_a = script2.oncomplete) === null || _a === void 0 ? void 0 : _a.call(script2, startConfig);
-          });
-        }
-      });
-      window.addEventListener("hashchange", () => {
-        scripts.forEach((script2) => {
-          var _a;
-          script2.emit("hashchange", startConfig);
-          (_a = script2.onhashchange) === null || _a === void 0 ? void 0 : _a.call(script2, startConfig);
-        });
-      });
-      history.pushState = addFunctionEventListener$1(history, "pushState");
-      history.replaceState = addFunctionEventListener$1(history, "replaceState");
-      window.addEventListener("pushState", () => {
-        scripts.forEach((script2) => {
-          var _a;
-          script2.emit("historychange", "push", startConfig);
-          (_a = script2.onhistorychange) === null || _a === void 0 ? void 0 : _a.call(script2, "push", startConfig);
-        });
-      });
-      window.addEventListener("replaceState", () => {
-        scripts.forEach((script2) => {
-          var _a;
-          script2.emit("historychange", "replace", startConfig);
-          (_a = script2.onhistorychange) === null || _a === void 0 ? void 0 : _a.call(script2, "replace", startConfig);
-        });
-      });
-      window.addEventListener("beforeunload", (e) => {
-        var _a;
-        let prevent;
-        for (const script2 of scripts) {
-          script2.emit("beforeunload");
-          if ((_a = script2.onbeforeunload) === null || _a === void 0 ? void 0 : _a.call(script2, startConfig)) {
-            prevent = true;
-          }
-        }
-        if (prevent) {
-          e.preventDefault();
-          e.returnValue = true;
-          return true;
-        }
-      });
-    });
-  }
-  start$3.start = start$2;
-  function addFunctionEventListener$1(obj, type) {
-    const origin = obj[type];
-    return function(...args) {
-      const res = origin.apply(this, args);
-      const e = new Event(type.toString());
-      e.arguments = args;
-      window.dispatchEvent(e);
-      return res;
-    };
-  }
-  start$3.addFunctionEventListener = addFunctionEventListener$1;
-  function mount$1(startConfig) {
-    return __awaiter$4(this, void 0, void 0, function* () {
-      if (mounted$1 === true) {
-        return;
-      }
-      mounted$1 = true;
-      if (startConfig === void 0 || startConfig.renderConfig === void 0) {
-        console.warn("the script will not have ui because the renderConfig is not defined.");
-        return;
-      }
-      if (self === top) {
-        const { projects, renderConfig } = startConfig;
-        if (typeof renderConfig.renderScript === "undefined") {
-          console.warn("the script will not have ui because the RenderScript is not defined.");
-          return;
-        }
-        const scripts = common_1$6.$.getMatchedScripts(projects, [location.href]).filter((s) => !!s.hideInPanel === false);
-        if (scripts.length <= 0) {
-          return;
-        }
-        const RenderScript2 = renderConfig.renderScript;
-        const win = new custom_window_1$1.CustomWindow(startConfig.projects, store_1$2.$store, {
-          render: {
-            title: renderConfig.title,
-            styles: renderConfig.styles,
-            defaultPanelName: renderConfig.defaultPanelName,
-            fontsize: RenderScript2.cfg.fontsize,
-            switchPoint: RenderScript2.cfg.switchPoint,
-            switchKey: "o"
-          },
-          store: {
-            getPosition: () => {
-              return { x: RenderScript2.cfg.x, y: RenderScript2.cfg.y };
-            },
-            setPosition: (x, y) => {
-              RenderScript2.cfg.x = x;
-              RenderScript2.cfg.y = y;
-            },
-            getVisual: () => {
-              return RenderScript2.cfg.visual;
-            },
-            setVisual: (size) => {
-              RenderScript2.cfg.visual = size;
-            },
-            getRenderURLs() {
-              return __awaiter$4(this, void 0, void 0, function* () {
-                return yield store_1$2.$store.getTab(const_1$2.$const.TAB_URLS);
-              });
-            },
-            setRenderURLs(urls) {
-              return __awaiter$4(this, void 0, void 0, function* () {
-                return yield store_1$2.$store.setTab(const_1$2.$const.TAB_URLS, urls);
-              });
-            },
-            getCurrentPanelName() {
-              return __awaiter$4(this, void 0, void 0, function* () {
-                return yield store_1$2.$store.getTab(const_1$2.$const.TAB_CURRENT_PANEL_NAME);
-              });
-            },
-            setCurrentPanelName(name) {
-              return __awaiter$4(this, void 0, void 0, function* () {
-                return yield store_1$2.$store.setTab(const_1$2.$const.TAB_CURRENT_PANEL_NAME, name);
-              });
-            }
-          }
-        });
-        RenderScript2.onConfigChange("fontsize", (fs) => {
-          win.setFontSize(fs);
-        });
-        store_1$2.$store.addTabChangeListener(const_1$2.$const.TAB_URLS, (0, debounce_1$1.default)((curr, pre) => {
-          if (JSON.stringify(curr) === JSON.stringify(pre)) {
-            return;
-          }
-          win.changeRenderURLs(curr);
-        }, 2e3));
-        store_1$2.$store.addTabChangeListener(const_1$2.$const.TAB_CURRENT_PANEL_NAME, (curr, pre) => {
-          if (curr === pre) {
-            return;
-          }
-          win.changePanel(curr);
-          updateMenusState$1(win, curr);
-        });
-        win.mount(startConfig.mountElement || document.body);
-        elements_1$3.$elements.tooltipContainer && win.container.append(elements_1$3.$elements.tooltipContainer);
-        start$3.$win = win;
-      }
-    });
-  }
-  function updateMenusState$1(win, name) {
-    var _a;
-    win.root.querySelectorAll(".extra-menu-bar .script-panel-link").forEach((el) => el.classList.remove("active"));
-    (_a = win.root.querySelector('.extra-menu-bar [data-name="' + name.replace(/\s/g, "_") + '"]')) === null || _a === void 0 ? void 0 : _a.classList.add("active");
-  }
-  var render$1 = {};
-  (function(exports3) {
-    Object.defineProperty(exports3, "__esModule", { value: true });
-    exports3.$menu = exports3.$message = exports3.$modal = exports3.createRenderScript = void 0;
-    const script_1 = script$1;
-    const ui_12 = ui$1;
-    const dom_12 = dom$1;
-    const custom_window_12 = customWindow$1;
-    const start_12 = start$3;
-    const interfaces_1 = interfaces$1;
-    const createRenderScript = (config2) => new script_1.Script({
-      name: (config2 === null || config2 === void 0 ? void 0 : config2.name) || "窗口设置",
-      matches: (config2 === null || config2 === void 0 ? void 0 : config2.matches) || [["所有", /.*/]],
-      namespace: "render.panel",
-      configs: {
-        notes: {
-          defaultValue: ui_12.$ui.notes([
-            [
-              "如果需要隐藏整个窗口，可以点击下方隐藏按钮，",
-              "隐藏后可以快速三击屏幕中的任意地方",
-              "来重新在鼠标位置显示窗口。"
-            ],
-            "窗口连续点击显示的次数可以自定义，默认为三次",
-            ["窗口快捷键列表：", "ctrl + o : 隐藏/打开 面板"]
-          ]).outerHTML
-        },
-        x: { defaultValue: window.innerWidth * 0.1 },
-        y: { defaultValue: window.innerWidth * 0.1 },
-        visual: { defaultValue: "normal" },
-        firstCloseAlert: {
-          defaultValue: true
-        },
-        fontsize: {
-          label: "字体大小（像素）",
-          attrs: { type: "number", min: 12, max: 24, step: 1 },
-          defaultValue: 14
-        },
-        switchPoint: {
-          label: "窗口显示连点（次数）",
-          attrs: {
-            type: "number",
-            min: 3,
-            max: 10,
-            step: 1,
-            title: "设置当连续点击屏幕 N 次时，可以进行面板的 隐藏/显示 切换，默认连续点击屏幕三下"
-          },
-          defaultValue: 3
-        }
-      },
-      methods() {
-        return {
-          pin: (script2) => start_12.$win === null || start_12.$win === void 0 ? void 0 : start_12.$win.pin(script2),
-          minimize: () => start_12.$win === null || start_12.$win === void 0 ? void 0 : start_12.$win.minimize(),
-          setPosition: (x, y) => {
-            if (start_12.$win) {
-              start_12.$win.config.store.setPosition(x, y);
-              start_12.$win.container.style.left = x + "px";
-              start_12.$win.container.style.top = y + "px";
-            }
-          },
-          normal: () => {
-            start_12.$win === null || start_12.$win === void 0 ? void 0 : start_12.$win.normal();
-          }
-        };
-      },
-      onrender({ panel }) {
-        const closeBtn = (0, dom_12.h)("button", { className: "base-style-button" }, "隐藏窗口");
-        closeBtn.onclick = () => {
-          if (this.cfg.firstCloseAlert) {
-            exports3.$modal.confirm({
-              content: ui_12.$ui.notes([
-                "隐藏脚本页面后，快速点击页面三下（可以在悬浮窗设置中调整次数）即可重新显示脚本。如果三下无效，可以尝试删除脚本重新安装。",
-                "请确认是否关闭。（此后不再显示此弹窗）"
-              ]),
-              onConfirm: () => {
-                start_12.$win === null || start_12.$win === void 0 ? void 0 : start_12.$win.hidden();
-                this.cfg.firstCloseAlert = false;
-              }
-            });
-          } else {
-            start_12.$win === null || start_12.$win === void 0 ? void 0 : start_12.$win.hidden();
-          }
-        };
-        panel.body.replaceChildren((0, dom_12.h)("hr"), closeBtn);
-      }
-    });
-    exports3.createRenderScript = createRenderScript;
-    function _modal(type, attrs, parent) {
-      if (self === top) {
-        return (0, custom_window_12.modal)(type, attrs, parent);
-      } else {
-        interfaces_1.cors.emit("modal", [type, attrs], (args) => {
-          var _a, _b, _c;
-          if (args) {
-            (_a = attrs.onConfirm) === null || _a === void 0 ? void 0 : _a.call(attrs, args);
-          } else {
-            (_b = attrs.onCancel) === null || _b === void 0 ? void 0 : _b.call(attrs);
-          }
-          (_c = attrs.onClose) === null || _c === void 0 ? void 0 : _c.call(attrs, args);
-        });
-      }
-    }
-    exports3.$modal = {
-      confirm: (attrs, parent) => _modal("confirm", attrs, parent),
-      alert: (attrs, parent) => _modal("alert", attrs, parent),
-      prompt: (attrs, parent) => _modal("prompt", attrs, parent),
-      simple: (attrs, parent) => _modal("simple", attrs, parent)
-    };
-    function _message(type, attrs) {
-      if (self === top) {
-        return start_12.$win === null || start_12.$win === void 0 ? void 0 : start_12.$win.message(type, attrs);
-      } else {
-        if (typeof attrs === "string") {
-          attrs = { content: attrs };
-        } else if (typeof attrs.content !== "string") {
-          attrs.content = attrs.content.innerHTML;
-        }
-        interfaces_1.cors.emit("message", [type, attrs]);
-      }
-    }
-    exports3.$message = {
-      info: (attrs) => _message("info", attrs),
-      success: (attrs) => _message("success", attrs),
-      warn: (attrs) => _message("warn", attrs),
-      error: (attrs) => _message("error", attrs)
-    };
-    function $menu(label, config2) {
-      if (self !== top) {
-        return;
-      }
-      return start_12.$win === null || start_12.$win === void 0 ? void 0 : start_12.$win.menu(label, config2);
-    }
-    exports3.$menu = $menu;
-  })(render$1);
-  (function(exports3) {
-    var __createBinding = commonjsGlobal && commonjsGlobal.__createBinding || (Object.create ? function(o, m, k, k2) {
-      if (k2 === void 0)
-        k2 = k;
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = { enumerable: true, get: function() {
-          return m[k];
-        } };
-      }
-      Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
-      if (k2 === void 0)
-        k2 = k;
-      o[k2] = m[k];
-    });
-    var __exportStar = commonjsGlobal && commonjsGlobal.__exportStar || function(m, exports4) {
-      for (var p in m)
-        if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports4, p))
-          __createBinding(exports4, m, p);
-    };
-    Object.defineProperty(exports3, "__esModule", { value: true });
-    exports3.start = void 0;
-    var start_12 = start$3;
-    Object.defineProperty(exports3, "start", { enumerable: true, get: function() {
-      return start_12.start;
-    } });
-    __exportStar(utils$1, exports3);
-    __exportStar(render$1, exports3);
-    __exportStar(elements$2, exports3);
-    __exportStar(interfaces$1, exports3);
-  })(lib$1);
-  const ListOfActions = [
-    "click",
-    "check",
-    "dblclick",
-    "bringToFront",
-    "dragAndDrop",
-    "fill",
-    "focus",
-    "hover",
-    "screenshot",
-    "selectOption",
-    "setInputFiles",
-    "tap",
-    "press",
-    "reload",
-    "waitForRequest",
-    "waitForResponse",
-    "waitForSelector",
-    "keyboard.type",
-    "keyboard.press",
-    "mouse.wheel",
-    "mouse.click",
-    "mouse.dblclick",
-    "mouse.down",
-    "mouse.up",
-    "mouse.move"
-  ];
-  const mouseIdleRequireActions = [
-    "click",
-    "dblclick",
-    "dragAndDrop",
-    "fill",
-    "hover",
-    "tap",
-    "press",
-    "keyboard.type",
-    "keyboard.press",
-    "mouse.wheel",
-    "mouse.click",
-    "mouse.dblclick",
-    "mouse.down",
-    "mouse.up",
-    "mouse.move"
-  ];
-  class RemotePlaywright {
-    static async getRemotePage(show_debug_cursor, logger) {
-      if (this.currentPage) {
-        return this.currentPage;
-      }
-      if (!this.authToken) {
-        try {
-          this.authToken = await request("http://localhost:15319/get-actions-key", {
-            type: "GM_xmlhttpRequest",
-            method: "get",
-            responseType: "text"
-          });
-          this.currentPage = this.createRemotePage(this.authToken, { show_debug_cursor, logger });
-          return this.currentPage;
-        } catch (e) {
-          console.log(e);
-          return void 0;
-        }
-      } else {
-        this.currentPage = this.createRemotePage(this.authToken, { show_debug_cursor, logger });
-        return this.currentPage;
-      }
-    }
-    static createRemotePage(authToken, configs) {
-      const page = /* @__PURE__ */ Object.create({});
-      configs = configs || {};
-      configs.logger = configs.logger || console.debug;
-      for (const property of ListOfActions) {
-        Reflect.set(page, property, async (...args) => {
-          var _a, _b, _c;
-          let data;
-          if (mouseIdleRequireActions.includes(property)) {
-            await waitForMouseIdle();
-          }
-          if (property === "click") {
-            if (args[0] instanceof Element) {
-              const el = args[0];
-              const options = args[1] || {};
-              await scrollToElement(el);
-              await $.sleep(500);
-              const rect = el.getBoundingClientRect();
-              const elFromPoint = (_a = lib$1.$elements.root) == null ? void 0 : _a.elementFromPoint(
-                rect.left + rect.width / 2,
-                rect.top + rect.height / 2
-              );
-              if (elFromPoint && lib$1.$elements.root && lib$1.$elements.root.contains(elFromPoint)) {
-                const panel = lib$1.$elements.root.querySelector("container-element");
-                if (panel) {
-                  lib$1.$message.info({ content: "检测到脚本阻挡点击位置，已自动移开", duration: 2 });
-                  await $.transition(panel, "left", 0.1, rect.left + rect.width / 2 + 100 + "px", { reset_ms: 1 });
-                }
-              }
-              if (configs == null ? void 0 : configs.show_debug_cursor) {
-                showMousePointer(el);
-              }
-              data = {
-                page: window.location.href,
-                property: "mouse.click",
-                args: [
-                  rect.left + rect.width / 2,
-                  rect.top + rect.height / 2,
-                  {
-                    button: options.button,
-                    clickCount: options.clickCount,
-                    delay: options.delay
-                  }
-                ]
-              };
-            } else if (typeof args[0] === "string") {
-              const el = document.querySelector(args[0]);
-              if (el) {
-                await scrollToElement(el);
-                if (configs == null ? void 0 : configs.show_debug_cursor) {
-                  showMousePointer(el);
-                }
-              }
-            }
-          }
-          if (!data) {
-            data = { page: window.location.href, property, args };
-          }
-          (_b = configs == null ? void 0 : configs.logger) == null ? void 0 : _b.call(configs, "[RP]: ", JSON.stringify(data));
-          try {
-            const res = await request("/ocs-script-actions", {
-              type: "fetch",
-              method: "post",
-              responseType: ["waitForRequest", "waitForResponse", "reload"].includes(property) ? "json" : "text",
-              headers: {
-                "auth-token": authToken
-              },
-              data
-            });
-            return res;
-          } catch (e) {
-            (_c = configs == null ? void 0 : configs.logger) == null ? void 0 : _c.call(configs, "[RP-ERROR]: ", JSON.stringify(data));
-            return void 0;
-          }
-        });
-      }
-      console.log(page);
-      return page;
-    }
-  }
-  RemotePlaywright.authToken = "";
-  RemotePlaywright.currentPage = void 0;
-  function scrollToElement(el) {
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
-    return $.sleep(200);
-  }
-  function showMousePointer(el) {
-    setTimeout(() => {
-      const rect = el.getBoundingClientRect();
-      const div = document.createElement("div");
-      div.textContent = "";
-      div.style.position = "fixed";
-      div.style.zIndex = "99999";
-      div.style.width = "20px";
-      div.style.height = "20px";
-      div.style.border = "2px solid red";
-      div.style.borderRadius = "50%";
-      div.style.left = rect.left + rect.width / 2 - 11 + "px";
-      div.style.top = rect.top + rect.height / 2 - 11 + "px";
-      document.body.append(div);
-      setTimeout(() => {
-        div.remove();
-      }, 500);
-    }, 100);
-  }
-  function waitForMouseIdle(timeout = 200) {
-    return new Promise((resolve) => {
-      let timer;
-      const default_timer = setTimeout(() => {
-        window.removeEventListener("mousemove", onMouseMove);
-        resolve();
-      }, timeout);
-      function onMouseMove() {
-        clearTimeout(default_timer);
-        if (timer) {
-          clearTimeout(timer);
-        }
-        timer = setTimeout(() => {
-          window.removeEventListener("mousemove", onMouseMove);
-          resolve();
-        }, timeout);
-      }
-      window.addEventListener("mousemove", onMouseMove);
-    });
-  }
-  function defaultWorkTypeResolver(ctx) {
-    function count(selector) {
-      let c = 0;
-      for (const option of ctx.elements.options || []) {
-        if ((option == null ? void 0 : option.querySelector(selector)) !== null) {
-          c++;
-        }
-      }
-      return c;
-    }
-    return count('[type="radio"]') === 2 ? "judgement" : count('[type="radio"]') > 2 ? "single" : count('[type="checkbox"]') > 2 ? "multiple" : count("textarea") >= 1 ? "completion" : void 0;
-  }
-  function isPlainAnswer(answer) {
-    answer = answer.trim();
-    if (answer.length > 8 || !/[A-Z]/.test(answer)) {
-      return false;
-    }
-    const counter = {};
-    let min = 0;
-    for (let i = 0; i < answer.length; i++) {
-      if (answer.charCodeAt(i) < min) {
-        return false;
-      }
-      min = answer.charCodeAt(i);
-      counter[min] = (counter[min] || 0) + 1;
-    }
-    for (const key in counter) {
-      if (counter[key] !== 1) {
-        return false;
-      }
-    }
-    return true;
-  }
-  function resolvePlainAnswer(answer) {
-    const resolve = answer.trim().replace(/[,，、 #]/g, "").trim();
-    if (isPlainAnswer(resolve)) {
-      return resolve;
-    }
-  }
-  function splitAnswer(answer, separators = ["===", "#", "---", "###", "|", ";", "；"]) {
-    answer = answer.trim();
-    if (answer.length === 0) {
-      return [];
-    }
-    separators = separators.length === 0 ? ["===", "#", "---", "###", "|", ";", "；"] : separators;
-    separators = separators.filter((el) => el.trim().length > 0);
-    try {
-      const json = JSON.parse(answer);
-      if (Array.isArray(json)) {
-        return json.map(String).filter((el) => el.trim().length > 0);
-      }
-    } catch {
-      for (const sep of separators) {
-        if (answer.split(sep).length > 1) {
-          return answer.split(sep).filter((el) => el.trim().length > 0);
-        }
-      }
-    }
-    return [answer];
-  }
-  function createDefaultQuestionResolver(ctx) {
-    return {
-      async single(infos, options, handler) {
-        const allAnswer = infos.map((res) => res.results.map((res2) => splitAnswer(res2.answer, ctx.answerSeparators)).flat()).flat();
-        const optionStrings = options.map((o) => removeRedundant(o.innerText));
-        let ratings = [];
-        if (ctx.answerMatchMode === "similar") {
-          ratings = answerSimilar(allAnswer, optionStrings);
-          let index = -1;
-          let max = 0;
-          let ans = "";
-          ratings.forEach((rating, i) => {
-            if (rating.rating > max) {
-              max = rating.rating;
-              index = i;
-              ans = rating.target;
-            }
-          });
-          if (index !== -1 && max > 0.6) {
-            await handler("single", ans, options[index], ctx);
-            return {
-              finish: true,
-              ratings: ratings.map((r) => r.rating)
-            };
-          }
-        } else if (ctx.answerMatchMode === "exact") {
-          const result = answerExactMatch(allAnswer, optionStrings);
-          const index = optionStrings.findIndex((option) => result.includes(option));
-          if (result.length) {
-            await handler("single", options[index].innerText, options[index], ctx);
-            return {
-              finish: true
-            };
-          }
-        }
-        for (const info of infos) {
-          for (const res of info.results) {
-            const ans = StringUtils.nowrap(res.answer, "").trim();
-            if (ans.length === 1 && /[A-Z]/.test(ans)) {
-              const index = ans.charCodeAt(0) - 65;
-              if (options[index] === void 0) {
-                continue;
-              }
-              await handler("single", options[index].innerText, options[index], ctx);
-              return { finish: true, option: options[index] };
-            }
-          }
-        }
-        return { finish: false, allAnswer, ratings: ratings.map((r) => r.rating), options: optionStrings };
-      },
-      async multiple(infos, options, handler) {
-        var _a;
-        const targetAnswers = [];
-        const targetOptions = [];
-        const similar_list = [];
-        const exact_list = [];
-        const results = infos.map((info) => info.results).flat();
-        for (let i = 0; i < results.length; i++) {
-          const result = results[i];
-          const answers = splitAnswer(result.answer.trim(), ctx.answerSeparators);
-          if (ctx.answerMatchMode === "similar") {
-            const matchResult = { options: [], answers: [], ratings: [], similarSum: 0, similarCount: 0 };
-            for (const option of options) {
-              const ans = answers.find(
-                (answer) => answer.includes(removeRedundant(option.textContent || option.innerText))
-              );
-              if (ans) {
-                matchResult.options.push(option);
-                matchResult.answers.push(ans);
-                matchResult.ratings.push(1);
-                matchResult.similarSum += 1;
-                matchResult.similarCount += 1;
-              }
-            }
-            const ratingResult = { options: [], answers: [], ratings: [], similarSum: 0, similarCount: 0 };
-            const ratings = answerSimilar(
-              answers,
-              options.map((o) => removeRedundant(o.innerText))
-            );
-            for (let j = 0; j < ratings.length; j++) {
-              const rating = ratings[j];
-              if (rating.rating > 0.6) {
-                ratingResult.options.push(options[j]);
-                ratingResult.answers.push(ratings[j].target);
-                ratingResult.ratings.push(ratings[j].rating);
-                ratingResult.similarSum += rating.rating;
-                ratingResult.similarCount += 1;
-              }
-            }
-            if (matchResult.similarSum > ratingResult.similarSum) {
-              similar_list[i] = matchResult;
-            } else {
-              similar_list[i] = ratingResult;
-            }
-          } else if (ctx.answerMatchMode === "exact") {
-            exact_list[i] = answerExactMatch(
-              answers,
-              options.map((o) => removeRedundant(o.innerText))
-            ).map((option) => options.find((o) => removeRedundant(o.innerText) === option)).filter(Boolean);
-          }
-        }
-        if (ctx.answerMatchMode === "similar") {
-          const sorted_similar_list = similar_list.filter((i) => i.similarCount !== 0).sort((a, b) => {
-            const bsc = b.similarCount * 100;
-            const asc = a.similarCount * 100;
-            const bss = b.similarSum;
-            const ass = a.similarSum;
-            return bsc + bss - asc + ass;
-          });
-          if (sorted_similar_list[0]) {
-            for (let i = 0; i < sorted_similar_list[0].options.length; i++) {
-              await handler("multiple", sorted_similar_list[0].answers[i], sorted_similar_list[0].options[i], ctx);
-            }
-            return { finish: true, sorted_similar_list, targetOptions, targetAnswers };
-          }
-        } else if (ctx.answerMatchMode === "exact") {
-          const sorted_exact_list = exact_list.sort((a, b) => b.length - a.length);
-          if ((_a = sorted_exact_list[0]) == null ? void 0 : _a.length) {
-            for (let i = 0; i < sorted_exact_list[0].length; i++) {
-              await handler("multiple", sorted_exact_list[0][i].innerText, sorted_exact_list[0][i], ctx);
-            }
-            return {
-              finish: true,
-              sorted_exact_list: sorted_exact_list.map((i) => i.map((e) => e.innerText)),
-              targetOptions,
-              targetAnswers
-            };
-          }
-        }
-        const plainOptions = [];
-        for (const result of results) {
-          const ans = StringUtils.nowrap(result.answer, "").trim();
-          const plainAnswer = resolvePlainAnswer(ans);
-          if (plainAnswer) {
-            for (const char of ans) {
-              const index = char.charCodeAt(0) - 65;
-              if (options[index] === void 0) {
-                continue;
-              }
-              await handler("multiple", options[index].innerText, options[index], ctx);
-              plainOptions.push(options[index]);
-            }
-          }
-        }
-        if (plainOptions.length) {
-          return { finish: true, plainOptions };
-        } else {
-          return { finish: false };
-        }
-      },
-      async judgement(infos, options, handler) {
-        for (const answers of infos.map((info) => info.results.map((res) => res.answer))) {
-          let matches = function(target, options2) {
-            return options2.some(
-              (option) => clearString(removeRedundant(option), "√", "×") === clearString(removeRedundant(target), "√", "×")
-            );
-          };
-          const correctWords = [
-            "是",
-            "对",
-            "正确",
-            "确定",
-            "√",
-            "对的",
-            "是的",
-            "正确的",
-            "true",
-            "True",
-            "T",
-            "yes",
-            "1"
-          ];
-          const incorrectWords = [
-            "非",
-            "否",
-            "错",
-            "错误",
-            "×",
-            "X",
-            "错的",
-            "不对",
-            "不正确的",
-            "不正确",
-            "不是",
-            "不是的",
-            "false",
-            "False",
-            "F",
-            "no",
-            "0"
-          ];
-          const answerShowCorrect = answers.find((answer) => matches(answer, correctWords));
-          const answerShowIncorrect = answers.find((answer) => matches(answer, incorrectWords));
-          if (answerShowCorrect || answerShowIncorrect) {
-            let option;
-            for (const el of options) {
-              const textShowCorrect = matches(el.innerText, correctWords);
-              const textShowIncorrect = matches(el.innerText, incorrectWords);
-              if (answerShowCorrect && textShowCorrect) {
-                option = el;
-                await handler("judgement", answerShowCorrect, el, ctx);
-                break;
-              }
-              if (answerShowIncorrect && textShowIncorrect) {
-                option = el;
-                await handler("judgement", answerShowIncorrect, el, ctx);
-                break;
-              }
-            }
-            return { finish: true, option };
-          }
-        }
-        return { finish: false };
-      },
-      async completion(infos, options, handler) {
-        for (const answers of infos.map((info) => info.results.map((res) => res.answer))) {
-          let ans = answers.filter((ans2) => ans2);
-          if (ans.length === 1) {
-            ans = splitAnswer(ans[0], ctx.answerSeparators);
-          }
-          if (ans.length !== 0 && (ans.length === options.length || options.length === 1)) {
-            if (ans.length === options.length) {
-              for (let index = 0; index < options.length; index++) {
-                const element = options[index];
-                await handler("completion", ans[index], element, ctx);
-              }
-              return { finish: true };
-            } else if (options.length === 1) {
-              await handler("completion", ans.join(" "), options[0], ctx);
-              return { finish: true };
-            }
-            return { finish: false };
-          }
-        }
-        return { finish: false };
-      }
-    };
-  }
-  const AnswerWrapperHandlerConfig = {
-    timeout_seconds: 60
-  };
-  async function defaultAnswerWrapperHandler(answererWrappers, env) {
-    console.log('[OCS调试] defaultAnswerWrapperHandler 被调用');
-    console.log('[OCS调试] answererWrappers:', JSON.stringify(answererWrappers));
-    console.log('[OCS调试] env:', JSON.stringify(env));
-    const searchInfos = [];
-    const temp = JSON.parse(JSON.stringify(answererWrappers));
-    console.log('[OCS调试] temp.length:', temp.length);
-    if (temp.length === 0) {
-      throw new Error("题库配置不能为空，请配置后重新开始自动答题。");
-    }
-    await Promise.all(
-      temp.map(async (wrapper) => {
-        var _a;
-        const {
-          name = "未知题库",
-          homepage = "#",
-          method = "get",
-          type = "fetch",
-          contentType = "json",
-          headers = {},
-          data: wrapperData = {},
-          handler = "return (res)=> [JSON.stringify(res), undefined]"
-        } = wrapper;
-        try {
-          let results = [];
-          let requestData;
-          let url;
-          if (method.toLocaleLowerCase() === "get") {
-            url = new URL(resolvePlaceHolder(wrapper.url, { encodeURI: true }));
-            Object.keys(wrapperData).forEach((key) => {
-              url.searchParams.set(key, resolvePlaceHolder(wrapperData[key]));
-            });
-            requestData = {};
-          } else if (method.toLocaleLowerCase() === "post") {
-            url = new URL(wrapper.url);
-            const data = /* @__PURE__ */ Object.create({});
-            for (const key of Object.keys(wrapperData)) {
-              if (typeof wrapperData[key] === "object" && Reflect.has(wrapperData[key], "handler")) {
-                const handler2 = Function(Reflect.get(wrapperData[key], "handler"))();
-                if (typeof handler2 !== "function") {
-                  throw new Error("data 字段解析器必须返回一个函数");
-                }
-                const result = await handler2(env);
-                Reflect.set(data, key, result);
-              } else {
-                Reflect.set(data, key, resolvePlaceHolder(wrapperData[key]));
-              }
-            }
-            requestData = data;
-          } else {
-            throw new Error("不支持的请求方式");
-          }
-          const responseData = await Promise.race([
-            request(url.toString(), {
-              method,
-              responseType: contentType,
-              data: requestData,
-              type,
-              headers: JSON.parse(JSON.stringify(headers || {}))
-            }),
-            $.sleep(((_a = AnswerWrapperHandlerConfig.timeout_seconds) != null ? _a : 60) * 1e3)
-          ]);
-          if (responseData === void 0) {
-            throw new Error("题库请求超时，可能是题库问题，或者请检查网络或者重试。");
-          }
-          const responseHandler = Function(handler)();
-          if (typeof responseHandler !== "function") {
-            throw new Error("handler 响应处理器必须返回一个函数");
-          }
-          const info = responseHandler(responseData);
-          if (info && Array.isArray(info)) {
-            if (info.every((item) => Array.isArray(item))) {
-              results = results.concat(
-                info.map((item) => ({
-                  question: item[0],
-                  answer: item[1],
-                  extra_data: item[2] || {}
-                }))
-              );
-            } else {
-              results.push({
-                question: info[0],
-                answer: info[1],
-                extra_data: info[2] || {}
-              });
-            }
-          }
-          searchInfos.push({
-            url: wrapper.url,
-            name,
-            homepage,
-            results,
-            response: responseData,
-            data: requestData
-          });
-        } catch (error) {
-          console.error(error);
-          searchInfos.push({
-            url: wrapper.url,
-            name,
-            homepage,
-            results: [],
-            response: void 0,
-            data: void 0,
-            error: (error == null ? void 0 : error.message) || "题库连接失败"
-          });
-        }
-      })
-    );
-    function resolvePlaceHolder(data, options) {
-      if (typeof data === "string") {
-        const matches = data.match(/\${(.*?)}/g) || [];
-        matches.forEach((placeHolder) => {
-          const value = env[placeHolder.replace(/\${(.*)}/, "$1")];
-          data = data.replace(placeHolder, (options == null ? void 0 : options.encodeURI) ? encodeURIComponent(value) : value);
-        });
-      } else if (typeof data === "object") {
-        const keys = Object.keys(data);
-        for (const key of keys) {
-          data[key] = resolvePlaceHolder(data[key], options);
-        }
-      }
-      return data;
-    }
-    return searchInfos;
-  }
-  class AnswerWrapperParser {
-    static fromObject(json) {
-      const aw = json;
-      if (aw && Array.isArray(aw)) {
-        if (aw.length) {
-          for (let i = 0; i < aw.length; i++) {
-            const item = aw[i];
-            if (typeof item.name !== "string") {
-              throw new Error(`第 ${i + 1} 个题库的 名字(name) 为空`);
-            }
-            if (typeof item.url !== "string") {
-              throw new Error(`第 ${i + 1} 个题库的 接口地址(url) 为空`);
-            }
-            if (typeof item.handler !== "string") {
-              throw new Error(`第 ${i + 1} 个题库的 解析器(handler) 为空`);
-            }
-            if (item.headers && typeof item.headers !== "object") {
-              throw new Error(`第 ${i + 1} 个题库的 头部信息(header) 应为 对象 格式`);
-            }
-            if (item.data && typeof item.data !== "object") {
-              throw new Error(`第 ${i + 1} 个题库的 提交数据(data) 应为 对象 格式`);
-            }
-            const contentTypes = ["json", "text"];
-            if (item.contentType && contentTypes.every((i2) => i2 !== item.contentType)) {
-              throw new Error(`第 ${i + 1} 个题库的 contentType 必须为以下选项中的一个  ${contentTypes.join(", ")}`);
-            }
-            const methods = ["post", "get"];
-            if (item.method && methods.every((i2) => i2 !== item.method)) {
-              throw new Error(`第 ${i + 1} 个题库的 method 必须为以下选项中的一个  ${methods.join(", ")}`);
-            }
-            const types = ["fetch", "GM_xmlhttpRequest"];
-            if (item.type && types.every((i2) => i2 !== item.type)) {
-              throw new Error(`第 ${i + 1} 个题库的 type 必须为以下选项中的一个  ${types.join(", ")}`);
-            }
-          }
-          return aw;
-        } else {
-          throw new Error("题库为空！");
-        }
-      } else {
-        throw new Error("题库配置格式错误！");
-      }
-    }
-    static fromJSONString(json) {
-      const raw = json.toString();
-      try {
-        return JSON.parse(raw);
-      } catch {
-        throw new Error(`格式错误，必须为：json字符串 或 题库配置链接`);
-      }
-    }
-    static async fromURL(url) {
-      const text = await request(url, {
-        responseType: "text",
-        method: "get",
-        type: "fetch"
-      });
-      return this.fromJSONString(text);
-    }
-    static fromBase64(base64) {
-      return this.fromJSONString(Buffer.from(base64, "base64").toString("utf8"));
-    }
-    static from(value) {
-      if (typeof value === "string") {
-        if (value.startsWith("http")) {
-          return this.fromURL(value);
-        } else {
-          return this.fromJSONString(value);
-        }
-      } else {
-        return this.fromObject(value);
-      }
-    }
-  }
-  class OCSWorker extends lib$1.CommonEventEmitter {
-    constructor(opts) {
-      super();
-      this.isRunning = false;
-      this.isClose = false;
-      this.isStop = false;
-      this.totalQuestionCount = 0;
-      this.opts = opts;
-    }
-    async doWork(options) {
-      var _a, _b, _c, _d;
-      this.emit("start");
-      this.isRunning = true;
-      this.once("close", () => {
-        this.isClose = true;
-      });
-      this.on("stop", () => {
-        this.isStop = true;
-      });
-      this.on("continuate", () => {
-        this.isStop = false;
-      });
-      const questionRoots = typeof this.opts.root === "string" ? Array.from(document.querySelectorAll(this.opts.root)) : this.opts.root;
-      this.totalQuestionCount += questionRoots.length;
-      if (options == null ? void 0 : options.enable_debug) {
-        console.debug("开始答题", this);
-        console.debug("题目数量: ", questionRoots.length);
-        console.debug("父节点列表: ", questionRoots);
-      }
-      const results = [];
-      if (questionRoots.length === 0) {
-        throw new Error("未找到任何题目，答题结束。");
-      }
-      for (const questionRoot of questionRoots) {
-        const ctx = {
-          searchInfos: [],
-          root: questionRoot,
-          elements: domSearchAll(this.opts.elements, questionRoot),
-          type: void 0,
-          answerSeparators: this.opts.answerSeparators,
-          answerMatchMode: this.opts.answerMatchMode || "similar"
-        };
-        await ((_b = (_a = this.opts).onElementSearched) == null ? void 0 : _b.call(_a, ctx.elements, questionRoot));
-        ctx.elements.title = (_c = ctx.elements.title) == null ? void 0 : _c.filter(Boolean);
-        ctx.elements.options = (_d = ctx.elements.options) == null ? void 0 : _d.filter(Boolean);
-        if (typeof this.opts.work === "object") {
-          ctx.type = this.opts.work.type === void 0 ? defaultWorkTypeResolver(ctx) : typeof this.opts.work.type === "string" ? this.opts.work.type : this.opts.work.type(ctx);
-        }
-        results.push({
-          requested: false,
-          resolved: false,
-          ctx
-        });
-      }
-      if (options == null ? void 0 : options.enable_debug) {
-        console.debug("上下文已初始化: ", results);
-      }
-      const requestThread = async (index) => {
-        var _a2, _b2, _c2;
-        let error;
-        const result = results[index];
-        const ctx = result.ctx || {};
-        if (this.isClose === true) {
-          this.isRunning = false;
-          return;
-        }
-        if (this.isStop) {
-          await waitForContinuate(() => this.isStop);
-        }
-        ctx.searchInfos = [];
-        if (options == null ? void 0 : options.enable_debug) {
-          console.groupEnd();
-          console.group(
-            "开始搜题: ",
-            (_a2 = ctx.elements.title) == null ? void 0 : _a2.map((t2) => t2 == null ? void 0 : t2.innerText).filter(Boolean).join(", ").slice(0, 20)
-          );
-          console.log("ctx", result.ctx);
-        }
-        try {
-          ctx.searchInfos = await this.opts.answerer(ctx.elements, ctx) || [];
-          ctx.searchInfos.forEach((info) => {
-            info.results = info.results.map((ans) => {
-              ans.answer = ans.answer ? ans.answer.trim() : "";
-              return ans;
-            });
-          });
-        } catch (err) {
-          error = String(err);
-        }
-        result.ctx = ctx;
-        result.requested = true;
-        result.error = error;
-        if (options == null ? void 0 : options.enable_debug) {
-          console.log("搜题结果: ", ctx.searchInfos);
-        }
-        await ((_c2 = (_b2 = this.opts).onResultsUpdate) == null ? void 0 : _c2.call(_b2, results[index], index, results));
-      };
-      const waitForRequested = async (result) => {
-        return new Promise((resolve, reject) => {
-          const interval = setInterval(() => {
-            if ((result == null ? void 0 : result.requested) === true) {
-              clearInterval(interval);
-              clearTimeout(timeout);
-              resolve();
-            }
-          }, 200);
-          const timeout = setTimeout(() => {
-            clearInterval(interval);
-            reject(new Error("答题超时！"));
-          }, (AnswerWrapperHandlerConfig.timeout_seconds + 10) * 1e3);
-        });
-      };
-      const resolverThread = async () => {
-        var _a2, _b2, _c2, _d2;
-        for (let index = 0; index < results.length; index++) {
-          const result = results[index];
-          let error;
-          let res;
-          if (this.isClose === true) {
-            this.isRunning = false;
-            return;
-          }
-          try {
-            if (this.isStop) {
-              await waitForContinuate(() => this.isStop);
-            }
-            await waitForRequested(result);
-          } catch (err) {
-          }
-          try {
-            if (result.ctx && result.ctx.searchInfos.length !== 0) {
-              if (typeof this.opts.work === "object") {
-                if (result.ctx.elements.options) {
-                  if (result.ctx.type) {
-                    const resolver = createDefaultQuestionResolver(result.ctx)[result.ctx.type];
-                    const handler = this.opts.work.handler;
-                    res = await resolver(result.ctx.searchInfos, result.ctx.elements.options, handler);
-                  } else {
-                    error = "题目类型解析失败, 请自行提供解析器, 或者忽略此题。";
-                  }
-                } else {
-                  error = "elements.options 为空 ! 使用默认处理器, 必须提供题目选项的选择器。";
-                }
-              } else {
-                const work2 = this.opts.work;
-                res = await work2(result.ctx);
-              }
-            } else {
-              error = "搜索不到答案, 请重新运行, 或者忽略此题。";
-            }
-          } catch (err) {
-            error = (err == null ? void 0 : err.message) || err;
-          }
-          result.error = error;
-          result.result = res || { finish: false };
-          result.resolved = true;
-          if (options == null ? void 0 : options.enable_debug) {
-            console.log(
-              "答题完成: ",
-              (_b2 = (_a2 = result.ctx) == null ? void 0 : _a2.elements.title) == null ? void 0 : _b2.map((t2) => t2 == null ? void 0 : t2.innerText).join(", ").slice(0, 20),
-              result
-            );
-          }
-          await ((_d2 = (_c2 = this.opts).onResultsUpdate) == null ? void 0 : _d2.call(_c2, result, index, results));
-        }
-      };
-      const requestThreadHandler = async () => {
-        const locks = [];
-        const waitForLock = () => {
-          return new Promise((resolve, reject) => {
-            const interval = setInterval(() => {
-              if (locks.length > 0) {
-                const lock = locks.shift();
-                if (lock) {
-                  resolve(lock);
-                  clearInterval(interval);
-                  clearTimeout(timeout);
-                }
-              }
-            }, 100);
-            const timeout = setTimeout(() => {
-              clearInterval(interval);
-              reject(new Error("获取线程锁超时！"));
-            }, 3 * 60 * 1e3);
-          });
-        };
-        const requestThreads = [];
-        for (let index = 0; index < results.length; index++) {
-          requestThreads.push(() => requestThread(index));
-        }
-        for (let index = 0; index < (this.opts.thread || 1); index++) {
-          locks.push(index + 1);
-        }
-        let requestFinished = 0;
-        const promises = [];
-        for (let index = 0; index < (this.opts.thread || 1); index++) {
-          promises.push(async () => {
-            try {
-              while (requestFinished < results.length && requestThreads.length > 0 && this.isClose === false) {
-                const thread = requestThreads.shift();
-                if (thread) {
-                  const lock = await waitForLock();
-                  await thread();
-                  requestFinished++;
-                  locks.push(lock);
-                }
-              }
-            } catch (err) {
-              console.error(err);
-            }
-          });
-        }
-        await Promise.all(promises.map((f) => f()));
-      };
-      await Promise.all([resolverThread(), requestThreadHandler()]);
-      this.isRunning = false;
-      return results;
-    }
-    uploadHandler(options) {
-      var _a;
-      const { results, type, callback } = options;
-      if (type !== "nomove") {
-        let finished = 0;
-        for (const result of results) {
-          if ((_a = result.result) == null ? void 0 : _a.finish) {
-            finished++;
-          }
-        }
-        const rate = results.length === 0 ? 0 : finished / results.length * 100;
-        if (type === "force") {
-          return callback(rate, true);
-        } else {
-          return callback(rate, type === "save" ? false : rate >= parseFloat(type.toString()));
-        }
-      }
-    }
-  }
-  class CustomOCSWorker extends lib$1.CommonEventEmitter {
-    constructor(opts) {
-      super();
-      this.isRunning = false;
-      this.isClose = false;
-      this.isStop = false;
-      this.opts = opts;
-    }
-    async doWork(options) {
-      var _a, _b, _c, _d, _e, _f, _g, _h;
-      this.emit("start");
-      this.isRunning = true;
-      this.once("close", () => {
-        this.isClose = true;
-      });
-      this.on("stop", () => {
-        this.isStop = true;
-      });
-      this.on("continuate", () => {
-        this.isStop = false;
-      });
-      const questions = await ((_b = (_a = this.opts).questions) == null ? void 0 : _b.call(_a));
-      if (options == null ? void 0 : options.enable_debug) {
-        console.debug("开始答题", this);
-        console.debug("题目数量: ", this.opts.questions.length);
-      }
-      const results = [];
-      for (let index = 0; index < questions.length; index++) {
-        if (this.isClose === true) {
-          this.isRunning = false;
-          return;
-        }
-        if (this.isStop) {
-          await waitForContinuate(() => this.isStop);
-        }
-        const question = questions[index];
-        results[index] = {
-          question: question.text,
-          requested: false,
-          resolved: false,
-          searchInfos: [],
-          type: question.type,
-          finish: false,
-          error: ""
-        };
-        try {
-          const infos = await this.opts.answerer(question.text);
-          results[index].searchInfos = infos.map((i) => ({
-            name: i.name,
-            homepage: i.homepage,
-            results: i.results.map((r) => [r.question, r.answer, r.extra_data || {}]),
-            error: i.error
-          }));
-          results[index].requested = true;
-          (_d = (_c = this.opts).onResultsUpdate) == null ? void 0 : _d.call(_c, results[index], index, results);
-          try {
-            const resolved = await this.opts.resolver(infos);
-            results[index].finish = resolved.finish;
-            results[index].error = resolved.error;
-            results[index].resolved = true;
-          } catch (err) {
-            results[index].finish = false;
-            results[index].error = err instanceof Error ? err.message : String(err);
-            results[index].resolved = true;
-          }
-          (_f = (_e = this.opts).onResultsUpdate) == null ? void 0 : _f.call(_e, results[index], index, results);
-        } catch (err) {
-          results[index].requested = true;
-          results[index].resolved = false;
-          results[index].finish = true;
-          results[index].error = err instanceof Error ? err.message : String(err);
-          (_h = (_g = this.opts).onResultsUpdate) == null ? void 0 : _h.call(_g, results[index], index, results);
-        }
-        await lib$1.$.sleep(this.opts.period);
-      }
-    }
-  }
-  async function waitForContinuate(isStopping) {
-    if (isStopping()) {
-      await new Promise((resolve, reject) => {
-        const interval = setInterval(() => {
-          if (isStopping() === false) {
-            clearInterval(interval);
-            resolve();
-          }
-        }, 200);
-      });
-    }
-  }
-  var lib = {};
-  var start$1 = {};
-  var customWindow = {};
-  var interfaces = {};
-  var common$1 = {};
   var __importDefault$2 = commonjsGlobal && commonjsGlobal.__importDefault || function(mod) {
     return mod && mod.__esModule ? mod : { "default": mod };
   };
@@ -4403,11 +1087,11 @@ var __publicField = (obj, key, value) => {
       MemoryStoreProvider.storeListeners.set(key, listeners);
     }
     removeChangeListener(listener) {
-      MemoryStoreProvider.tabListeners.forEach((lis, key) => {
+      MemoryStoreProvider.storeListeners.forEach((lis, key) => {
         const index = lis.findIndex((l) => l === listener);
         if (index !== -1) {
           lis.splice(index, 1);
-          MemoryStoreProvider.tabListeners.set(key, lis);
+          MemoryStoreProvider.storeListeners.set(key, lis);
         }
       });
     }
@@ -4431,6 +1115,8 @@ var __publicField = (obj, key, value) => {
   store_provider.MemoryStoreProvider = MemoryStoreProvider;
   class GMStoreProvider {
     constructor() {
+      this.tabPendingWrites = /* @__PURE__ */ new Map();
+      this.tabFlushTimer = void 0;
       if (self === top && typeof globalThis.GM_listValues !== "undefined") {
         for (const val of GM_listValues()) {
           if (val.startsWith("_tab_change_")) {
@@ -4438,6 +1124,25 @@ var __publicField = (obj, key, value) => {
           }
         }
       }
+      window.addEventListener("beforeunload", () => this.flushTabWrites());
+    }
+    flushTabWrites() {
+      this.tabFlushTimer = void 0;
+      if (this.tabPendingWrites.size === 0) {
+        return;
+      }
+      const entries2 = Array.from(this.tabPendingWrites.entries());
+      this.tabPendingWrites.clear();
+      GM_getTab((tab = {}) => {
+        for (const [key, pending] of entries2) {
+          Reflect.set(tab, key, pending.value);
+          this.set(this.getTabChangeHandleKey(Reflect.get(tab, const_1$1.$const.TAB_UID), key), pending.value);
+        }
+        GM_saveTab(tab);
+        for (const [, pending] of entries2) {
+          pending.resolves.forEach((resolve) => resolve());
+        }
+      });
     }
     getTabChangeHandleKey(tabUid, key) {
       return `_tab_change_${tabUid}_${key}`;
@@ -4456,17 +1161,26 @@ var __publicField = (obj, key, value) => {
     }
     getTab(key) {
       return new Promise((resolve, reject) => {
+        const pending = this.tabPendingWrites.get(key);
+        if (pending) {
+          resolve(pending.value);
+          return;
+        }
         GM_getTab((tab = {}) => resolve(Reflect.get(tab, key)));
       });
     }
     setTab(key, value) {
       return new Promise((resolve, reject) => {
-        GM_getTab((tab = {}) => {
-          Reflect.set(tab, key, value);
-          GM_saveTab(tab);
-          this.set(this.getTabChangeHandleKey(Reflect.get(tab, const_1$1.$const.TAB_UID), key), value);
-          resolve();
-        });
+        const pending = this.tabPendingWrites.get(key);
+        if (pending) {
+          pending.value = value;
+          pending.resolves.push(resolve);
+        } else {
+          this.tabPendingWrites.set(key, { value, resolves: [resolve] });
+        }
+        if (this.tabFlushTimer === void 0) {
+          this.tabFlushTimer = setTimeout(() => this.flushTabWrites(), 0);
+        }
       });
     }
     addChangeListener(key, listener) {
@@ -4550,19 +1264,61 @@ var __publicField = (obj, key, value) => {
     };
     Object.defineProperty(exports3, "__esModule", { value: true });
     exports3.resolveCustomElementName = exports3.$ = void 0;
-    const debounce_12 = __importDefault2(debounce_1$2);
+    const debounce_12 = __importDefault2(debounce_1$1);
     const store_12 = store;
     exports3.$ = {
       createConfigProxy(script2) {
         var _a, _b;
-        const proxy = new Proxy(script2.cfg, {
+        const declaredKeys = /* @__PURE__ */ new Set();
+        for (const key in script2.configs) {
+          if (Object.prototype.hasOwnProperty.call(script2.configs, key)) {
+            declaredKeys.add(exports3.$.namespaceKey(script2.namespace, key));
+          }
+        }
+        const cache = /* @__PURE__ */ Object.create(null);
+        const dirtyKeys = /* @__PURE__ */ new Set();
+        let flushTimer = void 0;
+        const flush = () => {
+          flushTimer = void 0;
+          for (const key of dirtyKeys) {
+            dirtyKeys.delete(key);
+            store_12.$store.set(key, cache[key]);
+          }
+        };
+        const scheduleFlush = () => {
+          if (flushTimer === void 0) {
+            flushTimer = setTimeout(flush, 0);
+          }
+        };
+        window.addEventListener("beforeunload", flush);
+        document.addEventListener("visibilitychange", () => {
+          if (document.visibilityState === "hidden") {
+            flush();
+          }
+        });
+        const rawCfg = script2.cfg;
+        const proxy = new Proxy(rawCfg, {
           set(target, propertyKey, value) {
             const key = exports3.$.namespaceKey(script2.namespace, propertyKey);
-            store_12.$store.set(key, value);
+            if (declaredKeys.has(key)) {
+              cache[key] = value;
+              dirtyKeys.add(key);
+              scheduleFlush();
+            } else {
+              store_12.$store.set(key, value);
+            }
             return Reflect.set(target, propertyKey, value);
           },
           get(target, propertyKey) {
-            const value = store_12.$store.get(exports3.$.namespaceKey(script2.namespace, propertyKey));
+            const key = exports3.$.namespaceKey(script2.namespace, propertyKey);
+            if (declaredKeys.has(key)) {
+              if (!(key in cache)) {
+                cache[key] = store_12.$store.get(key);
+              }
+              Reflect.set(target, propertyKey, cache[key]);
+              return cache[key];
+            }
+            const value = store_12.$store.get(key);
             Reflect.set(target, propertyKey, value);
             return value;
           }
@@ -4570,13 +1326,53 @@ var __publicField = (obj, key, value) => {
         for (const key in script2.configs) {
           if (Object.prototype.hasOwnProperty.call(script2.configs, key)) {
             const element = Reflect.get(script2.configs, key);
-            Reflect.set(proxy, key, store_12.$store.get(exports3.$.namespaceKey(script2.namespace, key), element.defaultValue));
+            const storeKey = exports3.$.namespaceKey(script2.namespace, key);
+            const value = store_12.$store.get(storeKey, element.defaultValue);
+            cache[storeKey] = value;
+            Reflect.set(rawCfg, key, value);
+            store_12.$store.addChangeListener(storeKey, (curr) => {
+              cache[storeKey] = curr;
+              Reflect.set(rawCfg, key, curr);
+            });
           }
         }
         if (script2.namespace) {
           proxy.notes = (_b = (_a = script2.configs) === null || _a === void 0 ? void 0 : _a.notes) === null || _b === void 0 ? void 0 : _b.defaultValue;
         }
         return proxy;
+      },
+      createPanelStoreAdapter(script2, store2) {
+        const declaredPropOf = (key) => {
+          const prefix = script2.namespace ? script2.namespace + "." : "";
+          if (prefix && key.startsWith(prefix) === false) {
+            return void 0;
+          }
+          const prop = prefix ? key.slice(prefix.length) : key;
+          return Object.prototype.hasOwnProperty.call(script2.configs, prop) ? prop : void 0;
+        };
+        return {
+          get: (key, defaultValue) => {
+            var _a;
+            const prop = declaredPropOf(key);
+            return prop === void 0 ? store2.get(key, defaultValue) : (_a = Reflect.get(script2.cfg, prop)) !== null && _a !== void 0 ? _a : defaultValue;
+          },
+          set: (key, value) => {
+            const prop = declaredPropOf(key);
+            if (prop === void 0) {
+              store2.set(key, value);
+            } else {
+              Reflect.set(script2.cfg, prop, value);
+            }
+          },
+          delete: (key) => store2.delete(key),
+          list: () => store2.list(),
+          getTab: (key) => store2.getTab(key),
+          setTab: (key, value) => store2.setTab(key, value),
+          addChangeListener: (key, listener) => store2.addChangeListener(key, listener),
+          removeChangeListener: (listener) => store2.removeChangeListener(listener),
+          addTabChangeListener: (key, listener) => store2.addTabChangeListener(key, listener),
+          removeTabChangeListener: (key, listener) => store2.removeTabChangeListener(key, listener)
+        };
       },
       getAllRawConfigs(scripts) {
         const object = {};
@@ -4662,6 +1458,30 @@ var __publicField = (obj, key, value) => {
         const TopPosition = screen.height ? (screen.height - height) / 2 : 0;
         const settings = "height=" + height + ",width=" + width + ",top=" + TopPosition + ",left=" + LeftPosition + ",scrollbars=" + (scrollbars ? "yes" : "no") + ",resizable=" + (resizable ? "yes" : "no");
         return window.open(url, winName, settings);
+      },
+      waitForElement(selector, opts) {
+        return this.waitFor(() => {
+          return typeof selector === "function" ? selector() : document.querySelector(selector);
+        }, opts);
+      },
+      waitFor(predicate, opts) {
+        return new Promise((resolve, reject) => {
+          let timeout;
+          const interval = setInterval(() => {
+            const result = predicate();
+            if (result) {
+              clearInterval(interval);
+              timeout && clearTimeout(timeout);
+              resolve(result);
+            }
+          }, (opts === null || opts === void 0 ? void 0 : opts.check_period_ms) || 1e3);
+          if (opts === null || opts === void 0 ? void 0 : opts.timeout_seconds) {
+            timeout = setTimeout(() => {
+              clearInterval(interval);
+              resolve(void 0);
+            }, ((opts === null || opts === void 0 ? void 0 : opts.timeout_seconds) || 10) * 1e3);
+          }
+        });
       }
     };
     function resolveCustomElementName(el, target) {
@@ -4776,10 +1596,12 @@ var __publicField = (obj, key, value) => {
       pos3 = touch.clientX;
       pos4 = touch.clientY;
       document.addEventListener("touchend", closeDragElement);
-      document.addEventListener("touchmove", elementDrag);
+      document.addEventListener("touchcancel", closeDragElement);
+      document.addEventListener("touchmove", elementDrag, { capture: true, passive: false });
     }
     function elementDrag(e) {
       e.stopPropagation();
+      e.preventDefault();
       e = e || window.event;
       const touch = e.touches[0];
       pos1 = pos3 - touch.clientX;
@@ -4792,7 +1614,8 @@ var __publicField = (obj, key, value) => {
     function closeDragElement() {
       ondrag === null || ondrag === void 0 ? void 0 : ondrag();
       document.removeEventListener("touchend", closeDragElement);
-      document.removeEventListener("touchmove", elementDrag);
+      document.removeEventListener("touchcancel", closeDragElement);
+      document.removeEventListener("touchmove", elementDrag, { capture: true });
     }
   }
   dom.enableElementTouchDraggable = enableElementTouchDraggable;
@@ -4860,79 +1683,179 @@ var __publicField = (obj, key, value) => {
   const dom_1$6 = dom;
   const elements_1$2 = elements$1;
   const tampermonkey_1$1 = tampermonkey;
+  function getPageZoom() {
+    const zoom = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("zoom") || "1");
+    return Number.isFinite(zoom) && zoom > 0 ? zoom : 1;
+  }
+  const notesListenerBoundScripts = /* @__PURE__ */ new WeakSet();
   ui.$ui = {
-    tooltip(target) {
+    tooltip(target, position) {
       target.setAttribute("data-title", target.title);
       if (tampermonkey_1$1.$gm.isInGMContext()) {
         target.removeAttribute("title");
       }
-      const onMouseMove = (e) => {
-        if (elements_1$2.$elements.tooltipContainer && elements_1$2.$elements.tooltipContainer.style.display !== "none") {
-          elements_1$2.$elements.tooltipContainer.style.top = e.y + "px";
-          elements_1$2.$elements.tooltipContainer.style.left = e.x + "px";
+      const container2 = () => elements_1$2.$elements.tooltipContainer;
+      const isVisible = () => {
+        var _a;
+        return (_a = container2()) === null || _a === void 0 ? void 0 : _a.classList.contains("show");
+      };
+      let showTimer;
+      let autoHideTimer;
+      let lastTouchTime = 0;
+      const computePlacement = () => {
+        const el = container2();
+        if (!el) {
+          return;
+        }
+        const zoom = getPageZoom();
+        const margin = 8;
+        const rect = target.getBoundingClientRect();
+        const tipRect = el.getBoundingClientRect();
+        const vw = document.documentElement.clientWidth;
+        const vh = document.documentElement.clientHeight;
+        let placement = (position === null || position === void 0 ? void 0 : position.startsWith("top")) ? "top" : "bottom";
+        const fits = placement === "bottom" ? rect.bottom + margin + tipRect.height <= vh - margin : rect.top - margin - tipRect.height >= margin;
+        if (!fits) {
+          placement = placement === "bottom" ? "top" : "bottom";
+        }
+        const top2 = placement === "bottom" ? rect.bottom + margin : rect.top - margin - tipRect.height;
+        const align = (position === null || position === void 0 ? void 0 : position.endsWith("left")) ? "left" : (position === null || position === void 0 ? void 0 : position.endsWith("right")) ? "right" : "center";
+        let left;
+        if (align === "left") {
+          left = rect.left;
+        } else if (align === "right") {
+          left = rect.right - tipRect.width;
+        } else {
+          left = rect.left + rect.width / 2 - tipRect.width / 2;
+        }
+        left = Math.max(margin, Math.min(left, vw - margin - tipRect.width));
+        const arrowLeft = Math.max(6, Math.min(rect.left + rect.width / 2 - left - 4, tipRect.width - 14));
+        el.classList.remove("tooltip-top", "tooltip-bottom");
+        el.classList.add(placement === "bottom" ? "tooltip-bottom" : "tooltip-top");
+        el.style.setProperty("--tooltip-arrow-left", arrowLeft + "px");
+        el.style.top = top2 / zoom + "px";
+        el.style.left = left / zoom + "px";
+      };
+      const onScrollOrResize = () => {
+        if (!target.isConnected) {
+          hide();
+          return;
+        }
+        computePlacement();
+      };
+      const onDocumentMouseOver = (e) => {
+        if (!target.contains(e.target)) {
+          hide();
         }
       };
-      const onTouchMove = (e) => {
-        if (elements_1$2.$elements.tooltipContainer && elements_1$2.$elements.tooltipContainer.style.display !== "none") {
-          const touch = e.touches[0];
-          elements_1$2.$elements.tooltipContainer.style.top = touch.clientY + "px";
-          elements_1$2.$elements.tooltipContainer.style.left = touch.clientX + "px";
+      const onDocumentTouchStart = (e) => {
+        const el = container2();
+        const path = e.composedPath();
+        if (!path.includes(target) && !(el && path.includes(el))) {
+          hide();
         }
       };
-      const showTitle = (e) => {
+      const bindWhileVisible = () => {
+        window.addEventListener("scroll", onScrollOrResize, true);
+        window.addEventListener("resize", onScrollOrResize);
+        document.addEventListener("mouseover", onDocumentMouseOver, true);
+        document.addEventListener("touchstart", onDocumentTouchStart, true);
+      };
+      const unbindWhileVisible = () => {
+        window.removeEventListener("scroll", onScrollOrResize, true);
+        window.removeEventListener("resize", onScrollOrResize);
+        document.removeEventListener("mouseover", onDocumentMouseOver, true);
+        document.removeEventListener("touchstart", onDocumentTouchStart, true);
+      };
+      const show = () => {
+        const el = container2();
         const dataTitle = target.getAttribute("data-title");
-        if (elements_1$2.$elements.tooltipContainer) {
-          if (dataTitle) {
-            elements_1$2.$elements.tooltipContainer.innerHTML = dataTitle.split("\n").join("<br>") || "";
-            if (e instanceof MouseEvent) {
-              elements_1$2.$elements.tooltipContainer.style.top = e.y + "px";
-              elements_1$2.$elements.tooltipContainer.style.left = e.x + "px";
-            } else if (e instanceof TouchEvent) {
-              const touch = e.touches[0];
-              elements_1$2.$elements.tooltipContainer.style.top = touch.clientY + "px";
-              elements_1$2.$elements.tooltipContainer.style.left = touch.clientX + "px";
-            }
-            elements_1$2.$elements.tooltipContainer.style.display = "block";
-          } else {
-            elements_1$2.$elements.tooltipContainer.style.display = "none";
-          }
+        if (!el || !dataTitle) {
+          hide();
+          return;
         }
-        window.addEventListener("mousemove", onMouseMove);
-        window.addEventListener("touchmove", onTouchMove);
+        el.innerHTML = dataTitle.split("\n").join("<br>") || "";
+        el.__owner = target;
+        computePlacement();
+        void el.offsetWidth;
+        el.classList.add("show");
+        bindWhileVisible();
       };
-      const hideTitle = () => {
-        if (elements_1$2.$elements.tooltipContainer) {
-          elements_1$2.$elements.tooltipContainer.style.display = "none";
+      function hide(owner) {
+        const el = container2();
+        if (!el) {
+          return;
         }
-        window.removeEventListener("mousemove", onMouseMove);
-        window.removeEventListener("touchmove", onTouchMove);
-      };
-      hideTitle();
-      target.addEventListener("mouseenter", showTitle);
-      target.addEventListener("click", showTitle);
-      target.addEventListener("mouseout", hideTitle);
-      target.addEventListener("mouseleave", hideTitle);
-      target.addEventListener("touchstart", showTitle);
-      target.addEventListener("touchend", hideTitle);
-      target.addEventListener("touchcancel", hideTitle);
-      target.addEventListener("blur", hideTitle);
+        if (owner && el.__owner !== owner) {
+          return;
+        }
+        el.classList.remove("show");
+        el.__owner = void 0;
+        clearTimeout(autoHideTimer);
+        unbindWhileVisible();
+      }
+      target.addEventListener("mouseenter", () => {
+        if (Date.now() - lastTouchTime < 500) {
+          return;
+        }
+        clearTimeout(showTimer);
+        showTimer = setTimeout(show, 100);
+      });
+      target.addEventListener("mouseleave", () => {
+        clearTimeout(showTimer);
+        hide(target);
+      });
+      target.addEventListener("click", show);
+      target.addEventListener("blur", () => hide(target));
+      target.addEventListener("touchstart", () => {
+        var _a;
+        lastTouchTime = Date.now();
+        clearTimeout(autoHideTimer);
+        if (isVisible() && ((_a = container2()) === null || _a === void 0 ? void 0 : _a.__owner) === target) {
+          hide(target);
+        } else {
+          show();
+          autoHideTimer = setTimeout(() => hide(target), 3e3);
+        }
+      });
       return target;
     },
     scriptPanel(script2, store2, opts) {
-      var _a, _b;
+      var _a, _b, _c, _d;
       const scriptPanel = (0, dom_1$6.h)("script-panel-element", { name: script2.name });
-      script2.onConfigChange("notes", (pre, curr) => {
-        scriptPanel.notesContainer.innerHTML = script2.cfg.notes || "";
+      const notesExpandedKey = `_notes_expanded_${script2.fullName()}`;
+      scriptPanel.setNotesExpanded(store2.get(notesExpandedKey, true));
+      scriptPanel.notesHeader.addEventListener("click", () => {
+        const expanded = !scriptPanel.isNotesExpanded();
+        scriptPanel.setNotesExpanded(expanded);
+        store2.set(notesExpandedKey, expanded);
       });
+      scriptPanel.notesHeader.title = "点击收缩 / 展开";
+      this.tooltip(scriptPanel.notesHeader);
+      const updateNotesVisibility = (content) => {
+        scriptPanel.notesContainer.style.display = (content === null || content === void 0 ? void 0 : content.trim()) ? "" : "none";
+      };
+      if (!notesListenerBoundScripts.has(script2)) {
+        notesListenerBoundScripts.add(script2);
+        script2.onConfigChange("notes", () => {
+          var _a2;
+          const panel = script2.panel;
+          if (panel) {
+            panel.notesBody.innerHTML = script2.cfg.notes || "";
+            panel.notesContainer.style.display = ((_a2 = script2.cfg.notes) === null || _a2 === void 0 ? void 0 : _a2.trim()) ? "" : "none";
+          }
+        });
+      }
       script2.panel = scriptPanel;
-      scriptPanel.notesContainer.innerHTML = ((_b = (_a = script2.configs) === null || _a === void 0 ? void 0 : _a.notes) === null || _b === void 0 ? void 0 : _b.defaultValue) || "";
+      scriptPanel.notesBody.innerHTML = ((_b = (_a = script2.configs) === null || _a === void 0 ? void 0 : _a.notes) === null || _b === void 0 ? void 0 : _b.defaultValue) || "";
+      updateNotesVisibility((_d = (_c = script2.configs) === null || _c === void 0 ? void 0 : _c.notes) === null || _d === void 0 ? void 0 : _d.defaultValue);
       let configs = /* @__PURE__ */ Object.create({});
       const elList = [];
       for (const key in script2.configs) {
         if (Object.prototype.hasOwnProperty.call(script2.configs, key)) {
           const cfg = script2.configs[key];
           if (cfg.separator) {
-            elList.push(this.configsArea(this.configs(script2.namespace, store2, configs || {}, opts === null || opts === void 0 ? void 0 : opts.onload)));
+            elList.push(this.configsArea(this.configs(script2.namespace, store2, configs || {}, opts === null || opts === void 0 ? void 0 : opts.onload, script2)));
             elList.push((0, dom_1$6.h)("div", { className: "separator", style: { margin: "0px 8px" } }, cfg.separator));
             configs = /* @__PURE__ */ Object.create({});
           }
@@ -4940,7 +1863,7 @@ var __publicField = (obj, key, value) => {
         }
       }
       if (Object.keys(configs).length > 0) {
-        elList.push(this.configsArea(this.configs(script2.namespace, store2, configs || {}, opts === null || opts === void 0 ? void 0 : opts.onload)));
+        elList.push(this.configsArea(this.configs(script2.namespace, store2, configs || {}, opts === null || opts === void 0 ? void 0 : opts.onload, script2)));
       }
       scriptPanel.configsContainer.replaceChildren(...elList);
       return scriptPanel;
@@ -4952,7 +1875,8 @@ var __publicField = (obj, key, value) => {
       configsContainer.append(configsBody);
       return configsContainer;
     },
-    configs(namespace, store2, configs, onload) {
+    configs(namespace, store2, configs, onload, script2) {
+      const resolveSlot = (slot) => typeof slot === "function" ? slot.call(script2, script2 === null || script2 === void 0 ? void 0 : script2.cfg) : slot;
       const elements2 = /* @__PURE__ */ Object.create({});
       for (const key in configs) {
         if (Object.prototype.hasOwnProperty.call(configs, key)) {
@@ -4974,7 +1898,9 @@ var __publicField = (obj, key, value) => {
               elementClassName: config2.elementClassName,
               labelClassName: config2.labelClassName,
               providerClassName: config2.providerClassName,
-              enableForAttribute: config2.enableForAttribute
+              enableForAttribute: config2.enableForAttribute,
+              prefixSlot: resolveSlot(config2.prefixSlot),
+              suffixSlot: resolveSlot(config2.suffixSlot)
             });
             element.store = store2;
             element.label.textContent = config2.label;
@@ -5043,9 +1969,9 @@ var __publicField = (obj, key, value) => {
         }
       });
     },
-    button(text, attrs, handler) {
+    button(text2, attrs, handler) {
       return (0, dom_1$6.h)("input", Object.assign({ type: "button" }, attrs), function(btn) {
-        btn.value = text || "";
+        btn.value = text2 || "";
         btn.classList.add("base-style-button");
         handler === null || handler === void 0 ? void 0 : handler.apply(this, [btn]);
       });
@@ -5125,30 +2051,28 @@ var __publicField = (obj, key, value) => {
       tempKey(...args) {
         return ["_temp_", ...args].join(".");
       }
-      keyOfReturn(id) {
-        return this.tempKey("event", id, "return");
-      }
-      keyOfArguments(id) {
-        return this.tempKey("event", id, "arguments");
-      }
-      keyOfState(id) {
-        return this.tempKey("event", id, "state");
+      keyOfRecord(id) {
+        return this.tempKey("event", id);
       }
       emit(name, args = [], callback) {
         store_12.$store.getTab(const_12.$const.TAB_UID).then((uid) => {
           const id = common_12.$.uuid().replace(/-/g, "");
           const key = uid + "." + this.eventKey(name);
-          store_12.$store.set(this.keyOfState(id), 0);
-          store_12.$store.set(this.keyOfArguments(id), args);
+          const recordKey = this.keyOfRecord(id);
+          store_12.$store.set(recordKey, { state: 0, arguments: args, needReturn: !!callback });
           setTimeout(() => {
-            const listenerId = store_12.$store.addChangeListener(this.keyOfState(id), () => {
-              store_12.$store.removeChangeListener(listenerId);
-              callback === null || callback === void 0 ? void 0 : callback(store_12.$store.get(this.keyOfReturn(id)));
-              store_12.$store.delete(this.keyOfState(id));
-              store_12.$store.delete(this.keyOfReturn(id));
-              store_12.$store.delete(this.keyOfArguments(id));
-            }) || 0;
-            store_12.$store.set(key, (store_12.$store.get(key) ? String(store_12.$store.get(key)).split(",") : []).concat(id).join(","));
+            if (callback) {
+              const listenerId = store_12.$store.addChangeListener(recordKey, (curr) => {
+                if ((curr === null || curr === void 0 ? void 0 : curr.state) !== 1) {
+                  return;
+                }
+                store_12.$store.removeChangeListener(listenerId);
+                callback(curr.return);
+                store_12.$store.delete(recordKey);
+              }) || 0;
+            }
+            const queue = store_12.$store.get(key);
+            store_12.$store.set(key, (queue ? String(queue).split(",") : []).concat(id).join(","));
           }, 100);
         }).catch(console.error);
       }
@@ -5161,16 +2085,23 @@ var __publicField = (obj, key, value) => {
               resolve(originId);
             } else {
               const id = store_12.$store.addChangeListener(key, (curr, pre, remote) => __awaiter2(this, void 0, void 0, function* () {
+                var _a;
                 if (remote) {
                   if (curr === void 0) {
                     return;
                   }
                   const list = String(curr).split(",");
-                  const id2 = list.pop();
-                  if (id2) {
-                    store_12.$store.set(this.keyOfReturn(id2), yield handler(store_12.$store.get(this.keyOfArguments(id2))));
+                  const eventId = list.pop();
+                  if (eventId) {
+                    const recordKey = this.keyOfRecord(eventId);
+                    const record = store_12.$store.get(recordKey);
+                    const returnValue = yield handler((_a = record === null || record === void 0 ? void 0 : record.arguments) !== null && _a !== void 0 ? _a : []);
                     setTimeout(() => {
-                      store_12.$store.set(this.keyOfState(id2), 1);
+                      if (record === null || record === void 0 ? void 0 : record.needReturn) {
+                        store_12.$store.set(recordKey, Object.assign(Object.assign({}, record), { state: 1, return: returnValue }));
+                      } else {
+                        store_12.$store.delete(recordKey);
+                      }
                       store_12.$store.set(key, list.join(","));
                     }, 100);
                   }
@@ -5222,7 +2153,7 @@ var __publicField = (obj, key, value) => {
     if (typeof GM_listValues !== "undefined" && self === top) {
       window.onload = () => {
         store_12.$store.list().forEach((key) => {
-          if (/_temp_.event.[0-9a-z]{32}.(state|return|arguments)/.test(key)) {
+          if (/_temp_.event.[0-9a-z]{32}/.test(key)) {
             store_12.$store.delete(key);
           }
           if (/_top_function_.*/.test(key)) {
@@ -5275,6 +2206,7 @@ var __publicField = (obj, key, value) => {
   Object.defineProperty(script, "__esModule", { value: true });
   script.Script = script.BaseScript = void 0;
   const common_1$3 = common;
+  const start_1$1 = start$1;
   const store_1$1 = store;
   const common_2 = common$1;
   const events_1 = __importDefault$1(events.exports);
@@ -5291,7 +2223,7 @@ var __publicField = (obj, key, value) => {
     set configs(c) {
       this._configs = c;
     }
-    constructor({ name, namespace, matches, excludes, configs, hideInPanel, onstart, onactive, oncomplete, onbeforeunload, onrender, onhistorychange, onhistorychanged, methods, priority }) {
+    constructor({ name, namespace, matches: matches2, excludes, configs, hideInPanel, onstart, onactive, oncomplete, onbeforeunload, onrender, onhistorychange, onhistorychanged, methods, priority }) {
       super();
       this.excludes = [];
       this.cfg = {};
@@ -5299,7 +2231,7 @@ var __publicField = (obj, key, value) => {
       this.event = new events_1.default();
       this.name = name;
       this.namespace = namespace;
-      this.matches = matches;
+      this.matches = matches2;
       this.excludes = excludes;
       this._configs = configs;
       this.hideInPanel = hideInPanel;
@@ -5331,6 +2263,25 @@ var __publicField = (obj, key, value) => {
     }
     fullName() {
       return this.projectName ? `${this.projectName}-${this.name}` : this.name;
+    }
+    withEvents() {
+      return this;
+    }
+    hidePanel() {
+      this.setPanelHidden(true);
+    }
+    showPanel() {
+      this.setPanelHidden(false);
+    }
+    togglePanel() {
+      this.setPanelHidden(!this.hideInPanel);
+    }
+    isPanelHidden() {
+      return !!this.hideInPanel;
+    }
+    setPanelHidden(hidden) {
+      this.hideInPanel = hidden;
+      start_1$1.$win === null || start_1$1.$win === void 0 ? void 0 : start_1$1.$win.refreshPanel();
     }
     errorHandler(func) {
       return (...args) => {
@@ -5377,6 +2328,7 @@ var __publicField = (obj, key, value) => {
     __exportStar(script, exports3);
     __exportStar(store_provider, exports3);
   })(interfaces);
+  var customWindow = {};
   var elements = {};
   var config = {};
   var _interface = {};
@@ -5395,7 +2347,7 @@ var __publicField = (obj, key, value) => {
   _interface.IElement = IElement;
   Object.defineProperty(config, "__esModule", { value: true });
   config.ConfigElement = void 0;
-  const ui_1$1 = ui;
+  const ui_1 = ui;
   const dom_1$5 = dom;
   const interface_1$6 = _interface;
   class ConfigElement extends interface_1$6.IElement {
@@ -5404,7 +2356,18 @@ var __publicField = (obj, key, value) => {
       this.label = (0, dom_1$5.h)("label");
       this.wrapper = (0, dom_1$5.h)("div", { className: "config-wrapper" });
       this.key = "";
+      this.storeListeners = [];
       this.store = store2;
+    }
+    addStoreListener(key, fn) {
+      const id = this.store.addChangeListener(key, fn);
+      this.storeListeners.push({ id, fn });
+    }
+    disconnectedCallback() {
+      for (const { id, fn } of this.storeListeners) {
+        this.store.removeChangeListener(typeof id === "number" ? id : fn);
+      }
+      this.storeListeners = [];
     }
     get value() {
       return this.store.get(this.key, this.defaultValue);
@@ -5420,7 +2383,7 @@ var __publicField = (obj, key, value) => {
           this.provider = (0, dom_1$5.h)("select");
           const value = this.store.get(this.key, this.defaultValue);
           for (const item of this.options || []) {
-            const option = ui_1$1.$ui.tooltip((0, dom_1$5.h)("option"));
+            const option = ui_1.$ui.tooltip((0, dom_1$5.h)("option"));
             if (Array.isArray(item)) {
               option.value = item[0];
               option.textContent = (_a = item[1]) !== null && _a !== void 0 ? _a : item[0];
@@ -5465,9 +2428,9 @@ var __publicField = (obj, key, value) => {
             return t2 === ((_a2 = this.attrs) === null || _a2 === void 0 ? void 0 : _a2.type);
           })) {
             this.provider.checked = this.store.get(this.key, this.defaultValue);
-            const provider = this.provider;
-            provider.onchange = () => {
-              this.store.set(this.key, provider.checked);
+            const provider2 = this.provider;
+            provider2.onchange = () => {
+              this.store.set(this.key, provider2.checked);
             };
           } else {
             this.provider.value = this.store.get(this.key, this.defaultValue);
@@ -5513,7 +2476,20 @@ var __publicField = (obj, key, value) => {
       if (this.elementClassName) {
         this.className = this.elementClassName;
       }
-      this.wrapper.replaceChildren(this.provider);
+      if (this.prefixSlot !== void 0 || this.suffixSlot !== void 0) {
+        const toNode = (slot, className) => typeof slot === "string" ? (0, dom_1$5.h)("span", { className, innerHTML: slot }) : slot;
+        const children = [];
+        if (this.prefixSlot !== void 0) {
+          children.push(toNode(this.prefixSlot, "config-prefix"));
+        }
+        children.push(this.provider);
+        if (this.suffixSlot !== void 0) {
+          children.push(toNode(this.suffixSlot, "config-suffix"));
+        }
+        this.wrapper.replaceChildren((0, dom_1$5.h)("div", { className: "config-provider-container" }, children));
+      } else {
+        this.wrapper.replaceChildren(this.provider);
+      }
       this.append(this.label, this.wrapper);
       for (const key in this.attrs) {
         if (key === "style") {
@@ -5525,11 +2501,11 @@ var __publicField = (obj, key, value) => {
         }
       }
       if (this.sync) {
-        this.store.addChangeListener(this.key, (curr) => {
+        this.addStoreListener(this.key, (curr) => {
           this.provider.value = curr;
         });
       }
-      ui_1$1.$ui.tooltip(this.provider);
+      ui_1.$ui.tooltip(this.provider);
       if (this.showIf) {
         let show_if = false;
         if (Array.isArray(this.showIf)) {
@@ -5551,7 +2527,7 @@ var __publicField = (obj, key, value) => {
           if (typeof this.showIf[1] !== "function") {
             throw new Error("EUS Config.showIf second element must be a function");
           }
-          this.store.addChangeListener(this.showIf[0], (curr, pre) => {
+          this.addStoreListener(this.showIf[0], (curr, pre) => {
             if (this.isConnected) {
               if (this.showIf && Array.isArray(this.showIf)) {
                 const res = this.showIf[1].call(null, curr, pre, this.store);
@@ -5564,7 +2540,7 @@ var __publicField = (obj, key, value) => {
             }
           });
         } else {
-          this.store.addChangeListener(this.showIf, (curr) => {
+          this.addStoreListener(this.showIf, (curr) => {
             if (this.isConnected) {
               const res = Boolean(curr);
               if (res) {
@@ -5584,20 +2560,22 @@ var __publicField = (obj, key, value) => {
   Object.defineProperty(container, "__esModule", { value: true });
   container.ContainerElement = void 0;
   const common_1$2 = common;
-  const ui_1 = ui;
   const dom_1$4 = dom;
   const interface_1$5 = _interface;
   class ContainerElement extends interface_1$5.IElement {
     constructor() {
       super(...arguments);
-      this.header = ui_1.$ui.tooltip((0, dom_1$4.h)("header-element", { title: "菜单栏-可拖动区域" }));
+      this.header = (0, dom_1$4.h)("header-element");
       this.body = (0, dom_1$4.h)("div", { className: "body", clientHeight: window.innerHeight / 2 });
       this.footer = (0, dom_1$4.h)("div", { className: "footer" });
     }
     connectedCallback() {
       this.append(this.header, this.body, this.footer);
+      const stopScrollPropagation = (e) => e.stopPropagation();
+      this.addEventListener("wheel", stopScrollPropagation);
+      this.addEventListener("touchmove", stopScrollPropagation);
       common_1$2.$.onresize(this, (cont) => {
-        cont.body.style.maxHeight = window.innerHeight - this.header.clientHeight - 100 + "px";
+        cont.body.style.maxHeight = window.innerHeight - this.header.clientHeight - 64 + "px";
         cont.body.style.maxWidth = window.innerWidth - 50 + "px";
       });
     }
@@ -5614,6 +2592,7 @@ var __publicField = (obj, key, value) => {
       this.triggerElement = (0, dom_1$3.h)("button");
       this.content = (0, dom_1$3.h)("div", { className: "dropdown-content" });
       this.trigger = "hover";
+      this.hideDelay = 50;
     }
     connectedCallback() {
       this.append(this.triggerElement, this.content);
@@ -5622,23 +2601,48 @@ var __publicField = (obj, key, value) => {
         this.triggerElement.onclick = () => {
           this.content.classList.toggle("show");
         };
+        this.removeDocumentClickHandler();
+        this.documentClickHandler = (e) => {
+          if (this.content.classList.contains("show") && e.composedPath().includes(this) === false) {
+            this.content.classList.remove("show");
+          }
+        };
+        document.addEventListener("click", this.documentClickHandler);
       } else {
-        this.triggerElement.onmouseover = () => {
+        let hideTimer;
+        const show = () => {
+          if (hideTimer !== void 0) {
+            clearTimeout(hideTimer);
+            hideTimer = void 0;
+          }
           this.content.classList.add("show");
         };
-        this.triggerElement.onmouseout = () => {
-          this.content.classList.remove("show");
+        const hide = () => {
+          if (hideTimer !== void 0) {
+            clearTimeout(hideTimer);
+          }
+          hideTimer = setTimeout(() => {
+            this.content.classList.remove("show");
+            hideTimer = void 0;
+          }, this.hideDelay);
         };
-        this.content.onmouseover = () => {
-          this.content.classList.add("show");
-        };
-        this.content.onmouseout = () => {
-          this.content.classList.remove("show");
-        };
+        this.triggerElement.onmouseenter = show;
+        this.triggerElement.onmouseleave = hide;
+        this.content.onmouseenter = show;
+        this.content.onmouseleave = hide;
       }
       this.content.onclick = () => {
         this.content.classList.remove("show");
       };
+    }
+    disconnectedCallback() {
+      this.removeDocumentClickHandler();
+    }
+    removeDocumentClickHandler() {
+      if (this.documentClickHandler) {
+        document.removeEventListener("click", this.documentClickHandler);
+        this.documentClickHandler = void 0;
+      }
     }
   }
   dropdown.DropdownElement = DropdownElement;
@@ -5809,16 +2813,27 @@ var __publicField = (obj, key, value) => {
       super(...arguments);
       this.separator = (0, dom_1.h)("div", { className: "separator" });
       this.notesContainer = (0, dom_1.h)("div", { className: "notes card" });
+      this.notesHeader = (0, dom_1.h)("div", { className: "notes-header" });
+      this.notesBody = (0, dom_1.h)("div", { className: "notes-body" });
       this.configsContainer = (0, dom_1.h)("div", { className: "configs-container card" });
       this.body = (0, dom_1.h)("div", { className: "script-panel-body" });
       this.lockWrapper = (0, dom_1.h)("div", { className: "lock-wrapper" });
     }
     connectedCallback() {
       this.separator.innerText = this.name || "";
+      this.notesHeader.append((0, dom_1.h)("span", { className: "notes-title" }, [(0, dom_1.h)("span", { className: "notes-info-icon" }, "i"), "提示"]), (0, dom_1.h)("span", { className: "notes-collapse-icon" }, "▼"));
+      this.notesContainer.append(this.notesHeader);
+      this.notesContainer.append(this.notesBody);
       this.append(this.separator);
       this.append(this.notesContainer);
       this.append(this.configsContainer);
       this.append(this.body);
+    }
+    setNotesExpanded(expanded) {
+      this.notesContainer.classList.toggle("collapsed", !expanded);
+    }
+    isNotesExpanded() {
+      return !this.notesContainer.classList.contains("collapsed");
     }
   }
   script_panel.ScriptPanelElement = ScriptPanelElement;
@@ -5916,6 +2931,10 @@ var __publicField = (obj, key, value) => {
   class CustomWindow {
     constructor(projects, inputStoreProvider, config2) {
       this.messageContainer = (0, utils_1.h)("div", { className: "message-container" });
+      this.menuBar = utils_1.$ui.tooltip(
+        (0, utils_1.h)("div", { className: "header-menu-bar", title: "菜单栏-可拖动区域", style: { display: "flex", width: "100%" } }),
+        "top"
+      );
       this.extraMenuBar = (0, utils_1.h)("div", { className: "extra-menu-bar" });
       this.defaults = {
         urls: (urls) => urls && urls.length ? urls : [location.href],
@@ -5935,6 +2954,7 @@ var __publicField = (obj, key, value) => {
       this.root.append(this.container);
       const styles = config2.render.styles.map((s) => (0, utils_1.h)("style", s));
       this.container.append(...styles, this.messageContainer);
+      new MutationObserver(() => this.layoutViewportTopMessages()).observe(this.messageContainer, { childList: true });
       const handlePosition = () => {
         const pos = config2.store.getPosition();
         if (pos.x > document.documentElement.clientWidth || pos.x < 0) {
@@ -5948,8 +2968,8 @@ var __publicField = (obj, key, value) => {
         const positionHandler = () => {
           config2.store.setPosition(this.container.offsetLeft, this.container.offsetTop);
         };
-        (0, utils_1.enableElementDraggable)(this.container.header, this.container, positionHandler);
-        (0, utils_1.enableElementTouchDraggable)(this.container.header, this.container, positionHandler);
+        (0, utils_1.enableElementDraggable)(this.menuBar, this.container, positionHandler);
+        (0, utils_1.enableElementTouchDraggable)(this.menuBar, this.container, positionHandler);
       };
       const handleVisible = () => {
         window.addEventListener("click", (e) => {
@@ -5980,13 +3000,19 @@ var __publicField = (obj, key, value) => {
           this.message(type, attrs);
         }));
       };
+      const switchVisual = () => {
+        this.setVisual(config2.store.getVisual() === "hidden" ? "normal" : "hidden");
+      };
       window.addEventListener("keydown", (e) => {
         if (e.ctrlKey && e.key === config2.render.switchKey) {
           e.stopPropagation();
           e.preventDefault();
-          this.setVisual(config2.store.getVisual() === "hidden" ? "normal" : "hidden");
+          switchVisual();
         }
       }, { capture: true });
+      _1.cors.on("switch-visual", () => {
+        switchVisual();
+      });
       handleVisible();
       this.setVisual(config2.store.getVisual());
       (() => __awaiter$1(this, void 0, void 0, function* () {
@@ -6006,7 +3032,14 @@ var __publicField = (obj, key, value) => {
       });
     }
     initHeader(urls, currentPanelName) {
-      const profile = utils_1.$ui.tooltip((0, utils_1.h)("div", { className: "profile", title: "菜单栏（可拖动区域）" }, this.config.render.title || "无标题"));
+      const title = this.config.render.title;
+      const profile = utils_1.$ui.tooltip((0, utils_1.h)("div", { className: "profile", title: "菜单栏（可拖动区域）" }, (el) => {
+        if (title instanceof HTMLElement) {
+          el.append(title);
+        } else {
+          el.innerHTML = title || "无标题";
+        }
+      }));
       const scriptDropdowns = [];
       for (const project2 of this.projects) {
         const dropdown2 = (0, utils_1.h)("dropdown-element");
@@ -6037,7 +3070,6 @@ var __publicField = (obj, key, value) => {
             dropdown2.classList.add("active");
           }
           dropdown2.triggerElement = (0, utils_1.h)("div", { className: "dropdown-trigger-element" }, project2.name);
-          dropdown2.triggerElement.style.padding = "0px 8px";
           dropdown2.content.append(...options);
           scriptDropdowns.push(dropdown2);
         }
@@ -6055,12 +3087,9 @@ var __publicField = (obj, key, value) => {
       }));
       this.container.header.visualSwitcher = visualSwitcher;
       this.container.header.replaceChildren();
+      this.menuBar.replaceChildren(profile, ...scriptDropdowns, this.container.header.visualSwitcher || "");
       this.container.header.append((0, utils_1.h)("div", { style: { width: "100%" } }, [
-        (0, utils_1.h)("div", { style: { display: "flex", width: "100%" } }, [
-          profile,
-          ...scriptDropdowns,
-          this.container.header.visualSwitcher || ""
-        ]),
+        this.menuBar,
         (0, utils_1.h)("div", { style: { display: "flex", width: "100%" } }, [this.extraMenuBar])
       ]));
     }
@@ -6072,7 +3101,7 @@ var __publicField = (obj, key, value) => {
             if (Object.prototype.hasOwnProperty.call(project2.scripts, key)) {
               const script2 = project2.scripts[key];
               if (isCurrentPanel(project2.name, script2, currentPanelName)) {
-                const panel = utils_1.$ui.scriptPanel(script2, this.inputStoreProvider);
+                const panel = utils_1.$ui.scriptPanel(script2, utils_1.$.createPanelStoreAdapter(script2, this.inputStoreProvider));
                 script2.projectName = project2.name;
                 script2.panel = panel;
                 script2.header = this.container.header;
@@ -6108,8 +3137,30 @@ var __publicField = (obj, key, value) => {
     }
     changePanel(currentPanelName) {
       return __awaiter$1(this, void 0, void 0, function* () {
+        this.currentPanelNameCache = currentPanelName;
         const urls = (yield this.config.store.getRenderURLs()) || [location.href];
         yield this.rerender(this.defaults.urls(urls), this.defaults.panelName(currentPanelName));
+      });
+    }
+    getCurrentPanelNameCached() {
+      if (this.currentPanelNamePromise === void 0) {
+        this.currentPanelNamePromise = Promise.resolve(this.config.store.getCurrentPanelName()).then((name) => {
+          this.currentPanelNameCache = name;
+          return name;
+        });
+      }
+      return this.currentPanelNamePromise;
+    }
+    refreshPanel() {
+      return __awaiter$1(this, void 0, void 0, function* () {
+        const urls = this.defaults.urls((yield this.config.store.getRenderURLs()) || [location.href]);
+        let currentPanelName = this.defaults.panelName(yield this.config.store.getCurrentPanelName());
+        const visibleScripts = utils_1.$.getMatchedScripts(this.projects, urls).filter((s) => !s.hideInPanel);
+        const isCurrentVisible = visibleScripts.some((s) => isCurrentPanel(s.projectName, s, currentPanelName));
+        if (!isCurrentVisible && visibleScripts.length > 0) {
+          currentPanelName = visibleScripts[0].fullName();
+        }
+        yield this.rerender(urls, currentPanelName);
       });
     }
     pin(script2) {
@@ -6138,7 +3189,24 @@ var __publicField = (obj, key, value) => {
       }
       const message2 = (0, utils_1.h)("message-element", Object.assign({ type }, attrs));
       this.messageContainer.append(message2);
+      requestAnimationFrame(() => {
+        const rect = message2.getBoundingClientRect();
+        const outOfViewport = rect.left < 0 || rect.top < 0 || rect.right > window.innerWidth || rect.bottom > window.innerHeight;
+        if (outOfViewport) {
+          message2.classList.add("message-viewport-top");
+          this.layoutViewportTopMessages();
+        }
+      });
       return message2;
+    }
+    layoutViewportTopMessages() {
+      let top2 = 12;
+      const gap = 8;
+      const messages = this.messageContainer.querySelectorAll("message-element.message-viewport-top");
+      for (const el of Array.from(messages)) {
+        el.style.top = top2 + "px";
+        top2 += el.offsetHeight + gap;
+      }
     }
     menu(label, config2) {
       return __awaiter$1(this, void 0, void 0, function* () {
@@ -6158,7 +3226,7 @@ var __publicField = (obj, key, value) => {
           btn.classList.add("script-panel-link");
         }
         this.extraMenuBar.append(utils_1.$ui.tooltip(btn));
-        const name = yield utils_1.$store.getTab(utils_1.$const.TAB_CURRENT_PANEL_NAME);
+        const name = yield this.getCurrentPanelNameCached();
         if (config2.scriptPanelLink) {
           if (isCurrentPanel(config2.scriptPanelLink.projectName, config2.scriptPanelLink, name)) {
             this.extraMenuBar.querySelectorAll(".script-panel-link").forEach((el) => el.classList.remove("active"));
@@ -6264,12 +3332,13 @@ var __publicField = (obj, key, value) => {
   };
   Object.defineProperty(start$1, "__esModule", { value: true });
   start$1.addFunctionEventListener = start$1.start = start$1.$win = void 0;
+  const interfaces_1 = interfaces;
   const custom_window_1 = customWindow;
   const common_1 = common;
   const const_1 = _const;
   const elements_1 = elements$1;
   const store_1 = store;
-  const debounce_1 = __importDefault(debounce_1$2);
+  const debounce_1 = __importDefault(debounce_1$1);
   let mounted = false;
   function start(startConfig) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -6404,6 +3473,15 @@ var __publicField = (obj, key, value) => {
         console.warn("the script will not have ui because the renderConfig is not defined.");
         return;
       }
+      if (self !== top && startConfig.renderConfig) {
+        window.addEventListener("keydown", (e) => {
+          if (e.ctrlKey && e.key === "o") {
+            e.stopPropagation();
+            e.preventDefault();
+            interfaces_1.cors.emit("switch-visual", []);
+          }
+        }, { capture: true });
+      }
       if (self === top) {
         const { projects, renderConfig } = startConfig;
         if (typeof renderConfig.renderScript === "undefined") {
@@ -6496,7 +3574,7 @@ var __publicField = (obj, key, value) => {
     const dom_12 = dom;
     const custom_window_12 = customWindow;
     const start_12 = start$1;
-    const interfaces_1 = interfaces;
+    const interfaces_12 = interfaces;
     const createRenderScript = (config2) => new script_1.Script({
       name: (config2 === null || config2 === void 0 ? void 0 : config2.name) || "窗口设置",
       matches: (config2 === null || config2 === void 0 ? void 0 : config2.matches) || [["所有", /.*/]],
@@ -6578,7 +3656,7 @@ var __publicField = (obj, key, value) => {
       if (self === top) {
         return (0, custom_window_12.modal)(type, attrs, parent);
       } else {
-        interfaces_1.cors.emit("modal", [type, attrs], (args) => {
+        interfaces_12.cors.emit("modal", [type, attrs], (args) => {
           var _a, _b, _c;
           if (args) {
             (_a = attrs.onConfirm) === null || _a === void 0 ? void 0 : _a.call(attrs, args);
@@ -6604,7 +3682,7 @@ var __publicField = (obj, key, value) => {
         } else if (typeof attrs.content !== "string") {
           attrs.content = attrs.content.innerHTML;
         }
-        interfaces_1.cors.emit("message", [type, attrs]);
+        interfaces_12.cors.emit("message", [type, attrs]);
       }
     }
     exports3.$message = {
@@ -6653,6 +3731,1193 @@ var __publicField = (obj, key, value) => {
     __exportStar(elements, exports3);
     __exportStar(interfaces, exports3);
   })(lib);
+  const ListOfActions = [
+    "click",
+    "check",
+    "dblclick",
+    "bringToFront",
+    "dragAndDrop",
+    "fill",
+    "focus",
+    "hover",
+    "screenshot",
+    "selectOption",
+    "setInputFiles",
+    "tap",
+    "press",
+    "reload",
+    "waitForRequest",
+    "waitForResponse",
+    "waitForSelector",
+    "keyboard.type",
+    "keyboard.press",
+    "mouse.wheel",
+    "mouse.click",
+    "mouse.dblclick",
+    "mouse.down",
+    "mouse.up",
+    "mouse.move"
+  ];
+  const mouseIdleRequireActions = [
+    "click",
+    "dblclick",
+    "dragAndDrop",
+    "fill",
+    "hover",
+    "tap",
+    "press",
+    "keyboard.type",
+    "keyboard.press",
+    "mouse.wheel",
+    "mouse.click",
+    "mouse.dblclick",
+    "mouse.down",
+    "mouse.up",
+    "mouse.move"
+  ];
+  class RemotePlaywright {
+    static async getRemotePage(show_debug_cursor, logger) {
+      if (this.currentPage) {
+        return this.currentPage;
+      }
+      if (!this.authToken) {
+        try {
+          this.authToken = await request("http://localhost:15319/get-actions-key", {
+            type: "GM_xmlhttpRequest",
+            method: "get",
+            responseType: "text"
+          });
+          this.currentPage = this.createRemotePage(this.authToken, { show_debug_cursor, logger });
+          return this.currentPage;
+        } catch (e) {
+          console.log(e);
+          return void 0;
+        }
+      } else {
+        this.currentPage = this.createRemotePage(this.authToken, { show_debug_cursor, logger });
+        return this.currentPage;
+      }
+    }
+    static createRemotePage(authToken, configs) {
+      const page = /* @__PURE__ */ Object.create({});
+      configs = configs || {};
+      configs.logger = configs.logger || console.debug;
+      for (const property of ListOfActions) {
+        Reflect.set(page, property, async (...args) => {
+          var _a, _b, _c;
+          let data;
+          if (mouseIdleRequireActions.includes(property)) {
+            await waitForMouseIdle();
+          }
+          if (property === "click") {
+            if (args[0] instanceof Element) {
+              const el = args[0];
+              const options = args[1] || {};
+              await scrollToElement(el);
+              await $.sleep(500);
+              const rect = el.getBoundingClientRect();
+              const elFromPoint = (_a = lib.$elements.root) == null ? void 0 : _a.elementFromPoint(
+                rect.left + rect.width / 2,
+                rect.top + rect.height / 2
+              );
+              if (elFromPoint && lib.$elements.root && lib.$elements.root.contains(elFromPoint)) {
+                const panel = lib.$elements.root.querySelector("container-element");
+                if (panel) {
+                  lib.$message.info({ content: "检测到脚本阻挡点击位置，已自动移开", duration: 2 });
+                  await $.transition(panel, "left", 0.1, rect.left + rect.width / 2 + 100 + "px", { reset_ms: 1 });
+                }
+              }
+              if (configs == null ? void 0 : configs.show_debug_cursor) {
+                showMousePointer(el);
+              }
+              data = {
+                page: window.location.href,
+                property: "mouse.click",
+                args: [
+                  rect.left + rect.width / 2,
+                  rect.top + rect.height / 2,
+                  {
+                    button: options.button,
+                    clickCount: options.clickCount,
+                    delay: options.delay
+                  }
+                ]
+              };
+            } else if (typeof args[0] === "string") {
+              const el = document.querySelector(args[0]);
+              if (el) {
+                await scrollToElement(el);
+                if (configs == null ? void 0 : configs.show_debug_cursor) {
+                  showMousePointer(el);
+                }
+              }
+            }
+          }
+          if (!data) {
+            data = { page: window.location.href, property, args };
+          }
+          (_b = configs == null ? void 0 : configs.logger) == null ? void 0 : _b.call(configs, "[RP]: ", JSON.stringify(data));
+          try {
+            const res = await request("/ocs-script-actions", {
+              type: "fetch",
+              method: "post",
+              responseType: ["waitForRequest", "waitForResponse", "reload"].includes(property) ? "json" : "text",
+              headers: {
+                "auth-token": authToken
+              },
+              data
+            });
+            return res;
+          } catch (e) {
+            (_c = configs == null ? void 0 : configs.logger) == null ? void 0 : _c.call(configs, "[RP-ERROR]: ", JSON.stringify(data));
+            return void 0;
+          }
+        });
+      }
+      console.log(page);
+      return page;
+    }
+  }
+  RemotePlaywright.authToken = "";
+  RemotePlaywright.currentPage = void 0;
+  function scrollToElement(el) {
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    return $.sleep(200);
+  }
+  function showMousePointer(el) {
+    setTimeout(() => {
+      const rect = el.getBoundingClientRect();
+      const div = document.createElement("div");
+      div.textContent = "";
+      div.style.position = "fixed";
+      div.style.zIndex = "99999";
+      div.style.width = "20px";
+      div.style.height = "20px";
+      div.style.border = "2px solid red";
+      div.style.borderRadius = "50%";
+      div.style.left = rect.left + rect.width / 2 - 11 + "px";
+      div.style.top = rect.top + rect.height / 2 - 11 + "px";
+      document.body.append(div);
+      setTimeout(() => {
+        div.remove();
+      }, 500);
+    }, 100);
+  }
+  function waitForMouseIdle(timeout = 200) {
+    return new Promise((resolve) => {
+      let timer;
+      const default_timer = setTimeout(() => {
+        window.removeEventListener("mousemove", onMouseMove);
+        resolve();
+      }, timeout);
+      function onMouseMove() {
+        clearTimeout(default_timer);
+        if (timer) {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(() => {
+          window.removeEventListener("mousemove", onMouseMove);
+          resolve();
+        }, timeout);
+      }
+      window.addEventListener("mousemove", onMouseMove);
+    });
+  }
+  function defaultWorkTypeResolver(ctx) {
+    function count2(selector) {
+      let c = 0;
+      for (const option of ctx.elements.options || []) {
+        if ((option == null ? void 0 : option.querySelector(selector)) !== null) {
+          c++;
+        }
+      }
+      return c;
+    }
+    return count2('[type="radio"]') === 2 ? "judgement" : count2('[type="radio"]') > 2 ? "single" : count2('[type="checkbox"]') > 2 ? "multiple" : count2("textarea") >= 1 ? "completion" : void 0;
+  }
+  function isPlainAnswer(answer) {
+    answer = answer.trim();
+    if (answer.length > 8 || !/[A-Z]/.test(answer)) {
+      return false;
+    }
+    const counter = {};
+    let min = 0;
+    for (let i = 0; i < answer.length; i++) {
+      if (answer.charCodeAt(i) < min) {
+        return false;
+      }
+      min = answer.charCodeAt(i);
+      counter[min] = (counter[min] || 0) + 1;
+    }
+    for (const key in counter) {
+      if (counter[key] !== 1) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function resolvePlainAnswer(answer) {
+    const resolve = answer.trim().replace(/[,，.。．、 #]/g, "").trim();
+    if (isPlainAnswer(resolve)) {
+      return resolve;
+    }
+  }
+  function isProgramAnswer(answer) {
+    const code = (answer != null ? answer : "").trim();
+    if (!code)
+      return false;
+    if (!/[;|；]/.test(code))
+      return false;
+    let score = 0;
+    const strong = [
+      /#include\s*[<"]/,
+      /#define\s+\w/,
+      /#!\//,
+      /\b(?:int|void|float|double|char|long|short)\s+main\s*\(/,
+      /\bfunction\s+\w+\s*\(/,
+      /\bdef\s+\w+\s*\(/,
+      /\bpublic\s+(?:class|static|void|int|float|double|String|final)\b/,
+      /\bprivate\s+(?:class|static|void|int|float|double|String|final)\b/,
+      /\bprotected\s+(?:class|static|void|int|float|double|String|final)\b/,
+      /\bprintf\s*\(/,
+      /\bscanf\s*\(/,
+      /\bcout\s*<</,
+      /\bcin\s*>>/,
+      /System\.out\./,
+      /console\.log\s*\(/,
+      /\bpackage\s+[\w.]+\s*;/,
+      /\bimport\s+[\w.*]+\s*;/,
+      /\bclass\s+\w+\s*\{/,
+      /\bstruct\s+\w+\s*\{/
+    ];
+    for (const re2 of strong)
+      if (re2.test(code))
+        score += 2;
+    const medium = [
+      /=>/,
+      /->/,
+      /::/,
+      /\+\+/,
+      /--/,
+      /[+\-*/%]=/,
+      /\bnew\s+\w+\s*\(/,
+      /\bfor\s*\(/,
+      /\bwhile\s*\(/,
+      /\bif\s*\(/,
+      /\bswitch\s*\(/,
+      /\btypedef\s+/,
+      /\b(?:int|float|double|char|void|bool|boolean|long|short|String|auto|const|let|var)\s+\w+/,
+      /\bsizeof\s*\(/,
+      /\bmalloc\s*\(/,
+      /\bfree\s*\(/,
+      /\bcout\b/,
+      /\bcin\b/
+    ];
+    for (const re2 of medium)
+      if (re2.test(code))
+        score += 1;
+    if (/\{/.test(code) && /\}/.test(code))
+      score += 1;
+    if (/;/.test(code))
+      score += 1;
+    return score >= 2;
+  }
+  function splitAnswer(answer, separators = ["===", "#", "---", "###", "|", ";", "；"]) {
+    answer = answer.trim();
+    if (answer.length === 0) {
+      return [];
+    }
+    separators = separators.length === 0 ? ["===", "#", "---", "###", "|", ";", "；"] : separators;
+    separators = separators.filter((el) => el.trim().length > 0);
+    if (isProgramAnswer(answer)) {
+      separators = separators.filter((el) => el !== ";" && el !== "|" && el !== "；");
+    }
+    try {
+      const json = JSON.parse(answer);
+      if (Array.isArray(json)) {
+        return json.map(String).map((el) => el.trim()).filter((el) => el.length > 0);
+      }
+    } catch {
+      for (const sep of separators) {
+        if (answer.split(sep).length > 1) {
+          return answer.split(sep).map((el) => el.trim()).filter((el) => el.length > 0);
+        }
+      }
+    }
+    return [answer];
+  }
+  function resolveSingle(answers, options, separators) {
+    const allAnswer = answers.map((a) => splitAnswer(a, separators)).flat();
+    const optionStrings = options.map(removeRedundant);
+    const normalizedResult = answerNormalizedMatch(allAnswer, optionStrings);
+    if (normalizedResult.length) {
+      const index = optionStrings.findIndex((opt) => opt === normalizedResult[0]);
+      if (index !== -1) {
+        return { finish: true, option: options[index] };
+      }
+    }
+    const ratings = answerSimilar(allAnswer, optionStrings);
+    let bestIndex = -1;
+    let bestRating = 0;
+    ratings.forEach((r, i) => {
+      if (r.rating > bestRating) {
+        bestRating = r.rating;
+        bestIndex = i;
+      }
+    });
+    if (bestIndex !== -1 && bestRating > 0.6) {
+      return {
+        finish: true,
+        option: options[bestIndex],
+        ratings: ratings.map((r) => r.rating)
+      };
+    }
+    for (const answer of allAnswer) {
+      const ans = resolvePlainAnswer(StringUtils.nowrap(answer, "").trim());
+      if (ans && ans.length === 1) {
+        const index = ans.charCodeAt(0) - 65;
+        if (optionStrings[index] !== void 0) {
+          return { finish: true, option: options[index] };
+        }
+      }
+    }
+    if (allAnswer.length > 1) {
+      const merged = allAnswer.join("");
+      const r = resolveSingle([merged], options, separators);
+      if (r.finish) {
+        return r;
+      }
+    }
+    return { finish: false, allAnswer, options: optionStrings };
+  }
+  function resolveMultiple(resultAnswers, options, separators) {
+    const optionStrings = options.map(removeRedundant);
+    const groups = [];
+    for (let i = 0; i < resultAnswers.length; i++) {
+      const answers = splitAnswer(resultAnswers[i].trim(), separators);
+      const normalizedGroup = {
+        options: [],
+        answers: [],
+        ratings: [],
+        similarSum: 0,
+        similarCount: 0
+      };
+      const normalizedOptions = answerNormalizedMatch(answers, optionStrings);
+      for (const opt of normalizedOptions) {
+        const idx = optionStrings.indexOf(opt);
+        if (idx !== -1) {
+          const matchedAns = answers.find((a) => {
+            const na2 = normalizeString(removeRedundant(a));
+            const no2 = normalizeString(removeRedundant(opt));
+            return na2 === no2 || na2.includes(no2);
+          });
+          if (!matchedAns)
+            continue;
+          normalizedGroup.options.push(options[idx]);
+          normalizedGroup.answers.push(matchedAns);
+          const na = normalizeString(removeRedundant(matchedAns));
+          const no = normalizeString(removeRedundant(opt));
+          const rating = na === no ? 1 : 0.8;
+          normalizedGroup.ratings.push(rating);
+          normalizedGroup.similarSum += rating;
+          normalizedGroup.similarCount += 1;
+        }
+      }
+      const normalizedDisambiguated = disambiguateSimilarOptions(normalizedGroup.options, normalizedGroup.ratings);
+      const normalizedKeptIndices = normalizedDisambiguated.map((opt) => normalizedGroup.options.indexOf(opt));
+      normalizedGroup.options = normalizedDisambiguated;
+      normalizedGroup.answers = normalizedKeptIndices.map((idx) => normalizedGroup.answers[idx]);
+      normalizedGroup.ratings = normalizedKeptIndices.map((idx) => normalizedGroup.ratings[idx]);
+      normalizedGroup.similarCount = normalizedGroup.options.length;
+      normalizedGroup.similarSum = normalizedGroup.ratings.reduce((a, b) => a + b, 0);
+      const ratingGroup = { options: [], answers: [], ratings: [], similarSum: 0, similarCount: 0 };
+      const ratings = answerSimilarWithGap(answers, optionStrings);
+      for (let j = 0; j < ratings.length; j++) {
+        if (ratings[j].rating > 0.6) {
+          ratingGroup.options.push(options[j]);
+          ratingGroup.answers.push(ratings[j].target);
+          ratingGroup.ratings.push(ratings[j].rating);
+          ratingGroup.similarSum += ratings[j].rating;
+          ratingGroup.similarCount += 1;
+        }
+      }
+      const disambiguated = disambiguateSimilarOptions(ratingGroup.options, ratingGroup.ratings);
+      const keptIndices = disambiguated.map((opt) => ratingGroup.options.indexOf(opt));
+      ratingGroup.options = disambiguated;
+      ratingGroup.answers = keptIndices.map((idx) => ratingGroup.answers[idx]);
+      ratingGroup.ratings = keptIndices.map((idx) => ratingGroup.ratings[idx]);
+      ratingGroup.similarCount = ratingGroup.options.length;
+      ratingGroup.similarSum = ratingGroup.ratings.reduce((a, b) => a + b, 0);
+      const best = [normalizedGroup, ratingGroup].sort(
+        (a, b) => b.similarCount * 100 + b.similarSum - a.similarCount * 100 - a.similarSum
+      )[0];
+      groups[i] = best;
+    }
+    const sorted = groups.filter((g) => g.similarCount !== 0).sort((a, b) => {
+      const bsc = b.similarCount * 100;
+      const asc = a.similarCount * 100;
+      return bsc + b.similarSum - asc - a.similarSum;
+    });
+    if (sorted[0]) {
+      return { finish: true, options: sorted[0].options, groups: sorted };
+    }
+    const plainOptions = [];
+    for (const answer of resultAnswers) {
+      const ans = StringUtils.nowrap(answer, "").trim();
+      if (resolvePlainAnswer(ans)) {
+        for (const char of ans) {
+          const index = char.charCodeAt(0) - 65;
+          if (options[index] !== void 0) {
+            plainOptions.push(options[index]);
+          }
+        }
+      }
+    }
+    if (plainOptions.length) {
+      return { finish: true, plainOptions: [...new Set(plainOptions)] };
+    }
+    return { finish: false };
+  }
+  function disambiguateSimilarOptions(options, ratings, threshold = 0.6) {
+    if (options.length <= 1)
+      return options;
+    const normalized = options.map((o) => normalizeString(removeRedundant(o)));
+    const eliminated = /* @__PURE__ */ new Set();
+    for (let i = 0; i < options.length; i++) {
+      if (eliminated.has(i))
+        continue;
+      for (let j = i + 1; j < options.length; j++) {
+        if (eliminated.has(j))
+          continue;
+        const pairwise = src.findBestMatch(normalized[i], [normalized[j]]).bestMatch.rating;
+        if (pairwise > threshold) {
+          if (ratings[i] >= ratings[j]) {
+            eliminated.add(j);
+          } else {
+            eliminated.add(i);
+            break;
+          }
+        }
+      }
+    }
+    return options.filter((_, i) => !eliminated.has(i));
+  }
+  const CORRECT_WORDS = ["是", "对", "正确", "确定", "√", "对的", "是的", "正确的", "true", "True", "T", "yes", "1"];
+  const INCORRECT_WORDS = [
+    "非",
+    "否",
+    "错",
+    "错误",
+    "×",
+    "X",
+    "错的",
+    "不对",
+    "不正确的",
+    "不正确",
+    "不是",
+    "不是的",
+    "false",
+    "False",
+    "F",
+    "no",
+    "0"
+  ];
+  function resolveJudgement(answerGroups, options) {
+    for (const answers of answerGroups) {
+      const answerShowCorrect = answers.find((a) => matches(a, CORRECT_WORDS));
+      const answerShowIncorrect = answers.find((a) => matches(a, INCORRECT_WORDS));
+      if (answerShowCorrect || answerShowIncorrect) {
+        for (const option of options) {
+          const textShowCorrect = matches(option, CORRECT_WORDS);
+          const textShowIncorrect = matches(option, INCORRECT_WORDS);
+          if (answerShowCorrect && textShowCorrect) {
+            return { finish: true, option };
+          }
+          if (answerShowIncorrect && textShowIncorrect) {
+            return { finish: true, option };
+          }
+        }
+        return { finish: false };
+      }
+    }
+    return { finish: false };
+  }
+  function matches(target, words) {
+    return words.some(
+      (word) => clearString(removeRedundant(word), "√", "×") === clearString(removeRedundant(target), "√", "×")
+    );
+  }
+  function isJudgementOptions(options) {
+    if (options.length !== 2)
+      return false;
+    const hasCorrect = options.some((opt) => matches(opt, CORRECT_WORDS));
+    const hasIncorrect = options.some((opt) => matches(opt, INCORRECT_WORDS));
+    return hasCorrect && hasIncorrect;
+  }
+  function resolveCompletion(answerGroups, blankCount, separators) {
+    for (const answers of answerGroups) {
+      let ans = answers.filter((a) => a);
+      if (ans.length === 1) {
+        ans = splitAnswer(ans[0], separators);
+      }
+      if (ans.length !== 0 && (ans.length === blankCount || blankCount === 1)) {
+        if (ans.length === blankCount) {
+          return { finish: true, answers: ans };
+        } else if (blankCount === 1) {
+          return { finish: true, answers: [ans.join(" ")] };
+        }
+      }
+    }
+    return { finish: false };
+  }
+  function createDefaultQuestionResolver(ctx, optionText) {
+    const toText = (o, i) => optionText ? optionText(o, i) : o.innerText;
+    return {
+      async single(infos, options, handler) {
+        const optionTexts = options.map((o, i) => toText(o, i));
+        if (isJudgementOptions(optionTexts.map((o) => o.trim()))) {
+          const answerGroups = infos.map((info) => info.results.map((res) => res.answer));
+          const result2 = resolveJudgement(answerGroups, optionTexts);
+          if (result2.finish && result2.option !== void 0) {
+            const index = optionTexts.indexOf(result2.option);
+            const opt = index !== -1 ? options[index] : options[0];
+            await handler("judgement", result2.option, opt, ctx);
+          }
+          return result2;
+        }
+        const answers = infos.map((info) => info.results.map((res) => res.answer)).flat();
+        const result = resolveSingle(answers, optionTexts, ctx.answerSeparators);
+        if (result.finish && result.option !== void 0) {
+          const index = optionTexts.indexOf(result.option);
+          const opt = index !== -1 ? options[index] : options[0];
+          await handler("single", result.option, opt, ctx);
+        }
+        return result;
+      },
+      async multiple(infos, options, handler) {
+        var _a;
+        const resultAnswers = infos.map((info) => info.results.map((res) => res.answer)).flat();
+        const optionTexts = options.map((o, i) => toText(o, i));
+        const result = resolveMultiple(resultAnswers, optionTexts, ctx.answerSeparators);
+        const resolvedOptions = result.finish ? (_a = result.options) != null ? _a : result.plainOptions : void 0;
+        if (result.finish && resolvedOptions) {
+          for (const optText of resolvedOptions) {
+            const index = optionTexts.indexOf(optText);
+            const opt = index !== -1 ? options[index] : options[0];
+            await handler("multiple", optText, opt, ctx);
+          }
+        }
+        return result;
+      },
+      async judgement(infos, options, handler) {
+        const answerGroups = infos.map((info) => info.results.map((res) => res.answer));
+        const optionTexts = options.map((o, i) => toText(o, i));
+        const result = resolveJudgement(answerGroups, optionTexts);
+        if (result.finish && result.option !== void 0) {
+          const index = optionTexts.indexOf(result.option);
+          const opt = index !== -1 ? options[index] : options[0];
+          await handler("judgement", result.option, opt, ctx);
+        }
+        return result;
+      },
+      async completion(infos, options, handler) {
+        const answerGroups = infos.map((info) => info.results.map((res) => res.answer));
+        const result = resolveCompletion(answerGroups, options.length, ctx.answerSeparators);
+        if (result.finish && result.answers) {
+          for (let i = 0; i < result.answers.length; i++) {
+            await handler("completion", result.answers[i], options[i], ctx);
+          }
+        }
+        return result;
+      }
+    };
+  }
+  const AnswerWrapperHandlerConfig = {
+    timeout_seconds: 60
+  };
+  async function defaultAnswerWrapperHandler(answererWrappers, env) {
+    const searchInfos = [];
+    const temp = JSON.parse(JSON.stringify(answererWrappers));
+    if (temp.length === 0) {
+      throw new Error("题库配置不能为空，请配置后重新开始自动答题。");
+    }
+    if (env.title === void 0)
+      env.title = "";
+    if (env.options === void 0)
+      env.options = "";
+    if (env.type === void 0)
+      env.type = "unknown";
+    if (env.images === void 0)
+      env.images = [];
+    if (env.suggestion_title === void 0)
+      env.suggestion_title = "";
+    if (env.suggestion_options === void 0)
+      env.suggestion_options = "";
+    await Promise.all(
+      temp.map(async (wrapper) => {
+        var _a;
+        const {
+          name = "未知题库",
+          homepage = "#",
+          method = "get",
+          type = "fetch",
+          contentType = "json",
+          responseType = "json",
+          headers = {},
+          data: wrapperData = {},
+          handler = "return (res)=> [JSON.stringify(res), undefined]"
+        } = wrapper;
+        if (method.toLocaleLowerCase() === "post") {
+          if (!Object.keys(headers).some((k) => k.toLowerCase() === "content-type")) {
+            headers["Content-Type"] = "application/json";
+          }
+        }
+        try {
+          let results = [];
+          let requestData;
+          let url;
+          if (method.toLocaleLowerCase() === "get") {
+            url = new URL(resolvePlaceHolder(wrapper.url, { encodeURI: true }));
+            Object.keys(wrapperData).forEach((key) => {
+              url.searchParams.set(key, resolvePlaceHolder(wrapperData[key]));
+            });
+            requestData = {};
+          } else if (method.toLocaleLowerCase() === "post") {
+            url = new URL(wrapper.url);
+            const data = /* @__PURE__ */ Object.create({});
+            Object.keys(wrapperData).forEach((key) => {
+              if (typeof wrapperData[key] === "object" && Reflect.has(wrapperData[key], "handler")) {
+                const handler2 = Function(Reflect.get(wrapperData[key], "handler"))();
+                if (typeof handler2 !== "function") {
+                  throw new Error("data 字段解析器必须返回一个函数");
+                }
+                const result = handler2(env);
+                Reflect.set(data, key, result);
+              } else {
+                Reflect.set(data, key, resolvePlaceHolder(wrapperData[key]));
+              }
+            });
+            requestData = data;
+          } else {
+            throw new Error("不支持的请求方式");
+          }
+          const responseData = await Promise.race([
+            request(url.toString(), {
+              method,
+              responseType: responseType || contentType,
+              data: requestData,
+              type,
+              headers: JSON.parse(JSON.stringify(headers || {}))
+            }),
+            $.sleep(((_a = AnswerWrapperHandlerConfig.timeout_seconds) != null ? _a : 60) * 1e3)
+          ]);
+          if (responseData === void 0) {
+            throw new Error("题库请求超时，可能是题库问题，或者请检查网络或者重试。");
+          }
+          const responseHandler = Function(handler)();
+          if (typeof responseHandler !== "function") {
+            throw new Error("handler 响应处理器必须返回一个函数");
+          }
+          const info = responseHandler(responseData);
+          if (info && Array.isArray(info)) {
+            if (info.every((item) => Array.isArray(item))) {
+              results = results.concat(
+                info.map((item) => ({
+                  question: item[0],
+                  answer: item[1],
+                  extra_data: item[2] || {}
+                }))
+              );
+            } else {
+              results.push({
+                question: info[0],
+                answer: info[1],
+                extra_data: info[2] || {}
+              });
+            }
+          }
+          searchInfos.push({
+            url: wrapper.url,
+            name,
+            homepage,
+            results,
+            response: responseData,
+            data: requestData
+          });
+        } catch (error) {
+          console.error(error);
+          searchInfos.push({
+            url: wrapper.url,
+            name,
+            homepage,
+            results: [],
+            response: void 0,
+            data: void 0,
+            error: (error == null ? void 0 : error.message) || "题库连接失败"
+          });
+        }
+      })
+    );
+    function resolvePlaceHolder(data, options) {
+      if (typeof data === "string") {
+        const matches2 = data.match(/\${(.*?)}/g) || [];
+        matches2.forEach((placeHolder) => {
+          const value = env[placeHolder.replace(/\${(.*)}/, "$1")];
+          data = data.replace(placeHolder, (options == null ? void 0 : options.encodeURI) ? encodeURIComponent(value) : value);
+        });
+      } else if (typeof data === "object") {
+        const keys = Object.keys(data);
+        for (const key of keys) {
+          data[key] = resolvePlaceHolder(data[key], options);
+        }
+      }
+      return data;
+    }
+    return searchInfos;
+  }
+  class AnswerWrapperParser {
+    static fromObject(json) {
+      const aw = json;
+      if (aw && Array.isArray(aw)) {
+        if (aw.length) {
+          for (let i = 0; i < aw.length; i++) {
+            const item = aw[i];
+            if (typeof item.name !== "string") {
+              throw new Error(`第 ${i + 1} 个题库的 名字(name) 为空`);
+            }
+            if (typeof item.url !== "string") {
+              throw new Error(`第 ${i + 1} 个题库的 接口地址(url) 为空`);
+            }
+            if (typeof item.handler !== "string") {
+              throw new Error(`第 ${i + 1} 个题库的 解析器(handler) 为空`);
+            }
+            if (item.headers && typeof item.headers !== "object") {
+              throw new Error(`第 ${i + 1} 个题库的 头部信息(header) 应为 对象 格式`);
+            }
+            if (item.data && typeof item.data !== "object") {
+              throw new Error(`第 ${i + 1} 个题库的 提交数据(data) 应为 对象 格式`);
+            }
+            const contentTypes = ["json", "text"];
+            if (item.contentType && contentTypes.every((i2) => i2 !== item.contentType)) {
+              throw new Error(`第 ${i + 1} 个题库的 contentType 必须为以下选项中的一个  ${contentTypes.join(", ")}`);
+            }
+            const methods = ["post", "get"];
+            if (item.method && methods.every((i2) => i2 !== item.method)) {
+              throw new Error(`第 ${i + 1} 个题库的 method 必须为以下选项中的一个  ${methods.join(", ")}`);
+            }
+            const types = ["fetch", "GM_xmlhttpRequest"];
+            if (item.type && types.every((i2) => i2 !== item.type)) {
+              throw new Error(`第 ${i + 1} 个题库的 type 必须为以下选项中的一个  ${types.join(", ")}`);
+            }
+          }
+          return aw;
+        } else {
+          throw new Error("题库为空！");
+        }
+      } else {
+        throw new Error("题库配置格式错误！");
+      }
+    }
+    static fromJSONString(json) {
+      const raw = json.toString();
+      try {
+        return JSON.parse(raw);
+      } catch {
+        throw new Error(`格式错误，必须为：json字符串`);
+      }
+    }
+    static fromBase64(base64) {
+      return this.fromJSONString(Buffer.from(base64, "base64").toString("utf8"));
+    }
+    static from(value) {
+      if (typeof value === "string") {
+        if (/^\s*https?:\/\//.test(value)) {
+          throw new Error("已不支持从链接加载题库配置，请直接粘贴题库配置内容，或使用「一键获取题库」功能。");
+        }
+        return this.fromJSONString(value);
+      } else {
+        return this.fromObject(value);
+      }
+    }
+  }
+  class OCSWorker extends lib.CommonEventEmitter {
+    constructor(opts) {
+      super();
+      this.isRunning = false;
+      this.isClose = false;
+      this.isStop = false;
+      this.totalQuestionCount = 0;
+      this.opts = opts;
+    }
+    startRootObserver() {
+      var _a, _b;
+      const cfg = this.opts.rootObserver;
+      if (!(cfg == null ? void 0 : cfg.enabled) || this.rootObserverTimer !== void 0) {
+        return;
+      }
+      const interval = (_a = cfg.checkIntervalMs) != null ? _a : 1e3;
+      const lostTimeout = (_b = cfg.lostTimeoutMs) != null ? _b : 1e3;
+      this.rootObserverTimer = setInterval(() => {
+        var _a2, _b2;
+        if (this.isClose) {
+          this.stopRootObserver();
+          return;
+        }
+        const alive = typeof this.opts.root === "string" ? !!document.querySelector(this.opts.root) : this.opts.root.some((el) => el.isConnected);
+        if (alive) {
+          this.rootLostSince = void 0;
+          return;
+        }
+        (_a2 = this.rootLostSince) != null ? _a2 : this.rootLostSince = Date.now();
+        if (Date.now() - this.rootLostSince >= lostTimeout) {
+          this.stopRootObserver();
+          (_b2 = cfg.onRootLost) == null ? void 0 : _b2.call(cfg);
+          if (!this.isClose) {
+            lib.$message.warn({
+              content: "⚠️ 题目元素已从页面消失（页面可能已跳转或刷新），答题程序已自动关闭。",
+              duration: 0
+            });
+          }
+          this.emit("close");
+        }
+      }, interval);
+    }
+    stopRootObserver() {
+      if (this.rootObserverTimer !== void 0) {
+        clearInterval(this.rootObserverTimer);
+        this.rootObserverTimer = void 0;
+      }
+      this.rootLostSince = void 0;
+    }
+    async doWork(options) {
+      var _a, _b, _c, _d, _e, _f, _g, _h;
+      this.emit("start");
+      this.isRunning = true;
+      this.once("close", () => {
+        this.isClose = true;
+        this.stopRootObserver();
+      });
+      this.startRootObserver();
+      this.on("stop", () => {
+        this.isStop = true;
+      });
+      this.on("continuate", () => {
+        this.isStop = false;
+      });
+      const questionRoots = typeof this.opts.root === "string" ? Array.from(document.querySelectorAll(this.opts.root)) : this.opts.root;
+      this.totalQuestionCount += questionRoots.length;
+      if (options == null ? void 0 : options.enable_debug) {
+        console.debug("开始答题", this);
+        console.debug("题目数量: ", questionRoots.length);
+        console.debug("父节点列表: ", questionRoots);
+      }
+      const results = [];
+      if (questionRoots.length === 0) {
+        throw new Error("未找到任何题目，答题结束。");
+      }
+      for (const questionRoot of questionRoots) {
+        const ctx = {
+          searchInfos: [],
+          root: questionRoot,
+          elements: domSearchAll(this.opts.elements, questionRoot),
+          type: void 0,
+          answerSeparators: this.opts.answerSeparators
+        };
+        await ((_b = (_a = this.opts).onElementSearched) == null ? void 0 : _b.call(_a, ctx.elements, questionRoot));
+        ctx.elements.title = (_c = ctx.elements.title) == null ? void 0 : _c.filter(Boolean);
+        ctx.elements.options = (_d = ctx.elements.options) == null ? void 0 : _d.filter(Boolean);
+        if (typeof this.opts.work === "object") {
+          ctx.type = this.opts.work.type === void 0 ? defaultWorkTypeResolver(ctx) : typeof this.opts.work.type === "string" ? this.opts.work.type : this.opts.work.type(ctx);
+        }
+        results.push({
+          requested: false,
+          resolved: false,
+          ctx
+        });
+        await ((_f = (_e = this.opts).onQuestionDetected) == null ? void 0 : _f.call(_e, results[results.length - 1], results));
+      }
+      if (options == null ? void 0 : options.enable_debug) {
+        console.debug("上下文已初始化: ", results);
+      }
+      if (results.length > 0) {
+        await ((_h = (_g = this.opts).onResultsInit) == null ? void 0 : _h.call(_g, results[0], 0, results));
+      }
+      const requestThread = async (index) => {
+        var _a2, _b2, _c2, _d2, _e2;
+        let error;
+        const result = results[index];
+        const ctx = result.ctx || {};
+        if (this.isClose === true) {
+          this.isRunning = false;
+          return;
+        }
+        try {
+          if (this.isStop) {
+            await waitForContinuate(() => this.isStop);
+          }
+          result.searching = true;
+          await ((_b2 = (_a2 = this.opts).onResultsUpdate) == null ? void 0 : _b2.call(_a2, result, index, results));
+          ctx.searchInfos = [];
+          if (options == null ? void 0 : options.enable_debug) {
+            console.groupEnd();
+            console.group(
+              "开始搜题: ",
+              (_c2 = ctx.elements.title) == null ? void 0 : _c2.map((t2) => t2 == null ? void 0 : t2.innerText).filter(Boolean).join(", ").slice(0, 20)
+            );
+            console.log("ctx", result.ctx);
+          }
+          ctx.searchInfos = await this.opts.answerer(ctx.elements, ctx) || [];
+          ctx.searchInfos.forEach((info) => {
+            info.results = info.results.map((ans) => {
+              ans.answer = ans.answer ? ans.answer.trim() : "";
+              return ans;
+            });
+          });
+        } catch (err) {
+          console.error("【ERROR】", err);
+          error = String(err);
+        }
+        result.ctx = ctx;
+        result.searching = false;
+        result.requested = true;
+        result.error = error;
+        if (options == null ? void 0 : options.enable_debug) {
+          console.log("搜题结果: ", ctx.searchInfos);
+        }
+        await ((_e2 = (_d2 = this.opts).onResultsUpdate) == null ? void 0 : _e2.call(_d2, results[index], index, results));
+      };
+      const waitForRequested = async (result) => {
+        return new Promise((resolve, reject) => {
+          const interval = setInterval(() => {
+            if ((result == null ? void 0 : result.requested) === true) {
+              clearInterval(interval);
+              clearTimeout(timeout);
+              resolve();
+            }
+          }, 200);
+          const timeout = setTimeout(() => {
+            clearInterval(interval);
+            reject(new Error("答题超时！"));
+          }, (AnswerWrapperHandlerConfig.timeout_seconds + 10) * 1e3);
+        });
+      };
+      const resolverThread = async () => {
+        var _a2, _b2, _c2, _d2;
+        for (let index = 0; index < results.length; index++) {
+          const result = results[index];
+          let error;
+          let res;
+          if (this.isClose === true) {
+            this.isRunning = false;
+            return;
+          }
+          try {
+            if (this.isStop) {
+              await waitForContinuate(() => this.isStop);
+            }
+            await waitForRequested(result);
+          } catch (err) {
+          }
+          try {
+            if (result.ctx && result.ctx.searchInfos.length !== 0) {
+              if (typeof this.opts.work === "object") {
+                if (result.ctx.elements.options) {
+                  if (result.ctx.type) {
+                    const resolver = createDefaultQuestionResolver(
+                      result.ctx,
+                      this.opts.work.optionText
+                    )[result.ctx.type];
+                    const handler = this.opts.work.handler;
+                    res = await resolver(result.ctx.searchInfos, result.ctx.elements.options, handler);
+                  } else {
+                    error = "题目类型解析失败, 请自行提供解析器, 或者忽略此题。";
+                  }
+                } else {
+                  error = "elements.options 为空 ! 使用默认处理器, 必须提供题目选项的选择器。";
+                }
+              } else {
+                const work2 = this.opts.work;
+                res = await work2(result.ctx);
+              }
+            } else {
+              error = result.error || "搜索不到答案, 请重新运行, 或者忽略此题。";
+            }
+          } catch (err) {
+            error = (err == null ? void 0 : err.message) || err;
+          }
+          result.error = error;
+          result.result = res || { finish: false };
+          result.resolved = true;
+          if (options == null ? void 0 : options.enable_debug) {
+            console.log(
+              "答题完成: ",
+              (_b2 = (_a2 = result.ctx) == null ? void 0 : _a2.elements.title) == null ? void 0 : _b2.map((t2) => t2 == null ? void 0 : t2.innerText).join(", ").slice(0, 20),
+              result
+            );
+          }
+          await ((_d2 = (_c2 = this.opts).onResultsUpdate) == null ? void 0 : _d2.call(_c2, result, index, results));
+        }
+      };
+      const requestThreadHandler = async () => {
+        const locks = [];
+        const waitForLock = () => {
+          return new Promise((resolve, reject) => {
+            const interval = setInterval(() => {
+              if (locks.length > 0) {
+                const lock = locks.shift();
+                if (lock) {
+                  resolve(lock);
+                  clearInterval(interval);
+                  clearTimeout(timeout);
+                }
+              }
+            }, 100);
+            const timeout = setTimeout(() => {
+              clearInterval(interval);
+              reject(new Error("获取线程锁超时！"));
+            }, 3 * 60 * 1e3);
+          });
+        };
+        const requestThreads = [];
+        for (let index = 0; index < results.length; index++) {
+          requestThreads.push(() => requestThread(index));
+        }
+        for (let index = 0; index < (this.opts.thread || 1); index++) {
+          locks.push(index + 1);
+        }
+        let requestFinished = 0;
+        const promises = [];
+        for (let index = 0; index < (this.opts.thread || 1); index++) {
+          promises.push(async () => {
+            try {
+              while (requestFinished < results.length && requestThreads.length > 0 && this.isClose === false) {
+                const thread = requestThreads.shift();
+                if (thread) {
+                  const lock = await waitForLock();
+                  await thread();
+                  requestFinished++;
+                  locks.push(lock);
+                }
+              }
+            } catch (err) {
+              console.error(err);
+            }
+          });
+        }
+        await Promise.all(promises.map((f) => f()));
+      };
+      await Promise.all([resolverThread(), requestThreadHandler()]);
+      this.isRunning = false;
+      return results;
+    }
+    uploadHandler(options) {
+      var _a;
+      const { results, type, callback } = options;
+      if (type !== "nomove") {
+        let finished = 0;
+        for (const result of results) {
+          if ((_a = result.result) == null ? void 0 : _a.finish) {
+            finished++;
+          }
+        }
+        const rate = results.length === 0 ? 0 : finished / results.length * 100;
+        if (type === "force") {
+          return callback(rate, true);
+        } else {
+          return callback(rate, type === "save" ? false : rate >= parseFloat(type.toString()));
+        }
+      }
+    }
+  }
+  class CustomOCSWorker extends lib.CommonEventEmitter {
+    constructor(opts) {
+      super();
+      this.isRunning = false;
+      this.isClose = false;
+      this.isStop = false;
+      this.opts = opts;
+    }
+    async doWork(options) {
+      var _a, _b, _c, _d, _e, _f, _g, _h;
+      this.emit("start");
+      this.isRunning = true;
+      this.once("close", () => {
+        this.isClose = true;
+      });
+      this.on("stop", () => {
+        this.isStop = true;
+      });
+      this.on("continuate", () => {
+        this.isStop = false;
+      });
+      const questions = await ((_b = (_a = this.opts).questions) == null ? void 0 : _b.call(_a));
+      if (options == null ? void 0 : options.enable_debug) {
+        console.debug("开始答题", this);
+        console.debug("题目数量: ", this.opts.questions.length);
+      }
+      const results = [];
+      for (let index = 0; index < questions.length; index++) {
+        if (this.isClose === true) {
+          this.isRunning = false;
+          return;
+        }
+        if (this.isStop) {
+          await waitForContinuate(() => this.isStop);
+        }
+        const question = questions[index];
+        results[index] = {
+          question: question.text,
+          requested: false,
+          resolved: false,
+          searchInfos: [],
+          type: question.type,
+          finish: false,
+          error: ""
+        };
+        try {
+          const infos = await this.opts.answerer(question.text);
+          results[index].searchInfos = infos.map((i) => ({
+            name: i.name,
+            homepage: i.homepage,
+            results: i.results.map((r) => [r.question, r.answer, r.extra_data || {}]),
+            error: i.error
+          }));
+          results[index].requested = true;
+          (_d = (_c = this.opts).onResultsUpdate) == null ? void 0 : _d.call(_c, results[index], index, results);
+          try {
+            const resolved = await this.opts.resolver(infos);
+            results[index].finish = resolved.finish;
+            results[index].error = resolved.error;
+            results[index].resolved = true;
+          } catch (err) {
+            results[index].finish = false;
+            results[index].error = err instanceof Error ? err.message : String(err);
+            results[index].resolved = true;
+          }
+          (_f = (_e = this.opts).onResultsUpdate) == null ? void 0 : _f.call(_e, results[index], index, results);
+        } catch (err) {
+          results[index].requested = true;
+          results[index].resolved = false;
+          results[index].finish = true;
+          results[index].error = err instanceof Error ? err.message : String(err);
+          (_h = (_g = this.opts).onResultsUpdate) == null ? void 0 : _h.call(_g, results[index], index, results);
+        }
+        await lib.$.sleep(this.opts.period);
+      }
+    }
+  }
+  async function waitForContinuate(isStopping) {
+    if (isStopping()) {
+      await new Promise((resolve, reject) => {
+        const interval = setInterval(() => {
+          if (isStopping() === false) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 200);
+      });
+    }
+  }
   function getDefaults() {
     return {
       async: false,
@@ -6693,21 +4958,21 @@ var __publicField = (obj, key, value) => {
     "'": "&#39;"
   };
   const getEscapeReplacement = (ch) => escapeReplacements[ch];
-  function escape$1(html, encode) {
+  function escape(html2, encode) {
     if (encode) {
-      if (escapeTest.test(html)) {
-        return html.replace(escapeReplace, getEscapeReplacement);
+      if (escapeTest.test(html2)) {
+        return html2.replace(escapeReplace, getEscapeReplacement);
       }
     } else {
-      if (escapeTestNoEncode.test(html)) {
-        return html.replace(escapeReplaceNoEncode, getEscapeReplacement);
+      if (escapeTestNoEncode.test(html2)) {
+        return html2.replace(escapeReplaceNoEncode, getEscapeReplacement);
       }
     }
-    return html;
+    return html2;
   }
   const unescapeTest = /&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/ig;
-  function unescape$1(html) {
-    return html.replace(unescapeTest, (_, n) => {
+  function unescape(html2) {
+    return html2.replace(unescapeTest, (_, n) => {
       n = n.toLowerCase();
       if (n === "colon")
         return ":";
@@ -6740,7 +5005,7 @@ var __publicField = (obj, key, value) => {
     if (sanitize) {
       let prot;
       try {
-        prot = decodeURIComponent(unescape$1(href)).replace(nonWordAndColonTest, "").toLowerCase();
+        prot = decodeURIComponent(unescape(href)).replace(nonWordAndColonTest, "").toLowerCase();
       } catch (e) {
         return null;
       }
@@ -6788,7 +5053,7 @@ var __publicField = (obj, key, value) => {
   }
   const noopTest = { exec: function noopTest2() {
   } };
-  function splitCells(tableRow, count) {
+  function splitCells(tableRow, count2) {
     const row = tableRow.replace(/\|/g, (match, offset, str) => {
       let escaped = false, curr = offset;
       while (--curr >= 0 && str[curr] === "\\")
@@ -6806,10 +5071,10 @@ var __publicField = (obj, key, value) => {
     if (cells.length > 0 && !cells[cells.length - 1].trim()) {
       cells.pop();
     }
-    if (cells.length > count) {
-      cells.splice(count);
+    if (cells.length > count2) {
+      cells.splice(count2);
     } else {
-      while (cells.length < count)
+      while (cells.length < count2)
         cells.push("");
     }
     for (; i < cells.length; i++) {
@@ -6860,24 +5125,24 @@ var __publicField = (obj, key, value) => {
       console.warn("marked(): sanitize and sanitizer parameters are deprecated since version 0.7.0, should not be used and will be removed in the future. Read more here: https://marked.js.org/#/USING_ADVANCED.md#options");
     }
   }
-  function repeatString(pattern, count) {
-    if (count < 1) {
+  function repeatString(pattern, count2) {
+    if (count2 < 1) {
       return "";
     }
     let result = "";
-    while (count > 1) {
-      if (count & 1) {
+    while (count2 > 1) {
+      if (count2 & 1) {
         result += pattern;
       }
-      count >>= 1;
+      count2 >>= 1;
       pattern += pattern;
     }
     return result + pattern;
   }
   function outputLink(cap, link, raw, lexer) {
     const href = link.href;
-    const title = link.title ? escape$1(link.title) : null;
-    const text = cap[1].replace(/\\([\[\]])/g, "$1");
+    const title = link.title ? escape(link.title) : null;
+    const text2 = cap[1].replace(/\\([\[\]])/g, "$1");
     if (cap[0].charAt(0) !== "!") {
       lexer.state.inLink = true;
       const token = {
@@ -6885,8 +5150,8 @@ var __publicField = (obj, key, value) => {
         raw,
         href,
         title,
-        text,
-        tokens: lexer.inlineTokens(text)
+        text: text2,
+        tokens: lexer.inlineTokens(text2)
       };
       lexer.state.inLink = false;
       return token;
@@ -6896,16 +5161,16 @@ var __publicField = (obj, key, value) => {
       raw,
       href,
       title,
-      text: escape$1(text)
+      text: escape(text2)
     };
   }
-  function indentCodeCompensation(raw, text) {
+  function indentCodeCompensation(raw, text2) {
     const matchIndentToCode = raw.match(/^(\s+)(?:```)/);
     if (matchIndentToCode === null) {
-      return text;
+      return text2;
     }
     const indentToCode = matchIndentToCode[1];
-    return text.split("\n").map((node) => {
+    return text2.split("\n").map((node) => {
       const matchIndentInNode = node.match(/^\s+/);
       if (matchIndentInNode === null) {
         return node;
@@ -6933,12 +5198,12 @@ var __publicField = (obj, key, value) => {
     code(src2) {
       const cap = this.rules.block.code.exec(src2);
       if (cap) {
-        const text = cap[0].replace(/^ {1,4}/gm, "");
+        const text2 = cap[0].replace(/^ {1,4}/gm, "");
         return {
           type: "code",
           raw: cap[0],
           codeBlockStyle: "indented",
-          text: !this.options.pedantic ? rtrim(text, "\n") : text
+          text: !this.options.pedantic ? rtrim(text2, "\n") : text2
         };
       }
     }
@@ -6946,33 +5211,33 @@ var __publicField = (obj, key, value) => {
       const cap = this.rules.block.fences.exec(src2);
       if (cap) {
         const raw = cap[0];
-        const text = indentCodeCompensation(raw, cap[3] || "");
+        const text2 = indentCodeCompensation(raw, cap[3] || "");
         return {
           type: "code",
           raw,
           lang: cap[2] ? cap[2].trim().replace(this.rules.inline._escapes, "$1") : cap[2],
-          text
+          text: text2
         };
       }
     }
     heading(src2) {
       const cap = this.rules.block.heading.exec(src2);
       if (cap) {
-        let text = cap[2].trim();
-        if (/#$/.test(text)) {
-          const trimmed = rtrim(text, "#");
+        let text2 = cap[2].trim();
+        if (/#$/.test(text2)) {
+          const trimmed = rtrim(text2, "#");
           if (this.options.pedantic) {
-            text = trimmed.trim();
+            text2 = trimmed.trim();
           } else if (!trimmed || / $/.test(trimmed)) {
-            text = trimmed.trim();
+            text2 = trimmed.trim();
           }
         }
         return {
           type: "heading",
           raw: cap[0],
           depth: cap[1].length,
-          text,
-          tokens: this.lexer.inline(text)
+          text: text2,
+          tokens: this.lexer.inline(text2)
         };
       }
     }
@@ -6988,16 +5253,16 @@ var __publicField = (obj, key, value) => {
     blockquote(src2) {
       const cap = this.rules.block.blockquote.exec(src2);
       if (cap) {
-        const text = cap[0].replace(/^ *>[ \t]?/gm, "");
+        const text2 = cap[0].replace(/^ *>[ \t]?/gm, "");
         const top2 = this.lexer.state.top;
         this.lexer.state.top = true;
-        const tokens = this.lexer.blockTokens(text);
+        const tokens = this.lexer.blockTokens(text2);
         this.lexer.state.top = top2;
         return {
           type: "blockquote",
           raw: cap[0],
           tokens,
-          text
+          text: text2
         };
       }
     }
@@ -7153,10 +5418,10 @@ var __publicField = (obj, key, value) => {
           text: cap[0]
         };
         if (this.options.sanitize) {
-          const text = this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape$1(cap[0]);
+          const text2 = this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape(cap[0]);
           token.type = "paragraph";
-          token.text = text;
-          token.tokens = this.lexer.inline(text);
+          token.text = text2;
+          token.tokens = this.lexer.inline(text2);
         }
         return token;
       }
@@ -7238,12 +5503,12 @@ var __publicField = (obj, key, value) => {
     paragraph(src2) {
       const cap = this.rules.block.paragraph.exec(src2);
       if (cap) {
-        const text = cap[1].charAt(cap[1].length - 1) === "\n" ? cap[1].slice(0, -1) : cap[1];
+        const text2 = cap[1].charAt(cap[1].length - 1) === "\n" ? cap[1].slice(0, -1) : cap[1];
         return {
           type: "paragraph",
           raw: cap[0],
-          text,
-          tokens: this.lexer.inline(text)
+          text: text2,
+          tokens: this.lexer.inline(text2)
         };
       }
     }
@@ -7264,7 +5529,7 @@ var __publicField = (obj, key, value) => {
         return {
           type: "escape",
           raw: cap[0],
-          text: escape$1(cap[1])
+          text: escape(cap[1])
         };
       }
     }
@@ -7286,7 +5551,7 @@ var __publicField = (obj, key, value) => {
           raw: cap[0],
           inLink: this.lexer.state.inLink,
           inRawBlock: this.lexer.state.inRawBlock,
-          text: this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape$1(cap[0]) : cap[0]
+          text: this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape(cap[0]) : cap[0]
         };
       }
     }
@@ -7343,11 +5608,11 @@ var __publicField = (obj, key, value) => {
         let link = (cap[2] || cap[1]).replace(/\s+/g, " ");
         link = links[link.toLowerCase()];
         if (!link) {
-          const text = cap[0].charAt(0);
+          const text2 = cap[0].charAt(0);
           return {
             type: "text",
-            raw: text,
-            text
+            raw: text2,
+            text: text2
           };
         }
         return outputLink(cap, link, cap[0], this.lexer);
@@ -7386,20 +5651,20 @@ var __publicField = (obj, key, value) => {
           rLength = Math.min(rLength, rLength + delimTotal + midDelimTotal);
           const raw = src2.slice(0, lLength + match.index + (match[0].length - rDelim.length) + rLength);
           if (Math.min(lLength, rLength) % 2) {
-            const text2 = raw.slice(1, -1);
+            const text3 = raw.slice(1, -1);
             return {
               type: "em",
               raw,
-              text: text2,
-              tokens: this.lexer.inlineTokens(text2)
+              text: text3,
+              tokens: this.lexer.inlineTokens(text3)
             };
           }
-          const text = raw.slice(2, -2);
+          const text2 = raw.slice(2, -2);
           return {
             type: "strong",
             raw,
-            text,
-            tokens: this.lexer.inlineTokens(text)
+            text: text2,
+            tokens: this.lexer.inlineTokens(text2)
           };
         }
       }
@@ -7407,17 +5672,17 @@ var __publicField = (obj, key, value) => {
     codespan(src2) {
       const cap = this.rules.inline.code.exec(src2);
       if (cap) {
-        let text = cap[2].replace(/\n/g, " ");
-        const hasNonSpaceChars = /[^ ]/.test(text);
-        const hasSpaceCharsOnBothEnds = /^ /.test(text) && / $/.test(text);
+        let text2 = cap[2].replace(/\n/g, " ");
+        const hasNonSpaceChars = /[^ ]/.test(text2);
+        const hasSpaceCharsOnBothEnds = /^ /.test(text2) && / $/.test(text2);
         if (hasNonSpaceChars && hasSpaceCharsOnBothEnds) {
-          text = text.substring(1, text.length - 1);
+          text2 = text2.substring(1, text2.length - 1);
         }
-        text = escape$1(text, true);
+        text2 = escape(text2, true);
         return {
           type: "codespan",
           raw: cap[0],
-          text
+          text: text2
         };
       }
     }
@@ -7444,24 +5709,24 @@ var __publicField = (obj, key, value) => {
     autolink(src2, mangle2) {
       const cap = this.rules.inline.autolink.exec(src2);
       if (cap) {
-        let text, href;
+        let text2, href;
         if (cap[2] === "@") {
-          text = escape$1(this.options.mangle ? mangle2(cap[1]) : cap[1]);
-          href = "mailto:" + text;
+          text2 = escape(this.options.mangle ? mangle2(cap[1]) : cap[1]);
+          href = "mailto:" + text2;
         } else {
-          text = escape$1(cap[1]);
-          href = text;
+          text2 = escape(cap[1]);
+          href = text2;
         }
         return {
           type: "link",
           raw: cap[0],
-          text,
+          text: text2,
           href,
           tokens: [
             {
               type: "text",
-              raw: text,
-              text
+              raw: text2,
+              text: text2
             }
           ]
         };
@@ -7470,17 +5735,17 @@ var __publicField = (obj, key, value) => {
     url(src2, mangle2) {
       let cap;
       if (cap = this.rules.inline.url.exec(src2)) {
-        let text, href;
+        let text2, href;
         if (cap[2] === "@") {
-          text = escape$1(this.options.mangle ? mangle2(cap[0]) : cap[0]);
-          href = "mailto:" + text;
+          text2 = escape(this.options.mangle ? mangle2(cap[0]) : cap[0]);
+          href = "mailto:" + text2;
         } else {
           let prevCapZero;
           do {
             prevCapZero = cap[0];
             cap[0] = this.rules.inline._backpedal.exec(cap[0])[0];
           } while (prevCapZero !== cap[0]);
-          text = escape$1(cap[0]);
+          text2 = escape(cap[0]);
           if (cap[1] === "www.") {
             href = "http://" + cap[0];
           } else {
@@ -7490,13 +5755,13 @@ var __publicField = (obj, key, value) => {
         return {
           type: "link",
           raw: cap[0],
-          text,
+          text: text2,
           href,
           tokens: [
             {
               type: "text",
-              raw: text,
-              text
+              raw: text2,
+              text: text2
             }
           ]
         };
@@ -7505,16 +5770,16 @@ var __publicField = (obj, key, value) => {
     inlineText(src2, smartypants2) {
       const cap = this.rules.inline.text.exec(src2);
       if (cap) {
-        let text;
+        let text2;
         if (this.lexer.state.inRawBlock) {
-          text = this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape$1(cap[0]) : cap[0];
+          text2 = this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : escape(cap[0]) : cap[0];
         } else {
-          text = escape$1(this.options.smartypants ? smartypants2(cap[0]) : cap[0]);
+          text2 = escape(this.options.smartypants ? smartypants2(cap[0]) : cap[0]);
         }
         return {
           type: "text",
           raw: cap[0],
-          text
+          text: text2
         };
       }
     }
@@ -7637,14 +5902,14 @@ var __publicField = (obj, key, value) => {
     br: edit(inline.br).replace("{2,}", "*").getRegex(),
     text: edit(inline.gfm.text).replace("\\b_", "\\b_| {2,}\\n").replace(/\{2,\}/g, "*").getRegex()
   };
-  function smartypants(text) {
-    return text.replace(/---/g, "—").replace(/--/g, "–").replace(/(^|[-\u2014/(\[{"\s])'/g, "$1‘").replace(/'/g, "’").replace(/(^|[-\u2014/(\[{\u2018\s])"/g, "$1“").replace(/"/g, "”").replace(/\.{3}/g, "…");
+  function smartypants(text2) {
+    return text2.replace(/---/g, "—").replace(/--/g, "–").replace(/(^|[-\u2014/(\[{"\s])'/g, "$1‘").replace(/'/g, "’").replace(/(^|[-\u2014/(\[{\u2018\s])"/g, "$1“").replace(/"/g, "”").replace(/\.{3}/g, "…");
   }
-  function mangle(text) {
+  function mangle(text2) {
     let out = "", i, ch;
-    const l = text.length;
+    const l = text2.length;
     for (i = 0; i < l; i++) {
-      ch = text.charCodeAt(i);
+      ch = text2.charCodeAt(i);
       if (Math.random() > 0.5) {
         ch = "x" + ch.toString(16);
       }
@@ -8019,25 +6284,25 @@ var __publicField = (obj, key, value) => {
       }
       code = code.replace(/\n$/, "") + "\n";
       if (!lang) {
-        return "<pre><code>" + (escaped ? code : escape$1(code, true)) + "</code></pre>\n";
+        return "<pre><code>" + (escaped ? code : escape(code, true)) + "</code></pre>\n";
       }
-      return '<pre><code class="' + this.options.langPrefix + escape$1(lang) + '">' + (escaped ? code : escape$1(code, true)) + "</code></pre>\n";
+      return '<pre><code class="' + this.options.langPrefix + escape(lang) + '">' + (escaped ? code : escape(code, true)) + "</code></pre>\n";
     }
     blockquote(quote) {
       return `<blockquote>
 ${quote}</blockquote>
 `;
     }
-    html(html) {
-      return html;
+    html(html2) {
+      return html2;
     }
-    heading(text, level, raw, slugger) {
+    heading(text2, level, raw, slugger) {
       if (this.options.headerIds) {
         const id = this.options.headerPrefix + slugger.slug(raw);
-        return `<h${level} id="${id}">${text}</h${level}>
+        return `<h${level} id="${id}">${text2}</h${level}>
 `;
       }
-      return `<h${level}>${text}</h${level}>
+      return `<h${level}>${text2}</h${level}>
 `;
     }
     hr() {
@@ -8047,15 +6312,15 @@ ${quote}</blockquote>
       const type = ordered ? "ol" : "ul", startatt = ordered && start2 !== 1 ? ' start="' + start2 + '"' : "";
       return "<" + type + startatt + ">\n" + body + "</" + type + ">\n";
     }
-    listitem(text) {
-      return `<li>${text}</li>
+    listitem(text2) {
+      return `<li>${text2}</li>
 `;
     }
     checkbox(checked) {
       return "<input " + (checked ? 'checked="" ' : "") + 'disabled="" type="checkbox"' + (this.options.xhtml ? " /" : "") + "> ";
     }
-    paragraph(text) {
-      return `<p>${text}</p>
+    paragraph(text2) {
+      return `<p>${text2}</p>
 `;
     }
     table(header2, body) {
@@ -8074,73 +6339,73 @@ ${content}</tr>
       return tag + content + `</${type}>
 `;
     }
-    strong(text) {
-      return `<strong>${text}</strong>`;
+    strong(text2) {
+      return `<strong>${text2}</strong>`;
     }
-    em(text) {
-      return `<em>${text}</em>`;
+    em(text2) {
+      return `<em>${text2}</em>`;
     }
-    codespan(text) {
-      return `<code>${text}</code>`;
+    codespan(text2) {
+      return `<code>${text2}</code>`;
     }
     br() {
       return this.options.xhtml ? "<br/>" : "<br>";
     }
-    del(text) {
-      return `<del>${text}</del>`;
+    del(text2) {
+      return `<del>${text2}</del>`;
     }
-    link(href, title, text) {
+    link(href, title, text2) {
       href = cleanUrl(this.options.sanitize, this.options.baseUrl, href);
       if (href === null) {
-        return text;
+        return text2;
       }
       let out = '<a href="' + href + '"';
       if (title) {
         out += ' title="' + title + '"';
       }
-      out += ">" + text + "</a>";
+      out += ">" + text2 + "</a>";
       return out;
     }
-    image(href, title, text) {
+    image(href, title, text2) {
       href = cleanUrl(this.options.sanitize, this.options.baseUrl, href);
       if (href === null) {
-        return text;
+        return text2;
       }
-      let out = `<img src="${href}" alt="${text}"`;
+      let out = `<img src="${href}" alt="${text2}"`;
       if (title) {
         out += ` title="${title}"`;
       }
       out += this.options.xhtml ? "/>" : ">";
       return out;
     }
-    text(text) {
-      return text;
+    text(text2) {
+      return text2;
     }
   }
   class TextRenderer {
-    strong(text) {
-      return text;
+    strong(text2) {
+      return text2;
     }
-    em(text) {
-      return text;
+    em(text2) {
+      return text2;
     }
-    codespan(text) {
-      return text;
+    codespan(text2) {
+      return text2;
     }
-    del(text) {
-      return text;
+    del(text2) {
+      return text2;
     }
-    html(text) {
-      return text;
+    html(text2) {
+      return text2;
     }
-    text(text) {
-      return text;
+    text(text2) {
+      return text2;
     }
-    link(href, title, text) {
-      return "" + text;
+    link(href, title, text2) {
+      return "" + text2;
     }
-    image(href, title, text) {
-      return "" + text;
+    image(href, title, text2) {
+      return "" + text2;
     }
     br() {
       return "";
@@ -8215,7 +6480,7 @@ ${content}</tr>
             out += this.renderer.heading(
               this.parseInline(token.tokens),
               token.depth,
-              unescape$1(this.parseInline(token.tokens, this.textRenderer)),
+              unescape(this.parseInline(token.tokens, this.textRenderer)),
               this.slugger
             );
             continue;
@@ -8401,8 +6666,8 @@ ${content}</tr>
     preprocess(markdown2) {
       return markdown2;
     }
-    postprocess(html) {
-      return html;
+    postprocess(html2) {
+      return html2;
     }
   }
   __publicField(Hooks, "passThroughHooks", /* @__PURE__ */ new Set([
@@ -8413,7 +6678,7 @@ ${content}</tr>
     return (e) => {
       e.message += "\nPlease report this to https://github.com/markedjs/marked.";
       if (silent) {
-        const msg2 = "<p>An error occurred:</p><pre>" + escape$1(e.message + "", true) + "</pre>";
+        const msg2 = "<p>An error occurred:</p><pre>" + escape(e.message + "", true) + "</pre>";
         if (async) {
           return Promise.resolve(msg2);
         }
@@ -8514,7 +6779,7 @@ ${content}</tr>
         return;
       }
       if (opt.async) {
-        return Promise.resolve(opt.hooks ? opt.hooks.preprocess(src2) : src2).then((src3) => lexer(src3, opt)).then((tokens) => opt.walkTokens ? Promise.all(marked.walkTokens(tokens, opt.walkTokens)).then(() => tokens) : tokens).then((tokens) => parser(tokens, opt)).then((html) => opt.hooks ? opt.hooks.postprocess(html) : html).catch(throwError);
+        return Promise.resolve(opt.hooks ? opt.hooks.preprocess(src2) : src2).then((src3) => lexer(src3, opt)).then((tokens) => opt.walkTokens ? Promise.all(marked.walkTokens(tokens, opt.walkTokens)).then(() => tokens) : tokens).then((tokens) => parser(tokens, opt)).then((html2) => opt.hooks ? opt.hooks.postprocess(html2) : html2).catch(throwError);
       }
       try {
         if (opt.hooks) {
@@ -8524,11 +6789,11 @@ ${content}</tr>
         if (opt.walkTokens) {
           marked.walkTokens(tokens, opt.walkTokens);
         }
-        let html = parser(tokens, opt);
+        let html2 = parser(tokens, opt);
         if (opt.hooks) {
-          html = opt.hooks.postprocess(html);
+          html2 = opt.hooks.postprocess(html2);
         }
-        return html;
+        return html2;
       } catch (e) {
         return throwError(e);
       }
@@ -8718,8 +6983,2096 @@ ${content}</tr>
   marked.parseInline;
   Parser.parse;
   Lexer.lex;
+  /*! @license DOMPurify 3.4.16 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.4.16/LICENSE */
+  function _arrayLikeToArray(r, a) {
+    (null == a || a > r.length) && (a = r.length);
+    for (var e = 0, n = Array(a); e < a; e++)
+      n[e] = r[e];
+    return n;
+  }
+  function _arrayWithHoles(r) {
+    if (Array.isArray(r))
+      return r;
+  }
+  function _iterableToArrayLimit(r, l) {
+    var t2 = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+    if (null != t2) {
+      var e, n, i, u, a = [], f = true, o = false;
+      try {
+        if (i = (t2 = t2.call(r)).next, 0 === l) {
+          if (Object(t2) !== t2)
+            return;
+          f = false;
+        } else
+          for (; !(f = (e = i.call(t2)).done) && (a.push(e.value), a.length !== l); f = true)
+            ;
+      } catch (r2) {
+        o = true, n = r2;
+      } finally {
+        try {
+          if (!f && null != t2.return && (u = t2.return(), Object(u) !== u))
+            return;
+        } finally {
+          if (o)
+            throw n;
+        }
+      }
+      return a;
+    }
+  }
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */
+  function _slicedToArray(r, e) {
+    return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
+  }
+  function _unsupportedIterableToArray(r, a) {
+    if (r) {
+      if ("string" == typeof r)
+        return _arrayLikeToArray(r, a);
+      var t2 = {}.toString.call(r).slice(8, -1);
+      return "Object" === t2 && r.constructor && (t2 = r.constructor.name), "Map" === t2 || "Set" === t2 ? Array.from(r) : "Arguments" === t2 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t2) ? _arrayLikeToArray(r, a) : void 0;
+    }
+  }
+  const entries = Object.entries;
+  const setPrototypeOf = Object.setPrototypeOf;
+  const isFrozen = Object.isFrozen;
+  const getPrototypeOf = Object.getPrototypeOf;
+  const getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+  let freeze = Object.freeze;
+  let seal = Object.seal;
+  let create = Object.create;
+  let _ref = typeof Reflect !== "undefined" && Reflect;
+  let apply = _ref.apply;
+  let construct = _ref.construct;
+  if (!freeze)
+    freeze = function freeze2(x) {
+      return x;
+    };
+  if (!seal)
+    seal = function seal2(x) {
+      return x;
+    };
+  if (!apply)
+    apply = function apply2(func, thisArg) {
+      for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)
+        args[_key - 2] = arguments[_key];
+      return func.apply(thisArg, args);
+    };
+  if (!construct)
+    construct = function construct2(Func) {
+      for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++)
+        args[_key2 - 1] = arguments[_key2];
+      return new Func(...args);
+    };
+  const arrayForEach = unapply(Array.prototype.forEach);
+  const arrayLastIndexOf = unapply(Array.prototype.lastIndexOf);
+  const arrayPop = unapply(Array.prototype.pop);
+  const arrayPush = unapply(Array.prototype.push);
+  const arraySplice = unapply(Array.prototype.splice);
+  const arrayIsArray = Array.isArray;
+  const stringToLowerCase = unapply(String.prototype.toLowerCase);
+  const stringToString = unapply(String.prototype.toString);
+  const stringMatch = unapply(String.prototype.match);
+  const stringReplace = unapply(String.prototype.replace);
+  const stringIndexOf = unapply(String.prototype.indexOf);
+  const stringTrim = unapply(String.prototype.trim);
+  const numberToString = unapply(Number.prototype.toString);
+  const booleanToString = unapply(Boolean.prototype.toString);
+  const bigintToString = typeof BigInt === "undefined" ? null : unapply(BigInt.prototype.toString);
+  const symbolToString = typeof Symbol === "undefined" ? null : unapply(Symbol.prototype.toString);
+  const objectHasOwnProperty = unapply(Object.prototype.hasOwnProperty);
+  const objectToString = unapply(Object.prototype.toString);
+  const regExpTest = unapply(RegExp.prototype.test);
+  const typeErrorCreate = unconstruct(TypeError);
+  function unapply(func) {
+    return function(thisArg) {
+      if (thisArg instanceof RegExp)
+        thisArg.lastIndex = 0;
+      for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++)
+        args[_key3 - 1] = arguments[_key3];
+      return apply(func, thisArg, args);
+    };
+  }
+  function unconstruct(Func) {
+    return function() {
+      for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++)
+        args[_key4] = arguments[_key4];
+      return construct(Func, args);
+    };
+  }
+  function addToSet(set, array) {
+    let transformCaseFunc = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : stringToLowerCase;
+    if (setPrototypeOf)
+      setPrototypeOf(set, null);
+    if (!arrayIsArray(array))
+      return set;
+    let l = array.length;
+    while (l--) {
+      let element = array[l];
+      if (typeof element === "string") {
+        const lcElement = transformCaseFunc(element);
+        if (lcElement !== element) {
+          if (!isFrozen(array))
+            array[l] = lcElement;
+          element = lcElement;
+        }
+      }
+      set[element] = true;
+    }
+    return set;
+  }
+  function cleanArray(array) {
+    for (let index = 0; index < array.length; index++)
+      if (!objectHasOwnProperty(array, index))
+        array[index] = null;
+    return array;
+  }
+  function clone(object) {
+    const newObject = create(null);
+    for (const _ref2 of entries(object)) {
+      var _ref3 = _slicedToArray(_ref2, 2);
+      const property = _ref3[0];
+      const value = _ref3[1];
+      if (objectHasOwnProperty(object, property)) {
+        if (arrayIsArray(value))
+          newObject[property] = cleanArray(value);
+        else if (value && typeof value === "object" && value.constructor === Object)
+          newObject[property] = clone(value);
+        else
+          newObject[property] = value;
+      }
+    }
+    return newObject;
+  }
+  function stringifyValue(value) {
+    switch (typeof value) {
+      case "string":
+        return value;
+      case "number":
+        return numberToString(value);
+      case "boolean":
+        return booleanToString(value);
+      case "bigint":
+        return bigintToString ? bigintToString(value) : "0";
+      case "symbol":
+        return symbolToString ? symbolToString(value) : "Symbol()";
+      case "undefined":
+        return objectToString(value);
+      case "function":
+      case "object": {
+        if (value === null)
+          return objectToString(value);
+        const valueAsRecord = value;
+        const valueToString = lookupGetter(valueAsRecord, "toString");
+        if (typeof valueToString === "function") {
+          const stringified = valueToString(valueAsRecord);
+          return typeof stringified === "string" ? stringified : objectToString(stringified);
+        }
+        return objectToString(value);
+      }
+      default:
+        return objectToString(value);
+    }
+  }
+  function lookupGetter(object, prop) {
+    while (object !== null) {
+      const desc = getOwnPropertyDescriptor(object, prop);
+      if (desc) {
+        if (desc.get)
+          return unapply(desc.get);
+        if (typeof desc.value === "function")
+          return unapply(desc.value);
+      }
+      object = getPrototypeOf(object);
+    }
+    function fallbackValue() {
+      return null;
+    }
+    return fallbackValue;
+  }
+  function isRegex(value) {
+    try {
+      regExpTest(value, "");
+      return true;
+    } catch (_unused) {
+      return false;
+    }
+  }
+  const html$1 = freeze([
+    "a",
+    "abbr",
+    "acronym",
+    "address",
+    "area",
+    "article",
+    "aside",
+    "audio",
+    "b",
+    "bdi",
+    "bdo",
+    "big",
+    "blink",
+    "blockquote",
+    "body",
+    "br",
+    "button",
+    "canvas",
+    "caption",
+    "center",
+    "cite",
+    "code",
+    "col",
+    "colgroup",
+    "content",
+    "data",
+    "datalist",
+    "dd",
+    "decorator",
+    "del",
+    "details",
+    "dfn",
+    "dialog",
+    "dir",
+    "div",
+    "dl",
+    "dt",
+    "element",
+    "em",
+    "fieldset",
+    "figcaption",
+    "figure",
+    "font",
+    "footer",
+    "form",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "head",
+    "header",
+    "hgroup",
+    "hr",
+    "html",
+    "i",
+    "img",
+    "input",
+    "ins",
+    "kbd",
+    "label",
+    "legend",
+    "li",
+    "main",
+    "map",
+    "mark",
+    "marquee",
+    "menu",
+    "menuitem",
+    "meter",
+    "nav",
+    "nobr",
+    "ol",
+    "optgroup",
+    "option",
+    "output",
+    "p",
+    "picture",
+    "pre",
+    "progress",
+    "q",
+    "rp",
+    "rt",
+    "ruby",
+    "s",
+    "samp",
+    "search",
+    "section",
+    "select",
+    "shadow",
+    "slot",
+    "small",
+    "source",
+    "spacer",
+    "span",
+    "strike",
+    "strong",
+    "style",
+    "sub",
+    "summary",
+    "sup",
+    "table",
+    "tbody",
+    "td",
+    "template",
+    "textarea",
+    "tfoot",
+    "th",
+    "thead",
+    "time",
+    "tr",
+    "track",
+    "tt",
+    "u",
+    "ul",
+    "var",
+    "video",
+    "wbr"
+  ]);
+  const svg$1 = freeze([
+    "svg",
+    "a",
+    "altglyph",
+    "altglyphdef",
+    "altglyphitem",
+    "animatecolor",
+    "animatemotion",
+    "animatetransform",
+    "circle",
+    "clippath",
+    "defs",
+    "desc",
+    "ellipse",
+    "enterkeyhint",
+    "exportparts",
+    "filter",
+    "font",
+    "g",
+    "glyph",
+    "glyphref",
+    "hkern",
+    "image",
+    "inputmode",
+    "line",
+    "lineargradient",
+    "marker",
+    "mask",
+    "metadata",
+    "mpath",
+    "part",
+    "path",
+    "pattern",
+    "polygon",
+    "polyline",
+    "radialgradient",
+    "rect",
+    "stop",
+    "style",
+    "switch",
+    "symbol",
+    "text",
+    "textpath",
+    "title",
+    "tref",
+    "tspan",
+    "view",
+    "vkern"
+  ]);
+  const svgFilters = freeze([
+    "feBlend",
+    "feColorMatrix",
+    "feComponentTransfer",
+    "feComposite",
+    "feConvolveMatrix",
+    "feDiffuseLighting",
+    "feDisplacementMap",
+    "feDistantLight",
+    "feDropShadow",
+    "feFlood",
+    "feFuncA",
+    "feFuncB",
+    "feFuncG",
+    "feFuncR",
+    "feGaussianBlur",
+    "feImage",
+    "feMerge",
+    "feMergeNode",
+    "feMorphology",
+    "feOffset",
+    "fePointLight",
+    "feSpecularLighting",
+    "feSpotLight",
+    "feTile",
+    "feTurbulence"
+  ]);
+  const svgDisallowed = freeze([
+    "animate",
+    "color-profile",
+    "cursor",
+    "discard",
+    "font-face",
+    "font-face-format",
+    "font-face-name",
+    "font-face-src",
+    "font-face-uri",
+    "foreignobject",
+    "hatch",
+    "hatchpath",
+    "mesh",
+    "meshgradient",
+    "meshpatch",
+    "meshrow",
+    "missing-glyph",
+    "script",
+    "set",
+    "solidcolor",
+    "unknown",
+    "use"
+  ]);
+  const mathMl$1 = freeze([
+    "math",
+    "menclose",
+    "merror",
+    "mfenced",
+    "mfrac",
+    "mglyph",
+    "mi",
+    "mlabeledtr",
+    "mmultiscripts",
+    "mn",
+    "mo",
+    "mover",
+    "mpadded",
+    "mphantom",
+    "mroot",
+    "mrow",
+    "ms",
+    "mspace",
+    "msqrt",
+    "mstyle",
+    "msub",
+    "msup",
+    "msubsup",
+    "mtable",
+    "mtd",
+    "mtext",
+    "mtr",
+    "munder",
+    "munderover",
+    "mprescripts"
+  ]);
+  const mathMlDisallowed = freeze([
+    "maction",
+    "maligngroup",
+    "malignmark",
+    "mlongdiv",
+    "mscarries",
+    "mscarry",
+    "msgroup",
+    "mstack",
+    "msline",
+    "msrow",
+    "semantics",
+    "annotation",
+    "annotation-xml",
+    "mprescripts",
+    "none"
+  ]);
+  const text = freeze(["#text"]);
+  const html = freeze([
+    "accept",
+    "action",
+    "align",
+    "alt",
+    "autocapitalize",
+    "autocomplete",
+    "autopictureinpicture",
+    "autoplay",
+    "background",
+    "bgcolor",
+    "border",
+    "capture",
+    "cellpadding",
+    "cellspacing",
+    "checked",
+    "cite",
+    "class",
+    "clear",
+    "color",
+    "cols",
+    "colspan",
+    "command",
+    "commandfor",
+    "controls",
+    "controlslist",
+    "coords",
+    "crossorigin",
+    "datetime",
+    "decoding",
+    "default",
+    "dir",
+    "disabled",
+    "disablepictureinpicture",
+    "disableremoteplayback",
+    "download",
+    "draggable",
+    "enctype",
+    "enterkeyhint",
+    "exportparts",
+    "face",
+    "for",
+    "headers",
+    "height",
+    "hidden",
+    "high",
+    "href",
+    "hreflang",
+    "id",
+    "inert",
+    "inputmode",
+    "integrity",
+    "ismap",
+    "kind",
+    "label",
+    "lang",
+    "list",
+    "loading",
+    "loop",
+    "low",
+    "max",
+    "maxlength",
+    "media",
+    "method",
+    "min",
+    "minlength",
+    "multiple",
+    "muted",
+    "name",
+    "nonce",
+    "noshade",
+    "novalidate",
+    "nowrap",
+    "open",
+    "optimum",
+    "part",
+    "pattern",
+    "placeholder",
+    "playsinline",
+    "popover",
+    "popovertarget",
+    "popovertargetaction",
+    "poster",
+    "preload",
+    "pubdate",
+    "radiogroup",
+    "readonly",
+    "rel",
+    "required",
+    "rev",
+    "reversed",
+    "role",
+    "rows",
+    "rowspan",
+    "spellcheck",
+    "scope",
+    "selected",
+    "shape",
+    "size",
+    "sizes",
+    "slot",
+    "span",
+    "srclang",
+    "start",
+    "src",
+    "srcset",
+    "step",
+    "style",
+    "summary",
+    "tabindex",
+    "title",
+    "translate",
+    "type",
+    "usemap",
+    "valign",
+    "value",
+    "width",
+    "wrap",
+    "xmlns"
+  ]);
+  const svg = freeze([
+    "accent-height",
+    "accumulate",
+    "additive",
+    "alignment-baseline",
+    "amplitude",
+    "ascent",
+    "attributename",
+    "attributetype",
+    "azimuth",
+    "basefrequency",
+    "baseline-shift",
+    "begin",
+    "bias",
+    "by",
+    "class",
+    "clip",
+    "clippathunits",
+    "clip-path",
+    "clip-rule",
+    "color",
+    "color-interpolation",
+    "color-interpolation-filters",
+    "color-profile",
+    "color-rendering",
+    "cx",
+    "cy",
+    "d",
+    "dx",
+    "dy",
+    "diffuseconstant",
+    "direction",
+    "display",
+    "divisor",
+    "dominant-baseline",
+    "dur",
+    "edgemode",
+    "elevation",
+    "end",
+    "exponent",
+    "fill",
+    "fill-opacity",
+    "fill-rule",
+    "filter",
+    "filterunits",
+    "flood-color",
+    "flood-opacity",
+    "font-family",
+    "font-size",
+    "font-size-adjust",
+    "font-stretch",
+    "font-style",
+    "font-variant",
+    "font-weight",
+    "fx",
+    "fy",
+    "g1",
+    "g2",
+    "glyph-name",
+    "glyphref",
+    "gradientunits",
+    "gradienttransform",
+    "height",
+    "href",
+    "id",
+    "image-rendering",
+    "in",
+    "in2",
+    "intercept",
+    "k",
+    "k1",
+    "k2",
+    "k3",
+    "k4",
+    "kerning",
+    "keypoints",
+    "keysplines",
+    "keytimes",
+    "lang",
+    "lengthadjust",
+    "letter-spacing",
+    "kernelmatrix",
+    "kernelunitlength",
+    "lighting-color",
+    "local",
+    "marker-end",
+    "marker-mid",
+    "marker-start",
+    "markerheight",
+    "markerunits",
+    "markerwidth",
+    "maskcontentunits",
+    "maskunits",
+    "max",
+    "mask",
+    "mask-type",
+    "media",
+    "method",
+    "mode",
+    "min",
+    "name",
+    "numoctaves",
+    "offset",
+    "operator",
+    "opacity",
+    "order",
+    "orient",
+    "orientation",
+    "origin",
+    "overflow",
+    "paint-order",
+    "path",
+    "pathlength",
+    "patterncontentunits",
+    "patterntransform",
+    "patternunits",
+    "pointer-events",
+    "points",
+    "preservealpha",
+    "preserveaspectratio",
+    "primitiveunits",
+    "r",
+    "rx",
+    "ry",
+    "radius",
+    "refx",
+    "refy",
+    "repeatcount",
+    "repeatdur",
+    "restart",
+    "result",
+    "rotate",
+    "scale",
+    "seed",
+    "shape-rendering",
+    "slope",
+    "specularconstant",
+    "specularexponent",
+    "spreadmethod",
+    "startoffset",
+    "stddeviation",
+    "stitchtiles",
+    "stop-color",
+    "stop-opacity",
+    "stroke-dasharray",
+    "stroke-dashoffset",
+    "stroke-linecap",
+    "stroke-linejoin",
+    "stroke-miterlimit",
+    "stroke-opacity",
+    "stroke",
+    "stroke-width",
+    "style",
+    "surfacescale",
+    "systemlanguage",
+    "tabindex",
+    "tablevalues",
+    "targetx",
+    "targety",
+    "transform",
+    "transform-origin",
+    "text-anchor",
+    "text-decoration",
+    "text-orientation",
+    "text-rendering",
+    "textlength",
+    "type",
+    "u1",
+    "u2",
+    "unicode",
+    "values",
+    "vector-effect",
+    "viewbox",
+    "visibility",
+    "version",
+    "vert-adv-y",
+    "vert-origin-x",
+    "vert-origin-y",
+    "width",
+    "word-spacing",
+    "wrap",
+    "writing-mode",
+    "xchannelselector",
+    "ychannelselector",
+    "x",
+    "x1",
+    "x2",
+    "xmlns",
+    "y",
+    "y1",
+    "y2",
+    "z",
+    "zoomandpan"
+  ]);
+  const mathMl = freeze([
+    "accent",
+    "accentunder",
+    "align",
+    "bevelled",
+    "close",
+    "columnalign",
+    "columnlines",
+    "columnspacing",
+    "columnspan",
+    "denomalign",
+    "depth",
+    "dir",
+    "display",
+    "displaystyle",
+    "encoding",
+    "fence",
+    "frame",
+    "height",
+    "href",
+    "id",
+    "largeop",
+    "length",
+    "linethickness",
+    "lquote",
+    "lspace",
+    "mathbackground",
+    "mathcolor",
+    "mathsize",
+    "mathvariant",
+    "maxsize",
+    "minsize",
+    "movablelimits",
+    "notation",
+    "numalign",
+    "open",
+    "rowalign",
+    "rowlines",
+    "rowspacing",
+    "rowspan",
+    "rspace",
+    "rquote",
+    "scriptlevel",
+    "scriptminsize",
+    "scriptsizemultiplier",
+    "selection",
+    "separator",
+    "separators",
+    "stretchy",
+    "subscriptshift",
+    "supscriptshift",
+    "symmetric",
+    "voffset",
+    "width",
+    "xmlns"
+  ]);
+  const xml = freeze([
+    "xlink:href",
+    "xml:id",
+    "xlink:title",
+    "xml:space",
+    "xmlns:xlink"
+  ]);
+  const MUSTACHE_EXPR = seal(/{{[\w\W]*|^[\w\W]*}}/g);
+  const ERB_EXPR = seal(/<%[\w\W]*|^[\w\W]*%>/g);
+  const TMPLIT_EXPR = seal(/\${[\w\W]*/g);
+  const DATA_ATTR = seal(/^data-[\-\w.\u00B7-\uFFFF]+$/);
+  const ARIA_ATTR = seal(/^aria-[\-\w]+$/);
+  const IS_ALLOWED_URI = seal(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp|matrix):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i);
+  const IS_SCRIPT_OR_DATA = seal(/^(?:\w+script|data):/i);
+  const ATTR_WHITESPACE = seal(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g);
+  const DOCTYPE_NAME = seal(/^html$/i);
+  const CUSTOM_ELEMENT = seal(/^[a-z][.\w]*(-[.\w]+)+$/i);
+  const ELEMENT_MARKUP_PROBE = seal(/<[/\w!]/g);
+  const COMMENT_MARKUP_PROBE = seal(/<[/\w]/g);
+  const FALLBACK_TAG_CLOSE = seal(/<\/no(script|embed|frames)/i);
+  const SELF_CLOSING_TAG = seal(/\/>/i);
+  const NODE_TYPE = {
+    element: 1,
+    attribute: 2,
+    text: 3,
+    cdataSection: 4,
+    entityReference: 5,
+    entityNode: 6,
+    processingInstruction: 7,
+    comment: 8,
+    document: 9,
+    documentType: 10,
+    documentFragment: 11,
+    notation: 12
+  };
+  const LITERAL_TEXT_ELEMENT_NAMES = [
+    "style",
+    "script",
+    "xmp",
+    "iframe",
+    "noembed",
+    "noframes",
+    "plaintext",
+    "noscript"
+  ];
+  const LITERAL_TEXT_ELEMENTS = freeze(addToSet({}, LITERAL_TEXT_ELEMENT_NAMES));
+  const LITERAL_TEXT_CLOSE = function() {
+    const map = {};
+    arrayForEach(LITERAL_TEXT_ELEMENT_NAMES, (name) => {
+      map[name] = seal(new RegExp("</" + name + "(?=[\\t\\n\\f\\r />])", "i"));
+    });
+    return freeze(map);
+  }();
+  const getGlobal = function getGlobal2() {
+    return typeof window === "undefined" ? null : window;
+  };
+  const _createTrustedTypesPolicy = function _createTrustedTypesPolicy2(trustedTypes, purifyHostElement) {
+    if (typeof trustedTypes !== "object" || typeof trustedTypes.createPolicy !== "function")
+      return null;
+    let suffix = null;
+    const ATTR_NAME = "data-tt-policy-suffix";
+    if (purifyHostElement && purifyHostElement.hasAttribute(ATTR_NAME))
+      suffix = purifyHostElement.getAttribute(ATTR_NAME);
+    const policyName = "dompurify" + (suffix ? "#" + suffix : "");
+    try {
+      return trustedTypes.createPolicy(policyName, {
+        createHTML(html2) {
+          return html2;
+        },
+        createScriptURL(scriptUrl) {
+          return scriptUrl;
+        }
+      });
+    } catch (_) {
+      console.warn("TrustedTypes policy " + policyName + " could not be created.");
+      return null;
+    }
+  };
+  const _createHooksMap = function _createHooksMap2() {
+    return {
+      afterSanitizeAttributes: [],
+      afterSanitizeElements: [],
+      afterSanitizeShadowDOM: [],
+      beforeSanitizeAttributes: [],
+      beforeSanitizeElements: [],
+      beforeSanitizeShadowDOM: [],
+      uponSanitizeAttribute: [],
+      uponSanitizeElement: [],
+      uponSanitizeShadowNode: []
+    };
+  };
+  const _resolveSetOption = function _resolveSetOption2(cfg, key, fallback, options) {
+    return objectHasOwnProperty(cfg, key) && arrayIsArray(cfg[key]) ? addToSet(options.base ? clone(options.base) : {}, cfg[key], options.transform) : fallback;
+  };
+  const _resolveObjectOption = function _resolveObjectOption2(cfg, key, makeFallback) {
+    const value = objectHasOwnProperty(cfg, key) ? cfg[key] : void 0;
+    return value && typeof value === "object" ? clone(value) : makeFallback();
+  };
+  function createDOMPurify() {
+    let window2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : getGlobal();
+    const DOMPurify = (root2) => createDOMPurify(root2);
+    DOMPurify.version = "3.4.16";
+    DOMPurify.removed = [];
+    if (!window2 || !window2.document || window2.document.nodeType !== NODE_TYPE.document || !window2.Element) {
+      DOMPurify.isSupported = false;
+      return DOMPurify;
+    }
+    let document2 = window2.document;
+    const originalDocument = document2;
+    const currentScript = originalDocument.currentScript;
+    window2.DocumentFragment;
+    const HTMLTemplateElement = window2.HTMLTemplateElement, Node2 = window2.Node, Element2 = window2.Element, NodeFilter2 = window2.NodeFilter;
+    window2.NamedNodeMap === void 0 && (window2.NamedNodeMap || window2.MozNamedAttrMap);
+    window2.HTMLFormElement;
+    const DOMParser2 = window2.DOMParser, trustedTypes = window2.trustedTypes;
+    const ElementPrototype = Element2.prototype;
+    const cloneNode = lookupGetter(ElementPrototype, "cloneNode");
+    const remove = lookupGetter(ElementPrototype, "remove");
+    const removeAttributeNode = lookupGetter(ElementPrototype, "removeAttributeNode");
+    const getNextSibling = lookupGetter(ElementPrototype, "nextSibling");
+    const getChildNodes = lookupGetter(ElementPrototype, "childNodes");
+    const getParentNode = lookupGetter(ElementPrototype, "parentNode");
+    const getShadowRoot = lookupGetter(ElementPrototype, "shadowRoot");
+    const getAttributes = lookupGetter(ElementPrototype, "attributes");
+    const getNodeType = Node2 && Node2.prototype ? lookupGetter(Node2.prototype, "nodeType") : null;
+    const getNodeName = Node2 && Node2.prototype ? lookupGetter(Node2.prototype, "nodeName") : null;
+    const getOwnerDocument = Node2 && Node2.prototype ? lookupGetter(Node2.prototype, "ownerDocument") : null;
+    const _readNodeType = function _readNodeType2(node) {
+      return getNodeType ? getNodeType(node) : node.nodeType;
+    };
+    const _readNodeName = function _readNodeName2(node) {
+      return getNodeName ? getNodeName(node) : node.nodeName;
+    };
+    if (typeof HTMLTemplateElement === "function") {
+      const template = document2.createElement("template");
+      if (template.content && template.content.ownerDocument)
+        document2 = template.content.ownerDocument;
+    }
+    let trustedTypesPolicy;
+    let emptyHTML = "";
+    let defaultTrustedTypesPolicy;
+    let defaultTrustedTypesPolicyResolved = false;
+    let IN_TRUSTED_TYPES_POLICY = 0;
+    const _assertNotInTrustedTypesPolicy = function _assertNotInTrustedTypesPolicy2() {
+      if (IN_TRUSTED_TYPES_POLICY > 0)
+        throw typeErrorCreate('A configured TRUSTED_TYPES_POLICY callback (createHTML or createScriptURL) must not call DOMPurify.sanitize, as that causes infinite recursion. Do not pass a policy whose callbacks wrap DOMPurify as TRUSTED_TYPES_POLICY; see the "DOMPurify and Trusted Types" section of the README.');
+    };
+    const _createTrustedHTML = function _createTrustedHTML2(html2) {
+      _assertNotInTrustedTypesPolicy();
+      IN_TRUSTED_TYPES_POLICY++;
+      try {
+        return trustedTypesPolicy.createHTML(html2);
+      } finally {
+        IN_TRUSTED_TYPES_POLICY--;
+      }
+    };
+    const _createTrustedScriptURL = function _createTrustedScriptURL2(scriptUrl) {
+      _assertNotInTrustedTypesPolicy();
+      IN_TRUSTED_TYPES_POLICY++;
+      try {
+        return trustedTypesPolicy.createScriptURL(scriptUrl);
+      } finally {
+        IN_TRUSTED_TYPES_POLICY--;
+      }
+    };
+    const _getDefaultTrustedTypesPolicy = function _getDefaultTrustedTypesPolicy2() {
+      if (!defaultTrustedTypesPolicyResolved) {
+        defaultTrustedTypesPolicy = _createTrustedTypesPolicy(trustedTypes, currentScript);
+        defaultTrustedTypesPolicyResolved = true;
+      }
+      return defaultTrustedTypesPolicy;
+    };
+    const _document = document2, implementation = _document.implementation, createNodeIterator = _document.createNodeIterator, createDocumentFragment = _document.createDocumentFragment, getElementsByTagName = _document.getElementsByTagName;
+    const importNode = originalDocument.importNode;
+    let hooks = _createHooksMap();
+    DOMPurify.isSupported = typeof entries === "function" && typeof getParentNode === "function" && implementation && implementation.createHTMLDocument !== void 0;
+    const MUSTACHE_EXPR$1 = MUSTACHE_EXPR, ERB_EXPR$1 = ERB_EXPR, TMPLIT_EXPR$1 = TMPLIT_EXPR, DATA_ATTR$1 = DATA_ATTR, ARIA_ATTR$1 = ARIA_ATTR, IS_SCRIPT_OR_DATA$1 = IS_SCRIPT_OR_DATA, ATTR_WHITESPACE$1 = ATTR_WHITESPACE, CUSTOM_ELEMENT$1 = CUSTOM_ELEMENT;
+    let IS_ALLOWED_URI$1 = IS_ALLOWED_URI;
+    let ALLOWED_TAGS = null;
+    const DEFAULT_ALLOWED_TAGS = addToSet({}, [
+      ...html$1,
+      ...svg$1,
+      ...svgFilters,
+      ...mathMl$1,
+      ...text
+    ]);
+    let ALLOWED_ATTR = null;
+    const DEFAULT_ALLOWED_ATTR = addToSet({}, [
+      ...html,
+      ...svg,
+      ...mathMl,
+      ...xml
+    ]);
+    let CUSTOM_ELEMENT_HANDLING = Object.seal(create(null, {
+      tagNameCheck: {
+        writable: true,
+        configurable: false,
+        enumerable: true,
+        value: null
+      },
+      attributeNameCheck: {
+        writable: true,
+        configurable: false,
+        enumerable: true,
+        value: null
+      },
+      allowCustomizedBuiltInElements: {
+        writable: true,
+        configurable: false,
+        enumerable: true,
+        value: false
+      }
+    }));
+    let FORBID_TAGS = null;
+    let FORBID_ATTR = null;
+    const EXTRA_ELEMENT_HANDLING = Object.seal(create(null, {
+      tagCheck: {
+        writable: true,
+        configurable: false,
+        enumerable: true,
+        value: null
+      },
+      attributeCheck: {
+        writable: true,
+        configurable: false,
+        enumerable: true,
+        value: null
+      }
+    }));
+    let ALLOW_ARIA_ATTR = true;
+    let ALLOW_DATA_ATTR = true;
+    let ALLOW_UNKNOWN_PROTOCOLS = false;
+    let ALLOW_SELF_CLOSE_IN_ATTR = true;
+    let SAFE_FOR_TEMPLATES = false;
+    let SAFE_FOR_XML = true;
+    let WHOLE_DOCUMENT = false;
+    let SET_CONFIG = false;
+    let SET_CONFIG_ALLOWED_TAGS = null;
+    let SET_CONFIG_ALLOWED_ATTR = null;
+    let FORCE_BODY = false;
+    let RETURN_DOM = false;
+    let RETURN_DOM_FRAGMENT = false;
+    let RETURN_TRUSTED_TYPE = false;
+    let SANITIZE_DOM = true;
+    let SANITIZE_NAMED_PROPS = false;
+    const SANITIZE_NAMED_PROPS_PREFIX = "user-content-";
+    let KEEP_CONTENT = true;
+    let IN_PLACE = false;
+    let USE_PROFILES = {};
+    let FORBID_CONTENTS = null;
+    const DEFAULT_FORBID_CONTENTS = addToSet({}, [
+      "annotation-xml",
+      "audio",
+      "colgroup",
+      "desc",
+      "foreignobject",
+      "head",
+      "iframe",
+      "math",
+      "mi",
+      "mn",
+      "mo",
+      "ms",
+      "mtext",
+      "noembed",
+      "noframes",
+      "noscript",
+      "plaintext",
+      "script",
+      "selectedcontent",
+      "style",
+      "svg",
+      "template",
+      "thead",
+      "title",
+      "video",
+      "xmp"
+    ]);
+    let DATA_URI_TAGS = null;
+    const DEFAULT_DATA_URI_TAGS = addToSet({}, [
+      "audio",
+      "video",
+      "img",
+      "source",
+      "image",
+      "track"
+    ]);
+    let URI_SAFE_ATTRIBUTES = null;
+    const DEFAULT_URI_SAFE_ATTRIBUTES = addToSet({}, [
+      "alt",
+      "class",
+      "for",
+      "id",
+      "label",
+      "name",
+      "pattern",
+      "placeholder",
+      "role",
+      "summary",
+      "title",
+      "value",
+      "style",
+      "xmlns"
+    ]);
+    const MATHML_NAMESPACE = "http://www.w3.org/1998/Math/MathML";
+    const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+    const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
+    let NAMESPACE = HTML_NAMESPACE;
+    let IS_EMPTY_INPUT = false;
+    let ALLOWED_NAMESPACES = null;
+    const DEFAULT_ALLOWED_NAMESPACES = addToSet({}, [
+      MATHML_NAMESPACE,
+      SVG_NAMESPACE,
+      HTML_NAMESPACE
+    ], stringToString);
+    const DEFAULT_MATHML_TEXT_INTEGRATION_POINTS = freeze([
+      "mi",
+      "mo",
+      "mn",
+      "ms",
+      "mtext"
+    ]);
+    let MATHML_TEXT_INTEGRATION_POINTS = addToSet({}, DEFAULT_MATHML_TEXT_INTEGRATION_POINTS);
+    const DEFAULT_HTML_INTEGRATION_POINTS = freeze(["annotation-xml"]);
+    let HTML_INTEGRATION_POINTS = addToSet({}, DEFAULT_HTML_INTEGRATION_POINTS);
+    const COMMON_SVG_AND_HTML_ELEMENTS = addToSet({}, [
+      "title",
+      "style",
+      "font",
+      "a",
+      "script"
+    ]);
+    let PARSER_MEDIA_TYPE = null;
+    const SUPPORTED_PARSER_MEDIA_TYPES = ["application/xhtml+xml", "text/html"];
+    const DEFAULT_PARSER_MEDIA_TYPE = "text/html";
+    let transformCaseFunc = null;
+    let CONFIG = null;
+    const formElement = document2.createElement("form");
+    const isRegexOrFunction = function isRegexOrFunction2(testValue) {
+      return testValue instanceof RegExp || testValue instanceof Function;
+    };
+    const _parseConfig = function _parseConfig2() {
+      let cfg = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+      if (CONFIG && CONFIG === cfg)
+        return;
+      if (!cfg || typeof cfg !== "object")
+        cfg = {};
+      cfg = clone(cfg);
+      PARSER_MEDIA_TYPE = SUPPORTED_PARSER_MEDIA_TYPES.indexOf(cfg.PARSER_MEDIA_TYPE) === -1 ? DEFAULT_PARSER_MEDIA_TYPE : cfg.PARSER_MEDIA_TYPE;
+      transformCaseFunc = PARSER_MEDIA_TYPE === "application/xhtml+xml" ? stringToString : stringToLowerCase;
+      ALLOWED_TAGS = _resolveSetOption(cfg, "ALLOWED_TAGS", DEFAULT_ALLOWED_TAGS, { transform: transformCaseFunc });
+      ALLOWED_ATTR = _resolveSetOption(cfg, "ALLOWED_ATTR", DEFAULT_ALLOWED_ATTR, { transform: transformCaseFunc });
+      ALLOWED_NAMESPACES = _resolveSetOption(cfg, "ALLOWED_NAMESPACES", DEFAULT_ALLOWED_NAMESPACES, { transform: stringToString });
+      URI_SAFE_ATTRIBUTES = _resolveSetOption(cfg, "ADD_URI_SAFE_ATTR", DEFAULT_URI_SAFE_ATTRIBUTES, {
+        transform: transformCaseFunc,
+        base: DEFAULT_URI_SAFE_ATTRIBUTES
+      });
+      DATA_URI_TAGS = _resolveSetOption(cfg, "ADD_DATA_URI_TAGS", DEFAULT_DATA_URI_TAGS, {
+        transform: transformCaseFunc,
+        base: DEFAULT_DATA_URI_TAGS
+      });
+      FORBID_CONTENTS = _resolveSetOption(cfg, "FORBID_CONTENTS", DEFAULT_FORBID_CONTENTS, { transform: transformCaseFunc });
+      FORBID_TAGS = _resolveSetOption(cfg, "FORBID_TAGS", clone({}), { transform: transformCaseFunc });
+      FORBID_ATTR = _resolveSetOption(cfg, "FORBID_ATTR", clone({}), { transform: transformCaseFunc });
+      USE_PROFILES = objectHasOwnProperty(cfg, "USE_PROFILES") ? cfg.USE_PROFILES && typeof cfg.USE_PROFILES === "object" ? clone(cfg.USE_PROFILES) : cfg.USE_PROFILES : false;
+      ALLOW_ARIA_ATTR = cfg.ALLOW_ARIA_ATTR !== false;
+      ALLOW_DATA_ATTR = cfg.ALLOW_DATA_ATTR !== false;
+      ALLOW_UNKNOWN_PROTOCOLS = cfg.ALLOW_UNKNOWN_PROTOCOLS || false;
+      ALLOW_SELF_CLOSE_IN_ATTR = cfg.ALLOW_SELF_CLOSE_IN_ATTR !== false;
+      SAFE_FOR_TEMPLATES = cfg.SAFE_FOR_TEMPLATES || false;
+      SAFE_FOR_XML = cfg.SAFE_FOR_XML !== false;
+      WHOLE_DOCUMENT = cfg.WHOLE_DOCUMENT || false;
+      RETURN_DOM = cfg.RETURN_DOM || false;
+      RETURN_DOM_FRAGMENT = cfg.RETURN_DOM_FRAGMENT || false;
+      RETURN_TRUSTED_TYPE = cfg.RETURN_TRUSTED_TYPE || false;
+      FORCE_BODY = cfg.FORCE_BODY || false;
+      SANITIZE_DOM = cfg.SANITIZE_DOM !== false;
+      SANITIZE_NAMED_PROPS = cfg.SANITIZE_NAMED_PROPS || false;
+      KEEP_CONTENT = cfg.KEEP_CONTENT !== false;
+      IN_PLACE = cfg.IN_PLACE || false;
+      IS_ALLOWED_URI$1 = isRegex(cfg.ALLOWED_URI_REGEXP) ? cfg.ALLOWED_URI_REGEXP : IS_ALLOWED_URI;
+      NAMESPACE = typeof cfg.NAMESPACE === "string" ? cfg.NAMESPACE : HTML_NAMESPACE;
+      MATHML_TEXT_INTEGRATION_POINTS = _resolveObjectOption(cfg, "MATHML_TEXT_INTEGRATION_POINTS", () => addToSet({}, DEFAULT_MATHML_TEXT_INTEGRATION_POINTS));
+      HTML_INTEGRATION_POINTS = _resolveObjectOption(cfg, "HTML_INTEGRATION_POINTS", () => addToSet({}, DEFAULT_HTML_INTEGRATION_POINTS));
+      const customElementHandling = _resolveObjectOption(cfg, "CUSTOM_ELEMENT_HANDLING", () => create(null));
+      CUSTOM_ELEMENT_HANDLING = create(null);
+      if (objectHasOwnProperty(customElementHandling, "tagNameCheck") && isRegexOrFunction(customElementHandling.tagNameCheck))
+        CUSTOM_ELEMENT_HANDLING.tagNameCheck = customElementHandling.tagNameCheck;
+      if (objectHasOwnProperty(customElementHandling, "attributeNameCheck") && isRegexOrFunction(customElementHandling.attributeNameCheck))
+        CUSTOM_ELEMENT_HANDLING.attributeNameCheck = customElementHandling.attributeNameCheck;
+      if (objectHasOwnProperty(customElementHandling, "allowCustomizedBuiltInElements") && typeof customElementHandling.allowCustomizedBuiltInElements === "boolean")
+        CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements = customElementHandling.allowCustomizedBuiltInElements;
+      seal(CUSTOM_ELEMENT_HANDLING);
+      if (SAFE_FOR_TEMPLATES)
+        ALLOW_DATA_ATTR = false;
+      if (RETURN_DOM_FRAGMENT)
+        RETURN_DOM = true;
+      if (USE_PROFILES) {
+        ALLOWED_TAGS = addToSet({}, text);
+        ALLOWED_ATTR = create(null);
+        if (USE_PROFILES.html === true) {
+          addToSet(ALLOWED_TAGS, html$1);
+          addToSet(ALLOWED_ATTR, html);
+        }
+        if (USE_PROFILES.svg === true) {
+          addToSet(ALLOWED_TAGS, svg$1);
+          addToSet(ALLOWED_ATTR, svg);
+          addToSet(ALLOWED_ATTR, xml);
+        }
+        if (USE_PROFILES.svgFilters === true) {
+          addToSet(ALLOWED_TAGS, svgFilters);
+          addToSet(ALLOWED_ATTR, svg);
+          addToSet(ALLOWED_ATTR, xml);
+        }
+        if (USE_PROFILES.mathMl === true) {
+          addToSet(ALLOWED_TAGS, mathMl$1);
+          addToSet(ALLOWED_ATTR, mathMl);
+          addToSet(ALLOWED_ATTR, xml);
+        }
+      }
+      EXTRA_ELEMENT_HANDLING.tagCheck = null;
+      EXTRA_ELEMENT_HANDLING.attributeCheck = null;
+      if (objectHasOwnProperty(cfg, "ADD_TAGS")) {
+        if (typeof cfg.ADD_TAGS === "function")
+          EXTRA_ELEMENT_HANDLING.tagCheck = cfg.ADD_TAGS;
+        else if (arrayIsArray(cfg.ADD_TAGS)) {
+          if (ALLOWED_TAGS === DEFAULT_ALLOWED_TAGS)
+            ALLOWED_TAGS = clone(ALLOWED_TAGS);
+          addToSet(ALLOWED_TAGS, cfg.ADD_TAGS, transformCaseFunc);
+        }
+      }
+      if (objectHasOwnProperty(cfg, "ADD_ATTR")) {
+        if (typeof cfg.ADD_ATTR === "function")
+          EXTRA_ELEMENT_HANDLING.attributeCheck = cfg.ADD_ATTR;
+        else if (arrayIsArray(cfg.ADD_ATTR)) {
+          if (ALLOWED_ATTR === DEFAULT_ALLOWED_ATTR)
+            ALLOWED_ATTR = clone(ALLOWED_ATTR);
+          addToSet(ALLOWED_ATTR, cfg.ADD_ATTR, transformCaseFunc);
+        }
+      }
+      if (objectHasOwnProperty(cfg, "ADD_FORBID_CONTENTS") && arrayIsArray(cfg.ADD_FORBID_CONTENTS)) {
+        if (FORBID_CONTENTS === DEFAULT_FORBID_CONTENTS)
+          FORBID_CONTENTS = clone(FORBID_CONTENTS);
+        addToSet(FORBID_CONTENTS, cfg.ADD_FORBID_CONTENTS, transformCaseFunc);
+      }
+      if (KEEP_CONTENT)
+        ALLOWED_TAGS["#text"] = true;
+      if (WHOLE_DOCUMENT)
+        addToSet(ALLOWED_TAGS, [
+          "html",
+          "head",
+          "body"
+        ]);
+      if (ALLOWED_TAGS.table) {
+        addToSet(ALLOWED_TAGS, ["tbody"]);
+        delete FORBID_TAGS.tbody;
+      }
+      if (cfg.TRUSTED_TYPES_POLICY) {
+        if (typeof cfg.TRUSTED_TYPES_POLICY.createHTML !== "function")
+          throw typeErrorCreate('TRUSTED_TYPES_POLICY configuration option must provide a "createHTML" hook.');
+        if (typeof cfg.TRUSTED_TYPES_POLICY.createScriptURL !== "function")
+          throw typeErrorCreate('TRUSTED_TYPES_POLICY configuration option must provide a "createScriptURL" hook.');
+        const previousTrustedTypesPolicy = trustedTypesPolicy;
+        trustedTypesPolicy = cfg.TRUSTED_TYPES_POLICY;
+        try {
+          emptyHTML = _createTrustedHTML("");
+        } catch (error) {
+          trustedTypesPolicy = previousTrustedTypesPolicy;
+          throw error;
+        }
+      } else if (cfg.TRUSTED_TYPES_POLICY === null) {
+        trustedTypesPolicy = void 0;
+        emptyHTML = "";
+      } else {
+        if (trustedTypesPolicy === void 0)
+          trustedTypesPolicy = _getDefaultTrustedTypesPolicy();
+        if (trustedTypesPolicy && typeof emptyHTML === "string")
+          emptyHTML = _createTrustedHTML("");
+      }
+      if (freeze)
+        freeze(cfg);
+      CONFIG = cfg;
+    };
+    const ALL_SVG_TAGS = addToSet({}, [
+      ...svg$1,
+      ...svgFilters,
+      ...svgDisallowed
+    ]);
+    const ALL_MATHML_TAGS = addToSet({}, [...mathMl$1, ...mathMlDisallowed]);
+    const _checkSvgNamespace = function _checkSvgNamespace2(tagName, parent, parentTagName) {
+      if (parent.namespaceURI === HTML_NAMESPACE)
+        return tagName === "svg";
+      if (parent.namespaceURI === MATHML_NAMESPACE)
+        return tagName === "svg" && (parentTagName === "annotation-xml" || MATHML_TEXT_INTEGRATION_POINTS[parentTagName]);
+      return Boolean(ALL_SVG_TAGS[tagName]);
+    };
+    const _checkMathMlNamespace = function _checkMathMlNamespace2(tagName, parent, parentTagName) {
+      if (parent.namespaceURI === HTML_NAMESPACE)
+        return tagName === "math";
+      if (parent.namespaceURI === SVG_NAMESPACE)
+        return tagName === "math" && HTML_INTEGRATION_POINTS[parentTagName];
+      return Boolean(ALL_MATHML_TAGS[tagName]);
+    };
+    const _checkHtmlNamespace = function _checkHtmlNamespace2(tagName, parent, parentTagName) {
+      if (parent.namespaceURI === SVG_NAMESPACE && !HTML_INTEGRATION_POINTS[parentTagName])
+        return false;
+      if (parent.namespaceURI === MATHML_NAMESPACE && !MATHML_TEXT_INTEGRATION_POINTS[parentTagName])
+        return false;
+      return !ALL_MATHML_TAGS[tagName] && (COMMON_SVG_AND_HTML_ELEMENTS[tagName] || !ALL_SVG_TAGS[tagName]);
+    };
+    const _checkValidNamespace = function _checkValidNamespace2(element) {
+      let parent = getParentNode(element);
+      if (!parent || !parent.tagName)
+        parent = {
+          namespaceURI: NAMESPACE,
+          tagName: "template"
+        };
+      const tagName = stringToLowerCase(element.tagName);
+      const parentTagName = stringToLowerCase(parent.tagName);
+      if (!ALLOWED_NAMESPACES[element.namespaceURI])
+        return false;
+      if (element.namespaceURI === SVG_NAMESPACE)
+        return _checkSvgNamespace(tagName, parent, parentTagName);
+      if (element.namespaceURI === MATHML_NAMESPACE)
+        return _checkMathMlNamespace(tagName, parent, parentTagName);
+      if (element.namespaceURI === HTML_NAMESPACE)
+        return _checkHtmlNamespace(tagName, parent, parentTagName);
+      if (PARSER_MEDIA_TYPE === "application/xhtml+xml" && ALLOWED_NAMESPACES[element.namespaceURI])
+        return true;
+      return false;
+    };
+    const _forceRemove = function _forceRemove2(node) {
+      arrayPush(DOMPurify.removed, { element: node });
+      try {
+        getParentNode(node).removeChild(node);
+      } catch (_) {
+        remove(node);
+        if (!getParentNode(node))
+          throw typeErrorCreate("a node selected for removal could not be detached from its tree and cannot be safely returned; refusing to sanitize in place");
+      }
+    };
+    const _stripAttributeNode = function _stripAttributeNode2(element, attribute, name) {
+      try {
+        removeAttributeNode(element, attribute);
+      } catch (_) {
+        try {
+          element.removeAttribute(name);
+        } catch (_2) {
+        }
+      }
+    };
+    const _neutralizeRoot = function _neutralizeRoot2(root2) {
+      _neutralizeSubtree(root2);
+      const childNodes = getChildNodes(root2);
+      if (childNodes) {
+        const snapshot = [];
+        arrayForEach(childNodes, (child) => {
+          arrayPush(snapshot, child);
+        });
+        arrayForEach(snapshot, (child) => {
+          try {
+            remove(child);
+          } catch (_) {
+          }
+        });
+      }
+      const attributes = getAttributes(root2);
+      if (attributes)
+        for (let i = attributes.length - 1; i >= 0; --i) {
+          const attribute = attributes[i];
+          const name = attribute && attribute.name;
+          if (typeof name === "string")
+            _stripAttributeNode(root2, attribute, name);
+        }
+    };
+    const _removeAttribute = function _removeAttribute2(name, element, attr) {
+      if (!attr)
+        try {
+          attr = element.getAttributeNode(name);
+        } catch (_) {
+          attr = null;
+        }
+      arrayPush(DOMPurify.removed, {
+        attribute: attr || null,
+        from: element
+      });
+      try {
+        if (attr)
+          removeAttributeNode(element, attr);
+        else
+          element.removeAttribute(name);
+      } catch (_) {
+        try {
+          element.removeAttribute(name);
+        } catch (_2) {
+        }
+      }
+      if (name === "is") {
+        if (RETURN_DOM || RETURN_DOM_FRAGMENT)
+          try {
+            _forceRemove(element);
+          } catch (_) {
+          }
+        else
+          try {
+            element.setAttribute(name, "");
+          } catch (_) {
+          }
+      }
+    };
+    const _stripDisallowedAttributes = function _stripDisallowedAttributes2(element) {
+      const attributes = getAttributes(element);
+      if (!attributes)
+        return;
+      for (let i = attributes.length - 1; i >= 0; --i) {
+        const attribute = attributes[i];
+        const name = attribute && attribute.name;
+        if (typeof name !== "string" || ALLOWED_ATTR[transformCaseFunc(name)])
+          continue;
+        _stripAttributeNode(element, attribute, name);
+      }
+    };
+    const _neutralizeSubtree = function _neutralizeSubtree2(root2) {
+      const stack = [root2];
+      while (stack.length > 0) {
+        const node = stack.pop();
+        if (_readNodeType(node) === NODE_TYPE.element)
+          _stripDisallowedAttributes(node);
+        const childNodes = getChildNodes(node);
+        if (childNodes)
+          for (let i = childNodes.length - 1; i >= 0; --i)
+            stack.push(childNodes[i]);
+      }
+    };
+    const _isPatchLinkageAttribute = function _isPatchLinkageAttribute2(lcName, lcTag) {
+      if (!SAFE_FOR_XML)
+        return false;
+      if (lcName === "patchsrc")
+        return true;
+      return lcName === "for" && lcTag !== "label" && lcTag !== "output";
+    };
+    const _neutralizePatchLinkage = function _neutralizePatchLinkage2(root2) {
+      if (!SAFE_FOR_XML)
+        return;
+      const stack = [root2];
+      while (stack.length > 0) {
+        const node = stack.pop();
+        const nodeType = _readNodeType(node);
+        if (nodeType === NODE_TYPE.processingInstruction || nodeType === NODE_TYPE.comment && regExpTest(COMMENT_MARKUP_PROBE, node.data)) {
+          try {
+            remove(node);
+          } catch (_) {
+          }
+          continue;
+        }
+        if (nodeType === NODE_TYPE.element) {
+          const element = node;
+          const lcTag = transformCaseFunc(_readNodeName(node));
+          try {
+            if (element.hasAttribute && element.hasAttribute("patchsrc"))
+              element.removeAttribute("patchsrc");
+            if (element.hasAttribute && element.hasAttribute("for") && _isPatchLinkageAttribute("for", lcTag))
+              element.removeAttribute("for");
+          } catch (_) {
+          }
+        }
+        const childNodes = getChildNodes(node);
+        if (childNodes)
+          for (let i = childNodes.length - 1; i >= 0; --i)
+            stack.push(childNodes[i]);
+      }
+    };
+    const _initDocument = function _initDocument2(dirty) {
+      let doc = null;
+      let leadingWhitespace = null;
+      if (FORCE_BODY)
+        dirty = "<remove></remove>" + dirty;
+      else {
+        const matches2 = stringMatch(dirty, /^[\r\n\t ]+/);
+        leadingWhitespace = matches2 && matches2[0];
+      }
+      if (PARSER_MEDIA_TYPE === "application/xhtml+xml" && NAMESPACE === HTML_NAMESPACE)
+        dirty = '<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>' + dirty + "</body></html>";
+      const dirtyPayload = trustedTypesPolicy ? _createTrustedHTML(dirty) : dirty;
+      if (NAMESPACE === HTML_NAMESPACE)
+        try {
+          doc = new DOMParser2().parseFromString(dirtyPayload, PARSER_MEDIA_TYPE);
+        } catch (_) {
+        }
+      if (!doc || !doc.documentElement) {
+        doc = implementation.createDocument(NAMESPACE, "template", null);
+        try {
+          doc.documentElement.innerHTML = IS_EMPTY_INPUT ? emptyHTML : dirtyPayload;
+        } catch (_) {
+        }
+      }
+      const body = doc.body || doc.documentElement;
+      if (dirty && leadingWhitespace)
+        body.insertBefore(document2.createTextNode(leadingWhitespace), body.childNodes[0] || null);
+      if (NAMESPACE === HTML_NAMESPACE)
+        return getElementsByTagName.call(doc, WHOLE_DOCUMENT ? "html" : "body")[0];
+      return WHOLE_DOCUMENT ? doc.documentElement : body;
+    };
+    const _createNodeIterator = function _createNodeIterator2(root2) {
+      const doc = getOwnerDocument ? getOwnerDocument(root2) : root2.ownerDocument;
+      return createNodeIterator.call(doc || root2, root2, NodeFilter2.SHOW_ELEMENT | NodeFilter2.SHOW_COMMENT | NodeFilter2.SHOW_TEXT | NodeFilter2.SHOW_PROCESSING_INSTRUCTION | NodeFilter2.SHOW_CDATA_SECTION, null);
+    };
+    const _stripTemplateExpressions = function _stripTemplateExpressions2(value) {
+      value = stringReplace(value, MUSTACHE_EXPR$1, " ");
+      value = stringReplace(value, ERB_EXPR$1, " ");
+      value = stringReplace(value, TMPLIT_EXPR$1, " ");
+      return value;
+    };
+    const _scrubTemplateExpressions2 = function _scrubTemplateExpressions(node) {
+      var _node$querySelectorAl;
+      node.normalize();
+      const doc = getOwnerDocument ? getOwnerDocument(node) : node.ownerDocument;
+      const walker = createNodeIterator.call(doc || node, node, NodeFilter2.SHOW_TEXT | NodeFilter2.SHOW_COMMENT | NodeFilter2.SHOW_CDATA_SECTION | NodeFilter2.SHOW_PROCESSING_INSTRUCTION, null);
+      let currentNode = walker.nextNode();
+      while (currentNode) {
+        currentNode.data = _stripTemplateExpressions(currentNode.data);
+        currentNode = walker.nextNode();
+      }
+      const templates = (_node$querySelectorAl = node.querySelectorAll) === null || _node$querySelectorAl === void 0 ? void 0 : _node$querySelectorAl.call(node, "template");
+      if (templates)
+        arrayForEach(templates, (tmpl) => {
+          if (_isDocumentFragment(tmpl.content))
+            _scrubTemplateExpressions2(tmpl.content);
+        });
+    };
+    const _isClobbered = function _isClobbered2(element) {
+      const realTagName = getNodeName ? getNodeName(element) : null;
+      if (typeof realTagName !== "string")
+        return false;
+      if (transformCaseFunc(realTagName) !== "form")
+        return false;
+      return typeof element.nodeName !== "string" || typeof element.textContent !== "string" || typeof element.removeChild !== "function" || element.attributes !== getAttributes(element) || typeof element.removeAttribute !== "function" || typeof element.removeAttributeNode !== "function" || typeof element.getAttributeNode !== "function" || typeof element.setAttribute !== "function" || typeof element.namespaceURI !== "string" || typeof element.insertBefore !== "function" || typeof element.hasChildNodes !== "function" || element.nodeType !== getNodeType(element) || element.childNodes !== getChildNodes(element);
+    };
+    const _isDocumentFragment = function _isDocumentFragment2(value) {
+      if (!getNodeType || typeof value !== "object" || value === null)
+        return false;
+      try {
+        return getNodeType(value) === NODE_TYPE.documentFragment;
+      } catch (_) {
+        return false;
+      }
+    };
+    const _isNode = function _isNode2(value) {
+      if (!getNodeType || typeof value !== "object" || value === null)
+        return false;
+      try {
+        return typeof getNodeType(value) === "number";
+      } catch (_) {
+        return false;
+      }
+    };
+    function _executeHooks(hooks2, currentNode, data) {
+      if (hooks2.length === 0)
+        return;
+      arrayForEach(hooks2, (hook) => {
+        hook.call(DOMPurify, currentNode, data, CONFIG);
+      });
+    }
+    const _isUnsafeNode = function _isUnsafeNode2(currentNode, tagName) {
+      if (SAFE_FOR_XML && currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && regExpTest(ELEMENT_MARKUP_PROBE, currentNode.textContent) && regExpTest(ELEMENT_MARKUP_PROBE, currentNode.innerHTML))
+        return true;
+      if (SAFE_FOR_XML && currentNode.namespaceURI === HTML_NAMESPACE && LITERAL_TEXT_ELEMENTS[tagName] && (_isNode(currentNode.firstElementChild) || typeof currentNode.textContent === "string" && regExpTest(LITERAL_TEXT_CLOSE[tagName], currentNode.textContent)))
+        return true;
+      if (currentNode.nodeType === NODE_TYPE.processingInstruction)
+        return true;
+      if (SAFE_FOR_XML && currentNode.nodeType === NODE_TYPE.comment && regExpTest(COMMENT_MARKUP_PROBE, currentNode.data))
+        return true;
+      return false;
+    };
+    const _matchesNameCheck = function _matchesNameCheck2(check, name) {
+      if (check instanceof RegExp)
+        return regExpTest(check, name);
+      if (check instanceof Function) {
+        for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)
+          args[_key - 2] = arguments[_key];
+        return Boolean(check(name, ...args));
+      }
+      return false;
+    };
+    const _sanitizeDisallowedNode = function _sanitizeDisallowedNode2(currentNode, tagName, root2) {
+      if (!FORBID_TAGS[tagName] && _isBasicCustomElement(tagName) && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.tagNameCheck, tagName))
+        return false;
+      if (KEEP_CONTENT && !FORBID_CONTENTS[tagName]) {
+        const parentNode = getParentNode(currentNode);
+        const childNodes = getChildNodes(currentNode);
+        if (childNodes && parentNode) {
+          const childCount = childNodes.length;
+          for (let i = childCount - 1; i >= 0; --i) {
+            const hoisted = currentNode === root2 ? cloneNode(childNodes[i], true) : childNodes[i];
+            parentNode.insertBefore(hoisted, getNextSibling(currentNode));
+          }
+        }
+      }
+      _forceRemove(currentNode);
+      return true;
+    };
+    const _forkSharedAllowlist = function _forkSharedAllowlist2(hookList, set, defaultSet, setConfigSet) {
+      if (hookList.length === 0)
+        return set;
+      return set === defaultSet || set === setConfigSet ? clone(set) : set;
+    };
+    const _handleHookDetachedNode = function _handleHookDetachedNode2(currentNode, root2) {
+      if (currentNode === root2 || getParentNode(currentNode) !== null)
+        return false;
+      if (IN_PLACE)
+        _neutralizeSubtree(currentNode);
+      return true;
+    };
+    const _sanitizeElements = function _sanitizeElements2(currentNode, root2) {
+      _executeHooks(hooks.beforeSanitizeElements, currentNode, null);
+      if (_handleHookDetachedNode(currentNode, root2))
+        return true;
+      if (_isClobbered(currentNode)) {
+        _forceRemove(currentNode);
+        return true;
+      }
+      const tagName = transformCaseFunc(_readNodeName(currentNode));
+      ALLOWED_TAGS = _forkSharedAllowlist(hooks.uponSanitizeElement, ALLOWED_TAGS, DEFAULT_ALLOWED_TAGS, SET_CONFIG_ALLOWED_TAGS);
+      _executeHooks(hooks.uponSanitizeElement, currentNode, {
+        tagName,
+        allowedTags: ALLOWED_TAGS
+      });
+      if (_handleHookDetachedNode(currentNode, root2))
+        return true;
+      if (_isUnsafeNode(currentNode, tagName)) {
+        _forceRemove(currentNode);
+        return true;
+      }
+      if (FORBID_TAGS[tagName] || !(EXTRA_ELEMENT_HANDLING.tagCheck instanceof Function && EXTRA_ELEMENT_HANDLING.tagCheck(tagName)) && !ALLOWED_TAGS[tagName]) {
+        const removed = _sanitizeDisallowedNode(currentNode, tagName, root2);
+        if (removed === false) {
+          _executeHooks(hooks.afterSanitizeElements, currentNode, null);
+          if (_handleHookDetachedNode(currentNode, root2))
+            return true;
+        }
+        return removed;
+      }
+      if (_readNodeType(currentNode) === NODE_TYPE.element && !_checkValidNamespace(currentNode)) {
+        _forceRemove(currentNode);
+        return true;
+      }
+      if ((tagName === "noscript" || tagName === "noembed" || tagName === "noframes") && regExpTest(FALLBACK_TAG_CLOSE, currentNode.innerHTML)) {
+        _forceRemove(currentNode);
+        return true;
+      }
+      if (SAFE_FOR_TEMPLATES && currentNode.nodeType === NODE_TYPE.text) {
+        const content = _stripTemplateExpressions(currentNode.textContent);
+        if (currentNode.textContent !== content) {
+          arrayPush(DOMPurify.removed, { element: currentNode.cloneNode() });
+          currentNode.textContent = content;
+        }
+      }
+      _executeHooks(hooks.afterSanitizeElements, currentNode, null);
+      return _handleHookDetachedNode(currentNode, root2);
+    };
+    const _isValidAttribute = function _isValidAttribute2(lcTag, lcName, value) {
+      if (FORBID_ATTR[lcName])
+        return false;
+      if (_isPatchLinkageAttribute(lcName, lcTag))
+        return false;
+      if (SANITIZE_DOM && (lcName === "id" || lcName === "name") && (value in document2 || value in formElement))
+        return false;
+      const nameIsPermitted = ALLOWED_ATTR[lcName] || EXTRA_ELEMENT_HANDLING.attributeCheck instanceof Function && EXTRA_ELEMENT_HANDLING.attributeCheck(lcName, lcTag);
+      if (ALLOW_DATA_ATTR && regExpTest(DATA_ATTR$1, lcName))
+        return true;
+      if (ALLOW_ARIA_ATTR && regExpTest(ARIA_ATTR$1, lcName))
+        return true;
+      if (!nameIsPermitted)
+        return _isBasicCustomElement(lcTag) && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.tagNameCheck, lcTag) && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.attributeNameCheck, lcName, lcTag) || lcName === "is" && CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements && _matchesNameCheck(CUSTOM_ELEMENT_HANDLING.tagNameCheck, value);
+      if (URI_SAFE_ATTRIBUTES[lcName])
+        return true;
+      if (regExpTest(IS_ALLOWED_URI$1, stringReplace(value, ATTR_WHITESPACE$1, "")))
+        return true;
+      if ((lcName === "src" || lcName === "xlink:href" || lcName === "href") && lcTag !== "script" && stringIndexOf(value, "data:") === 0 && DATA_URI_TAGS[lcTag])
+        return true;
+      if (ALLOW_UNKNOWN_PROTOCOLS && !regExpTest(IS_SCRIPT_OR_DATA$1, stringReplace(value, ATTR_WHITESPACE$1, "")))
+        return true;
+      return !value;
+    };
+    const RESERVED_CUSTOM_ELEMENT_NAMES = addToSet({}, [
+      "annotation-xml",
+      "color-profile",
+      "font-face",
+      "font-face-format",
+      "font-face-name",
+      "font-face-src",
+      "font-face-uri",
+      "missing-glyph"
+    ]);
+    const _isBasicCustomElement = function _isBasicCustomElement2(tagName) {
+      return !RESERVED_CUSTOM_ELEMENT_NAMES[stringToLowerCase(tagName)] && regExpTest(CUSTOM_ELEMENT$1, tagName);
+    };
+    const _applyTrustedTypesToAttribute = function _applyTrustedTypesToAttribute2(lcTag, lcName, namespaceURI, value) {
+      if (trustedTypesPolicy && typeof trustedTypes === "object" && typeof trustedTypes.getAttributeType === "function" && !namespaceURI)
+        switch (trustedTypes.getAttributeType(lcTag, lcName)) {
+          case "TrustedHTML":
+            return _createTrustedHTML(value);
+          case "TrustedScriptURL":
+            return _createTrustedScriptURL(value);
+        }
+      return value;
+    };
+    const _setAttributeValue = function _setAttributeValue2(currentNode, name, namespaceURI, value) {
+      try {
+        if (namespaceURI)
+          currentNode.setAttributeNS(namespaceURI, name, value);
+        else
+          currentNode.setAttribute(name, value);
+        if (_isClobbered(currentNode)) {
+          _forceRemove(currentNode);
+          return false;
+        }
+        return true;
+      } catch (_) {
+        _removeAttribute(name, currentNode);
+        return false;
+      }
+    };
+    const _sanitizeAttributes = function _sanitizeAttributes2(currentNode, root2) {
+      _executeHooks(hooks.beforeSanitizeAttributes, currentNode, null);
+      if (_handleHookDetachedNode(currentNode, root2))
+        return;
+      const attributes = currentNode.attributes;
+      if (!attributes || _isClobbered(currentNode))
+        return;
+      ALLOWED_ATTR = _forkSharedAllowlist(hooks.uponSanitizeAttribute, ALLOWED_ATTR, DEFAULT_ALLOWED_ATTR, SET_CONFIG_ALLOWED_ATTR);
+      const hookEvent = {
+        attrName: "",
+        attrValue: "",
+        keepAttr: true,
+        allowedAttributes: ALLOWED_ATTR,
+        forceKeepAttr: void 0
+      };
+      let l = attributes.length;
+      const lcTag = transformCaseFunc(currentNode.nodeName);
+      while (l--) {
+        const attr = attributes[l];
+        const name = attr.name, namespaceURI = attr.namespaceURI, attrValue = attr.value;
+        const lcName = transformCaseFunc(name);
+        const initValue = attrValue;
+        let value = name === "value" ? initValue : stringTrim(initValue);
+        let recreatedNamedProp = false;
+        hookEvent.attrName = lcName;
+        hookEvent.attrValue = value;
+        hookEvent.keepAttr = true;
+        hookEvent.forceKeepAttr = void 0;
+        _executeHooks(hooks.uponSanitizeAttribute, currentNode, hookEvent);
+        value = hookEvent.attrValue;
+        if (SANITIZE_NAMED_PROPS && (lcName === "id" || lcName === "name") && stringIndexOf(value, SANITIZE_NAMED_PROPS_PREFIX) !== 0) {
+          _removeAttribute(name, currentNode, attr);
+          value = SANITIZE_NAMED_PROPS_PREFIX + value;
+          recreatedNamedProp = true;
+        }
+        if (SAFE_FOR_XML && regExpTest(/((--!?|])>)|<\/(style|script|title|xmp|textarea|noscript|iframe|noembed|noframes)/i, value)) {
+          _removeAttribute(name, currentNode, attr);
+          continue;
+        }
+        if (lcName === "attributename" && stringMatch(value, "href")) {
+          _removeAttribute(name, currentNode, attr);
+          continue;
+        }
+        if (hookEvent.forceKeepAttr)
+          continue;
+        if (!hookEvent.keepAttr) {
+          _removeAttribute(name, currentNode, attr);
+          continue;
+        }
+        if (!ALLOW_SELF_CLOSE_IN_ATTR && regExpTest(SELF_CLOSING_TAG, value)) {
+          _removeAttribute(name, currentNode, attr);
+          continue;
+        }
+        if (SAFE_FOR_TEMPLATES)
+          value = _stripTemplateExpressions(value);
+        if (!_isValidAttribute(lcTag, lcName, value)) {
+          _removeAttribute(name, currentNode, attr);
+          continue;
+        }
+        value = _applyTrustedTypesToAttribute(lcTag, lcName, namespaceURI, value);
+        if (value !== initValue) {
+          if (_setAttributeValue(currentNode, name, namespaceURI, value) && recreatedNamedProp)
+            arrayPop(DOMPurify.removed);
+        }
+      }
+      _executeHooks(hooks.afterSanitizeAttributes, currentNode, null);
+      _handleHookDetachedNode(currentNode, root2);
+    };
+    const _sanitizeShadowDOM2 = function _sanitizeShadowDOM(fragment) {
+      let shadowNode = null;
+      const shadowIterator = _createNodeIterator(fragment);
+      _executeHooks(hooks.beforeSanitizeShadowDOM, fragment, null);
+      while (shadowNode = shadowIterator.nextNode()) {
+        _executeHooks(hooks.uponSanitizeShadowNode, shadowNode, null);
+        _sanitizeElements(shadowNode, fragment);
+        _sanitizeAttributes(shadowNode, fragment);
+        if (_isDocumentFragment(shadowNode.content))
+          _sanitizeShadowDOM2(shadowNode.content);
+        if (_readNodeType(shadowNode) === NODE_TYPE.element) {
+          const innerSr = getShadowRoot(shadowNode);
+          if (_isDocumentFragment(innerSr)) {
+            _sanitizeAttachedShadowRoots(innerSr);
+            _sanitizeShadowDOM2(innerSr);
+          }
+        }
+      }
+      _executeHooks(hooks.afterSanitizeShadowDOM, fragment, null);
+    };
+    const _sanitizeAttachedShadowRoots = function _sanitizeAttachedShadowRoots2(root2) {
+      const stack = [{
+        node: root2,
+        shadow: null
+      }];
+      while (stack.length > 0) {
+        const item = stack.pop();
+        if (item.shadow) {
+          _sanitizeShadowDOM2(item.shadow);
+          continue;
+        }
+        const node = item.node;
+        const isElement = _readNodeType(node) === NODE_TYPE.element;
+        const childNodes = getChildNodes(node);
+        if (childNodes)
+          for (let i = childNodes.length - 1; i >= 0; --i)
+            stack.push({
+              node: childNodes[i],
+              shadow: null
+            });
+        if (isElement) {
+          const rootName = getNodeName ? getNodeName(node) : null;
+          if (typeof rootName === "string" && transformCaseFunc(rootName) === "template") {
+            const content = node.content;
+            if (_isDocumentFragment(content))
+              stack.push({
+                node: content,
+                shadow: null
+              });
+          }
+        }
+        if (isElement) {
+          const sr = getShadowRoot(node);
+          if (_isDocumentFragment(sr))
+            stack.push({
+              node: null,
+              shadow: sr
+            }, {
+              node: sr,
+              shadow: null
+            });
+        }
+      }
+    };
+    DOMPurify.sanitize = function(dirty) {
+      let cfg = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+      let body = null;
+      let importedNode = null;
+      let currentNode = null;
+      let returnNode = null;
+      IS_EMPTY_INPUT = !dirty;
+      if (IS_EMPTY_INPUT)
+        dirty = "<!-->";
+      if (typeof dirty !== "string" && !_isNode(dirty)) {
+        dirty = stringifyValue(dirty);
+        if (typeof dirty !== "string")
+          throw typeErrorCreate("dirty is not a string, aborting");
+      }
+      if (!DOMPurify.isSupported)
+        return dirty;
+      if (SET_CONFIG) {
+        ALLOWED_TAGS = SET_CONFIG_ALLOWED_TAGS;
+        ALLOWED_ATTR = SET_CONFIG_ALLOWED_ATTR;
+      } else
+        _parseConfig(cfg);
+      if (hooks.uponSanitizeElement.length > 0 || hooks.uponSanitizeAttribute.length > 0)
+        ALLOWED_TAGS = clone(ALLOWED_TAGS);
+      if (hooks.uponSanitizeAttribute.length > 0)
+        ALLOWED_ATTR = clone(ALLOWED_ATTR);
+      DOMPurify.removed = [];
+      const inPlace = IN_PLACE && typeof dirty !== "string" && _isNode(dirty);
+      if (inPlace) {
+        _neutralizePatchLinkage(dirty);
+        const nn = _readNodeName(dirty);
+        if (typeof nn === "string") {
+          const tagName = transformCaseFunc(nn);
+          if (!ALLOWED_TAGS[tagName] || FORBID_TAGS[tagName]) {
+            _neutralizeRoot(dirty);
+            throw typeErrorCreate("root node is forbidden and cannot be sanitized in-place");
+          }
+        }
+        if (_isClobbered(dirty)) {
+          _neutralizeRoot(dirty);
+          throw typeErrorCreate("root node is clobbered and cannot be sanitized in-place");
+        }
+        try {
+          _sanitizeAttachedShadowRoots(dirty);
+        } catch (error) {
+          _neutralizeRoot(dirty);
+          throw error;
+        }
+      } else if (_isNode(dirty)) {
+        body = _initDocument("<!---->");
+        importedNode = body.ownerDocument.importNode(dirty, true);
+        if (importedNode.nodeType === NODE_TYPE.element && importedNode.nodeName === "BODY")
+          body = importedNode;
+        else if (importedNode.nodeName === "HTML")
+          body = importedNode;
+        else
+          body.appendChild(importedNode);
+        _sanitizeAttachedShadowRoots(body);
+      } else {
+        if (!RETURN_DOM && !SAFE_FOR_TEMPLATES && !WHOLE_DOCUMENT && dirty.indexOf("<") === -1)
+          return trustedTypesPolicy && RETURN_TRUSTED_TYPE ? _createTrustedHTML(dirty) : dirty;
+        body = _initDocument(dirty);
+        if (!body)
+          return RETURN_DOM ? null : RETURN_TRUSTED_TYPE ? emptyHTML : "";
+      }
+      if (body && FORCE_BODY)
+        _forceRemove(body.firstChild);
+      const walkRoot = inPlace ? dirty : body;
+      try {
+        const nodeIterator = _createNodeIterator(walkRoot);
+        while (currentNode = nodeIterator.nextNode()) {
+          _sanitizeElements(currentNode, walkRoot);
+          _sanitizeAttributes(currentNode, walkRoot);
+          if (_isDocumentFragment(currentNode.content))
+            _sanitizeShadowDOM2(currentNode.content);
+        }
+      } catch (error) {
+        if (inPlace) {
+          _neutralizeRoot(dirty);
+          arrayForEach(DOMPurify.removed, (entry) => {
+            if (entry.element)
+              _neutralizeSubtree(entry.element);
+          });
+        }
+        throw error;
+      }
+      if (inPlace) {
+        let rootWasRemoved = false;
+        arrayForEach(DOMPurify.removed, (entry) => {
+          if (entry.element) {
+            if (entry.element === dirty)
+              rootWasRemoved = true;
+            _neutralizeSubtree(entry.element);
+          }
+        });
+        if (rootWasRemoved)
+          throw typeErrorCreate("a node selected for removal could not be safely returned; refusing to sanitize in place");
+        if (SAFE_FOR_TEMPLATES)
+          _scrubTemplateExpressions2(dirty);
+        return dirty;
+      }
+      if (RETURN_DOM) {
+        if (SAFE_FOR_TEMPLATES)
+          _scrubTemplateExpressions2(body);
+        if (RETURN_DOM_FRAGMENT) {
+          returnNode = createDocumentFragment.call(body.ownerDocument);
+          while (body.firstChild)
+            returnNode.appendChild(body.firstChild);
+        } else
+          returnNode = body;
+        if (ALLOWED_ATTR.shadowroot || ALLOWED_ATTR.shadowrootmode)
+          returnNode = importNode.call(originalDocument, returnNode, true);
+        return returnNode;
+      }
+      let serializedHTML = WHOLE_DOCUMENT ? body.outerHTML : body.innerHTML;
+      if (WHOLE_DOCUMENT && ALLOWED_TAGS["!doctype"] && body.ownerDocument && body.ownerDocument.doctype && body.ownerDocument.doctype.name && regExpTest(DOCTYPE_NAME, body.ownerDocument.doctype.name))
+        serializedHTML = "<!DOCTYPE " + body.ownerDocument.doctype.name + ">\n" + serializedHTML;
+      if (SAFE_FOR_TEMPLATES)
+        serializedHTML = _stripTemplateExpressions(serializedHTML);
+      return trustedTypesPolicy && RETURN_TRUSTED_TYPE ? _createTrustedHTML(serializedHTML) : serializedHTML;
+    };
+    DOMPurify.setConfig = function() {
+      let cfg = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+      _parseConfig(cfg);
+      SET_CONFIG = true;
+      SET_CONFIG_ALLOWED_TAGS = ALLOWED_TAGS;
+      SET_CONFIG_ALLOWED_ATTR = ALLOWED_ATTR;
+    };
+    DOMPurify.clearConfig = function() {
+      CONFIG = null;
+      SET_CONFIG = false;
+      SET_CONFIG_ALLOWED_TAGS = null;
+      SET_CONFIG_ALLOWED_ATTR = null;
+      trustedTypesPolicy = defaultTrustedTypesPolicy;
+      emptyHTML = "";
+    };
+    DOMPurify.isValidAttribute = function(tag, attr, value) {
+      if (!CONFIG)
+        _parseConfig({});
+      const lcTag = transformCaseFunc(tag);
+      const lcName = transformCaseFunc(attr);
+      return _isValidAttribute(lcTag, lcName, value);
+    };
+    DOMPurify.addHook = function(entryPoint, hookFunction) {
+      if (typeof hookFunction !== "function")
+        return;
+      if (!objectHasOwnProperty(hooks, entryPoint))
+        return;
+      arrayPush(hooks[entryPoint], hookFunction);
+    };
+    DOMPurify.removeHook = function(entryPoint, hookFunction) {
+      if (!objectHasOwnProperty(hooks, entryPoint))
+        return;
+      if (hookFunction !== void 0) {
+        const index = arrayLastIndexOf(hooks[entryPoint], hookFunction);
+        return index === -1 ? void 0 : arraySplice(hooks[entryPoint], index, 1)[0];
+      }
+      return arrayPop(hooks[entryPoint]);
+    };
+    DOMPurify.removeHooks = function(entryPoint) {
+      if (!objectHasOwnProperty(hooks, entryPoint))
+        return;
+      hooks[entryPoint] = [];
+    };
+    DOMPurify.removeAllHooks = function() {
+      hooks = _createHooksMap();
+    };
+    return DOMPurify;
+  }
+  var purify_default = createDOMPurify();
+  purify_default.addHook("afterSanitizeAttributes", (node) => {
+    if (node.tagName === "A") {
+      node.setAttribute("target", "_blank");
+      node.setAttribute("rel", "noopener noreferrer");
+    }
+  });
   function markdown(md) {
-    return marked.parse(md);
+    return purify_default.sanitize(marked.parse(md), { ADD_ATTR: ["target"] });
   }
   const debug$1 = typeof process === "object" && process.env && {}.NODE_DEBUG && /\bsemver\b/i.test({}.NODE_DEBUG) ? (...args) => console.error("SEMVER", ...args) : () => {
   };
@@ -9158,15 +9511,427 @@ ${content}</tr>
   const RenderScript = lib.createRenderScript({
     name: "🖼️ 窗口设置"
   });
+  function createRangeTooltip(input, defaultValue, transform) {
+    input.addEventListener("change", () => {
+      input.setAttribute("data-title", transform(input.value || input.getAttribute("value") || defaultValue));
+    });
+    input.setAttribute("data-title", transform(input.value || input.getAttribute("value") || defaultValue));
+  }
+  async function playMedia(playFunction) {
+    const tryPlayMedia = () => {
+      return new Promise((resolve, reject) => {
+        try {
+          const playRes = playFunction();
+          if (playRes) {
+            playRes.then(resolve).catch(reject);
+          } else {
+            resolve();
+          }
+        } catch (err) {
+          reject(err);
+        }
+      });
+    };
+    try {
+      await tryPlayMedia();
+      return true;
+    } catch (err) {
+      console.error(err);
+      if (String(err).includes(`failed because the user didn't interact with the document first`)) {
+        lib.$modal.alert({
+          content: "播放音视频失败，由于浏览器的用户隐私保护措施，如果要播放带有音量的视频，或者某些无法自动播放音视频的网站，您必须先点击一次页面上的任意位置脚本才能进行音视频的播放，后续无需重新点击。",
+          onClose: async () => {
+            await tryPlayMedia();
+          }
+        });
+        return true;
+      } else if (String(err).includes("The element has no supported sources")) {
+        $console.error("当前视频无法播放。");
+      } else {
+        $console.error("播放视频时发生未知错误：" + String(err));
+      }
+      return false;
+    }
+  }
+  function enableCopy(elements2) {
+    function hackSelect(target) {
+      if (target) {
+        const _original_select = target.onselectstart;
+        const _original_oncopy = target.oncopy;
+        const _original_onpaste = target.onpaste;
+        const _original_onkeydown = target.onkeydown;
+        target.onselectstart = (e) => {
+          _original_select == null ? void 0 : _original_select.apply(target, [e]);
+          e.stopPropagation();
+          e.returnValue = true;
+          return true;
+        };
+        target.oncopy = (e) => {
+          _original_oncopy == null ? void 0 : _original_oncopy.apply(target, [e]);
+          e.stopPropagation();
+          e.returnValue = true;
+          return true;
+        };
+        target.onpaste = (e) => {
+          _original_onpaste == null ? void 0 : _original_onpaste.apply(target, [e]);
+          e.stopPropagation();
+          e.returnValue = true;
+          return true;
+        };
+        target.onkeydown = (e) => {
+          _original_onkeydown == null ? void 0 : _original_onkeydown.apply(target, [e]);
+          e.stopPropagation();
+          e.returnValue = true;
+          return true;
+        };
+      }
+    }
+    for (const el of elements2) {
+      hackSelect(el);
+    }
+  }
+  let popupWin;
+  window.addEventListener("beforeunload", () => {
+    popupWin == null ? void 0 : popupWin.close();
+  });
+  function createQuestionTitleExtra(question, ...left) {
+    const btnAttrs = {
+      className: "base-style-button-secondary",
+      style: {
+        padding: "0 4px",
+        fontSize: "12px",
+        height: "20px",
+        lineHeight: "1",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }
+    };
+    const copyBtn = lib.$ui.button("复制", btnAttrs);
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(question);
+      copyBtn.value = "已复制√";
+      setTimeout(() => {
+        copyBtn.value = "复制";
+      }, 500);
+    };
+    const baiduBtn = lib.$ui.button("🌏百度一下", btnAttrs);
+    baiduBtn.onclick = () => {
+      popupWin == null ? void 0 : popupWin.close();
+      popupWin = $.createCenteredPopupWindow(`https://www.baidu.com/s?wd=${question}`, "百度搜索", {
+        width: 1e3,
+        height: 800,
+        resizable: true,
+        scrollbars: true
+      });
+    };
+    const space = lib.$ui.space([...left, copyBtn, baiduBtn], { x: 4 });
+    space.style.marginTop = "6px";
+    space.style.textAlign = "right";
+    return lib.h("div", { style: { textAlign: "right" } }, [space]);
+  }
+  function msg(type, attrs) {
+    lib.$message[type](attrs);
+    if (type === "success") {
+      type = "info";
+    }
+    let content = "";
+    if (typeof attrs === "string") {
+      content = attrs;
+    } else {
+      if (attrs.content instanceof HTMLElement) {
+        content = attrs.content.innerText;
+      } else if (typeof attrs.content === "string") {
+        content = attrs.content.toString();
+      }
+    }
+    $console[type](content);
+  }
+  const $msg = {
+    info: (attrs) => msg("info", attrs),
+    warn: (attrs) => msg("warn", attrs),
+    error: (attrs) => msg("error", attrs),
+    success: (attrs) => msg("success", attrs)
+  };
+  const logoSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1080 1080" style="vertical-align:middle;"><path fill-rule="evenodd" d="M504.5 1.109c-72.713 4.577-147.529 25.339-212.035 58.842-50.191 26.068-92.985 57.474-133.527 97.996-41.255 41.234-72.652 84.102-98.549 134.553-63.294 123.306-76.989 265.444-38.445 399 25.189 87.279 71.847 166.103 136.667 230.88 51 50.967 110.694 90.846 176.835 118.135 49.129 20.27 108.457 34.223 163.504 38.452 17.303 1.329 66.996 1.333 83.655.006 55.204-4.397 107.295-16.401 158.822-36.6 17.371-6.81 57.946-26.767 74.073-36.433 41.445-24.842 72.509-49.199 110.493-86.637l21.507-21.198-71.734-71.786-71.734-71.785-19.766 19.567c-10.871 10.762-23.591 22.705-28.266 26.54-53.604 43.971-115.935 69.551-185 75.921-81.757 7.541-165.599-15.992-231.454-64.964-6.35-4.722-11.546-8.93-11.546-9.349s11.385-12.142 25.3-26.049l25.3-25.286 4.777-3.648c13.463 10.28 36.952 23.436 55.855 31.285 52.351 21.738 113.089 25.925 168.768 11.634 35.263-9.05 73.276-28.363 100.754-51.188C722.543 734.838 751 705.231 751 702.338c0-1.002-47.194-48.338-48.193-48.338-.39 0-4.279 4.388-8.642 9.75-24.686 30.342-55.543 51.652-92.165 63.652-22.77 7.461-33.447 9.027-61.5 9.025-20.917-.002-25.46-.293-35.363-2.266-31.598-6.297-58.925-18.374-83.801-37.035-4.858-3.644-16.847-14.474-26.642-24.066l-17.809-17.44-73.994 73.94-73.994 73.94 21.324 21c28.787 28.349 48.737 44.364 77.279 62.033 15.029 9.303 48.315 26.086 63 31.763 35.072 13.559 69.772 21.993 108 26.249 20.372 2.268 63.437 2.268 84-.001 76.772-8.471 146.44-36.203 205.832-81.934 6.508-5.01 12.471-9.558 13.252-10.106 1.101-.773 6.563 4.151 24.406 22l22.988 22.996-10.739 8.675c-65.679 53.053-141.564 86.866-223.817 99.729-27.363 4.279-43.823 5.505-73.922 5.505-46.468 0-83.994-5.037-127.455-17.107C272.797 955.351 156.557 850.805 102.504 715c-22.28-55.977-32.803-111.402-32.94-173.5-.116-52.401 7.047-99.278 22.432-146.793C147.295 223.918 294.816 99.581 473 73.582c41.922-6.117 98.943-5.919 138.5.481 72.78 11.775 134.913 36.126 194.048 76.05C823.221 162.046 848 181.418 848 183.304c0 .661-32.624 33.823-72.498 73.694-55.881 55.877-72.815 72.265-73.88 71.498-41.919-30.237-86.474-47.748-133.478-52.458-13.265-1.329-41.947-1.334-55.288-.01-78.286 7.774-150.572 51.845-194.318 118.472-31.523 48.011-46.706 105.616-42.723 162.094 1.179 16.71 3.688 33.737 6.74 45.73C287.22 620.654 297.35 649 299.235 649c.53 0 12.635-11.675 26.9-25.945l25.936-25.944-1.984-7.806c-4.264-16.777-5.55-28.045-5.569-48.805-.019-21.105.931-29.802 5.136-47 13.445-54.989 48.145-99.893 98.346-127.264 16.503-8.998 39.898-16.833 60.379-20.222 15.558-2.575 45.897-2.791 61.002-.436C638.18 356.306 694.057 399.38 721.704 463c15.443 35.539 19.804 79.228 11.676 117-1.36 6.325-2.706 12.85-2.989 14.5-.482 2.81 1.166 4.677 25.998 29.444 25.179 25.113 26.56 26.321 27.443 24 .512-1.344 2.056-5.144 3.432-8.444 22.118-53.055 24.905-120.158 7.36-177.223-8.309-27.026-22.775-56.32-38.077-77.106-2.501-3.397-4.547-6.512-4.547-6.922s43.893-44.64 97.54-98.289l97.539-97.543-23.289-22.984c-24.441-24.12-39.625-37.373-61.265-53.476C760.232 29.842 634.23-7.058 504.5 1.109m453.75 253.895C944.913 268.521 934 279.798 934 280.065s4.308 7.673 9.574 16.46c22.263 37.147 39.526 77.171 50.801 117.778 3.005 10.825 4.205 15.733 7.623 31.197 10.804 48.879 12.225 117.979 3.485 169.5-11.438 67.422-31.332 118.888-70.557 182.535l-1.87 3.036 24.863 24.848 24.863 24.848 7.942-11.884c45.969-68.783 75.805-150.569 85.686-234.883 5.282-45.065 4.544-97.517-2.004-142.5-11.025-75.743-37.133-146.086-78.498-211.5-4.87-7.7-9.878-15.141-11.131-16.536l-2.277-2.536z"/></svg>`;
+  const loadingSpinSvg = `<svg class="aw-spin" width="14" height="14" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="28" stroke-dashoffset="10" stroke-linecap="round"/></svg>`;
+  function createAccordionCard(options) {
+    var _a;
+    const card = lib.h("div", {
+      className: "accordion-card" + (options.className ? " " + options.className : "") + (options.expanded ? " expanded" : "")
+    });
+    const header2 = lib.h("div", { className: "accordion-card-header" }, [
+      ...options.header,
+      lib.h("span", { className: "accordion-card-spacer" }),
+      ...(_a = options.headerTrailing) != null ? _a : [],
+      lib.h("span", { className: "accordion-card-chevron", innerHTML: CHEVRON_SVG })
+    ]);
+    header2.onclick = () => card.classList.toggle("expanded");
+    card.append(header2, lib.h("div", { className: "accordion-card-body" }, options.body));
+    return card;
+  }
+  const CHEVRON_SVG = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  async function probeAnswerer(item, disabled) {
+    if (disabled) {
+      return { status: "disabled" };
+    }
+    let probeUrl;
+    try {
+      probeUrl = new URL(item.url);
+    } catch {
+      return { status: "invalid" };
+    }
+    const t2 = Date.now();
+    probeUrl.searchParams.set("t", String(t2));
+    const doProbe = async (method) => {
+      const res = await request(probeUrl.toString(), {
+        type: "GM_xmlhttpRequest",
+        method,
+        responseType: "text",
+        anyStatus: true
+      });
+      if (method === "head" && (res.status === 405 || res.status === 501)) {
+        return doProbe("get");
+      }
+      return res;
+    };
+    try {
+      const res = await Promise.race([
+        doProbe("head"),
+        (async () => {
+          await $.sleep(10 * 1e3);
+          return void 0;
+        })()
+      ]);
+      if (res === void 0)
+        return { status: "timeout" };
+      const latency = Date.now() - t2;
+      const ok = res.status >= 200 && res.status < 400;
+      return ok ? { status: "success", statusCode: res.status, latency } : { status: "error", statusCode: res.status, latency, error: new Error("HTTP " + res.status) };
+    } catch (error) {
+      return { status: "error", error };
+    }
+  }
+  function formatProbeStatus(r) {
+    switch (r.status) {
+      case "success":
+        return `连接成功（${r.statusCode}）`;
+      case "error":
+        return r.statusCode !== void 0 ? `连接失败（${r.statusCode}）` : "连接失败";
+      case "timeout":
+        return "连接超时";
+      case "disabled":
+        return "已停用";
+      case "invalid":
+        return "配置错误";
+    }
+  }
+  function formatProbeLatency(r) {
+    return r.latency !== void 0 ? `延迟 ${r.latency}毫秒` : void 0;
+  }
+  function createAnswererWrapperList(aw, handlers) {
+    const canProbe = lib.$gm.isInGMContext();
+    const row = (label, value) => lib.h("li", { className: "aw-card-row" }, [
+      lib.h("span", { className: "aw-card-label" }, label),
+      lib.h("span", { className: "aw-card-value" }, [value])
+    ]);
+    return aw.map((item) => {
+      const statusEl = canProbe ? lib.h("span", { className: "aw-card-status-group" }, [
+        lib.h("span", { className: "aw-card-status probing" }, "检测中…")
+      ]) : void 0;
+      const renderStatus = (r) => {
+        var _a;
+        if (!statusEl)
+          return;
+        const latencyText = formatProbeLatency(r);
+        statusEl.replaceChildren(
+          lib.h("span", { className: "aw-card-status " + r.status }, formatProbeStatus(r)),
+          ...latencyText ? [lib.h("span", { className: "aw-card-status latency" }, latencyText)] : []
+        );
+        statusEl.title = r.status === "success" ? `连接成功，HTTP ${r.statusCode}，延迟 ${r.latency}毫秒` : r.status === "disabled" ? "此题库已被停用，点击右侧开关启用" : r.status === "error" ? "连接失败" + (((_a = r.error) == null ? void 0 : _a.message) ? `：${r.error.message}` : "") : r.status === "timeout" ? "连接超时（>10秒）" : "题库配置 URL 无法解析";
+      };
+      const startProbe = () => {
+        if (!statusEl)
+          return;
+        statusEl.replaceChildren(lib.h("span", { className: "aw-card-status probing" }, "检测中…"));
+        statusEl.title = "正在检测题库连接状态";
+        probeAnswerer(item, handlers.isDisabled(item.name)).then(renderStatus);
+      };
+      startProbe();
+      const checkbox = lib.h("input", {
+        type: "checkbox",
+        checked: !handlers.isDisabled(item.name),
+        className: "base-style-switch"
+      });
+      checkbox.title = "点击停用或者启用题库，停用题库后将无法在自动答题中查询题目";
+      const switchWrapper = lib.$ui.tooltip(checkbox);
+      checkbox.onclick = (e) => {
+        e.stopPropagation();
+        const disabled = !checkbox.checked;
+        card.classList.toggle("disabled", disabled);
+        handlers.onToggle(item.name, disabled);
+        if (disabled) {
+          renderStatus({ status: "disabled" });
+        } else {
+          startProbe();
+        }
+      };
+      const host = (() => {
+        try {
+          return new URL(item.url).hostname;
+        } catch {
+          return item.url;
+        }
+      })();
+      const hasHomepage = !!item.homepage && item.homepage !== "#";
+      const homeLink = lib.h(
+        "a",
+        {
+          className: "aw-card-home" + (hasHomepage ? "" : " no-home"),
+          href: hasHomepage ? item.homepage : "javascript:void(0)",
+          target: "_blank",
+          title: hasHomepage ? "前往题库首页" : "此题库未配置首页"
+        },
+        "🏠"
+      );
+      homeLink.onclick = (e) => e.stopPropagation();
+      const card = createAccordionCard({
+        className: "aw-card" + (handlers.isDisabled(item.name) ? " disabled" : ""),
+        header: [
+          homeLink,
+          lib.h("span", { className: "aw-card-name" }, item.name),
+          lib.h("span", { className: "aw-card-badge", title: item.url }, host),
+          ...statusEl ? [statusEl] : []
+        ],
+        headerTrailing: [switchWrapper],
+        body: [
+          lib.h("ul", { className: "aw-card-rows" }, [
+            row("名字", item.name),
+            row(
+              "官网",
+              lib.h("span", {
+                innerHTML: `<a target="_blank" href=${item.homepage}>${item.homepage || "无"}</a>`
+              })
+            ),
+            row("接口", item.url),
+            row("请求方法", item.method),
+            row("请求类型", item.type),
+            row("请求头", JSON.stringify(item.headers, null, 4) || "无"),
+            row("请求体", JSON.stringify(item.data, null, 4) || "无")
+          ])
+        ]
+      });
+      return card;
+    });
+  }
+  function createAnswererWrapperSection(aw, title, handlers, withCopy = true) {
+    const copyBtn = withCopy ? lib.$ui.copy("复制题库配置", JSON.stringify(aw, null, 4)) : void 0;
+    if (copyBtn) {
+      copyBtn.className = "modal-cancel-button aw-section-copy";
+    }
+    return lib.h("div", [
+      lib.h("div", { className: "aw-section-header" }, [lib.h("b", title), ...copyBtn ? [copyBtn] : []]),
+      ...createAnswererWrapperList(aw, handlers)
+    ]);
+  }
+  function createAnswererModeDropdown() {
+    const dropdown2 = lib.h("dropdown-element");
+    dropdown2.trigger = "hover";
+    dropdown2.triggerElement = lib.h(
+      "button",
+      {
+        className: "base-style-button-secondary",
+        style: { marginLeft: "4px", padding: "4px 12px" }
+      },
+      "⋯"
+    );
+    dropdown2.style.display = "inline-flex";
+    const content = dropdown2.content;
+    content.style.top = "100%";
+    content.style.right = "0";
+    content.style.left = "auto";
+    const refreshPosition = () => {
+      const panel = dropdown2.closest("script-panel-element");
+      if (!panel)
+        return;
+      const flipUp = dropdown2.triggerElement.getBoundingClientRect().bottom + content.offsetHeight > panel.getBoundingClientRect().bottom;
+      content.style.top = flipUp ? "auto" : "100%";
+      content.style.bottom = flipUp ? "100%" : "auto";
+    };
+    dropdown2.triggerElement.addEventListener("mouseenter", () => {
+      setTimeout(() => {
+        if (content.classList.contains("show"))
+          refreshPosition();
+      });
+    });
+    const options = {
+      official: lib.$ui.tooltip(
+        lib.h(
+          "div",
+          {
+            className: "dropdown-option",
+            title: "打开官方题库获取弹窗，登录题库网站后自动回填配置，无需手动复制粘贴"
+          },
+          "官方题库"
+        )
+      ),
+      custom: lib.$ui.tooltip(
+        lib.h("div", { className: "dropdown-option", title: "打开手动配置弹窗，手动填写或粘贴题库配置" }, "自定义题库")
+      )
+    };
+    const openAnswererModal = (mode) => {
+      const configEl = dropdown2.closest("config-element");
+      const provider2 = configEl == null ? void 0 : configEl.provider;
+      if (provider2 == null ? void 0 : provider2.openAnswererModal) {
+        provider2.openAnswererModal(mode);
+      } else {
+        provider2 == null ? void 0 : provider2.click();
+      }
+    };
+    options.official.onclick = () => openAnswererModal("official");
+    options.custom.onclick = () => openAnswererModal("custom");
+    dropdown2.content.append(options.official, options.custom);
+    return dropdown2;
+  }
+  function createSteps(items) {
+    const children = [];
+    items.forEach((text2, i) => {
+      children.push(lib.h("span", { className: "aw-step" }, [lib.h("span", { className: "aw-step-num" }, String(i + 1)), text2]));
+      if (i < items.length - 1) {
+        children.push(lib.h("span", { className: "aw-step-arrow" }, "→"));
+      }
+    });
+    return lib.h("div", { className: "aw-steps" }, children);
+  }
+  function createStatusBox() {
+    const el = lib.h("div", { className: "aw-connect-status" });
+    const setStatus = (text2, type) => {
+      el.innerHTML = text2;
+      el.className = "aw-connect-status " + type;
+    };
+    return { el, setStatus };
+  }
+  function createHero(opts) {
+    return lib.h("div", { className: "aw-connect-hero" }, [
+      lib.h("div", { className: "aw-connect-hero-icon" }, opts.icon),
+      lib.h("div", { className: "aw-connect-hero-title" }, opts.title),
+      lib.h("div", { className: "aw-connect-hero-subtitle" }, opts.subtitle),
+      ...opts.extra ? [lib.h("div", { className: "aw-connect-hero-extra" }, [opts.extra])] : []
+    ]);
+  }
+  const IMG_LINK_RE = /https?:\/\/[^"'<\s一-鿿]+?\.(?:png|jpe?g|gif|bmp|webp|svg)(?:\?[^\s"'<>一-鿿]*)?(?:#[^\s"'<>一-鿿]*)?/g;
   const transformImgLinkOfQuestion = (question) => {
+    const toImg = (text2) => text2.replace(IMG_LINK_RE, (img) => `<img src="${img}" />`);
+    if (!/<img[\s>]/i.test(question)) {
+      return toImg(question);
+    }
     const dom2 = new DOMParser().parseFromString(question, "text/html");
     for (const img of Array.from(dom2.querySelectorAll("img"))) {
       img.replaceWith(img.src);
     }
-    return dom2.documentElement.innerHTML.replace(/https?:\/\/.+?\.(png|jpg|jpeg|gif)/g, (img) => {
-      return `<img src="${img}" />`;
-    });
+    return toImg(dom2.documentElement.innerHTML);
   };
+  const normalizeQuestion = (question) => question.replace(/https?:\/\//gi, "//").replace(/[^\p{L}\p{N}]/gu, "");
   class SearchInfosElement extends HTMLElement {
     constructor() {
       super(...arguments);
@@ -9186,9 +9951,13 @@ ${content}</tr>
         lib.h(
           "div",
           [
-            ...type_label ? [lib.h("span", { className: "search-result-question-type" }, type_label)] : [],
-            lib.h("span", { innerHTML: question }),
-            createQuestionTitleExtra(this.question)
+            lib.h("div", { className: "title-content" }, [
+              ...question.split("\n").map((l) => l.trim()).filter(Boolean).map((l) => lib.h("div", { innerHTML: l }))
+            ]),
+            createQuestionTitleExtra(
+              this.question,
+              ...type_label ? [lib.h("span", { className: "search-result-question-type" }, type_label)] : []
+            )
           ],
           (div) => {
             div.className = "search-info-title";
@@ -9197,12 +9966,22 @@ ${content}</tr>
       );
       this.append(
         ...this.infos.map((info) => {
-          return lib.h("details", { open: true, className: "search-info-details" }, [
-            lib.h("summary", [lib.h("a", { href: info.homepage, innerText: info.name, target: "_blank" })]),
-            ...(info.error ? [lib.h("span", { className: "error" }, [info.error || "网络错误或者未知错误"])] : []).concat([
+          const homeLink = lib.$ui.tooltip(
+            lib.h("a", { href: info.homepage, innerText: info.name, target: "_blank", title: "点击前往题库官网" })
+          );
+          homeLink.onclick = (e) => e.stopPropagation();
+          return createAccordionCard({
+            className: "search-info-details",
+            expanded: true,
+            header: [
+              homeLink,
+              ...info.error ? [] : [lib.h("span", { className: "text-secondary" }, ` 共 ${info.results.length} 个结果`)]
+            ],
+            body: (info.error ? [lib.h("span", { className: "error" }, [info.error || "网络错误或者未知错误"])] : []).concat([
               ...info.results.map((ans) => {
                 const title = transformImgLinkOfQuestion(ans[0] || this.question || "无");
-                const answer = transformImgLinkOfQuestion(ans[1] || "无");
+                const answer = splitAnswer(ans[1] || "无").map((a) => transformImgLinkOfQuestion(a));
+                const isSameQuestion = normalizeQuestion(ans[0] || "") === normalizeQuestion(this.question || "");
                 const extra_data = JSON.parse(JSON.stringify(ans[2] || {}));
                 if (extra_data.ai) {
                   extra_data.tags = extra_data.tags || [];
@@ -9216,12 +9995,12 @@ ${content}</tr>
                   extra_data.tags = extra_data.tags || [];
                   extra_data.tags.push({
                     text: "题库缓存",
-                    title: "此答案来自本地缓存，由在线题库搜索后保存在本地。\n- 清空缓存：请前往通用-拓展应用-题库缓存\n- 关闭缓存：请前往通用-全局设置-题库缓存",
+                    title: "此答案来自本地缓存，由在线题库搜索后保存在本地。\n- 清空缓存：请前往通用-全局设置-题库缓存功能-管理缓存\n- 关闭缓存：请前往通用-全局设置-题库缓存功能",
                     color: "gray"
                   });
                 }
                 return lib.h("div", { className: "search-result" }, [
-                  lib.h("div", { className: "question" }, [lib.h("span", { innerHTML: title })]),
+                  ...isSameQuestion ? [] : [lib.h("div", { className: "question" }, [lib.h("span", { innerHTML: title })])],
                   lib.h("div", { className: "answer" }, [
                     lib.h("span", "答案："),
                     ...extra_data.tags ? extra_data.tags.map(
@@ -9234,12 +10013,12 @@ ${content}</tr>
                         })
                       )
                     ) : [],
-                    ...splitAnswer(answer).map((a) => lib.h("code", { innerHTML: a }))
+                    ...answer.map((a) => lib.h("code", { innerHTML: a }))
                   ])
                 ]);
               })
             ])
-          ]);
+          });
         })
       );
       $.onresize(this, (sr) => {
@@ -9249,8 +10028,8 @@ ${content}</tr>
   }
   const $render = {
     moveToEdge(x = 80, y = 100) {
-      CommonProject.scripts.render.methods.minimize();
-      CommonProject.scripts.render.methods.setPosition(x, y);
+      BackgroundProject.scripts.render.methods.minimize();
+      BackgroundProject.scripts.render.methods.setPosition(x, y);
     }
   };
   const state$7 = {
@@ -9267,8 +10046,86 @@ ${content}</tr>
       }
     }
   };
+  const QUESTION_CACHE_ITEM_MAX_BYTES = 64 * 1024;
+  const QUESTION_CACHE_TOTAL_MAX_BYTES = 1024 * 1024;
+  const byteLengthOf = (text2) => new TextEncoder().encode(text2).length;
+  const localQuestionCaches = [];
+  function addToLocalQuestionCaches(items) {
+    for (const item of items) {
+      if (localQuestionCaches.find((c) => c.title === item.title && c.answer === item.answer) === void 0) {
+        localQuestionCaches.unshift(item);
+      }
+    }
+    localQuestionCaches.splice(200);
+    let totalBytes = 0;
+    for (let i = 0; i < localQuestionCaches.length; i++) {
+      totalBytes += byteLengthOf(localQuestionCaches[i].title) + byteLengthOf(localQuestionCaches[i].answer);
+      if (totalBytes > QUESTION_CACHE_TOTAL_MAX_BYTES) {
+        localQuestionCaches.splice(i);
+        break;
+      }
+    }
+  }
+  function findInLocalQuestionCaches(title) {
+    const results = [];
+    for (const cache of localQuestionCaches) {
+      if (cache.title.trim() === title.trim()) {
+        results.push({
+          name: cache.from,
+          homepage: cache.homepage,
+          results: [{ answer: cache.answer, question: cache.title, extra_data: { ai: cache.ai, cache: true } }]
+        });
+      }
+    }
+    return results;
+  }
+  const questionCacheTopStore = {
+    add: lib.cors.defineTopFunction((items) => {
+      addToLocalQuestionCaches(items);
+    }),
+    search: lib.cors.defineTopFunction((title) => {
+      return JSON.stringify(findInLocalQuestionCaches(title));
+    }),
+    list: lib.cors.defineTopFunction(() => {
+      return JSON.stringify(localQuestionCaches);
+    }),
+    clear: lib.cors.defineTopFunction(() => {
+      localQuestionCaches.length = 0;
+    })
+  };
+  function onDevtoolsOpen(callback) {
+    let triggered = false;
+    const trigger = () => {
+      if (triggered)
+        return;
+      triggered = true;
+      window.removeEventListener("keydown", onKeydown, true);
+      clearInterval(timer);
+      callback();
+    };
+    const onKeydown = (e) => {
+      if (e.key === "F12" || (e.ctrlKey || e.metaKey) && e.shiftKey && ["i", "j", "c"].includes(e.key.toLowerCase())) {
+        trigger();
+      }
+    };
+    window.addEventListener("keydown", onKeydown, true);
+    const probe = lib.h("div");
+    Object.defineProperty(probe, "id", {
+      get: () => {
+        trigger();
+        return "devtools-probe";
+      }
+    });
+    const timer = setInterval(() => {
+      const widthDiff = window.outerWidth - window.innerWidth;
+      const heightDiff = window.outerHeight - window.innerHeight;
+      if (widthDiff > 160 || heightDiff > 160) {
+        trigger();
+      }
+    }, 1e3);
+  }
   const BackgroundProject = lib.Project.create({
-    name: "后台",
+    name: "其他",
     domains: [],
     scripts: {
       elementRegister: new lib.Script({
@@ -9334,15 +10191,23 @@ ${content}</tr>
             return scrollTop + clientHeight + 50 > scrollHeight;
           };
           const { div, logs } = showLogs();
+          let lastRenderedLog = this.cfg.logs[this.cfg.logs.length - 1];
           this.offConfigChange(state$7.console.listenerIds.logs);
           state$7.console.listenerIds.logs = this.onConfigChange("logs", (logs2) => {
-            const log = createLog(logs2[logs2.length - 1]);
-            div.append(log);
-            setTimeout(() => {
-              if (isScrollBottom(div)) {
-                log.scrollIntoView();
-              }
-            }, 10);
+            const startIndex = lastRenderedLog ? logs2.lastIndexOf(lastRenderedLog) + 1 : 0;
+            lastRenderedLog = logs2[logs2.length - 1];
+            let lastLogEl;
+            for (const log of logs2.slice(startIndex)) {
+              lastLogEl = createLog(log);
+              div.append(lastLogEl);
+            }
+            if (lastLogEl) {
+              setTimeout(() => {
+                if (isScrollBottom(div)) {
+                  lastLogEl == null ? void 0 : lastLogEl.scrollIntoView();
+                }
+              }, 10);
+            }
           });
           const show = () => {
             panel.body.replaceChildren(div);
@@ -9352,6 +10217,130 @@ ${content}</tr>
             }, 10);
           };
           show();
+        }
+      }),
+      render: RenderScript,
+      data: new lib.Script({
+        name: "拓展数据",
+        hideInPanel: true,
+        matches: [["", /.*/]],
+        namespace: "background.data",
+        configs: {
+          notes: {
+            defaultValue: "这里是一些其他的应用或者拓展功能。"
+          }
+        },
+        onstart() {
+          lib.$store.delete("background.data.localQuestionCaches");
+        },
+        methods() {
+          return {
+            addQuestionCache: async (...questionCacheItems) => {
+              const items = questionCacheItems.filter(
+                (item) => byteLengthOf(item.title) + byteLengthOf(item.answer) <= QUESTION_CACHE_ITEM_MAX_BYTES
+              );
+              if (items.length === 0) {
+                return;
+              }
+              if (lib.$gm.isInGMContext() === false) {
+                addToLocalQuestionCaches(items);
+              } else {
+                await questionCacheTopStore.add(items);
+              }
+            },
+            addQuestionCacheFromWorkResult(swr) {
+              BackgroundProject.scripts.data.methods.addQuestionCache(
+                ...swr.map(
+                  (r) => r.searchInfos.map(
+                    (i) => i.results.filter((res) => res[1]).map((res) => ({
+                      title: r.question,
+                      answer: res[1],
+                      from: i.name.replace(/【题库缓存】/g, ""),
+                      homepage: i.homepage || ""
+                    })).flat()
+                  ).flat()
+                ).flat()
+              );
+            },
+            searchAnswerInCaches: async (title, whenSearchEmpty) => {
+              if (CommonProject.scripts.settings.cfg.enableQuestionCaches === false) {
+                return await whenSearchEmpty();
+              }
+              const results = lib.$gm.isInGMContext() === false ? findInLocalQuestionCaches(title) : JSON.parse(await questionCacheTopStore.search(title) || "[]");
+              if (results.length === 0) {
+                return await whenSearchEmpty();
+              }
+              return results;
+            },
+            showQuestionCaches: async () => {
+              const questionCaches = lib.$gm.isInGMContext() === false ? localQuestionCaches.map((c) => ({ ...c })) : JSON.parse(await questionCacheTopStore.list() || "[]");
+              const list = questionCaches.map(
+                (c) => lib.h(
+                  "div",
+                  {
+                    className: "question-cache",
+                    style: {
+                      margin: "8px",
+                      border: "1px solid lightgray",
+                      borderRadius: "4px",
+                      padding: "8px"
+                    }
+                  },
+                  [
+                    lib.h("div", { className: "title" }, [
+                      lib.$ui.tooltip(
+                        lib.h(
+                          "span",
+                          {
+                            title: `来自：${c.from || "未知题库"}
+主页：${c.homepage || "未知主页"}`,
+                            style: { fontWeight: "bold" }
+                          },
+                          c.title
+                        )
+                      )
+                    ]),
+                    lib.h("div", { className: "answer", style: { marginTop: "6px" } }, c.answer)
+                  ]
+                )
+              );
+              const countEl = lib.h("span", ["当前缓存数量：" + questionCaches.length]);
+              lib.$modal.simple({
+                width: 800,
+                content: lib.h("div", [
+                  lib.h("div", { className: "notes card" }, [
+                    lib.$ui.notes([
+                      "题库缓存是将题库的题目和答案保存在内存中，重复使用时直接读取缓存，不需要再次请求题库。",
+                      "默认最多存储 200 题（单条最大 64KB，总量最大 1MB，超限自动剔除最旧记录），当前页面关闭后会自动清除。"
+                    ])
+                  ]),
+                  lib.h("div", { className: "card" }, [
+                    lib.$ui.space(
+                      [
+                        countEl,
+                        lib.$ui.button("清空题库缓存", {}, (btn) => {
+                          btn.onclick = async () => {
+                            if (lib.$gm.isInGMContext() === false) {
+                              localQuestionCaches.length = 0;
+                            } else {
+                              await questionCacheTopStore.clear();
+                            }
+                            countEl.innerText = "当前缓存数量：0";
+                            list.forEach((el) => el.remove());
+                          };
+                        })
+                      ],
+                      { separator: "|" }
+                    )
+                  ]),
+                  lib.h(
+                    "div",
+                    questionCaches.length === 0 ? [lib.h("div", { style: { textAlign: "center" } }, "暂无题库缓存")] : list
+                  )
+                ])
+              });
+            }
+          };
         }
       }),
       appConfigSync: new lib.Script({
@@ -9433,10 +10422,21 @@ ${content}</tr>
             }
             this.cfg.sync_status = "unconnect";
             try {
+              let authToken = "";
+              try {
+                authToken = await request("http://localhost:15319/get-actions-key", {
+                  type: "GM_xmlhttpRequest",
+                  method: "get",
+                  responseType: "text"
+                });
+              } catch {
+              }
+              const authHeaders = { "auth-token": authToken };
               const res = await request("http://localhost:15319/browser", {
                 type: "GM_xmlhttpRequest",
                 method: "get",
-                responseType: "json"
+                responseType: "json",
+                headers: authHeaders
               });
               if (!res) {
                 this.cfg.sync_status = "unconnect";
@@ -9445,7 +10445,8 @@ ${content}</tr>
               const open_sync = await request("http://localhost:15319/is-browser-config-sync", {
                 type: "GM_xmlhttpRequest",
                 method: "get",
-                responseType: "text"
+                responseType: "text",
+                headers: authHeaders
               });
               if (open_sync !== "true") {
                 this.cfg.sync_status = "not_open_sync";
@@ -9542,6 +10543,7 @@ ${content}</tr>
             } catch (e) {
               console.error(e);
               this.cfg.sync_status = "unconnect";
+              this.hidePanel();
             }
           }
         }
@@ -9573,6 +10575,28 @@ ${content}</tr>
                 method: "get",
                 type: "GM_xmlhttpRequest"
               });
+            },
+            showChangelog: async () => {
+              const changelog = lib.h("div", {
+                className: "markdown card",
+                innerHTML: "加载中...",
+                style: { maxWidth: "600px" }
+              });
+              lib.$modal.simple({
+                width: 600,
+                content: lib.h("div", [
+                  lib.h("div", { className: "notes card" }, [
+                    lib.$ui.notes(["此页面实时更新，遇到问题可以查看最新版本是否修复。"])
+                  ]),
+                  changelog
+                ])
+              });
+              const md = await request("https://cdn.ocsjs.com/articles/ocs/changelog.md?t=" + Date.now(), {
+                type: "GM_xmlhttpRequest",
+                responseType: "text",
+                method: "get"
+              });
+              changelog.innerHTML = markdown(md);
             }
           };
         },
@@ -9584,7 +10608,7 @@ ${content}</tr>
             return;
           }
           const changeLog = lib.h("button", { className: "base-style-button-secondary" }, "📄查看更新日志");
-          changeLog.onclick = () => CommonProject.scripts.apps.methods.showChangelog();
+          changeLog.onclick = () => this.methods.showChangelog();
           const updatePage = ((_a = this.startConfig) == null ? void 0 : _a.updatePage) || "";
           panel.body.replaceChildren(
             lib.h("div", { className: "card" }, [
@@ -9657,6 +10681,19 @@ ${content}</tr>
         name: "🛠️ 开发者调试",
         namespace: "background.dev",
         matches: [["所有页面", /./]],
+        onstart() {
+          if (self !== top)
+            return;
+          const devScripts = [this, BackgroundProject.scripts.requestList];
+          for (const script2 of devScripts) {
+            script2.hidePanel();
+          }
+          onDevtoolsOpen(() => {
+            for (const script2 of devScripts) {
+              script2.showPanel();
+            }
+          });
+        },
         configs: {
           notes: {
             defaultValue: "开发人员调试用。<br>注入OCS_CONTEXT全局变量。用户可忽略此页面。"
@@ -9699,7 +10736,35 @@ ${content}</tr>
               });
             });
           });
-          panel.body.replaceChildren(lib.h("div", { className: "card" }, [lib.h("hr"), injectBtn, showTabDataBtn]));
+          const encoder = new TextEncoder();
+          let storeBytes = 0;
+          const keySizes = [];
+          for (const key of lib.$store.list()) {
+            const bytes = encoder.encode(key).length + encoder.encode(JSON.stringify(lib.$store.get(key)) || "").length;
+            storeBytes += bytes;
+            keySizes.push({ key, bytes });
+          }
+          const formatBytes = (bytes) => bytes < 1024 ? bytes + " B" : bytes < 1024 * 1024 ? (bytes / 1024).toFixed(2) + " KB" : (bytes / 1024 / 1024).toFixed(2) + " MB";
+          const storeSizeEl = lib.h("div", { title: "store 本地存储中全部键值对的字节数（键名 + 值的 JSON 序列化）" }, [
+            `Store 存储占用：${formatBytes(storeBytes)}（共 ${keySizes.length} 个键）`
+          ]);
+          const topKeys = keySizes.sort((a, b) => b.bytes - a.bytes).slice(0, 5);
+          const topKeysEl = lib.h("div", { style: { fontSize: "12px", marginTop: "4px" } }, [
+            lib.h("div", { style: { color: "#888" } }, "占用最高的键 Top5："),
+            ...topKeys.map(
+              (item, index) => lib.h(
+                "div",
+                {
+                  title: item.key,
+                  style: { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }
+                },
+                `${index + 1}. ${item.key} — ${formatBytes(item.bytes)}`
+              )
+            )
+          ]);
+          panel.body.replaceChildren(
+            lib.h("div", { className: "card" }, [lib.h("hr"), injectBtn, showTabDataBtn, lib.h("hr"), storeSizeEl, topKeysEl])
+          );
         }
       }),
       appLoginHelper: new lib.Script({
@@ -9994,7 +11059,7 @@ ${content}</tr>
         oncomplete() {
           if (self !== top)
             return;
-          const matches = [
+          const matches2 = [
             CXProject.scripts.studyDispatcher.matches,
             ZHSProject.scripts["gxk-study"].matches,
             ZHSProject.scripts.hike.matches,
@@ -10006,7 +11071,7 @@ ${content}</tr>
             ZJYProject.scripts.study.matches
           ].flat().map((m) => Array.isArray(m) ? m[1] : m);
           const url = window.location.href;
-          const match = matches.some((regex) => {
+          const match = matches2.some((regex) => {
             return typeof regex === "string" ? url.includes(regex) : regex.test(url);
           });
           if (!match) {
@@ -10033,31 +11098,25 @@ ${content}</tr>
         name: "📁 菜单管理",
         hideInPanel: true,
         matches: [["所有页面", /.*/]],
-        async onactive() {
+        async oncomplete() {
+          await lib.$menu("🏠", { scriptPanelLink: CommonProject.scripts.guide });
+          await lib.$menu("🔎", { scriptPanelLink: CommonProject.scripts.workResults });
+          await lib.$menu("⚙️", { scriptPanelLink: CommonProject.scripts.settings });
+          await lib.$menu("📄", { scriptPanelLink: BackgroundProject.scripts.console });
           const currentStudyScript = [
             [CXProject.scripts.studyDispatcher, CXProject.scripts.study],
             CXProject.scripts.work,
             CXProject.scripts.autoRead,
-            ZHSProject.scripts["gxk-study"],
-            ZHSProject.scripts["xnk-study"],
-            ZHSProject.scripts.hike,
-            ZHSProject.scripts["smart-study"],
-            ZHSProject.scripts["wisdom-study"],
-            ZHSProject.scripts["xnk-study"],
-            ZHSProject.scripts["gxk-work"],
-            ZHSProject.scripts["xnk-work"],
-            ZHSProject.scripts["hike-work"],
-            ZHSProject.scripts["smart-work"],
-            ZHSProject.scripts["smart-exam"],
-            ZHSProject.scripts["xnk-work"],
+            ZHSProject.scripts["study-center"],
+            ZHSProject.scripts["work-center"],
+            ICourseProject.scripts.study_v2,
             [ICourseProject.scripts.dispatcher, ICourseProject.scripts.study],
             ICourseProject.scripts.work,
             [ZJYProject.scripts.dispatcher, ZJYProject.scripts.study],
             ZJYProject.scripts.work,
             IcveMoocProject.scripts.study,
             IcveMoocProject.scripts.work,
-            YKTProject.scripts.ai,
-            YKTProject.scripts.v2_study
+            YKTProject.scripts.ai
           ].map((m) => {
             const url = window.location.href;
             const data = {
@@ -10072,22 +11131,25 @@ ${content}</tr>
             }
             return void 0;
           }).find((m) => m !== void 0);
-          await lib.$menu("🏠", { scriptPanelLink: CommonProject.scripts.guide });
-          if (currentStudyScript)
+          if (currentStudyScript) {
             await lib.$menu("🖥️", { scriptPanelLink: currentStudyScript });
-          await lib.$menu("🔎", { scriptPanelLink: CommonProject.scripts.workResults });
-          await lib.$menu("⚙️", { scriptPanelLink: CommonProject.scripts.settings });
-          await lib.$menu("📥", { scriptPanelLink: BackgroundProject.scripts.update });
-          await lib.$menu("📄", { scriptPanelLink: BackgroundProject.scripts.console });
+            BackgroundProject.scripts.render.methods.pin(currentStudyScript);
+          }
         }
       })
     }
   });
+  let latestConsoleLogs;
+  const persistConsoleLogs = debounce_1$1(() => {
+    if (latestConsoleLogs) {
+      BackgroundProject.scripts.console.cfg.logs = latestConsoleLogs;
+    }
+  }, 2e3);
   const $console = new Proxy({}, {
     get(target, key) {
       return (...msg2) => {
         var _a;
-        let logs = BackgroundProject.scripts.console.cfg.logs;
+        let logs = latestConsoleLogs != null ? latestConsoleLogs : BackgroundProject.scripts.console.cfg.logs;
         if (logs.length > 50) {
           logs = logs.slice(-50);
         }
@@ -10102,369 +11164,12 @@ ${content}</tr>
           time: Date.now(),
           stack: JSON.stringify([stack_str.split("\n")[0], ...stacks || []])
         });
-        BackgroundProject.scripts.console.cfg.logs = logs;
+        latestConsoleLogs = logs;
+        persistConsoleLogs();
       };
     }
   });
-  let globalControlPanel = null;
-  function commonWork(script2, options) {
-    CommonProject.scripts.render.methods.pin(script2);
-    let worker;
-    let startBtnPressed = false;
-    let checkFailed = false;
-    let running = false;
-    const createWorkControlPanel = () => {
-      const { controlBtn, restartBtn, startBtn } = createWorkerControl({
-        workerProvider: () => worker,
-        onStart: async () => {
-          startBtnPressed = true;
-          if (checkMessage instanceof lib.MessageElement) {
-            checkMessage.remove();
-          }
-          await closeAnswerWrapperEmptyWarning();
-          start2();
-        },
-        onRestart: async () => {
-          var _a;
-          worker == null ? void 0 : worker.emit("close");
-          await ((_a = options.onRestart) == null ? void 0 : _a.call(options));
-          start2();
-        }
-      });
-      startBtn.style.flex = "1";
-      startBtn.style.padding = "4px";
-      restartBtn.style.flex = "1";
-      restartBtn.style.padding = "4px";
-      controlBtn.style.flex = "1";
-      controlBtn.style.padding = "4px";
-      const container2 = lib.h(
-        "div",
-        { style: { marginTop: "12px", display: "flex" } },
-        running ? [controlBtn, restartBtn] : [startBtn]
-      );
-      globalControlPanel = container2;
-      return { container: container2, startBtn, restartBtn, controlBtn };
-    };
-    const workResultPanel = () => CommonProject.scripts.workResults.methods.createWorkResultsPanel();
-    const sync_script = [script2];
-    if (options.enable_control_panel) {
-      sync_script.push(CommonProject.scripts.workResults);
-    }
-    for (const script22 of sync_script) {
-      script22.on("render", () => {
-        var _a, _b;
-        let gotoSettingsBtnContainer = "";
-        if (checkFailed) {
-          const gotoSettingsBtn = lib.$ui.button("👉 前往设置题库配置", {
-            className: "base-style-button",
-            style: { flex: "1", padding: "4px" }
-          });
-          gotoSettingsBtn.style.flex = "1";
-          gotoSettingsBtn.style.padding = "4px";
-          gotoSettingsBtn.onclick = () => {
-            CommonProject.scripts.render.methods.pin(CommonProject.scripts.settings);
-          };
-          gotoSettingsBtnContainer = lib.h("div", { style: { display: "flex" } }, [gotoSettingsBtn]);
-        }
-        (_b = (_a = script22.panel) == null ? void 0 : _a.body) == null ? void 0 : _b.replaceChildren(
-          lib.h("div", { style: { marginTop: "12px" } }, [
-            gotoSettingsBtnContainer,
-            ...options.enable_control_panel ? [globalControlPanel || createWorkControlPanel().container] : [],
-            workResultPanel()
-          ])
-        );
-      });
-    }
-    const workOptions = CommonProject.scripts.settings.methods.getWorkOptions();
-    let checkMessage = workPreCheckMessage({
-      onrun: () => startBtnPressed === false && start2(),
-      onclose: (_, closedMsg) => checkMessage = closedMsg,
-      onNoAnswererWrappers: () => {
-        checkFailed = true;
-      },
-      ...workOptions,
-      start_delay_seconds: options.start_delay_seconds
-    });
-    const start2 = async () => {
-      var _a, _b, _c, _d;
-      await ((_a = options.beforeRunning) == null ? void 0 : _a.call(options));
-      running = true;
-      worker = options.workerProvider(workOptions);
-      if (worker) {
-        (_b = options.onWorkerCreated) == null ? void 0 : _b.call(options, worker);
-      }
-      const { container: container2, controlBtn } = createWorkControlPanel();
-      (_d = (_c = script2.panel) == null ? void 0 : _c.body) == null ? void 0 : _d.replaceChildren(container2, workResultPanel());
-      worker == null ? void 0 : worker.once("done", () => {
-        running = false;
-        globalControlPanel = null;
-        controlBtn.disabled = true;
-      });
-    };
-  }
-  function createWorkerControl(options) {
-    let stop = false;
-    let stopMessage;
-    const startBtn = lib.$ui.button("▶️开始答题");
-    const restartBtn = lib.$ui.button("🔃重新答题");
-    const controlBtn = lib.$ui.button("⏸暂停");
-    startBtn.onclick = () => {
-      startBtn.remove();
-      options.onStart();
-    };
-    restartBtn.onclick = () => {
-      stopMessage == null ? void 0 : stopMessage.remove();
-      options.onRestart();
-    };
-    controlBtn.onclick = () => {
-      var _a;
-      stop = !stop;
-      const worker = options.workerProvider();
-      (_a = worker == null ? void 0 : worker.emit) == null ? void 0 : _a.call(worker, stop ? "stop" : "continuate");
-      controlBtn.value = stop ? "▶️继续" : "⏸️暂停";
-      if (stop) {
-        stopMessage = lib.$message.warn({ duration: 0, content: "暂停中..." });
-      } else {
-        stopMessage == null ? void 0 : stopMessage.remove();
-      }
-    };
-    return { startBtn, restartBtn, controlBtn };
-  }
-  function optimizationElementWithImage(root2, clone_node = false) {
-    const clone = clone_node ? root2.cloneNode(true) : root2;
-    for (const img of Array.from(clone.querySelectorAll("img"))) {
-      if (Array.from(img.parentElement.querySelectorAll("span")).some(
-        (e) => {
-          var _a;
-          return e.style.fontSize === "0px" && ((_a = e.textContent) == null ? void 0 : _a.includes(img.src));
-        }
-      )) {
-        continue;
-      }
-      const src2 = document.createElement("span");
-      src2.innerText = img.src;
-      src2.style.fontSize = "0px";
-      img.after(src2);
-    }
-    return clone;
-  }
-  function createUnVisibleTextOfImage(img) {
-    const src2 = document.createElement("span");
-    src2.innerText = img.src;
-    src2.style.fontSize = "0px";
-    img.after(src2);
-  }
-  function simplifyWorkResult(results, titleTransform) {
-    var _a, _b, _c, _d, _e, _f;
-    const res = [];
-    let i = 0;
-    for (const wr of results) {
-      const ques = (titleTransform == null ? void 0 : titleTransform(((_a = wr.ctx) == null ? void 0 : _a.elements.title) || [], i)) || ((_c = (_b = wr.ctx) == null ? void 0 : _b.elements.title) == null ? void 0 : _c.map((e) => e == null ? void 0 : e.innerText.trim()).filter(Boolean).join("<br>")) || "";
-      res.push({
-        requested: wr.requested,
-        resolved: wr.resolved,
-        error: wr.error,
-        type: (_d = wr.ctx) == null ? void 0 : _d.type,
-        question: ques,
-        finish: (_e = wr.result) == null ? void 0 : _e.finish,
-        searchInfos: ((_f = wr.ctx) == null ? void 0 : _f.searchInfos.map((sr) => ({
-          error: sr.error,
-          name: sr.name,
-          homepage: sr.homepage,
-          results: sr.results.map((ans) => [ans.question, ans.answer, ans.extra_data || {}])
-        }))) || []
-      });
-      i++;
-    }
-    return res;
-  }
-  function removeRedundantWords(str, words) {
-    for (const word of words.map((w) => w.trim())) {
-      str = str.replace(word, "");
-    }
-    return str;
-  }
-  let answererWrapperUnsetMessage;
-  const answerWrapperEmptyWarning = lib.cors.defineTopFunction((duration) => {
-    const setting = lib.h("button", { className: "base-style-button-secondary" }, "通用-全局设置");
-    setting.onclick = () => {
-      CommonProject.scripts.render.methods.pin(CommonProject.scripts.settings);
-      setTimeout(() => {
-        var _a, _b;
-        (_b = (_a = lib.$elements.root) == null ? void 0 : _a.querySelector('[value="点击配置"]')) == null ? void 0 : _b.click();
-      }, 500);
-    };
-    answererWrapperUnsetMessage == null ? void 0 : answererWrapperUnsetMessage.remove();
-    answererWrapperUnsetMessage = lib.$message.warn({
-      content: lib.h("span", {}, ["你还没设置题库，无法自动答题，请切换到 ", setting, " 页面进行配置。"]),
-      duration
-    });
-  });
-  const closeAnswerWrapperEmptyWarning = lib.cors.defineTopFunction(() => {
-    answererWrapperUnsetMessage == null ? void 0 : answererWrapperUnsetMessage.remove();
-    answererWrapperUnsetMessage = void 0;
-  });
-  function workPreCheckMessage(options) {
-    var _a;
-    const { onrun, onNoAnswererWrappers, onclose, ...opts } = options;
-    if (opts.answererWrappers.length === 0) {
-      onNoAnswererWrappers == null ? void 0 : onNoAnswererWrappers(opts);
-      return answerWrapperEmptyWarning(0);
-    } else {
-      options.start_delay_seconds = (_a = options.start_delay_seconds) != null ? _a : 5;
-      return lib.$message.info({
-        duration: options.start_delay_seconds,
-        content: lib.h("span", [
-          `${options.start_delay_seconds}秒后自动答题，`,
-          lib.$ui.preventText({
-            name: "点击取消",
-            delay: options.start_delay_seconds,
-            ondefault: (span) => {
-              onrun(opts);
-            },
-            onprevent(span) {
-              const closedMessage = lib.$message.warn({
-                content: "已关闭此次的自动答题，请手动开启或者忽略此警告。",
-                duration: 0
-              });
-              if (closedMessage) {
-                onclose == null ? void 0 : onclose(opts, closedMessage);
-              }
-            }
-          })
-        ])
-      });
-    }
-  }
-  function createRangeTooltip(input, defaultValue, transform) {
-    input.addEventListener("change", () => {
-      input.setAttribute("data-title", transform(input.value || input.getAttribute("value") || defaultValue));
-    });
-    input.setAttribute("data-title", transform(input.value || input.getAttribute("value") || defaultValue));
-  }
-  async function playMedia(playFunction) {
-    const tryPlayMedia = () => {
-      return new Promise((resolve, reject) => {
-        try {
-          const playRes = playFunction();
-          if (playRes) {
-            playRes.then(resolve).catch(reject);
-          } else {
-            resolve();
-          }
-        } catch (err) {
-          reject(err);
-        }
-      });
-    };
-    try {
-      await tryPlayMedia();
-      return true;
-    } catch (err) {
-      console.error(err);
-      if (String(err).includes(`failed because the user didn't interact with the document first`)) {
-        lib.$modal.alert({
-          content: "播放音视频失败，由于浏览器的用户隐私保护措施，如果要播放带有音量的视频，或者某些无法自动播放音视频的网站，您必须先点击一次页面上的任意位置脚本才能进行音视频的播放，后续无需重新点击。",
-          onClose: async () => {
-            await tryPlayMedia();
-          }
-        });
-        return true;
-      } else if (String(err).includes("The element has no supported sources")) {
-        $console.error("当前视频无法播放。");
-      } else {
-        $console.error("播放视频时发生未知错误：" + String(err));
-      }
-      return false;
-    }
-  }
-  function enableCopy(elements2) {
-    function hackSelect(target) {
-      if (target) {
-        const _original_select = target.onselectstart;
-        const _original_oncopy = target.oncopy;
-        const _original_onpaste = target.onpaste;
-        const _original_onkeydown = target.onkeydown;
-        target.onselectstart = (e) => {
-          _original_select == null ? void 0 : _original_select.apply(target, [e]);
-          e.stopPropagation();
-          e.returnValue = true;
-          return true;
-        };
-        target.oncopy = (e) => {
-          _original_oncopy == null ? void 0 : _original_oncopy.apply(target, [e]);
-          e.stopPropagation();
-          e.returnValue = true;
-          return true;
-        };
-        target.onpaste = (e) => {
-          _original_onpaste == null ? void 0 : _original_onpaste.apply(target, [e]);
-          e.stopPropagation();
-          e.returnValue = true;
-          return true;
-        };
-        target.onkeydown = (e) => {
-          _original_onkeydown == null ? void 0 : _original_onkeydown.apply(target, [e]);
-          e.stopPropagation();
-          e.returnValue = true;
-          return true;
-        };
-      }
-    }
-    for (const el of elements2) {
-      hackSelect(el);
-    }
-  }
-  let popupWin;
-  window.addEventListener("beforeunload", () => {
-    popupWin == null ? void 0 : popupWin.close();
-  });
-  function createQuestionTitleExtra(question) {
-    const space = lib.$ui.space(
-      [
-        lib.$ui.copy("复制", question),
-        lib.h("span", { className: "question-title-extra-btn", innerText: "🌏百度一下" }, (btn) => {
-          btn.onclick = () => {
-            popupWin == null ? void 0 : popupWin.close();
-            popupWin = $.createCenteredPopupWindow(`https://www.baidu.com/s?wd=${question}`, "百度搜索", {
-              width: 1e3,
-              height: 800,
-              resizable: true,
-              scrollbars: true
-            });
-          };
-        })
-      ],
-      { x: 4 }
-    );
-    space.style.marginTop = "6px";
-    space.style.textAlign = "right";
-    return lib.h("div", { style: { textAlign: "right" } }, [space]);
-  }
-  function msg(type, attrs) {
-    lib.$message[type](attrs);
-    if (type === "success") {
-      type = "info";
-    }
-    let content = "";
-    if (typeof attrs === "string") {
-      content = attrs;
-    } else {
-      if (attrs.content instanceof HTMLElement) {
-        content = attrs.content.innerText;
-      } else if (typeof attrs.content === "string") {
-        content = attrs.content.toString();
-      }
-    }
-    $console[type](content);
-  }
-  const $msg = {
-    info: (attrs) => msg("info", attrs),
-    warn: (attrs) => msg("warn", attrs),
-    error: (attrs) => msg("error", attrs),
-    success: (attrs) => msg("success", attrs)
-  };
-  const playbackRate = {
+  const playbackRate$1 = {
     label: "视频倍速",
     tag: "select",
     options: [1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.5, 4, 6, 8, 16].map((rate) => [rate.toString(), rate + " x"]),
@@ -10492,7 +11197,7 @@ ${content}</tr>
       ["line1gq", "高清"]
     ]
   };
-  const workNotes = {
+  const workNotes$1 = {
     defaultValue: lib.$ui.notes([
       "自动答题前请在 “通用-全局设置” 中设置题库配置。",
       "可以搭配 “通用-在线搜题” 一起使用。",
@@ -10511,9 +11216,1560 @@ ${content}</tr>
       });
     }
   };
+  const IFRAME_CONTROL_EVENT = "ocs.iframe-work-control";
+  let controlBar;
+  let pauseBtn;
+  let reloadBtn;
+  function buildControlBar() {
+    pauseBtn = lib.$ui.button("⏸暂停", { style: { padding: "0px 8px", fontSize: "12px", lineHeight: "20px" } });
+    reloadBtn = lib.$ui.button("🔃重新答题", { style: { padding: "0px 8px", fontSize: "12px", lineHeight: "20px" } });
+    pauseBtn.onclick = () => {
+      lib.cors.emit(IFRAME_CONTROL_EVENT, [(pauseBtn == null ? void 0 : pauseBtn.dataset.paused) === "true" ? "continuate" : "stop"]);
+    };
+    reloadBtn.onclick = () => {
+      lib.cors.emit(IFRAME_CONTROL_EVENT, ["reload"]);
+    };
+    const icon = lib.h("span", { className: "ocs-iframe-bar-tip" }, [
+      lib.h("span", {
+        innerHTML: logoSvg,
+        style: { display: "inline-flex", alignItems: "center" }
+      }),
+      lib.h("div", { className: "tip-content" }, [
+        lib.h("div", { style: { fontWeight: "bold", marginBottom: "4px" } }, "OCS 答题操作面板"),
+        lib.h("div", "当前页面由 OCS 网课助手自动答题中，可进行以下操作："),
+        lib.h("div", "⏸暂停/▶️继续：暂停或恢复自动答题"),
+        lib.h("div", "🔃重新答题：刷新页面，重新开始自动答题")
+      ])
+    ]);
+    return lib.h(
+      "div",
+      {
+        style: {
+          position: "fixed",
+          top: "24px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: "999999",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "8px",
+          padding: "4px 10px",
+          background: "#fff",
+          border: "1px solid #e5e5e5",
+          borderRadius: "8px",
+          boxShadow: "0 2px 10px rgba(0,0,0,0.15)"
+        }
+      },
+      [
+        lib.h("style", {
+          textContent: [
+            ".ocs-iframe-bar-tip{position:relative;display:inline-flex;align-items:center;flex-shrink:0;cursor:help;}",
+            ".ocs-iframe-bar-tip .tip-content{display:none;position:absolute;top:calc(100% + 8px);left:0;width:230px;padding:8px 10px;background:#303133;color:#fff;font-size:12px;line-height:1.7;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.2);z-index:1;}",
+            ".ocs-iframe-bar-tip:hover .tip-content{display:block;}"
+          ].join("\n")
+        }),
+        icon,
+        pauseBtn,
+        reloadBtn
+      ]
+    );
+  }
+  const IframeControlBar = {
+    render: lib.cors.defineTopFunction((barState) => {
+      const root2 = lib.$elements.root;
+      if (!root2) {
+        return;
+      }
+      if (!(controlBar == null ? void 0 : controlBar.isConnected)) {
+        controlBar = buildControlBar();
+        root2.append(controlBar);
+      }
+      if (pauseBtn) {
+        pauseBtn.dataset.paused = String(barState.paused);
+        pauseBtn.value = barState.paused ? "▶️继续" : "⏸️暂停";
+        pauseBtn.disabled = barState.done;
+      }
+    }),
+    remove: lib.cors.defineTopFunction(() => {
+      controlBar == null ? void 0 : controlBar.remove();
+      controlBar = void 0;
+      pauseBtn = void 0;
+      reloadBtn = void 0;
+    })
+  };
+  function createIframeControlSession(options) {
+    if (!options.enabled || self === top) {
+      return void 0;
+    }
+    let stopMessage;
+    lib.cors.on(IFRAME_CONTROL_EVENT, (args) => {
+      var _a;
+      const action = args[0];
+      if (action === "reload") {
+        location.reload();
+        return;
+      }
+      options.paused.value = action === "stop";
+      (_a = options.workerProvider()) == null ? void 0 : _a.emit(action);
+      if (options.paused.value) {
+        stopMessage = lib.$message.warn({ duration: 0, content: "暂停中..." });
+      } else {
+        stopMessage == null ? void 0 : stopMessage.remove();
+      }
+      IframeControlBar.render({ paused: options.paused.value, done: false });
+    });
+    return {
+      activate: () => {
+        IframeControlBar.render({ paused: options.paused.value, done: false });
+      },
+      finish: () => {
+        IframeControlBar.render({ paused: false, done: true });
+      },
+      dispose: () => {
+        stopMessage == null ? void 0 : stopMessage.remove();
+        IframeControlBar.remove();
+      }
+    };
+  }
+  function isNodeEnv$1() {
+    var _a;
+    return typeof process !== "undefined" && !!((_a = process.versions) == null ? void 0 : _a.node) && globalThis.GM_xmlhttpRequest === void 0;
+  }
+  const PNG_SIG = [137, 80, 78, 71, 13, 10, 26, 10];
+  function dataUrlToBytes(dataUrl) {
+    const m = dataUrl.match(/^data:[^;,]+.*?;base64,(.+)$/);
+    if (!m)
+      return void 0;
+    if (typeof Buffer !== "undefined") {
+      return new Uint8Array(Buffer.from(m[1], "base64"));
+    }
+    const bin = atob(m[1]);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++)
+      bytes[i] = bin.charCodeAt(i);
+    return bytes;
+  }
+  function bytesToDataUrl(bytes) {
+    let b64;
+    if (typeof Buffer !== "undefined") {
+      b64 = Buffer.from(bytes).toString("base64");
+    } else {
+      let bin = "";
+      const chunk = 32768;
+      for (let i = 0; i < bytes.length; i += chunk) {
+        bin += String.fromCharCode.apply(null, Array.from(bytes.subarray(i, i + chunk)));
+      }
+      b64 = btoa(bin);
+    }
+    return `data:image/png;base64,${b64}`;
+  }
+  function readUint32BE(bytes, off) {
+    return bytes[off] * 16777216 + (bytes[off + 1] << 16 | bytes[off + 2] << 8 | bytes[off + 3]) >>> 0;
+  }
+  function concatUint8(arrs) {
+    let len = 0;
+    for (const a of arrs)
+      len += a.length;
+    const out = new Uint8Array(len);
+    let o = 0;
+    for (const a of arrs) {
+      out.set(a, o);
+      o += a.length;
+    }
+    return out;
+  }
+  const CRC_TABLE = (() => {
+    const table = new Array(256);
+    for (let n = 0; n < 256; n++) {
+      let c = n;
+      for (let k = 0; k < 8; k++) {
+        c = c & 1 ? 3988292384 ^ c >>> 1 : c >>> 1;
+      }
+      table[n] = c >>> 0;
+    }
+    return table;
+  })();
+  function crc32(bytes) {
+    let crc = 4294967295;
+    for (let i = 0; i < bytes.length; i++) {
+      crc = CRC_TABLE[(crc ^ bytes[i]) & 255] ^ crc >>> 8;
+    }
+    return (crc ^ 4294967295) >>> 0;
+  }
+  function getZlib() {
+    try {
+      const r = typeof require !== "undefined" ? require : null;
+      if (!r)
+        return null;
+      const name = "zlib";
+      return r(name);
+    } catch {
+      return null;
+    }
+  }
+  function zlibInflate(data) {
+    const zlib = getZlib();
+    if (!zlib)
+      throw new Error("zlib 不可用");
+    const buf = zlib.inflateSync(Buffer.from(data));
+    return new Uint8Array(buf);
+  }
+  function zlibDeflate(data) {
+    const zlib = getZlib();
+    if (!zlib)
+      throw new Error("zlib 不可用");
+    const buf = zlib.deflateSync(Buffer.from(data));
+    return new Uint8Array(buf);
+  }
+  function getImageSize(dataUrl) {
+    const bytes = dataUrlToBytes(dataUrl);
+    if (!bytes || bytes.length < 26)
+      return void 0;
+    for (let i = 0; i < 8; i++)
+      if (bytes[i] !== PNG_SIG[i])
+        return void 0;
+    const width = readUint32BE(bytes, 16);
+    const height = readUint32BE(bytes, 20);
+    const bitDepth = bytes[24];
+    const colorType = bytes[25];
+    const channels = colorType === 2 ? 3 : colorType === 6 ? 4 : colorType === 4 ? 2 : colorType === 0 ? 1 : 0;
+    if (channels === 0)
+      return void 0;
+    if (bitDepth !== 8)
+      return void 0;
+    return { width, height, bitDepth, colorType, channels };
+  }
+  function paeth(a, b, c) {
+    const p = a + b - c;
+    const pa = Math.abs(p - a);
+    const pb = Math.abs(p - b);
+    const pc = Math.abs(p - c);
+    if (pa <= pb && pa <= pc)
+      return a;
+    if (pb <= pc)
+      return b;
+    return c;
+  }
+  function unfilterRow(filter, cur, prev, bpp) {
+    const n = cur.length;
+    switch (filter) {
+      case 0:
+        return;
+      case 1:
+        for (let x = bpp; x < n; x++)
+          cur[x] = cur[x] + cur[x - bpp] & 255;
+        return;
+      case 2:
+        for (let x = 0; x < n; x++)
+          cur[x] = cur[x] + prev[x] & 255;
+        return;
+      case 3:
+        for (let x = 0; x < n; x++) {
+          const a = x >= bpp ? cur[x - bpp] : 0;
+          const b = prev[x];
+          cur[x] = cur[x] + Math.floor((a + b) / 2) & 255;
+        }
+        return;
+      case 4:
+        for (let x = 0; x < n; x++) {
+          const a = x >= bpp ? cur[x - bpp] : 0;
+          const b = prev[x];
+          const c = x >= bpp ? prev[x - bpp] : 0;
+          cur[x] = cur[x] + paeth(a, b, c) & 255;
+        }
+    }
+  }
+  function decodePng(bytes, info) {
+    const idatChunks = [];
+    let off = 8;
+    while (off + 8 <= bytes.length) {
+      const len = readUint32BE(bytes, off);
+      const type = String.fromCharCode(bytes[off + 4], bytes[off + 5], bytes[off + 6], bytes[off + 7]);
+      if (type === "IDAT") {
+        idatChunks.push(bytes.subarray(off + 8, off + 8 + len));
+      } else if (type === "IEND")
+        break;
+      off += 12 + len;
+    }
+    if (idatChunks.length === 0)
+      return void 0;
+    const idat = concatUint8(idatChunks);
+    let inflated;
+    try {
+      inflated = zlibInflate(idat);
+    } catch {
+      return void 0;
+    }
+    const { width, height, channels } = info;
+    const bpp = channels;
+    const stride = width * bpp;
+    const out = new Uint8Array(height * stride);
+    let prev = new Uint8Array(stride);
+    let src2 = 0;
+    for (let y = 0; y < height; y++) {
+      if (src2 + 1 + stride > inflated.length)
+        break;
+      const filter = inflated[src2++];
+      const cur = out.subarray(y * stride, (y + 1) * stride);
+      for (let x = 0; x < stride; x++)
+        cur[x] = inflated[src2 + x];
+      src2 += stride;
+      unfilterRow(filter, cur, prev, bpp);
+      prev = cur;
+    }
+    return out;
+  }
+  function resampleNearest(pixels, width, height, channels, scale) {
+    const newW = width * scale;
+    const newH = height * scale;
+    const out = new Uint8Array(newH * newW * channels);
+    const inStride = width * channels;
+    const outStride = newW * channels;
+    for (let y = 0; y < newH; y++) {
+      const sy = Math.floor(y / scale);
+      for (let x = 0; x < newW; x++) {
+        const sx = Math.floor(x / scale);
+        const inOff = sy * inStride + sx * channels;
+        const outOff = y * outStride + x * channels;
+        for (let c = 0; c < channels; c++)
+          out[outOff + c] = pixels[inOff + c];
+      }
+    }
+    return { pixels: out, width: newW, height: newH };
+  }
+  function makeChunk(type, data) {
+    const chunk = new Uint8Array(4 + 4 + data.length + 4);
+    const dv = new DataView(chunk.buffer);
+    dv.setUint32(0, data.length);
+    for (let i = 0; i < 4; i++)
+      chunk[4 + i] = type.charCodeAt(i);
+    chunk.set(data, 8);
+    const crc = crc32(chunk.subarray(4, 8 + data.length));
+    dv.setUint32(8 + data.length, crc);
+    return chunk;
+  }
+  function encodePng(width, height, channels, pixels) {
+    const bpp = channels;
+    const stride = width * bpp;
+    const raw = new Uint8Array(height * (1 + stride));
+    let o = 0;
+    for (let y = 0; y < height; y++) {
+      raw[o++] = 0;
+      for (let x = 0; x < stride; x++)
+        raw[o++] = pixels[y * stride + x];
+    }
+    let compressed;
+    try {
+      compressed = zlibDeflate(raw);
+    } catch {
+      return void 0;
+    }
+    const sig = new Uint8Array(PNG_SIG);
+    const ihdr = new Uint8Array(13);
+    const dv = new DataView(ihdr.buffer);
+    dv.setUint32(0, width);
+    dv.setUint32(4, height);
+    ihdr[8] = 8;
+    ihdr[9] = channels === 4 ? 6 : channels === 3 ? 2 : channels === 2 ? 4 : 0;
+    ihdr[10] = 0;
+    ihdr[11] = 0;
+    ihdr[12] = 0;
+    return concatUint8([
+      sig,
+      makeChunk("IHDR", ihdr),
+      makeChunk("IDAT", compressed),
+      makeChunk("IEND", new Uint8Array(0))
+    ]);
+  }
+  function upscalePngViaCodec(dataUrl, minDim) {
+    const bytes = dataUrlToBytes(dataUrl);
+    const info = getImageSize(dataUrl);
+    if (!bytes || !info)
+      return dataUrl;
+    if (info.width >= minDim && info.height >= minDim)
+      return dataUrl;
+    const decoded = decodePng(bytes, info);
+    if (!decoded)
+      return dataUrl;
+    const scale = Math.ceil(minDim / Math.min(info.width, info.height));
+    const { pixels, width, height } = resampleNearest(decoded, info.width, info.height, info.channels, scale);
+    const encoded = encodePng(width, height, info.channels, pixels);
+    if (!encoded)
+      return dataUrl;
+    return bytesToDataUrl(encoded);
+  }
+  async function upscalePngViaCanvas(dataUrl, minDim) {
+    const img = new Image();
+    await new Promise((resolve, reject) => {
+      img.onload = () => resolve();
+      img.onerror = () => reject(new Error("图片加载失败"));
+      img.src = dataUrl;
+    });
+    const w = img.naturalWidth || img.width;
+    const h2 = img.naturalHeight || img.height;
+    if (w >= minDim && h2 >= minDim)
+      return dataUrl;
+    const scale = Math.ceil(minDim / Math.min(w, h2));
+    const canvas = document.createElement("canvas");
+    canvas.width = w * scale;
+    canvas.height = h2 * scale;
+    const ctx = canvas.getContext("2d");
+    if (!ctx)
+      return dataUrl;
+    ctx.drawImage(img, 0, 0, w * scale, h2 * scale);
+    return canvas.toDataURL("image/png");
+  }
+  async function upscalePngDataUrl(dataUrl, minDim) {
+    if (isNodeEnv$1())
+      return upscalePngViaCodec(dataUrl, minDim);
+    return upscalePngViaCanvas(dataUrl, minDim);
+  }
+  function isNodeEnv() {
+    var _a;
+    return typeof process !== "undefined" && !!((_a = process.versions) == null ? void 0 : _a.node) && globalThis.GM_xmlhttpRequest === void 0;
+  }
+  async function nodeFetchToBase64(url) {
+    const fet = require("node-fetch").default || require("node-fetch");
+    let referer = "";
+    try {
+      referer = new URL(url).origin + "/";
+    } catch {
+    }
+    const res = await fet(url, {
+      headers: {
+        Referer: referer,
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+      }
+    });
+    if (!res.ok) {
+      throw new Error(`图片下载失败 ${res.status}`);
+    }
+    const buffer = res.buffer ? res.buffer() : res.arrayBuffer();
+    const buf = buffer instanceof Promise ? await buffer : buffer;
+    const contentType = res.headers.get("content-type") || "image/png";
+    return `data:${contentType};base64,${buf.toString("base64")}`;
+  }
+  const IMAGE_BASE64_CACHE_MAX = 200;
+  const imageBase64Cache = /* @__PURE__ */ new Map();
+  function imageToBase64(source) {
+    const url = typeof source === "string" ? source : source.src;
+    if (url && !url.startsWith("data:")) {
+      const cached = imageBase64Cache.get(url);
+      if (cached) {
+        imageBase64Cache.delete(url);
+        imageBase64Cache.set(url, cached);
+        return Promise.resolve(cached);
+      }
+      return convertImageToBase64(source).then((b64) => {
+        if (imageBase64Cache.size >= IMAGE_BASE64_CACHE_MAX) {
+          imageBase64Cache.delete(imageBase64Cache.keys().next().value);
+        }
+        imageBase64Cache.set(url, b64);
+        return b64;
+      });
+    }
+    return convertImageToBase64(source);
+  }
+  function convertImageToBase64(source) {
+    return new Promise((resolve, reject) => {
+      if (typeof HTMLImageElement !== "undefined" && source instanceof HTMLImageElement) {
+        if (source.src.startsWith("data:")) {
+          resolve(source.src);
+          return;
+        }
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width = source.naturalWidth;
+          canvas.height = source.naturalHeight;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(source, 0, 0);
+          const dataUrl = canvas.toDataURL("image/png");
+          resolve(dataUrl);
+          return;
+        } catch {
+        }
+      }
+      const url = typeof source === "string" ? source : source.src;
+      if (url.startsWith("data:")) {
+        resolve(url);
+        return;
+      }
+      if (isNodeEnv()) {
+        nodeFetchToBase64(url).then(resolve, reject);
+        return;
+      }
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+          resolve(canvas.toDataURL("image/png"));
+        } catch {
+          gmXmlHttpRequestFallback(url, resolve, reject);
+        }
+      };
+      img.onerror = () => {
+        gmXmlHttpRequestFallback(url, resolve, reject);
+      };
+      img.src = url;
+    });
+  }
+  function gmXmlHttpRequestFallback(url, resolve, reject) {
+    if (typeof GM_xmlhttpRequest === "undefined") {
+      reject(new Error("图片转 base64 失败"));
+      return;
+    }
+    GM_xmlhttpRequest({
+      url,
+      method: "GET",
+      responseType: "blob",
+      onload: (response) => {
+        const blob = response.response;
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      },
+      onerror: reject
+    });
+  }
+  function normalizeToPngDataUrl(dataUrl) {
+    const m = dataUrl.match(/^data:[^;,]+.*?;base64,(.+)$/);
+    return `data:image/png;base64,${m ? m[1] : dataUrl}`;
+  }
+  const MIN_IMAGE_DIMENSION = 14;
+  const IMAGE_URL_REGEX = /https?:\/\/[^\s一-鿿＀-￯]+?\.(?:png|jpe?g|gif|bmp|webp|svg)(?:\?[^\s一-鿿＀-￯]*)?/gi;
+  async function createImageSuggestion(title, options, titleImages, optionImages) {
+    const titleUrls = titleImages && titleImages.length ? titleImages.slice() : title.match(IMAGE_URL_REGEX) || [];
+    const optionUrls = optionImages && optionImages.length ? optionImages.slice() : (options == null ? void 0 : options.match(IMAGE_URL_REGEX)) || [];
+    if (titleUrls.length === 0 && optionUrls.length === 0)
+      return void 0;
+    const allUrls = [];
+    const seen = /* @__PURE__ */ new Set();
+    for (const url of [...titleUrls, ...optionUrls]) {
+      if (!seen.has(url)) {
+        seen.add(url);
+        allUrls.push(url);
+      }
+    }
+    const base64Map = /* @__PURE__ */ new Map();
+    await Promise.all(
+      allUrls.map(async (url) => {
+        try {
+          const base64 = await imageToBase64(url);
+          base64Map.set(url, base64);
+        } catch {
+        }
+      })
+    );
+    if (base64Map.size === 0)
+      return void 0;
+    const images = [];
+    const urls = [];
+    const placeholderMap = /* @__PURE__ */ new Map();
+    for (const url of allUrls) {
+      const base64 = base64Map.get(url);
+      if (!base64)
+        continue;
+      let normalized = normalizeToPngDataUrl(base64);
+      const size = getImageSize(normalized);
+      if (size && (size.width < MIN_IMAGE_DIMENSION || size.height < MIN_IMAGE_DIMENSION)) {
+        try {
+          normalized = await upscalePngDataUrl(normalized, MIN_IMAGE_DIMENSION);
+        } catch (e) {
+          console.warn(`[imageOptimize] 图片 ${size.width}x${size.height} 放大失败，已跳过：${url}（${e == null ? void 0 : e.message}）`);
+          continue;
+        }
+      }
+      placeholderMap.set(url, ` [图片${images.length + 1}] `);
+      images.push(normalized);
+      urls.push(url);
+    }
+    if (images.length === 0)
+      return void 0;
+    let suggestionTitle = title;
+    for (const [url, placeholder] of placeholderMap) {
+      suggestionTitle = suggestionTitle.split(url).join(placeholder);
+    }
+    let suggestionOptions;
+    if (options) {
+      const hasOptionImages = optionUrls.some((url) => base64Map.has(url));
+      if (hasOptionImages) {
+        suggestionOptions = options;
+        for (const [url, placeholder] of placeholderMap) {
+          suggestionOptions = suggestionOptions.split(url).join(placeholder);
+        }
+      }
+    }
+    return {
+      images,
+      urls,
+      suggestion_title: suggestionTitle,
+      ...suggestionOptions !== void 0 ? { suggestion_options: suggestionOptions } : {}
+    };
+  }
+  function dedupeLines(str) {
+    const seen = /* @__PURE__ */ new Set();
+    const result = [];
+    for (const line of str.split("\n")) {
+      if (!seen.has(line)) {
+        seen.add(line);
+        result.push(line);
+      }
+    }
+    return result.join("\n");
+  }
+  async function buildAnswererEnv(params) {
+    var _a;
+    const rawOptions = Array.isArray(params.options) ? params.options.filter((o) => o != null && o !== "").join("\n") : (_a = params.options) != null ? _a : "";
+    const options = dedupeLines(rawOptions);
+    const env = {
+      type: params.type || "unknown",
+      title: params.title,
+      options
+    };
+    let imageUrls = [];
+    if (params.enableImageOptimize) {
+      const suggestion = await createImageSuggestion(params.title, options, params.titleImages, params.optionsImages);
+      if (suggestion) {
+        env.images = suggestion.images;
+        imageUrls = suggestion.urls;
+        env.suggestion_title = suggestion.suggestion_title;
+        if (suggestion.suggestion_options !== void 0) {
+          env.suggestion_options = dedupeLines(suggestion.suggestion_options);
+        }
+      }
+    }
+    return { env, imageUrls };
+  }
+  const IMAGE_OPTIMIZE_PLACEHOLDERS = [`\${images}`, `\${suggestion_title}`, `\${suggestion_options}`];
+  const IMAGE_ENV_REF_PATTERN = /(^|[^\w$])(images|suggestion_title|suggestion_options)(?![\w$])/;
+  function isAnswererWrapperSupportImageOptimize(wrapper) {
+    if (!wrapper || String(wrapper.method || "get").toLowerCase() !== "post") {
+      return false;
+    }
+    for (const value of Object.values(wrapper.data || {})) {
+      if (typeof value === "string") {
+        if (IMAGE_OPTIMIZE_PLACEHOLDERS.some((placeholder) => value.includes(placeholder))) {
+          return true;
+        }
+      } else if (value && typeof value === "object" && typeof value.handler === "string") {
+        if (IMAGE_ENV_REF_PATTERN.test(value.handler)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  function isAnswererWrappersSupportImageOptimize(wrappers) {
+    return wrappers.some(isAnswererWrapperSupportImageOptimize);
+  }
+  function createAnswererWrappersSignature(wrappers) {
+    const content = JSON.stringify(wrappers);
+    let hash = 2166136261;
+    for (let i = 0; i < content.length; i++) {
+      hash ^= content.charCodeAt(i);
+      hash = Math.imul(hash, 16777619);
+    }
+    return (hash >>> 0).toString(16);
+  }
+  const commonWorkRenderBindings = /* @__PURE__ */ new WeakMap();
+  function bindCommonWorkRender(script2, render2) {
+    const binding = commonWorkRenderBindings.get(script2);
+    if (binding) {
+      binding.current = render2;
+      return;
+    }
+    const created = { current: render2 };
+    commonWorkRenderBindings.set(script2, created);
+    script2.on("render", () => created.current());
+  }
+  function commonWork(options) {
+    var _a;
+    if (options.mount_script)
+      BackgroundProject.scripts.render.methods.pin(options.mount_script);
+    CommonProject.scripts.settings.on("answerer-wrapper-change", async (curr, prev) => {
+      $console.log("answerer-wrapper-change curr.length", curr.length);
+      if (curr.length > 0) {
+        state2.checkFailed = false;
+        state2.startBtnPressed = false;
+        await closeAnswerWrapperEmptyWarning();
+        start2();
+      }
+    });
+    let workOptions = CommonProject.scripts.settings.methods.getWorkOptions();
+    const state2 = {
+      worker: void 0,
+      startBtnPressed: false,
+      checkFailed: false,
+      running: false,
+      controlPanel: null,
+      paused: false,
+      resultPanel: null
+    };
+    const pausedAccessor = {
+      get value() {
+        return state2.paused;
+      },
+      set value(v) {
+        state2.paused = v;
+      }
+    };
+    const iframeControl = createIframeControlSession({
+      enabled: options.iframe_control,
+      workerProvider: () => state2.worker,
+      paused: pausedAccessor
+    });
+    const createWorkControlPanel = () => {
+      const { controlBtn, restartBtn, startBtn } = createWorkerControl({
+        workerProvider: () => state2.worker,
+        paused: pausedAccessor,
+        onStart: async () => {
+          state2.startBtnPressed = true;
+          if (checkMessage instanceof lib.MessageElement) {
+            checkMessage.remove();
+          }
+          await closeAnswerWrapperEmptyWarning();
+          start2();
+        },
+        onRestart: async () => {
+          var _a2, _b;
+          (_a2 = state2.worker) == null ? void 0 : _a2.emit("close");
+          state2.running = false;
+          await ((_b = options.onRestart) == null ? void 0 : _b.call(options));
+          start2();
+        }
+      });
+      startBtn.style.flex = "1";
+      startBtn.style.padding = "4px";
+      restartBtn.style.flex = "1";
+      restartBtn.style.padding = "4px";
+      controlBtn.style.flex = "1";
+      controlBtn.style.padding = "4px";
+      const container2 = lib.h(
+        "div",
+        { className: "work-control-panel" },
+        state2.running ? [controlBtn, restartBtn] : [startBtn]
+      );
+      state2.controlPanel = container2;
+      return { container: container2, startBtn, restartBtn, controlBtn };
+    };
+    const renderPanelBody = () => {
+      var _a2, _b, _c, _d;
+      const gotoSettingsBtn = lib.$ui.button("👉 前往设置题库配置", {
+        className: "base-style-button",
+        style: { flex: "1", padding: "4px" }
+      });
+      gotoSettingsBtn.onclick = () => {
+        BackgroundProject.scripts.render.methods.pin(CommonProject.scripts.settings);
+      };
+      if (!((_a2 = state2.resultPanel) == null ? void 0 : _a2.isConnected)) {
+        state2.resultPanel = CommonProject.scripts.workResults.methods.createWorkResultsPanel();
+      }
+      (_d = (_c = (_b = options.mount_script) == null ? void 0 : _b.panel) == null ? void 0 : _c.body) == null ? void 0 : _d.replaceChildren(
+        lib.h(
+          "div",
+          { style: { marginTop: "12px" } },
+          state2.checkFailed ? [lib.h("hr"), lib.h("div", { style: { display: "flex" } }, [gotoSettingsBtn])] : [
+            lib.h("hr"),
+            state2.controlPanel || createWorkControlPanel().container,
+            state2.resultPanel
+          ]
+        )
+      );
+    };
+    if (options.mount_script)
+      bindCommonWorkRender(options.mount_script, renderPanelBody);
+    let checkMessage;
+    if (iframeControl) {
+      if (workOptions.answererWrappers.length === 0) {
+        state2.checkFailed = true;
+        answerWrapperEmptyWarning(0);
+      } else {
+        const delay = (_a = options.start_delay_seconds) != null ? _a : 5;
+        lib.$message.info(`将在 ${delay} 秒后自动答题`);
+        setTimeout(() => {
+          if (state2.startBtnPressed === false) {
+            start2();
+          }
+        }, delay * 1e3);
+      }
+    } else {
+      checkMessage = workPreCheckMessage({
+        onrun: () => state2.startBtnPressed === false && start2(),
+        onclose: (_, closedMsg) => checkMessage = closedMsg,
+        onNoAnswererWrappers: () => {
+          state2.checkFailed = true;
+        },
+        ...workOptions,
+        start_delay_seconds: options.start_delay_seconds
+      });
+    }
+    const start2 = async () => {
+      var _a2, _b;
+      if (state2.running) {
+        return;
+      }
+      if (state2.checkFailed) {
+        return answerWrapperEmptyWarning(0);
+      }
+      workOptions = CommonProject.scripts.settings.methods.getWorkOptions();
+      await ((_a2 = options.beforeRunning) == null ? void 0 : _a2.call(options));
+      state2.running = true;
+      state2.worker = options.workerProvider(workOptions);
+      if (state2.worker) {
+        (_b = options.onWorkerCreated) == null ? void 0 : _b.call(options, state2.worker);
+      }
+      const { controlBtn } = createWorkControlPanel();
+      renderPanelBody();
+      iframeControl == null ? void 0 : iframeControl.activate();
+      if (state2.worker) {
+        const emitState = CommonEvents.emitWorkerStateChange;
+        emitState("start");
+        state2.worker.on("stop", () => emitState("stop"));
+        state2.worker.on("continuate", () => emitState("start"));
+        state2.worker.once("close", () => {
+          emitState("close");
+          iframeControl == null ? void 0 : iframeControl.dispose();
+        });
+        state2.worker.once("done", () => {
+          state2.running = false;
+          state2.controlPanel = null;
+          state2.paused = false;
+          controlBtn.disabled = true;
+          emitState("done");
+          iframeControl == null ? void 0 : iframeControl.finish();
+        });
+      }
+    };
+  }
+  function dynamicWorkTips(worker) {
+    const msg2 = lib.$message.warn({
+      content: "⚠️ 正在逐题自动答题，过程中请勿手动切换题目，防止答题与搜索结果错乱。",
+      duration: 0
+    });
+    worker.once("done", () => msg2 == null ? void 0 : msg2.remove());
+    worker.once("close", () => msg2 == null ? void 0 : msg2.remove());
+  }
+  function createWorkerControl(options) {
+    var _a;
+    let stopMessage;
+    const paused = (_a = options.paused) != null ? _a : { value: false };
+    const startBtn = lib.$ui.button("▶️开始答题");
+    const restartBtn = lib.$ui.button("🔃重新答题");
+    const controlBtn = lib.$ui.button(paused.value ? "▶️继续" : "⏸暂停");
+    startBtn.onclick = () => {
+      startBtn.remove();
+      options.onStart();
+    };
+    restartBtn.onclick = () => {
+      stopMessage == null ? void 0 : stopMessage.remove();
+      paused.value = false;
+      options.onRestart();
+    };
+    controlBtn.onclick = () => {
+      var _a2;
+      paused.value = !paused.value;
+      const worker = options.workerProvider();
+      (_a2 = worker == null ? void 0 : worker.emit) == null ? void 0 : _a2.call(worker, paused.value ? "stop" : "continuate");
+      controlBtn.value = paused.value ? "▶️继续" : "⏸️暂停";
+      if (paused.value) {
+        stopMessage = lib.$message.warn({ duration: 0, content: "暂停中..." });
+      } else {
+        stopMessage == null ? void 0 : stopMessage.remove();
+      }
+    };
+    return { startBtn, restartBtn, controlBtn };
+  }
+  function extractTextWithImages(root2, opts) {
+    const parts = [];
+    const images = [];
+    const walk = (node) => {
+      var _a;
+      if (node.nodeType === Node.TEXT_NODE) {
+        parts.push(node.textContent || "");
+        return;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE)
+        return;
+      const el = node;
+      if (el.tagName === "IMG") {
+        const img = el;
+        if ((opts == null ? void 0 : opts.imgFilter) && !opts.imgFilter(img))
+          return;
+        const url = img.src;
+        if (url) {
+          parts.push(` ${url} `);
+          images.push(url);
+        }
+        return;
+      }
+      if (el.tagName === "BR") {
+        parts.push("\n");
+        return;
+      }
+      try {
+        const view = (_a = el.ownerDocument) == null ? void 0 : _a.defaultView;
+        if (view && el.isConnected && view.getComputedStyle(el).display === "none")
+          return;
+      } catch {
+      }
+      for (const child of Array.from(el.childNodes))
+        walk(child);
+    };
+    walk(root2);
+    return { text: parts.join(""), images };
+  }
+  function simplifyWorkResult(wr, titleTransform, index = 0) {
+    var _a, _b, _c, _d, _e, _f;
+    const question = (titleTransform == null ? void 0 : titleTransform(((_a = wr.ctx) == null ? void 0 : _a.elements.title) || [], index)) || ((_c = (_b = wr.ctx) == null ? void 0 : _b.elements.title) == null ? void 0 : _c.map((e) => e == null ? void 0 : e.innerText.trim()).filter(Boolean).join("<br>")) || "";
+    return {
+      requested: wr.requested,
+      searching: wr.searching,
+      resolved: wr.resolved,
+      error: wr.error,
+      type: (_d = wr.ctx) == null ? void 0 : _d.type,
+      question,
+      finish: (_e = wr.result) == null ? void 0 : _e.finish,
+      searchInfos: ((_f = wr.ctx) == null ? void 0 : _f.searchInfos.map((sr) => ({
+        error: sr.error,
+        name: sr.name,
+        homepage: sr.homepage,
+        results: sr.results.map((ans) => [ans.question, ans.answer, ans.extra_data || {}])
+      }))) || []
+    };
+  }
+  function updateDynamicResult(current, titleTransform) {
+    return CommonProject.scripts.workResults.methods.append(simplifyWorkResult(current, titleTransform));
+  }
+  function removeRedundantWords(str, words) {
+    for (const word of words.map((w) => w.trim())) {
+      str = str.replace(word, "");
+    }
+    return str;
+  }
+  let answererWrapperUnsetMessage;
+  const answerWrapperEmptyWarning = lib.cors.defineTopFunction((duration) => {
+    const setting = lib.h("button", { className: "base-style-button-secondary" }, "通用-全局设置");
+    setting.onclick = () => {
+      BackgroundProject.scripts.render.methods.pin(CommonProject.scripts.settings);
+      setTimeout(() => {
+        var _a, _b;
+        (_b = (_a = lib.$elements.root) == null ? void 0 : _a.querySelector('[value="点击配置"]')) == null ? void 0 : _b.click();
+      }, 500);
+    };
+    answererWrapperUnsetMessage == null ? void 0 : answererWrapperUnsetMessage.remove();
+    answererWrapperUnsetMessage = lib.$message.warn({
+      content: lib.h("span", {}, ["你还没设置题库，无法自动答题，请切换到 ", setting, " 页面进行配置。"]),
+      duration
+    });
+  });
+  const closeAnswerWrapperEmptyWarning = lib.cors.defineTopFunction(() => {
+    console.log(answererWrapperUnsetMessage);
+    answererWrapperUnsetMessage == null ? void 0 : answererWrapperUnsetMessage.remove();
+    answererWrapperUnsetMessage = void 0;
+  });
+  function createCommonAnswerer(options) {
+    const normalize = (v) => {
+      if (v == null)
+        return { text: "" };
+      return typeof v === "string" ? { text: v } : v;
+    };
+    const QUESTION_IMAGE_REGEX = /https?:\/\/[^\s]+?\.(?:png|jpe?g|gif|bmp|webp|svg)/i;
+    let imageOptimizeOffWarned = false;
+    let imageConvertFailWarned = false;
+    return async (elements2, ctx) => {
+      const titleResult = normalize(options.titleTransform(elements2, ctx));
+      const title = titleResult.text;
+      if (!title) {
+        throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
+      }
+      const titleImages = titleResult.images;
+      return await BackgroundProject.scripts.data.methods.searchAnswerInCaches(title, async () => {
+        var _a, _b, _c, _d, _e;
+        await $.sleep(((_a = options.period) != null ? _a : 3) * 1e3);
+        const optResult = normalize(
+          options.optionsTransform ? options.optionsTransform(elements2, ctx) : ((_b = ctx.elements.options) != null ? _b : []).filter(Boolean).map((o) => o.innerText).join("\n")
+        );
+        const questionHasImages = ((_c = titleImages == null ? void 0 : titleImages.length) != null ? _c : 0) + ((_e = (_d = optResult.images) == null ? void 0 : _d.length) != null ? _e : 0) > 0 || QUESTION_IMAGE_REGEX.test(title) || QUESTION_IMAGE_REGEX.test(optResult.text);
+        if (questionHasImages && !CommonProject.scripts.settings.cfg.imageOptimize && !imageOptimizeOffWarned) {
+          imageOptimizeOffWarned = true;
+          lib.$message.warn({
+            content: "检测到题目包含图片，但未开启「图片题优化」（通用-全局设置-高级设置中开启），图片题将无法搜题。",
+            duration: 10
+          });
+        }
+        const { env, imageUrls } = await buildAnswererEnv({
+          type: ctx.type,
+          title,
+          options: optResult.text,
+          titleImages,
+          optionsImages: optResult.images,
+          enableImageOptimize: CommonProject.scripts.settings.cfg.imageOptimize
+        });
+        if (questionHasImages && CommonProject.scripts.settings.cfg.imageOptimize && imageUrls.length === 0 && !imageConvertFailWarned) {
+          imageConvertFailWarned = true;
+          lib.$message.warn({
+            content: "题目图片下载或转换失败（可能跨域受限），本题将按普通题目搜索，图片题可能无法匹配。",
+            duration: 10
+          });
+        }
+        const searchInfos = await defaultAnswerWrapperHandler(options.answererWrappers, env);
+        if (imageUrls.length) {
+          for (const info of searchInfos) {
+            for (const res of info.results) {
+              if (res.answer && res.answer.includes("[图片")) {
+                res.answer = res.answer.replace(/\[图片(\d+)\]/g, (m, n) => {
+                  var _a2;
+                  return (_a2 = imageUrls[Number(n) - 1]) != null ? _a2 : m;
+                });
+              }
+            }
+          }
+        }
+        return searchInfos;
+      });
+    };
+  }
+  function workPreCheckMessage(options) {
+    var _a;
+    const { onrun, onNoAnswererWrappers, onclose, ...opts } = options;
+    if (opts.answererWrappers.length === 0) {
+      onNoAnswererWrappers == null ? void 0 : onNoAnswererWrappers(opts);
+      return answerWrapperEmptyWarning(0);
+    } else {
+      options.start_delay_seconds = (_a = options.start_delay_seconds) != null ? _a : 5;
+      return lib.$message.info({
+        duration: options.start_delay_seconds,
+        content: lib.h("span", [
+          `将在 ${options.start_delay_seconds} 秒后自动答题，`,
+          lib.$ui.preventText({
+            name: "点击取消",
+            delay: options.start_delay_seconds,
+            ondefault: (span) => {
+              onrun(opts);
+            },
+            onprevent(span) {
+              const closedMessage = lib.$message.warn({
+                content: "已关闭此次的自动答题，请手动开启或者忽略此警告。",
+                duration: 0
+              });
+              if (closedMessage) {
+                onclose == null ? void 0 : onclose(opts, closedMessage);
+              }
+            }
+          })
+        ])
+      });
+    }
+  }
+  const ANSWERER_CONNECT_MESSAGE_TYPE = "ocs-answerer-config";
+  const ANSWERER_CONNECT_PROTOCOL_VERSION = 1;
+  let provider;
+  function setAnswererConfigProvider(p) {
+    provider = void 0;
+    if (p && p.name && p.connectUrl) {
+      try {
+        const url = new URL(p.connectUrl);
+        if (url.protocol === "https:" || url.protocol === "http:") {
+          provider = p;
+        }
+      } catch {
+      }
+    }
+  }
+  function getAnswererConfigProvider() {
+    return provider;
+  }
+  function openAnswererConnect() {
+    if (!provider)
+      return null;
+    const connectUrl = new URL(provider.connectUrl);
+    connectUrl.searchParams.set("from", location.origin);
+    const width = 980;
+    const height = 720;
+    const left = Math.max(0, (screen.width - width) / 2);
+    const top2 = Math.max(0, (screen.height - height) / 2);
+    return window.open(
+      connectUrl.toString(),
+      "ocs_answerer_connect",
+      `width=${width},height=${height},left=${left},top=${top2}`
+    );
+  }
+  function waitForAnswererConfig(win, timeoutMs = 10 * 6e4, isAborted) {
+    if (!provider)
+      return Promise.reject(new Error("未配置题库获取渠道"));
+    const expectedOrigin = new URL(provider.connectUrl).origin;
+    return new Promise((resolve, reject) => {
+      let finished = false;
+      const closeWin = () => {
+        try {
+          win.close();
+        } catch {
+        }
+      };
+      const cleanup = () => {
+        finished = true;
+        clearTimeout(timer);
+        clearInterval(poller);
+        window.removeEventListener("message", onMessage);
+        window.removeEventListener("pagehide", closeWin);
+      };
+      const fail = (msg2) => {
+        if (!finished) {
+          cleanup();
+          reject(new Error(msg2));
+        }
+      };
+      const onMessage = async (e) => {
+        if (finished || e.source !== win || e.origin !== expectedOrigin)
+          return;
+        const d = e.data;
+        if (!d || d.type !== ANSWERER_CONNECT_MESSAGE_TYPE || d.version !== ANSWERER_CONNECT_PROTOCOL_VERSION) {
+          return;
+        }
+        try {
+          const aws = await AnswerWrapperParser.from(d.config);
+          cleanup();
+          resolve(aws);
+        } catch (err) {
+          cleanup();
+          reject(err instanceof Error ? err : new Error(String(err)));
+        }
+      };
+      const timer = setTimeout(() => fail("获取题库配置超时，请重试或使用手动配置。"), timeoutMs);
+      const poller = setInterval(() => {
+        if (win.closed) {
+          fail("题库网站窗口已被关闭，请重试或使用手动配置。");
+        } else if (isAborted == null ? void 0 : isAborted()) {
+          closeWin();
+          fail("题库配置弹窗已关闭，获取已取消。");
+        }
+      }, 1e3);
+      window.addEventListener("message", onMessage);
+      window.addEventListener("pagehide", closeWin);
+    });
+  }
+  const DANGEROUS_PATTERNS = [
+    { pattern: /\beval\b/, feature: "eval", reason: "动态执行任意代码" },
+    { pattern: /\bFunction\s*\(/, feature: "Function()", reason: "动态执行任意代码" },
+    { pattern: /\bfetch\s*\(/, feature: "fetch", reason: "发起网络请求，可能向外部发送账号数据" },
+    { pattern: /\bXMLHttpRequest\b/, feature: "XMLHttpRequest", reason: "发起网络请求，可能向外部发送账号数据" },
+    {
+      pattern: /\bGM_xmlhttpRequest\b|\bGM\s*\.\s*xmlHttpRequest\b/,
+      feature: "GM_xmlhttpRequest",
+      reason: "使用脚本管理器权限发起跨域请求，可能向外部发送账号数据"
+    },
+    {
+      pattern: /\bGM_\w+|\bGM\s*\.\s*\w+/,
+      feature: "GM API",
+      reason: "调用脚本管理器扩展 API（可能读写剪贴板、跨域请求等）"
+    },
+    {
+      pattern: /\blocalStorage\b|\bsessionStorage\b|\bindexedDB\b/,
+      feature: "本地存储",
+      reason: "读写浏览器存储，可能窃取登录凭据"
+    },
+    { pattern: /\bcookie\b/i, feature: "cookie", reason: "读取 Cookie，可能窃取登录状态" },
+    { pattern: /\bsendBeacon\b/, feature: "sendBeacon", reason: "静默向外部服务器发送数据" },
+    { pattern: /\bWebSocket\b|\bEventSource\b/, feature: "WebSocket/EventSource", reason: "建立长连接，可持续外传数据" },
+    { pattern: /\blocation\b/, feature: "location", reason: "读取或篡改页面地址，可能跳转至钓鱼页面" },
+    {
+      pattern: /\bwindow\b|\bglobalThis\b|\bunsafeWindow\b|\btop\b|\bparent\b|\bopener\b/,
+      feature: "全局对象",
+      reason: "访问全局环境，可操控页面与浏览器行为"
+    },
+    { pattern: /\bdocument\b/, feature: "document", reason: "操作网页内容，可能篡改页面或窃取输入" },
+    { pattern: /\bpostMessage\b/, feature: "postMessage", reason: "向其他窗口发送数据" },
+    { pattern: /\bimport\s*\(/, feature: "import()", reason: "动态加载并执行外部脚本" },
+    { pattern: /\brequire\s*\(/, feature: "require()", reason: "加载外部模块" },
+    { pattern: /\.constructor\b|\b__proto__\b/, feature: "原型链访问", reason: "操作原型链，常用于绕过安全检测" },
+    {
+      pattern: /\bfromCharCode\b|\batob\b|\bunescape\b/,
+      feature: "解码函数",
+      reason: "解码隐藏内容，常用于混淆恶意代码"
+    },
+    { pattern: /\bWorker\b/, feature: "Worker", reason: "创建后台线程执行代码" },
+    {
+      pattern: /\[\s*['"`][^\]'"]*['"`]\s*\+|\+\s*['"`][^\]'"]*['"`]\s*\]/,
+      feature: "拼接属性访问",
+      reason: "通过字符串拼接隐藏真实调用的功能，常见于混淆代码"
+    }
+  ];
+  function stripCommentsAndStrings(code) {
+    const findings = [];
+    let stripped = "";
+    let i = 0;
+    while (i < code.length) {
+      const ch = code[i];
+      const next2 = code[i + 1];
+      if (ch === "/" && next2 === "/") {
+        while (i < code.length && code[i] !== "\n")
+          i++;
+        continue;
+      }
+      if (ch === "/" && next2 === "*") {
+        i += 2;
+        while (i < code.length && !(code[i] === "*" && code[i + 1] === "/"))
+          i++;
+        i += 2;
+        continue;
+      }
+      if (ch === "'" || ch === '"' || ch === "`") {
+        const quote = ch;
+        let str = "";
+        i++;
+        while (i < code.length && code[i] !== quote) {
+          if (code[i] === "\\") {
+            str += code[i] + (code[i + 1] || "");
+            i += 2;
+            continue;
+          }
+          if (quote !== "`" && code[i] === "\n")
+            break;
+          str += code[i];
+          i++;
+        }
+        i++;
+        if (/\\x[0-9a-fA-F]{2}|\\u[0-9a-fA-F]{4}|\\u\{[0-9a-fA-F]+\}/.test(str)) {
+          findings.push({ where: "", feature: "转义字符", reason: "使用转义字符隐藏真实内容，常见于混淆代码" });
+        }
+        if (str.length > 100 && /^[A-Za-z0-9+/=\s]+$/.test(str)) {
+          findings.push({ where: "", feature: "超长编码串", reason: "包含超长编码字符串，可能内嵌隐藏代码" });
+        }
+        if (quote === "`") {
+          for (const match of str.matchAll(/\$\{([^{}]*)\}/g)) {
+            stripped += " " + match[1] + " ";
+          }
+        }
+        stripped += '""';
+        continue;
+      }
+      stripped += ch;
+      i++;
+    }
+    return { stripped, findings };
+  }
+  function detectHandlerRisks(code, where = "") {
+    const { stripped, findings } = stripCommentsAndStrings(code);
+    for (const { pattern, feature, reason } of DANGEROUS_PATTERNS) {
+      if (pattern.test(stripped)) {
+        findings.push({ where, feature, reason });
+      }
+    }
+    const seen = /* @__PURE__ */ new Set();
+    return findings.map((f) => ({ ...f, where })).filter((f) => {
+      const key = f.where + "|" + f.feature;
+      if (seen.has(key))
+        return false;
+      seen.add(key);
+      return true;
+    });
+  }
+  function scanAnswerWrapperRisks(aw) {
+    const findings = [];
+    if (typeof aw.handler === "string") {
+      findings.push(...detectHandlerRisks(aw.handler, "handler 解析器"));
+    }
+    if (aw.data && typeof aw.data === "object") {
+      for (const key of Object.keys(aw.data)) {
+        const field = aw.data[key];
+        if (field && typeof field === "object" && typeof field.handler === "string") {
+          findings.push(...detectHandlerRisks(field.handler, `data.${key} 字段解析器`));
+        }
+      }
+    }
+    return findings;
+  }
+  function confirmRiskyAnswerWrappers(aws) {
+    const riskList = aws.map((aw) => ({ name: aw.name, findings: scanAnswerWrapperRisks(aw) })).filter((item) => item.findings.length > 0);
+    if (riskList.length === 0) {
+      return Promise.resolve(true);
+    }
+    return new Promise((resolve) => {
+      let settled = false;
+      const done = (result) => {
+        if (!settled) {
+          settled = true;
+          resolve(result);
+        }
+      };
+      lib.$modal.confirm({
+        width: 640,
+        maskCloseable: false,
+        title: "⚠️ 检测到题库配置中包含可疑代码",
+        content: lib.h("div", [
+          lib.h("div", { style: { marginBottom: "8px" } }, [
+            "题库配置中的解析器（handler）会在答题时以你的登录身份执行。以下题库包含高风险代码特征，可能被用于窃取账号信息、篡改页面或执行其他恶意操作："
+          ]),
+          ...riskList.map(
+            (item) => lib.h(
+              "div",
+              {
+                style: {
+                  margin: "8px 0",
+                  padding: "8px",
+                  border: "1px solid #ffccc7",
+                  borderRadius: "4px",
+                  background: "#fff2f0"
+                }
+              },
+              [
+                lib.h("div", { style: { fontWeight: "bold", marginBottom: "4px" } }, `题库：${item.name}`),
+                lib.h(
+                  "ul",
+                  { style: { margin: "0", paddingLeft: "20px" } },
+                  item.findings.map((f) => lib.h("li", `${f.where ? f.where + " - " : ""}${f.feature}：${f.reason}`))
+                )
+              ]
+            )
+          ),
+          lib.h("div", { style: { marginTop: "8px", color: "#cf1322" } }, [
+            "如果你不理解以上内容，或者配置来自陌生人/非官方渠道，请点击「取消」，并从官方渠道重新获取题库配置。"
+          ])
+        ]),
+        confirmButtonText: "我了解风险，仍然使用",
+        cancelButtonText: "取消（推荐）",
+        onConfirm: () => done(true),
+        onCancel: () => done(false),
+        onClose: () => done(false)
+      });
+    });
+  }
+  const EDGE_WIDTH = 100;
+  const ICON_SIZE = 64;
+  const SNAP_ANIMATION_MS = 250;
+  const EDGE_CLASS = "edge-minimize";
+  const SIDE_CLASSES = ["edge-left", "edge-right"];
+  const SNAP_ANIM_CLASS = "edge-snapping";
+  let snapping = false;
+  let headerDragging = false;
+  let dropZone;
+  function getContainer() {
+    var _a, _b;
+    return (_b = (_a = lib.$elements.root) == null ? void 0 : _a.querySelector("container-element")) != null ? _b : void 0;
+  }
+  function updateEdgeMode() {
+    const container2 = getContainer();
+    if (!container2 || snapping)
+      return;
+    const render2 = BackgroundProject.scripts.render;
+    const clientWidth = document.documentElement.clientWidth;
+    const centerX = container2.offsetLeft + container2.offsetWidth / 2;
+    const side = render2.cfg.visual !== "minimize" ? void 0 : centerX <= EDGE_WIDTH ? "left" : centerX >= clientWidth - EDGE_WIDTH ? "right" : void 0;
+    if (side) {
+      const snappedX = side === "left" ? 0 : clientWidth - ICON_SIZE;
+      container2.classList.add(EDGE_CLASS);
+      container2.classList.remove(...SIDE_CLASSES);
+      container2.classList.add(`edge-${side}`);
+      if (lib.$elements.tooltipContainer) {
+        lib.$elements.tooltipContainer.style.display = "none";
+      }
+      if (container2.offsetLeft !== snappedX) {
+        snapping = true;
+        container2.classList.add(SNAP_ANIM_CLASS);
+        render2.methods.setPosition(snappedX, container2.offsetTop);
+        setTimeout(() => {
+          container2.classList.remove(SNAP_ANIM_CLASS);
+          snapping = false;
+        }, SNAP_ANIMATION_MS);
+      }
+    } else {
+      container2.classList.remove(EDGE_CLASS, ...SIDE_CLASSES);
+    }
+  }
+  function ensureDropZone() {
+    if (!dropZone && lib.$elements.root) {
+      dropZone = lib.h("div", { className: "edge-drop-zone" }, [
+        lib.h("span", { className: "edge-drop-zone-tip" }, "松手自动吸附")
+      ]);
+      lib.$elements.root.append(dropZone);
+    }
+    return dropZone;
+  }
+  function updateDropZone(clientX) {
+    const zone = ensureDropZone();
+    if (!zone)
+      return;
+    const clientWidth = document.documentElement.clientWidth;
+    const side = BackgroundProject.scripts.render.cfg.visual !== "minimize" ? void 0 : clientX <= EDGE_WIDTH ? "left" : clientX >= clientWidth - EDGE_WIDTH ? "right" : void 0;
+    zone.classList.toggle("show", !!side);
+    zone.classList.toggle("zone-left", side === "left");
+    zone.classList.toggle("zone-right", side === "right");
+  }
+  function hideDropZone() {
+    dropZone == null ? void 0 : dropZone.classList.remove("show", "zone-left", "zone-right");
+  }
+  function ensurePanelInViewport(container2) {
+    const clientWidth = document.documentElement.clientWidth;
+    const clientHeight = document.documentElement.clientHeight;
+    const maxX = Math.max(clientWidth - container2.offsetWidth, 0);
+    const maxY = Math.max(clientHeight - container2.offsetHeight, 10);
+    const x = Math.min(Math.max(container2.offsetLeft, 0), maxX);
+    const y = Math.min(Math.max(container2.offsetTop, 10), maxY);
+    if (x !== container2.offsetLeft || y !== container2.offsetTop) {
+      BackgroundProject.scripts.render.methods.setPosition(x, y);
+    }
+  }
+  function enableIconDraggable(icon, container2) {
+    icon.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const startX = e.clientX;
+      const startY = e.clientY;
+      const startTop = container2.offsetTop;
+      const side = container2.classList.contains("edge-right") ? "right" : "left";
+      let dragging = false;
+      let exited = false;
+      const onMove = (ev) => {
+        if (!dragging && Math.hypot(ev.clientX - startX, ev.clientY - startY) > 6) {
+          dragging = true;
+        }
+        if (!dragging)
+          return;
+        const clientWidth = document.documentElement.clientWidth;
+        const outOfZone = side === "left" ? ev.clientX > EDGE_WIDTH + ICON_SIZE : ev.clientX < clientWidth - EDGE_WIDTH - ICON_SIZE;
+        if (outOfZone && !exited) {
+          exited = true;
+          container2.classList.remove(EDGE_CLASS, ...SIDE_CLASSES);
+        }
+        if (exited) {
+          container2.style.left = ev.clientX - ICON_SIZE / 2 + "px";
+        }
+        container2.style.top = Math.max(startTop + (ev.clientY - startY), 10) + "px";
+      };
+      const onUp = () => {
+        document.removeEventListener("pointermove", onMove);
+        document.removeEventListener("pointerup", onUp);
+        if (dragging) {
+          BackgroundProject.scripts.render.methods.setPosition(container2.offsetLeft, container2.offsetTop);
+          updateEdgeMode();
+        } else {
+          BackgroundProject.scripts.render.methods.normal();
+          requestAnimationFrame(() => ensurePanelInViewport(container2));
+        }
+      };
+      document.addEventListener("pointermove", onMove);
+      document.addEventListener("pointerup", onUp);
+    });
+  }
+  let inited = false;
+  function initEdgeMinimize(retry = 3) {
+    var _a;
+    if (inited)
+      return;
+    const container2 = getContainer();
+    if (!container2) {
+      if (retry > 0) {
+        setTimeout(() => initEdgeMinimize(retry - 1), 1e3);
+      }
+      return;
+    }
+    inited = true;
+    const render2 = BackgroundProject.scripts.render;
+    const edgeIcon = lib.h("div", {
+      className: "edge-minimize-icon",
+      innerHTML: logoSvg,
+      title: "点击展开窗口，或沿边缘拖动"
+    });
+    container2.append(edgeIcon);
+    enableIconDraggable(edgeIcon, container2);
+    ensureDropZone();
+    (_a = container2.querySelector("header-element")) == null ? void 0 : _a.addEventListener("pointerdown", () => {
+      headerDragging = true;
+    });
+    document.addEventListener("pointermove", (e) => {
+      if (headerDragging)
+        updateDropZone(e.clientX);
+    });
+    document.addEventListener("pointerup", () => {
+      if (headerDragging) {
+        headerDragging = false;
+        hideDropZone();
+        updateEdgeMode();
+      }
+    });
+    document.addEventListener("pointercancel", () => {
+      headerDragging = false;
+      hideDropZone();
+    });
+    render2.onConfigChange("visual", () => updateEdgeMode());
+    render2.onConfigChange("x", () => updateEdgeMode());
+    window.addEventListener("resize", () => updateEdgeMode());
+    updateEdgeMode();
+  }
   const TAB_WORK_RESULTS_KEY = "common.work-results.results";
+  function formatQuestionForMessage(question) {
+    if (!question)
+      return question;
+    const re2 = new RegExp(IMAGE_URL_REGEX.source, IMAGE_URL_REGEX.flags);
+    const placeholderMap = /* @__PURE__ */ new Map();
+    let counter = 0;
+    return question.replace(re2, (url) => {
+      let p = placeholderMap.get(url);
+      if (!p) {
+        counter++;
+        p = `[图片${counter}]`;
+        placeholderMap.set(url, p);
+      }
+      return p;
+    });
+  }
+  const CommonEvents = {
+    emitAnswererChanged: lib.cors.defineTopFunction((curr, pre) => {
+      CommonProject.scripts.settings.emit("answerer-wrapper-change", curr, pre);
+    }),
+    emitWorkerChanged: lib.cors.defineTopFunction((result) => {
+      CommonProject.scripts.workResults.emit("work-current-result-change", result);
+    }),
+    emitWorkerStateChange: lib.cors.defineTopFunction((workerState) => {
+      state$6.workResult.isWorkerWorking = workerState === "start";
+      workerWorkingChangeListeners.forEach((listener) => listener());
+      CommonProject.scripts.workResults.emit("work-state-change", workerState);
+    })
+  };
+  const count = (results) => ({
+    total: results.length,
+    requested: results.filter((r) => r.requested).length,
+    resolved: results.filter((r) => r.resolved).length
+  });
+  const cacheIfFinished = (result) => {
+    if (CommonProject.scripts.settings.cfg.enableQuestionCaches === false) {
+      return;
+    }
+    if (result.finish === true) {
+      BackgroundProject.scripts.data.methods.addQuestionCacheFromWorkResult([result]);
+    }
+  };
+  const answererListHandlers = {
+    isDisabled: (name) => CommonProject.scripts.settings.cfg.disabledAnswererWrapperNames.includes(name),
+    onToggle: (name, disabled) => {
+      if (disabled) {
+        CommonProject.scripts.settings.cfg.disabledAnswererWrapperNames = [
+          ...CommonProject.scripts.settings.cfg.disabledAnswererWrapperNames,
+          name
+        ];
+        lib.$message.warn({
+          content: "题库：" + name + " 已被停用，如需开启请在：通用-全局设置-题库配置中开启。",
+          duration: 30
+        });
+      } else {
+        CommonProject.scripts.settings.cfg.disabledAnswererWrapperNames = CommonProject.scripts.settings.cfg.disabledAnswererWrapperNames.filter((n) => n !== name);
+        lib.$message.success({
+          content: "题库：" + name + " 已启用。",
+          duration: 3
+        });
+      }
+    }
+  };
+  const workerWorkingChangeListeners = /* @__PURE__ */ new Set();
   const state$6 = {
     workResult: {
+      isWorkerWorking: false,
       questionPositionSyncHandler: {
         cx: (index) => {
           var _a;
@@ -10560,9 +12816,7 @@ ${content}</tr>
       }
     },
     setting: {
-      listenerIds: {
-        aw: 0
-      }
+      imageOptimizeMessage: void 0
     }
   };
   const CommonProject = lib.Project.create({
@@ -10577,16 +12831,14 @@ ${content}</tr>
           notes: {
             defaultValue: lib.$ui.notes([
               "打开任意网课平台，进入视频、作业页面等待脚本运行，",
-              "任何疑问请查看上方交流群，进群后带截图进行反馈。",
-              "温馨提示: ",
-              "⚠️ 禁止与其他脚本一起使用，否则会不兼容导致无法运行！",
-              "⚠️ 禁止最小化浏览器、切屏，否则可能导致脚本无法运行！"
+              "⚠️ 禁止与其他脚本一起使用（不兼容），也不能开多个相同脚本",
+              "⚠️ 禁止最小化浏览器、切屏，否则可能导致脚本无法运行！",
+              "有疑问请访问下方交流群，进群后带截图进行反馈。"
             ]).outerHTML
           }
         },
         onrender({ panel }) {
           const guide = createGuide();
-          guide.style.width = "480px";
           panel.body.replaceChildren(guide);
         }
       }),
@@ -10609,22 +12861,31 @@ ${content}</tr>
           disabledAnswererWrapperNames: {
             defaultValue: []
           },
+          imageOptimizeWarnRecords: {
+            defaultValue: []
+          },
           answererWrappersButton: {
             label: "题库配置",
             defaultValue: "点击配置",
             attrs: {
               type: "button"
             },
+            suffixSlot() {
+              return getAnswererConfigProvider() ? createAnswererModeDropdown() : "";
+            },
             onload() {
               const aws = CommonProject.scripts.settings.cfg.answererWrappers || [];
               this.value = aws.length ? aws.length + " 个可用题库（点击进入配置）" : "点击进入配置";
-              this.onclick = () => {
+              const openAnswererModal = (mode) => {
                 const aw = CommonProject.scripts.settings.cfg.answererWrappers || [];
-                const copy = lib.$ui.copy("复制题库配置", JSON.stringify(aw, null, 4));
-                const list = lib.h("div", [
-                  lib.h("div", { style: { marginTop: "8px" } }, aw.length ? ["以下是已经解析过的题库配置：", copy] : ""),
-                  ...createAnswererWrapperList(aw)
-                ]);
+                const listContainer = lib.h("div");
+                const renderAnswererList = () => {
+                  const current = CommonProject.scripts.settings.cfg.answererWrappers || [];
+                  listContainer.replaceChildren(
+                    ...current.length ? [createAnswererWrapperSection(current, "已解析的题库配置：", answererListHandlers)] : []
+                  );
+                };
+                renderAnswererList();
                 const textarea = lib.h(
                   "textarea",
                   {
@@ -10653,281 +12914,441 @@ ${content}</tr>
                     ]
                   )
                 );
-                const modal2 = lib.$modal.prompt({
-                  width: 600,
-                  maskCloseable: false,
-                  content: lib.$ui.notes([
-                    [
-                      lib.h("div", { style: { fontSize: "16px", marginBottom: "8px" } }, [
-                        lib.h("b", "题库配置填写教程👉："),
-                        lib.h("a", { href: "https://docs.ocsjs.com/docs/work" }, "https://docs.ocsjs.com/docs/work")
+                const applyAws = async (awsResult, showSuccessModal = true) => {
+                  if (awsResult.length === 0) {
+                    lib.$modal.alert({ content: "题库配置不能为空，请重新配置。" });
+                    return false;
+                  }
+                  const result_set = [];
+                  for (const res of awsResult) {
+                    if (result_set.find((i) => JSON.stringify(i) === JSON.stringify(res))) {
+                      continue;
+                    }
+                    result_set.push(res);
+                  }
+                  awsResult = result_set;
+                  if (JSON.stringify(CommonProject.scripts.settings.cfg.answererWrappers) === JSON.stringify(awsResult)) {
+                    if (showSuccessModal) {
+                      lib.$modal.alert({ content: lib.h("div", ["✅️已应用题库配置，但您新配置的题库似乎没有变化~"]) });
+                    }
+                    return true;
+                  }
+                  if (awsResult.length > 10) {
+                    lib.$modal.alert({
+                      content: lib.h("div", [
+                        "题库配置过多可能会导致答题效率降低，建议不超过10个题库，目前解析到" + awsResult.length + "个题库，请删除一些不必要的题库后重新配置！"
                       ])
-                    ],
-                    [
-                      lib.h(
-                        "div",
-                        {
-                          className: "secondary"
-                        },
-                        [
-                          "⚠️ 如果无法粘贴，请点->：",
-                          lib.h("button", "读取剪贴板", (btn) => {
-                            btn.classList.add("base-style-button");
-                            btn.onclick = () => {
-                              navigator.clipboard.readText().then((result) => {
-                                textarea.value = result;
-                              });
-                            };
-                          }),
-                          "，并同意浏览器上方的剪贴板读取申请。"
-                        ]
-                      )
-                    ],
-                    [
-                      lib.h(
-                        "div",
-                        { className: "secondary" },
-                        "⚠️ 如果想添加多个不同的题库配置，请在每个配置之间使用三个井号隔开: ###。"
-                      )
-                    ],
-                    [lib.h("div", { className: "secondary" }, "⚠️ 配置第三方题库出现网页弹窗的，点击永久允许连接。")],
-                    ...aw.length ? [list] : []
-                  ]),
-                  footer: lib.h("div", { style: { width: "100%" } }, [
-                    lib.h("div", { className: "separator secondary" }, "题库配置填写/修改区"),
-                    textarea,
-                    lib.h("div", { style: { display: "flex", flexWrap: "wrap", marginTop: "12px", fontSize: "12px" } }, [
-                      lib.h("div", ["解析器：", select], (div) => {
-                        div.style.marginRight = "12px";
-                        div.style.flex = "1";
-                      }),
-                      lib.h("div", { style: { flex: "1", display: "flex", flexWrap: "wrap", justifyContent: "end" } }, [
-                        lib.h("button", "清空题库配置", (btn) => {
-                          btn.className = "modal-cancel-button";
-                          btn.style.marginRight = "48px";
+                    });
+                    return false;
+                  }
+                  const confirmed = await confirmRiskyAnswerWrappers(awsResult);
+                  if (!confirmed) {
+                    return false;
+                  }
+                  CommonEvents.emitAnswererChanged(awsResult, CommonProject.scripts.settings.cfg.answererWrappers);
+                  CommonProject.scripts.settings.cfg.answererWrappers = awsResult;
+                  this.value = "当前有" + awsResult.length + "个可用题库";
+                  if (showSuccessModal) {
+                    lib.$modal.confirm({
+                      width: 600,
+                      content: lib.h("div", [
+                        lib.h("div", ["🎉 配置成功，", lib.h("b", " 刷新界面 "), "或者", lib.h("b", " 重新答题 "), "即可生效。"]),
+                        createAnswererWrapperSection(awsResult, "解析到的题库如下所示：", answererListHandlers, false)
+                      ]),
+                      onConfirm: () => {
+                        if (lib.$gm.isInGMContext()) {
+                          top == null ? void 0 : top.document.location.reload();
+                        }
+                      },
+                      ...lib.$gm.isInGMContext() ? {
+                        confirmButtonText: "立即刷新",
+                        cancelButtonText: "稍后刷新"
+                      } : {}
+                    });
+                  }
+                  textarea.value = JSON.stringify(awsResult, null, 4);
+                  const connects = lib.$gm.getMetadataFromScriptHead("connect");
+                  if (connects.length) {
+                    const notAllowed = [];
+                    if (connects.includes("*")) {
+                      return true;
+                    }
+                    for (const aw2 of awsResult) {
+                      if (connects.some((connect) => new URL(aw2.url).hostname.includes(connect)) === false) {
+                        notAllowed.push(aw2.url);
+                      }
+                    }
+                    if (notAllowed.length) {
+                      lib.$modal.alert({
+                        width: 600,
+                        maskCloseable: false,
+                        title: "⚠️警告",
+                        content: lib.h("div", [
+                          lib.h("div", [
+                            "配置成功，但检测到以下 域名/ip 不在脚本的白名单中，请安装 : ",
+                            lib.h(
+                              "a",
+                              {
+                                href: "https://docs.ocsjs.com/docs/other/api#全域名通用版本"
+                              },
+                              "OCS全域名通用版本"
+                            ),
+                            "，或者手动添加 @connect ，否则无法进行请求。",
+                            lib.h(
+                              "ul",
+                              notAllowed.map((url) => lib.h("li", new URL(url).hostname))
+                            )
+                          ])
+                        ])
+                      });
+                    }
+                  }
+                  return true;
+                };
+                const provider2 = getAnswererConfigProvider();
+                const { el: connectStatus, setStatus: setConnectStatus } = createStatusBox();
+                const connectHero = provider2 ? (() => {
+                  let origin = provider2.connectUrl;
+                  try {
+                    origin = new URL(provider2.connectUrl).origin;
+                  } catch {
+                  }
+                  return createHero({
+                    icon: "🚀",
+                    title: "一键获取题库配置",
+                    subtitle: "打开题库网站并登录即可，配置自动回填，无需手动复制粘贴",
+                    extra: lib.h("span", [
+                      "题库源：",
+                      lib.h("b", provider2.name),
+                      "　官网：",
+                      lib.h("a", { href: origin, target: "_blank" }, origin)
+                    ])
+                  });
+                })() : void 0;
+                const connectSteps = provider2 ? createSteps(["点击下方获取按钮、打开题库小窗", "完成登录", "自动回填保存"]) : void 0;
+                const connectButton = provider2 ? lib.h("button", "点击前往获取题库", (btn) => {
+                  btn.className = "aw-connect-btn" + (aw.length ? "" : " lg");
+                  const defaultLabel = "点击前往获取题库";
+                  const setBtnLoading = (loading) => {
+                    btn.disabled = loading;
+                    btn.innerHTML = loading ? `${loadingSpinSvg}获取中 ...` : defaultLabel;
+                  };
+                  btn.onclick = async () => {
+                    var _a;
+                    const win = openAnswererConnect();
+                    if (!win) {
+                      setConnectStatus(
+                        "⚠️ 弹窗被浏览器拦截，请允许本站弹窗后重试，或点击题库配置旁的「⋯」选择「自定义题库」手动配置。",
+                        "error"
+                      );
+                      return;
+                    }
+                    setBtnLoading(true);
+                    setConnectStatus("⏳ 正在等待您在题库网站完成登录，登录后配置将自动回填保存。", "info");
+                    try {
+                      const aws2 = await waitForAnswererConfig(win, void 0, () => !(modal2 == null ? void 0 : modal2.isConnected));
+                      select.value = "默认";
+                      textarea.value = JSON.stringify(aws2, null, 4);
+                      const saved = await applyAws(aws2, false);
+                      if (saved) {
+                        await new Promise((resolve) => setTimeout(resolve, 1e3));
+                        for (let i = 3; i > 0; i--) {
+                          setConnectStatus(`✅ 题库配置已保存，${i} 秒后自动关闭小窗…`, "success");
+                          await new Promise((resolve) => setTimeout(resolve, 1e3));
+                        }
+                        setConnectStatus("✅ 题库配置已保存，重新答题或刷新界面 即可生效。", "success");
+                        try {
+                          win.close();
+                        } catch {
+                        }
+                      } else {
+                        setConnectStatus("⚠️ 配置未保存，请根据提示处理后重试。", "error");
+                      }
+                    } catch (e) {
+                      setConnectStatus("⚠️ " + ((_a = e == null ? void 0 : e.message) != null ? _a : "获取题库配置失败"), "error");
+                    } finally {
+                      setBtnLoading(false);
+                    }
+                  };
+                }) : void 0;
+                const manualNotes = lib.$ui.notes([
+                  [
+                    lib.h("div", { style: { fontSize: "16px", marginBottom: "8px" } }, [
+                      lib.h("b", "题库配置填写教程👉："),
+                      lib.h("a", { href: "https://docs.ocsjs.com/docs/work" }, "https://docs.ocsjs.com/docs/work")
+                    ])
+                  ],
+                  [
+                    lib.h(
+                      "div",
+                      {
+                        className: "secondary"
+                      },
+                      [
+                        "⚠️ 如果无法粘贴，请点->：",
+                        lib.h("button", "读取剪贴板", (btn) => {
+                          btn.classList.add("base-style-button");
                           btn.onclick = () => {
-                            lib.$modal.confirm({
-                              content: "确定要清空题库配置吗？",
-                              onConfirm: () => {
-                                lib.$message.success({ content: "已清空，在答题前请记得重新配置。" });
-                                modal2 == null ? void 0 : modal2.remove();
-                                CommonProject.scripts.settings.cfg.answererWrappers = [];
-                                this.value = "点击配置";
-                              }
+                            navigator.clipboard.readText().then((result) => {
+                              textarea.value = result;
                             });
                           };
                         }),
-                        lib.h("button", "关闭", (btn) => {
-                          btn.className = "modal-cancel-button";
-                          btn.style.marginRight = "12px";
-                          btn.onclick = () => modal2 == null ? void 0 : modal2.remove();
-                        }),
-                        lib.h("button", "保存配置", (btn) => {
-                          btn.className = "modal-confirm-button";
-                          btn.onclick = async () => {
-                            const connects = lib.$gm.getMetadataFromScriptHead("connect");
-                            const value = textarea.value;
-                            if (!value) {
-                              lib.$modal.alert({
-                                content: lib.h("div", "不能为空！")
-                              });
-                              return;
-                            }
-                            if (value.includes("adapter-service/search") && select.value === "TikuAdapter" === false) {
-                              lib.$modal.alert({
-                                content: lib.h("div", [
-                                  "检测到您可能正在使用 ",
-                                  lib.h(
-                                    "a",
-                                    { href: "https://github.com/DokiDoki1103/tikuAdapter#readme" },
-                                    "TikuAdapter 题库"
-                                  ),
-                                  "，但是您选择的解析器不是 TikuAdapter，请选择 TikuAdapter 解析器，并填写接口地址即可，例如：http://localhost:8060/adapter-service/search，或者忽略此警告。"
-                                ]),
-                                confirmButtonText: "切换至 TikuAdapter 解析器，并识别接口地址",
-                                onConfirm() {
-                                  var _a;
-                                  const origin = ((_a = textarea.value.match(/http:\/\/(.+)\/adapter-service\/search/)) == null ? void 0 : _a[1]) || "";
-                                  textarea.value = `http://${origin}/adapter-service/search`;
-                                  select.value = "TikuAdapter";
-                                }
-                              });
-                              return;
-                            }
-                            try {
-                              let awsResult = [];
-                              if (select.value === "TikuAdapter") {
-                                if (value.startsWith("http") === false) {
-                                  lib.$modal.alert({
-                                    content: lib.h("div", [
-                                      "格式错误，TikuAdapter解析器只能解析 url 链接，请重新输入！或者查看：",
-                                      lib.h(
-                                        "a",
-                                        { href: "https://github.com/DokiDoki1103/tikuAdapter#readme" },
-                                        "https://github.com/DokiDoki1103/tikuAdapter#readme"
-                                      )
-                                    ])
-                                  });
-                                  return;
-                                }
-                                select.value = "默认";
-                                awsResult.push({
-                                  name: "TikuAdapter题库",
-                                  url: value,
-                                  homepage: "https://github.com/DokiDoki1103/tikuAdapter",
-                                  method: "post",
-                                  type: "GM_xmlhttpRequest",
-                                  contentType: "json",
-                                  headers: {},
-                                  data: {
-                                    question: "${title}",
-                                    options: {
-                                      handler: "return (env)=>env.options?.split('\\n')"
-                                    },
-                                    type: {
-                                      handler: " return (env)=> env.type === 'single' ? 0 : env.type === 'multiple' ? 1 : env.type === 'completion' ? 3 : env.type === 'judgement' ? 4 : undefined"
-                                    }
-                                  },
-                                  handler: "return (res)=>res.answer.allAnswer.map(i=>([res.question,i.join('#')]))"
-                                });
-                              } else {
-                                const contents = value.split("###").map((i) => i.trim()).filter(Boolean);
-                                for (const content of contents) {
-                                  awsResult.push(...await AnswerWrapperParser.from(content));
-                                }
+                        "，并同意浏览器上方的剪贴板读取申请。"
+                      ]
+                    )
+                  ],
+                  [
+                    lib.h(
+                      "div",
+                      { className: "secondary" },
+                      "⚠️ 如果想添加多个不同的题库配置，请在每个配置之间使用三个井号隔开: ###。"
+                    )
+                  ],
+                  [lib.h("div", { className: "secondary" }, "⚠️ 配置第三方题库出现网页弹窗的，点击永久允许连接。")]
+                ]);
+                const clearAnswererConfig = () => {
+                  lib.$modal.confirm({
+                    content: "确定要清空题库配置吗？",
+                    onConfirm: () => {
+                      lib.$message.success({ content: "已清空，在答题前请记得重新配置。" });
+                      modal2 == null ? void 0 : modal2.remove();
+                      CommonProject.scripts.settings.cfg.answererWrappers = [];
+                      this.value = "点击配置";
+                    }
+                  });
+                };
+                const enlargeFooterButton = (btn) => {
+                  btn.style.padding = "4px 12px";
+                  btn.style.fontSize = "14px";
+                };
+                const manualFooter = lib.h("div", { style: { width: "100%" } }, [
+                  lib.h("div", { className: "separator secondary" }, "题库配置填写/修改区"),
+                  textarea,
+                  lib.h("div", { style: { marginTop: "12px", fontSize: "12px" } }, [
+                    lib.h("div", { style: { marginBottom: "12px" } }, ["解析器：", select]),
+                    lib.h("div", { style: { display: "flex", flexWrap: "wrap", justifyContent: "flex-end" } }, [
+                      lib.h("button", "清空题库配置", (btn) => {
+                        btn.className = "modal-cancel-button";
+                        enlargeFooterButton(btn);
+                        btn.style.marginRight = "auto";
+                        btn.onclick = () => clearAnswererConfig();
+                      }),
+                      lib.h("button", "关闭", (btn) => {
+                        btn.className = "modal-cancel-button";
+                        enlargeFooterButton(btn);
+                        btn.style.marginRight = "12px";
+                        btn.onclick = () => modal2 == null ? void 0 : modal2.remove();
+                      }),
+                      lib.h("button", "保存配置", (btn) => {
+                        btn.className = "modal-confirm-button";
+                        enlargeFooterButton(btn);
+                        btn.onclick = async () => {
+                          const value = textarea.value;
+                          if (!value) {
+                            lib.$modal.alert({
+                              content: lib.h("div", "不能为空！")
+                            });
+                            return;
+                          }
+                          if (value.includes("adapter-service/search") && select.value === "TikuAdapter" === false) {
+                            lib.$modal.alert({
+                              content: lib.h("div", [
+                                "检测到您可能正在使用 ",
+                                lib.h(
+                                  "a",
+                                  { href: "https://github.com/DokiDoki1103/tikuAdapter#readme" },
+                                  "TikuAdapter 题库"
+                                ),
+                                "，但是您选择的解析器不是 TikuAdapter，请选择 TikuAdapter 解析器，并填写接口地址即可，例如：http://localhost:8060/adapter-service/search，或者忽略此警告。"
+                              ]),
+                              confirmButtonText: "切换至 TikuAdapter 解析器，并识别接口地址",
+                              onConfirm() {
+                                var _a;
+                                const origin = ((_a = textarea.value.match(/http:\/\/(.+)\/adapter-service\/search/)) == null ? void 0 : _a[1]) || "";
+                                textarea.value = `http://${origin}/adapter-service/search`;
+                                select.value = "TikuAdapter";
                               }
-                              if (awsResult.length === 0) {
-                                lib.$modal.alert({ content: "题库配置不能为空，请重新配置。" });
-                                return;
-                              }
-                              const result_set = [];
-                              for (const res of awsResult) {
-                                if (result_set.find((i) => JSON.stringify(i) === JSON.stringify(res))) {
-                                  continue;
-                                }
-                                result_set.push(res);
-                              }
-                              awsResult = result_set;
-                              if (JSON.stringify(CommonProject.scripts.settings.cfg.answererWrappers) === JSON.stringify(awsResult)) {
-                                lib.$modal.alert({ content: lib.h("div", ["题库配置没有变化，请重新配置！"]) });
-                                return;
-                              }
-                              if (awsResult.length > 10) {
+                            });
+                            return;
+                          }
+                          try {
+                            const awsResult = [];
+                            if (select.value === "TikuAdapter") {
+                              if (value.startsWith("http") === false) {
                                 lib.$modal.alert({
                                   content: lib.h("div", [
-                                    "题库配置过多可能会导致答题效率降低，建议不超过10个题库，目前解析到" + awsResult.length + "个题库，请删除一些不必要的题库后重新配置！"
+                                    "格式错误，TikuAdapter解析器只能解析 url 链接，请重新输入！或者查看：",
+                                    lib.h(
+                                      "a",
+                                      { href: "https://github.com/DokiDoki1103/tikuAdapter#readme" },
+                                      "https://github.com/DokiDoki1103/tikuAdapter#readme"
+                                    )
                                   ])
                                 });
                                 return;
                               }
-                              CommonProject.scripts.settings.cfg.answererWrappers = awsResult;
-                              this.value = "当前有" + awsResult.length + "个可用题库";
-                              lib.$modal.confirm({
-                                width: 600,
-                                content: lib.h("div", [
-                                  lib.h("div", [
-                                    "🎉 配置成功，",
-                                    lib.h("b", " 刷新网页后 "),
-                                    "重新进入",
-                                    lib.h("b", " 答题页面 "),
-                                    "即可。",
-                                    "解析到的题库如下所示:"
-                                  ]),
-                                  ...createAnswererWrapperList(awsResult)
-                                ]),
-                                onConfirm: () => {
-                                  if (lib.$gm.isInGMContext()) {
-                                    top == null ? void 0 : top.document.location.reload();
+                              select.value = "默认";
+                              awsResult.push({
+                                name: "TikuAdapter题库",
+                                url: value,
+                                homepage: "https://github.com/DokiDoki1103/tikuAdapter",
+                                method: "post",
+                                type: "GM_xmlhttpRequest",
+                                contentType: "json",
+                                headers: {},
+                                data: {
+                                  question: "${title}",
+                                  options: {
+                                    handler: "return (env)=>env.options?.split('\\n')"
+                                  },
+                                  type: {
+                                    handler: " return (env)=> env.type === 'single' ? 0 : env.type === 'multiple' ? 1 : env.type === 'completion' ? 3 : env.type === 'judgement' ? 4 : undefined"
                                   }
                                 },
-                                ...lib.$gm.isInGMContext() ? {
-                                  confirmButtonText: "立即刷新",
-                                  cancelButtonText: "稍后刷新"
-                                } : {}
+                                handler: "return (res)=>res.answer.allAnswer.map(i=>([res.question,i.join('#')]))"
                               });
-                              textarea.value = JSON.stringify(awsResult, null, 4);
-                              if (connects.length) {
-                                const notAllowed = [];
-                                if (connects.includes("*")) {
-                                  return;
-                                }
-                                for (const aw2 of awsResult) {
-                                  if (connects.some((connect) => new URL(aw2.url).hostname.includes(connect)) === false) {
-                                    notAllowed.push(aw2.url);
-                                  }
-                                }
-                                if (notAllowed.length) {
-                                  lib.$modal.alert({
-                                    width: 600,
-                                    maskCloseable: false,
-                                    title: "⚠️警告",
-                                    content: lib.h("div", [
-                                      lib.h("div", [
-                                        "配置成功，但检测到以下 域名/ip 不在脚本的白名单中，请安装 : ",
-                                        lib.h(
-                                          "a",
-                                          {
-                                            href: "https://docs.ocsjs.com/docs/other/api#全域名通用版本"
-                                          },
-                                          "OCS全域名通用版本"
-                                        ),
-                                        "，或者手动添加 @connect ，否则无法进行请求。",
-                                        lib.h(
-                                          "ul",
-                                          notAllowed.map((url) => lib.h("li", new URL(url).hostname))
-                                        )
-                                      ])
-                                    ])
-                                  });
-                                }
+                            } else {
+                              const contents = value.split("###").map((i) => i.trim()).filter(Boolean);
+                              for (const content of contents) {
+                                awsResult.push(...await AnswerWrapperParser.from(content));
                               }
-                            } catch (e) {
-                              lib.$modal.alert({
-                                content: lib.h("div", [lib.h("div", "解析失败，原因如下 :"), lib.h("div", e.message)])
-                              });
                             }
-                          };
-                        })
-                      ])
+                            await applyAws(awsResult);
+                          } catch (e) {
+                            lib.$modal.alert({
+                              content: lib.h("div", [lib.h("div", "解析失败，原因如下 :"), lib.h("div", e.message)])
+                            });
+                          }
+                        };
+                      })
                     ])
                   ])
+                ]);
+                let modalContent;
+                let modalFooter;
+                if (mode === "official" && provider2 && connectHero && connectButton && connectSteps) {
+                  const connectPanel = lib.h("div", [connectHero, connectSteps, connectStatus, listContainer]);
+                  const connectFooter = lib.h(
+                    "div",
+                    {
+                      style: {
+                        width: "100%",
+                        position: "relative",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                        gap: "12px",
+                        marginTop: "24px"
+                      }
+                    },
+                    [
+                      ...aw.length ? [
+                        lib.h("button", "清空题库配置", (btn) => {
+                          btn.className = "modal-cancel-button";
+                          btn.style.padding = "2px 8px";
+                          btn.style.fontSize = "12px";
+                          btn.onclick = () => clearAnswererConfig();
+                        }),
+                        lib.h("button", "手动配置题库", (btn) => {
+                          btn.className = "modal-cancel-button";
+                          btn.style.padding = "2px 8px";
+                          btn.style.fontSize = "12px";
+                          btn.style.marginRight = "auto";
+                          btn.title = "手动填写或粘贴题库配置";
+                          btn.onclick = () => {
+                            modal2 == null ? void 0 : modal2.remove();
+                            openAnswererModal("custom");
+                          };
+                        })
+                      ] : [],
+                      lib.h("button", "关闭", (btn) => {
+                        btn.className = "modal-cancel-button";
+                        if (aw.length) {
+                          enlargeFooterButton(btn);
+                        } else {
+                          btn.style.padding = "8px 24px";
+                          btn.style.fontSize = "15px";
+                        }
+                        btn.onclick = () => modal2 == null ? void 0 : modal2.remove();
+                      }),
+                      connectButton
+                    ]
+                  );
+                  modalContent = connectPanel;
+                  modalFooter = connectFooter;
+                } else {
+                  modalContent = lib.h("div", [manualNotes, listContainer]);
+                  modalFooter = manualFooter;
+                }
+                const modal2 = lib.$modal.prompt({
+                  width: 600,
+                  maskCloseable: false,
+                  content: modalContent,
+                  footer: modalFooter
                 });
+                const awChangeListener = CommonProject.scripts.settings.onConfigChange(
+                  "answererWrappers",
+                  (_key, _value, remote) => {
+                    if (remote === false) {
+                      renderAnswererList();
+                    }
+                  }
+                );
+                if (modal2) {
+                  const originalRemove = modal2.remove.bind(modal2);
+                  modal2.remove = () => {
+                    CommonProject.scripts.settings.offConfigChange(awChangeListener);
+                    originalRemove();
+                  };
+                }
+                if (mode === "official" && aw.length === 0 && connectButton) {
+                  setTimeout(() => {
+                    if (modal2 == null ? void 0 : modal2.isConnected) {
+                      connectButton.click();
+                    }
+                  }, 1e3);
+                }
               };
+              this.onclick = () => openAnswererModal(getAnswererConfigProvider() ? "official" : "custom");
+              this.openAnswererModal = openAnswererModal;
             }
           },
           upload: {
-            label: "答题完成后",
+            label: "答案提交方式（提交率）",
             tag: "select",
             defaultValue: 80,
             options: [
-              ["save", "自动保存", "完成后自动保存答案, 注意如果你开启了随机作答, 有可能分辨不出答案是否正确。"],
-              ["nomove", "不保存也不提交", "等待时间过后将会自动下一节, 适合在测试脚本时使用。"],
+              [
+                "save",
+                "自动保存（不提交）",
+                "答题结束后自动保存答案，但不会提交试卷。注意：如果开启了随机作答，保存后可能无法分辨答案是否正确。"
+              ],
+              [
+                "nomove",
+                "不保存也不提交",
+                "答题结束后不进行任何保存或提交，等待时间过后自动进入下一节，适合测试脚本时使用。"
+              ],
               ...[10, 20, 30, 40, 50, 60, 70, 80, 90].map((rate) => [
                 rate,
-                `搜到${rate}%的题目则自动提交`,
-                `例如: 100题中查询到 ${rate} 题的答案,（答案不一定正确）, 则会自动提交。`
+                `搜到 ${rate}%的答案就自动提交`,
+                `例如共100道题，只要有 ${rate} 道题搜索到答案，就会自动提交试卷（答案不一定正确）。`
               ]),
-              ["100", "每个题目都查到答案才自动提交", "答案不一定正确"],
-              ["force", "强制自动提交", "不管答案是否正确直接强制自动提交，如需开启，请配合随机作答谨慎使用。"]
+              ["100", "全部题目都搜到答案才提交", "所有题目都搜索到答案后才自动提交试卷（答案不一定正确）。"],
+              [
+                "force",
+                "不管有没有答案都强制提交",
+                "不管是否搜到答案、答案是否正确，答题结束后直接强制提交试卷。风险较高，如需开启请配合随机作答谨慎使用。"
+              ]
             ],
             attrs: {
-              title: "自动答题完成后的设置，目前仅在 超星学习通的章节测试 中生效, 鼠标悬浮在选项上可以查看每个选项的具体解释。"
+              title: "提交方式（提交率）：设置自动答题结束后如何保存/提交答案\n鼠标悬浮在选项上可以查看每个选项的具体解释。\n\n注意：提交率无法控制题库的正确率，题库搜索到的答案不一定正确。"
             }
-          },
-          thread: {
-            label: "线程数量（个）",
-            attrs: {
-              type: "number",
-              min: 1,
-              step: 1,
-              max: 3,
-              title: "同一时间内答题线程工作的数量（例子：三个线程则代表一秒内同时搜索三道题），过多可能导致题库服务器压力过大，请适当调低。"
-            },
-            defaultValue: 1
           },
           "work-when-no-job": {
             defaultValue: false,
-            label: "(仅超星)强制答题",
+            label: "强制答题（仅超星）",
             attrs: {
               type: "checkbox",
               title: "当章节测试左上角并没有黄色任务点的时候依然进行答题（没有任务点说明此作业可能不计入总成绩，如果老师要求则可以开启）"
@@ -10935,17 +13356,17 @@ ${content}</tr>
           },
           "randomWork-choice": {
             defaultValue: false,
-            label: "(仅超星)随机选择",
-            attrs: { type: "checkbox", title: "题库搜索不到答案时，随机选择任意一个选项" }
+            label: "随机选择（仅超星）",
+            attrs: { type: "checkbox", title: "题库搜索不到答案时，随机选择任意一个选项，仅支持超星章节测试" }
           },
           "randomWork-complete": {
             defaultValue: false,
-            label: "(仅超星)随机填空",
-            attrs: { type: "checkbox", title: "题库搜索不到答案时，随机填写以下任意一个文案" }
+            label: "随机填空（仅超星）",
+            attrs: { type: "checkbox", title: "题库搜索不到答案时，随机填写以下任意一个文案，仅支持超星章节测试" }
           },
           "randomWork-completeTexts-textarea": {
             defaultValue: ["不会", "不知道", "不清楚", "不懂", "不会写"].join("\n"),
-            label: "(仅超星)随机填空文案",
+            label: "随机填空文案（仅超星）",
             tag: "textarea",
             showIf: "common.settings.randomWork-complete",
             attrs: { title: "每行一个，随机填入", style: { minWidth: "200px", minHeight: "50px" } },
@@ -10962,6 +13383,29 @@ ${content}</tr>
             defaultValue: false,
             label: "高级设置",
             attrs: { type: "checkbox", title: "请谨慎使用高级设置，可能会影响答题效果，小白在未理解的情况下谨慎调整。" }
+          },
+          thread: {
+            showIf: "common.settings.advancedSettings",
+            elementClassName: "config-details",
+            label: "线程数量（个）",
+            attrs: {
+              type: "number",
+              min: 1,
+              step: 1,
+              max: 3,
+              title: "同一时间内答题线程工作的数量（例子：三个线程则代表一秒内同时搜索三道题），过多可能导致题库服务器压力过大，请适当调低。"
+            },
+            defaultValue: 1
+          },
+          imageOptimize: {
+            showIf: "common.settings.advancedSettings",
+            elementClassName: "config-details",
+            label: "图片题优化",
+            attrs: {
+              type: "checkbox",
+              title: `遇到图片题解析图片成 Base64 上传给题库，防止遇到防盗链等问题无法加载。需题库配置支持（POST 方法且引用了 \${images} / \${suggestion_title} / \${suggestion_options} 字段），否则需重新配置题库。原题 title / options 不会被修改。`
+            },
+            defaultValue: true
           },
           answerWrapperHandlerTimeout: {
             showIf: "common.settings.advancedSettings",
@@ -11018,17 +13462,6 @@ ${content}</tr>
               });
             }
           },
-          answerMatchMode: {
-            showIf: "common.settings.advancedSettings",
-            elementClassName: "config-details",
-            label: "答案匹配模式",
-            tag: "select",
-            defaultValue: "similar",
-            options: [
-              ["similar", "相似匹配", "答案相似度达到60%以上就匹配"],
-              ["exact", "精确匹配", "答案必须完全一致才匹配"]
-            ]
-          },
           redundanceWordsText: {
             showIf: "common.settings.advancedSettings",
             elementClassName: "config-details",
@@ -11061,9 +13494,8 @@ ${content}</tr>
             },
             onload(el) {
               el.addEventListener("change", () => {
-                if (String(el.value).trim() === "") {
+                if (String(el.value).trim() === "")
                   el.value = el.defaultValue;
-                }
               });
             }
           },
@@ -11075,6 +13507,13 @@ ${content}</tr>
             },
             tag: "select",
             defaultValue: "only-notify",
+            suffixSlot: function() {
+              const btn = lib.h("button", { className: "base-style-button-secondary" }, "📢测试通知");
+              btn.onclick = () => {
+                this.methods.notificationBySetting("这是一条测试通知");
+              };
+              return btn;
+            },
             options: [
               ["only-notify", "只显示右下角通知"],
               ["notify-and-voice", "通知以及提示音（叮的一声）"],
@@ -11082,25 +13521,22 @@ ${content}</tr>
               ["no-notify", "关闭系统通知"]
             ]
           },
-          notificationWebhooks: {
-            label: "通知回调",
-            attrs: {
-              title: "发送系统通知时发送回调请求，用于专业开发人员对接其他通知系统。（每行填写一个URL，顺序发送GET请求，${message} 为消息占位符，可用于消息变量替换）"
-            },
-            tag: "textarea",
-            defaultValue: ""
-          },
           enableQuestionCaches: {
             label: "题库缓存功能",
             defaultValue: true,
-            attrs: { type: "checkbox", title: "详情请前往 通用-其他应用-题库拓展查看。" }
+            attrs: { type: "checkbox" },
+            suffixSlot: function() {
+              const btn = lib.h("button", { className: "base-style-button-secondary" }, "⚙️管理缓存");
+              btn.onclick = () => {
+                BackgroundProject.scripts.data.methods.showQuestionCaches();
+              };
+              return btn;
+            }
           }
         },
         methods() {
           return {
             getWorkOptions: () => {
-              console.log('[OCS调试] getWorkOptions 被调用');
-              console.log('[OCS调试] cfg.answererWrappers:', JSON.stringify(this.cfg.answererWrappers));
               const workOptions = JSON.parse(JSON.stringify(this.cfg));
               workOptions.answererWrappers = workOptions.answererWrappers.filter(
                 (aw) => this.cfg.disabledAnswererWrapperNames.find((daw) => daw === aw.name) === void 0
@@ -11116,20 +13552,6 @@ ${content}</tr>
                   important: this.cfg.notification === "all",
                   silent: this.cfg.notification === "only-notify"
                 });
-                const message2 = ((opts == null ? void 0 : opts.extraTitle) ? (opts == null ? void 0 : opts.extraTitle) + "：" : "") + content;
-                const webhooks = this.cfg.notificationWebhooks.split("\n").map((i) => i.trim()).filter(Boolean);
-                for (const webhook of webhooks) {
-                  let resolved_webhook = webhook;
-                  resolved_webhook = webhook.replace("${message}", encodeURIComponent(message2));
-                  request(resolved_webhook, {
-                    method: "get",
-                    type: "GM_xmlhttpRequest"
-                  }).then((result) => {
-                    console.debug("通知回调成功", { webhook: resolved_webhook, result });
-                  }).catch((err) => {
-                    console.debug("通知回调失败", { webhook: resolved_webhook, err });
-                  });
-                }
               }
             }
           };
@@ -11139,125 +13561,45 @@ ${content}</tr>
           this.onConfigChange("answerWrapperHandlerTimeout", (sec) => {
             AnswerWrapperHandlerConfig.timeout_seconds = sec;
           });
-        },
-        onrender({ panel }) {
-          if (lib.$gm.isInGMContext()) {
-            panel.body.replaceChildren(...this.cfg.answererWrappers.length ? [lib.h("hr")] : []);
-            const testNotification = lib.h(
-              "button",
-              { className: "base-style-button", disabled: this.cfg.answererWrappers.length === 0 },
-              "📢测试系统通知"
-            );
-            testNotification.onclick = () => {
-              this.methods.notificationBySetting("这是一条测试通知");
-            };
-            const refresh = lib.h(
-              "button",
-              { className: "base-style-button", disabled: this.cfg.answererWrappers.length === 0 },
-              "🔄️刷新题库状态"
-            );
-            const errorSolveGuide = lib.h(
-              "button",
-              {
-                className: "base-style-button ",
-                style: { display: "none" },
-                onclick() {
-                  window.open("https://docs.ocsjs.com/docs/other/FQA#tk-error", "_blank");
+          const checkImageOptimizeCompatibility = () => {
+            var _a;
+            if (self !== top) {
+              return;
+            }
+            const wrappers = this.cfg.answererWrappers || [];
+            if (!this.cfg.imageOptimize || wrappers.length === 0 || isAnswererWrappersSupportImageOptimize(wrappers)) {
+              (_a = state$6.setting.imageOptimizeMessage) == null ? void 0 : _a.remove();
+              state$6.setting.imageOptimizeMessage = void 0;
+              return;
+            }
+            const signature = createAnswererWrappersSignature(wrappers);
+            if (this.cfg.imageOptimizeWarnRecords.includes(signature)) {
+              return;
+            }
+            if (!state$6.setting.imageOptimizeMessage) {
+              state$6.setting.imageOptimizeMessage = lib.$message.warn({
+                content: lib.h("div", [
+                  "当前题库配置暂不支持图片、公式等题目处理",
+                  lib.h("br"),
+                  "请前往题库配置源头获取新配置并重新配置题库，否则图片题优化功能无法生效。",
+                  lib.h("br"),
+                  "题库开发人员请查看： https://docs.ocsjs.com/docs/other/api"
+                ]),
+                duration: 0,
+                onClose: () => {
+                  if (!this.cfg.imageOptimizeWarnRecords.includes(signature)) {
+                    this.cfg.imageOptimizeWarnRecords = [...this.cfg.imageOptimizeWarnRecords, signature].slice(-50);
+                  }
+                  state$6.setting.imageOptimizeMessage = void 0;
                 }
-              },
-              "📖连接失败如何解决？"
-            );
-            refresh.onclick = () => {
-              updateState();
-            };
-            const tableContainer = lib.h("div");
-            refresh.style.display = "none";
-            tableContainer.style.display = "none";
-            panel.body.append(
-              lib.h("div", { style: { display: "flex" } }, [testNotification, refresh, errorSolveGuide]),
-              tableContainer
-            );
-            const updateState = async () => {
-              tableContainer.replaceChildren();
-              errorSolveGuide.style.display = "none";
-              let loadedCount = 0;
-              if (this.cfg.answererWrappers.length) {
-                refresh.style.display = "block";
-                tableContainer.style.display = "block";
-                refresh.textContent = "🚫正在加载题库状态...";
-                refresh.setAttribute("disabled", "true");
-                const table = lib.h("table");
-                table.style.width = "100%";
-                this.cfg.answererWrappers.forEach(async (item) => {
-                  const t2 = Date.now();
-                  let success = false;
-                  let error;
-                  const isDisabled = this.cfg.disabledAnswererWrapperNames.find((name) => name === item.name);
-                  const res = isDisabled ? false : await Promise.race([
-                    (async () => {
-                      try {
-                        return await request(new URL(item.url).origin + "/?t=" + t2, {
-                          type: "GM_xmlhttpRequest",
-                          method: "head",
-                          responseType: "text"
-                        });
-                      } catch (err) {
-                        error = err;
-                        return false;
-                      }
-                    })(),
-                    (async () => {
-                      await $.sleep(10 * 1e3);
-                      return false;
-                    })()
-                  ]);
-                  if (typeof res === "string") {
-                    success = true;
-                  } else {
-                    success = false;
-                  }
-                  if (error) {
-                    errorSolveGuide.style.display = "block";
-                  }
-                  const body = lib.h("tbody");
-                  body.append(lib.h("td", item.name));
-                  body.append(
-                    lib.h("td", [
-                      lib.$ui.tooltip(
-                        lib.h(
-                          "span",
-                          { title: isDisabled ? "题目已经被停用，请在上方题库配置中点击开启。" : "" },
-                          success ? "连接成功🟢" : isDisabled ? "已停用⚪" : error ? "连接失败🔴" : "连接超时🟡"
-                        )
-                      )
-                    ])
-                  );
-                  body.append(lib.h("td", `延迟 : ${success ? Date.now() - t2 : "---"}/ms`));
-                  table.append(body);
-                  loadedCount++;
-                  if (loadedCount === this.cfg.answererWrappers.length) {
-                    setTimeout(() => {
-                      refresh.textContent = "🔄️刷新题库状态";
-                      refresh.removeAttribute("disabled");
-                    }, 2e3);
-                  }
-                });
-                tableContainer.append(table);
-              } else {
-                refresh.style.display = "none";
-                tableContainer.style.display = "none";
-              }
-            };
-            updateState();
-            this.offConfigChange(state$6.setting.listenerIds.aw);
-            state$6.setting.listenerIds.aw = this.onConfigChange("answererWrappers", (_, __, remote) => {
-              if (remote === false) {
-                updateState();
-              }
-            });
-          }
+              });
+            }
+          };
+          checkImageOptimizeCompatibility();
+          this.onConfigChange("imageOptimize", () => checkImageOptimizeCompatibility());
+          this.onConfigChange("answererWrappers", () => checkImageOptimizeCompatibility());
         }
-      }),
+      }).withEvents(),
       workResults: new lib.Script({
         name: "🔎 搜索结果",
         matches: [["所有页面", /.*/]],
@@ -11266,29 +13608,11 @@ ${content}</tr>
           notes: {
             defaultValue: lib.$ui.notes(["点击题目序号，查看搜索结果", "如果没有搜到，可能是题库没有收录该题目答案"]).outerHTML
           },
-          type: {
-            label: "显示类型",
-            tag: "select",
-            options: [
-              ["numbers", "序号列表"],
-              ["questions", "题目列表"]
-            ],
-            attrs: {
-              title: "使用题目列表可能会造成页面卡顿。"
-            },
-            defaultValue: "numbers"
-          },
-          totalQuestionCount: {
-            defaultValue: 0
-          },
-          requestedCount: {
-            defaultValue: 0
-          },
-          resolvedCount: {
-            defaultValue: 0
-          },
           currentResultIndex: {
             defaultValue: 0
+          },
+          dynamicResults: {
+            defaultValue: false
           },
           questionPositionSyncHandlerType: {
             defaultValue: void 0
@@ -11296,20 +13620,38 @@ ${content}</tr>
         },
         methods() {
           return {
-            updateWorkStateByResults: (results) => {
-              this.cfg.totalQuestionCount = results.length;
-              this.cfg.requestedCount = results.filter((result) => result.requested).length;
-              this.cfg.resolvedCount = results.filter((result) => result.resolved).length;
+            update: async (index, result) => {
+              const data = await lib.$store.getTab(TAB_WORK_RESULTS_KEY) || [];
+              const placeholder = {
+                question: "",
+                searchInfos: [],
+                requested: false,
+                resolved: false,
+                type: void 0
+              };
+              while (data.length < index) {
+                data.push(placeholder);
+              }
+              data[index] = result;
+              await lib.$store.setTab(TAB_WORK_RESULTS_KEY, data);
+              cacheIfFinished(result);
+              CommonEvents.emitWorkerChanged(result);
             },
-            updateWorkState: (state2) => {
-              this.cfg.totalQuestionCount = state2.totalQuestionCount;
-              this.cfg.requestedCount = state2.requestedCount;
-              this.cfg.resolvedCount = state2.resolvedCount;
+            fillAll: async (results) => {
+              await lib.$store.setTab(TAB_WORK_RESULTS_KEY, results);
             },
-            refreshState: () => {
-              this.cfg.totalQuestionCount = 0;
-              this.cfg.requestedCount = 0;
-              this.cfg.resolvedCount = 0;
+            append: async (result) => {
+              CommonProject.scripts.workResults.cfg.dynamicResults = true;
+              const data = await lib.$store.getTab(TAB_WORK_RESULTS_KEY) || [];
+              const index = result.question ? data.findIndex((r) => r.question === result.question) : -1;
+              if (index >= 0) {
+                data[index] = result;
+              } else {
+                data.push(result);
+              }
+              await lib.$store.setTab(TAB_WORK_RESULTS_KEY, data);
+              cacheIfFinished(result);
+              CommonEvents.emitWorkerChanged(result);
             },
             clearResults: () => {
               return lib.$store.setTab(TAB_WORK_RESULTS_KEY, []);
@@ -11317,30 +13659,25 @@ ${content}</tr>
             getResults() {
               return lib.$store.getTab(TAB_WORK_RESULTS_KEY) || void 0;
             },
-            setResults(results) {
-              return lib.$store.setTab(TAB_WORK_RESULTS_KEY, results);
-            },
-            async appendResults(results) {
-              const data = await lib.$store.getTab(TAB_WORK_RESULTS_KEY) || [];
-              data.push(...results);
-              return lib.$store.setTab(TAB_WORK_RESULTS_KEY, data);
-            },
             init(opts) {
+              var _a;
               CommonProject.scripts.workResults.cfg.questionPositionSyncHandlerType = opts == null ? void 0 : opts.questionPositionSyncHandlerType;
-              CommonProject.scripts.workResults.methods.refreshState();
+              CommonProject.scripts.workResults.cfg.dynamicResults = (_a = opts == null ? void 0 : opts.dynamic) != null ? _a : false;
               CommonProject.scripts.workResults.methods.clearResults();
             },
             createWorkResultsPanel: (mount2) => {
               const container2 = mount2 || lib.h("div");
               container2.style.width = "400px";
               let scrollPercent = 0;
-              const list = lib.h("div", { className: "work-result-list" });
-              let mouseoverIndex = -1;
+              const list = lib.$ui.tooltip(lib.h("div", { className: "work-result-list" }));
               list.onscroll = () => {
                 scrollPercent = list.scrollTop / list.scrollHeight;
               };
               const setNumStyle = (result, num, index) => {
                 var _a;
+                if (result.searching) {
+                  num.classList.add("searching");
+                }
                 if (result.requested) {
                   num.classList.add("requested");
                 }
@@ -11355,103 +13692,82 @@ ${content}</tr>
                   }
                 }
               };
-              const render2 = debounce_1$2(async () => {
-                const results = await CommonProject.scripts.workResults.methods.getResults();
+              const render2 = debounce_1$1(async (first) => {
+                let results = await CommonProject.scripts.workResults.methods.getResults();
                 if (results == null ? void 0 : results.length) {
+                  if (first) {
+                    results = results.map((r) => {
+                      r.searching = false;
+                      return r;
+                    });
+                  }
+                  const stats = count(results);
                   if (results[this.cfg.currentResultIndex] === void 0) {
                     this.cfg.currentResultIndex = 0;
                   }
-                  if (this.cfg.type === "numbers") {
-                    const resultContainer = lib.h("div", { className: "work-result-container" });
-                    list.style.marginBottom = "12px";
-                    list.style.overflow = "auto";
-                    list.style.maxHeight = "300px";
-                    const nums = results.map((result, index) => {
-                      return lib.h("span", { className: "search-infos-num", innerText: (index + 1).toString() }, (num) => {
-                        setNumStyle(result, num, index);
-                        num.onclick = () => {
-                          var _a, _b;
-                          for (const n of nums) {
-                            n.classList.remove("active");
-                          }
-                          num.classList.add("active");
-                          this.cfg.currentResultIndex = index;
-                          resultContainer.replaceChildren(createResult(result));
-                          if (this.cfg.questionPositionSyncHandlerType) {
-                            (_b = (_a = state$6.workResult.questionPositionSyncHandler)[this.cfg.questionPositionSyncHandlerType]) == null ? void 0 : _b.call(
-                              _a,
-                              index
-                            );
-                          }
-                        };
-                      });
-                    });
-                    list.replaceChildren(...nums);
-                    resultContainer.replaceChildren(createResult(results[this.cfg.currentResultIndex]));
-                    container2.replaceChildren(list, resultContainer);
-                  } else {
-                    list.style.overflow = "auto";
-                    list.style.maxHeight = window.innerHeight / 2 + "px";
-                    const resultContainer = lib.h("div", { className: "work-result-question-container" });
-                    const nums = [];
-                    const questions = results.map((result, index) => {
-                      const num = lib.h(
-                        "span",
-                        {
-                          className: "search-infos-num",
-                          innerHTML: (index + 1).toString()
-                        },
-                        (num2) => {
-                          num2.style.marginRight = "12px";
-                          num2.style.display = "inline-block";
-                          setNumStyle(result, num2, index);
+                  const resultContainer = lib.h("div", { className: "work-result-container" });
+                  const baseInfos = [
+                    `已搜题: ${stats.requested}/${stats.total}`,
+                    `已答题: ${stats.resolved}/${stats.total}`,
+                    "⚪ 白色序号：等待处理中",
+                    "🔵 蓝边序号：已完成搜索",
+                    "🔵 蓝色序号：已搜索已答题",
+                    "🔴 红色序号：搜索失败或没答案/不匹配等情况",
+                    "",
+                    "👉点击序号，查看搜索结果"
+                  ];
+                  const nums = results.map((result, index) => {
+                    return lib.h("span", { className: "search-infos-num", innerText: (index + 1).toString() }, (num) => {
+                      setNumStyle(result, num, index);
+                      num.onclick = () => {
+                        var _a, _b;
+                        for (const n of nums) {
+                          n.classList.remove("active");
                         }
-                      );
-                      nums.push(num);
-                      return lib.h(
-                        "div",
-                        [num, result.question],
-                        (question) => {
-                          question.onmouseover = () => {
-                            mouseoverIndex = index;
-                            resultContainer.replaceChildren(createResult(result));
-                          };
-                          question.onmouseleave = () => {
-                            mouseoverIndex = -1;
-                            resultContainer.replaceChildren(createResult(results[this.cfg.currentResultIndex]));
-                          };
-                          question.onclick = () => {
-                            var _a, _b;
-                            for (const n of nums) {
-                              n.classList.remove("active");
-                            }
-                            for (const q of questions) {
-                              q.classList.remove("active");
-                            }
-                            nums[index].classList.add("active");
-                            question.classList.add("active");
-                            this.cfg.currentResultIndex = index;
-                            resultContainer.replaceChildren(createResult(result));
-                            if (this.cfg.questionPositionSyncHandlerType) {
-                              (_b = (_a = state$6.workResult.questionPositionSyncHandler)[this.cfg.questionPositionSyncHandlerType]) == null ? void 0 : _b.call(
-                                _a,
-                                index
-                              );
-                            }
-                          };
+                        num.classList.add("active");
+                        this.cfg.currentResultIndex = index;
+                        resultContainer.replaceChildren(createResult(result));
+                        if (this.cfg.questionPositionSyncHandlerType) {
+                          (_b = (_a = state$6.workResult.questionPositionSyncHandler)[this.cfg.questionPositionSyncHandlerType]) == null ? void 0 : _b.call(_a, index);
                         }
-                      );
+                      };
                     });
-                    list.replaceChildren(...questions);
-                    if (mouseoverIndex === -1) {
-                      resultContainer.replaceChildren(createResult(results[this.cfg.currentResultIndex]));
-                    } else {
-                      resultContainer.replaceChildren(createResult(results[mouseoverIndex]));
-                    }
-                    container2.replaceChildren(
-                      lib.h("div", [list, lib.h("div", {}, [resultContainer])], (div) => {
-                        div.style.display = "flex";
-                      })
+                  });
+                  const helpIcon = lib.$ui.tooltip(
+                    lib.h(
+                      "span",
+                      {
+                        className: "search-infos-help",
+                        title: baseInfos.join("\n")
+                      },
+                      "?"
+                    )
+                  );
+                  list.replaceChildren(helpIcon, ...nums);
+                  resultContainer.replaceChildren(createResult(results[this.cfg.currentResultIndex]));
+                  container2.replaceChildren(list, resultContainer);
+                  list.scrollTo({
+                    top: scrollPercent * list.scrollHeight,
+                    behavior: "auto"
+                  });
+                  if (this.cfg.dynamicResults && !state$6.workResult.isWorkerWorking) {
+                    container2.append(
+                      lib.h("div", { style: { textAlign: "right", marginTop: "8px" } }, [
+                        lib.$ui.tooltip(
+                          lib.$ui.button("清空搜索结果", { className: "base-style-button-secondary" }, (btn) => {
+                            btn.title = "当前为动态答题模式（题目逐题加载，结果累积显示），不会自动清空搜索结果\n点击后清空搜索结果";
+                            btn.onclick = () => {
+                              var _a, _b, _c, _d;
+                              this.methods.clearResults();
+                              const { panel, header: header2 } = CXProject.scripts.work;
+                              if (panel && header2) {
+                                (_b = (_a = CXProject.scripts.work).onrender) == null ? void 0 : _b.call(_a, { panel, header: header2 });
+                                (_d = (_c = CommonProject.scripts.workResults).onrender) == null ? void 0 : _d.call(_c, { panel, header: header2 });
+                              }
+                            };
+                          })
+                        )
+                      ])
                     );
                   }
                 } else {
@@ -11464,60 +13780,6 @@ ${content}</tr>
                     ])
                   );
                 }
-                list.scrollTo({
-                  top: scrollPercent * list.scrollHeight,
-                  behavior: "auto"
-                });
-                const tip = lib.h("div", [
-                  lib.h("div", { className: "search-infos-num" }, "1"),
-                  " 表示等待处理中",
-                  lib.h("br"),
-                  lib.h("div", { className: "search-infos-num requested" }, "1"),
-                  " 表示已完成搜索 ",
-                  lib.h("br"),
-                  lib.h("div", { className: "search-infos-num finish" }, "1"),
-                  " 表示已搜索已答题 "
-                ]);
-                container2.prepend(
-                  lib.h("hr"),
-                  lib.h(
-                    "div",
-                    [
-                      lib.$ui.space(
-                        [
-                          lib.h("span", `已搜题: ${this.cfg.requestedCount}/${this.cfg.totalQuestionCount}`),
-                          lib.h("span", `已答题: ${this.cfg.resolvedCount}/${this.cfg.totalQuestionCount}`),
-                          lib.h("a", "提示", (btn) => {
-                            btn.style.cursor = "pointer";
-                            btn.onclick = () => {
-                              lib.$modal.confirm({ content: tip, footer: void 0 });
-                            };
-                          }),
-                          lib.$ui.tooltip(
-                            lib.h("a", "清空结果", (btn) => {
-                              btn.title = "仅用于不会自动清空搜索结果的场景，例如超星非整卷预览模式";
-                              btn.style.cursor = "pointer";
-                              btn.onclick = () => {
-                                var _a, _b, _c, _d;
-                                this.methods.clearResults();
-                                const { panel, header: header2 } = CXProject.scripts.work;
-                                if (panel && header2) {
-                                  (_b = (_a = CXProject.scripts.work).onrender) == null ? void 0 : _b.call(_a, { panel, header: header2 });
-                                  (_d = (_c = CommonProject.scripts.workResults).onrender) == null ? void 0 : _d.call(_c, { panel, header: header2 });
-                                }
-                              };
-                            })
-                          )
-                        ],
-                        { separator: "|" }
-                      )
-                    ],
-                    (div) => {
-                      div.style.textAlign = "center";
-                      div.style.fontSize = "12px";
-                    }
-                  )
-                );
               }, 100);
               const createResult = (result) => {
                 if (result) {
@@ -11533,21 +13795,37 @@ ${content}</tr>
                   return lib.h("div", "undefined");
                 }
               };
-              render2();
-              this.onConfigChange("type", render2);
-              this.onConfigChange("requestedCount", render2);
-              this.onConfigChange("resolvedCount", render2);
-              lib.$store.addChangeListener(TAB_WORK_RESULTS_KEY, render2);
+              render2(true);
+              lib.$store.addTabChangeListener(TAB_WORK_RESULTS_KEY, render2);
+              workerWorkingChangeListeners.add(() => render2(false));
               return container2;
             }
           };
         },
         onrender({ panel }) {
           panel.body.replaceChildren(this.methods.createWorkResultsPanel());
+        },
+        oncomplete() {
+          let working_msg;
+          CommonProject.scripts.workResults.on("work-state-change", (workerState) => {
+            if (workerState === "start") {
+              working_msg == null ? void 0 : working_msg.remove();
+              working_msg = lib.$message.info({ content: loadingSpinSvg + " 正在搜题中...", duration: 0 });
+            } else {
+              working_msg == null ? void 0 : working_msg.remove();
+              working_msg = void 0;
+            }
+          });
+          CommonProject.scripts.workResults.on("work-current-result-change", (cur) => {
+            if (cur.searching) {
+              if (working_msg)
+                working_msg.innerHTML = loadingSpinSvg + ` 正在搜题 ${formatQuestionForMessage(cur.question)}`;
+            }
+          });
         }
-      }),
+      }).withEvents(),
       onlineSearch: new lib.Script({
-        name: "🔎 在线搜题",
+        name: "🌐 在线搜题",
         matches: [["所有页面", /.*/]],
         namespace: "common.online-search",
         configs: {
@@ -11576,7 +13854,7 @@ ${content}</tr>
         oncomplete() {
           document.addEventListener(
             "selectionchange",
-            debounce_1$2(() => {
+            debounce_1$1(() => {
               var _a;
               if (this.cfg.selectSearch) {
                 const val = ((_a = document.getSelection()) == null ? void 0 : _a.toString()) || "";
@@ -11599,9 +13877,11 @@ ${content}</tr>
             content.replaceChildren(lib.h("span", "搜索中..."));
             if (value) {
               const t2 = Date.now();
-              const infos = await defaultAnswerWrapperHandler(CommonProject.scripts.settings.cfg.answererWrappers, {
-                title: value
+              const { env } = await buildAnswererEnv({
+                title: value,
+                enableImageOptimize: CommonProject.scripts.settings.cfg.imageOptimize
               });
+              const infos = await defaultAnswerWrapperHandler(CommonProject.scripts.settings.cfg.answererWrappers, env);
               const resume = ((Date.now() - t2) / 1e3).toFixed(2);
               content.replaceChildren(
                 lib.h(
@@ -11646,7 +13926,17 @@ ${content}</tr>
           panel.body.append(lib.h("div", [content, searchContainer]));
         }
       }),
-      render: RenderScript,
+      edgeMinimize: new lib.Script({
+        name: "边缘最小化图标模式",
+        matches: [["所有页面", /.*/]],
+        hideInPanel: true,
+        onactive() {
+          if (self !== top) {
+            return;
+          }
+          initEdgeMinimize();
+        }
+      }),
       hack: new lib.Script({
         name: "页面复制粘贴限制解除",
         matches: [["所有页面", /.*/]],
@@ -11682,237 +13972,6 @@ ${content}</tr>
             console.error(e);
           }
         }
-      }),
-      apps: new lib.Script({
-        name: "📱 拓展应用",
-        matches: [["", /.*/]],
-        namespace: "common.apps",
-        configs: {
-          notes: {
-            defaultValue: "这里是一些其他的应用或者拓展功能。"
-          },
-          localQuestionCaches: {
-            defaultValue: [],
-            extra: {
-              appConfigSync: false
-            }
-          }
-        },
-        methods() {
-          return {
-            addQuestionCache: async (...questionCacheItems) => {
-              const questionCaches = this.cfg.localQuestionCaches;
-              for (const item of questionCacheItems) {
-                if (questionCaches.find((c) => c.title === item.title && c.answer === item.answer) === void 0) {
-                  questionCaches.unshift(item);
-                }
-              }
-              questionCaches.splice(200);
-              this.cfg.localQuestionCaches = questionCaches;
-            },
-            addQuestionCacheFromWorkResult(swr) {
-              CommonProject.scripts.apps.methods.addQuestionCache(
-                ...swr.map(
-                  (r) => r.searchInfos.map(
-                    (i) => i.results.filter((res) => res[1]).map((res) => ({
-                      title: r.question,
-                      answer: res[1],
-                      from: i.name.replace(/【题库缓存】/g, ""),
-                      homepage: i.homepage || ""
-                    })).flat()
-                  ).flat()
-                ).flat()
-              );
-            },
-            searchAnswerInCaches: async (title, whenSearchEmpty) => {
-              if (CommonProject.scripts.settings.cfg.enableQuestionCaches === false) {
-                return await whenSearchEmpty();
-              }
-              let results = [];
-              const caches = this.cfg.localQuestionCaches;
-              for (const cache of caches) {
-                if (cache.title.trim() === title.trim()) {
-                  results.push({
-                    name: cache.from,
-                    homepage: cache.homepage,
-                    results: [{ answer: cache.answer, question: cache.title, extra_data: { ai: cache.ai, cache: true } }]
-                  });
-                }
-              }
-              if (results.length === 0) {
-                results = await whenSearchEmpty();
-              }
-              return results;
-            },
-            async showChangelog() {
-              const changelog = lib.h("div", {
-                className: "markdown card",
-                innerHTML: "加载中...",
-                style: { maxWidth: "600px" }
-              });
-              lib.$modal.simple({
-                width: 600,
-                content: lib.h("div", [
-                  lib.h("div", { className: "notes card" }, [
-                    lib.$ui.notes(["此页面实时更新，遇到问题可以查看最新版本是否修复。"])
-                  ]),
-                  changelog
-                ])
-              });
-              const md = await request("https://cdn.ocsjs.com/articles/ocs/changelog.md?t=" + Date.now(), {
-                type: "GM_xmlhttpRequest",
-                responseType: "text",
-                method: "get"
-              });
-              changelog.innerHTML = markdown(md);
-            }
-          };
-        },
-        onrender({ panel }) {
-          const btnStyle = {
-            padding: "6px 12px",
-            margin: "4px",
-            marginBottom: "8px",
-            boxShadow: "0px 0px 4px #bebebe",
-            borderRadius: "8px",
-            cursor: "pointer"
-          };
-          const cachesBtn = lib.h("div", { innerText: "💾 题库缓存", style: btnStyle }, (btn) => {
-            btn.onclick = () => {
-              const questionCaches = this.cfg.localQuestionCaches;
-              const list = questionCaches.map(
-                (c) => lib.h(
-                  "div",
-                  {
-                    className: "question-cache",
-                    style: {
-                      margin: "8px",
-                      border: "1px solid lightgray",
-                      borderRadius: "4px",
-                      padding: "8px"
-                    }
-                  },
-                  [
-                    lib.h("div", { className: "title" }, [
-                      lib.$ui.tooltip(
-                        lib.h(
-                          "span",
-                          {
-                            title: `来自：${c.from || "未知题库"}
-主页：${c.homepage || "未知主页"}`,
-                            style: { fontWeight: "bold" }
-                          },
-                          c.title
-                        )
-                      )
-                    ]),
-                    lib.h("div", { className: "answer", style: { marginTop: "6px" } }, c.answer)
-                  ]
-                )
-              );
-              const countEl = lib.h("span", ["当前缓存数量：" + questionCaches.length]);
-              lib.$modal.simple({
-                width: 800,
-                content: lib.h("div", [
-                  lib.h("div", { className: "notes card" }, [
-                    lib.$ui.notes([
-                      "题库缓存是将题库的题目和答案保存在内存，在重复使用时可以直接从内存获取，不需要再次请求题库。",
-                      "以下是当前存储的题库，默认存储200题，当前页面关闭后会自动清除。"
-                    ])
-                  ]),
-                  lib.h("div", { className: "card" }, [
-                    lib.$ui.space(
-                      [
-                        countEl,
-                        lib.$ui.button("清空题库缓存", {}, (btn2) => {
-                          btn2.onclick = () => {
-                            this.cfg.localQuestionCaches = [];
-                            countEl.innerText = "当前缓存数量：0";
-                            list.forEach((el) => el.remove());
-                          };
-                        })
-                      ],
-                      { separator: "|" }
-                    )
-                  ]),
-                  lib.h(
-                    "div",
-                    questionCaches.length === 0 ? [lib.h("div", { style: { textAlign: "center" } }, "暂无题库缓存")] : list
-                  )
-                ])
-              });
-            };
-          });
-          const exportSetting = lib.$ui.tooltip(
-            lib.h(
-              "div",
-              {
-                innerText: "📤 导出全部设置",
-                style: btnStyle,
-                title: "导出全部页面的设置，包括全局设置，题库配置，学习设置等等。（文件后缀名为：.ocssetting）"
-              },
-              (btn) => {
-                btn.onclick = () => {
-                  const setting = /* @__PURE__ */ Object.create({});
-                  for (const key of lib.$store.list()) {
-                    const val = lib.$store.get(key);
-                    if (val) {
-                      Reflect.set(setting, key, val);
-                    }
-                  }
-                  const blob = new Blob([JSON.stringify(setting, null, 2)], { type: "text/plain" });
-                  const url = URL.createObjectURL(blob);
-                  const a = lib.h("a", { href: url, download: "ocs-setting-export.ocssetting" });
-                  a.click();
-                  URL.revokeObjectURL(url);
-                };
-              }
-            )
-          );
-          const importSetting = lib.$ui.tooltip(
-            lib.h(
-              "div",
-              {
-                innerText: "📥 导入全部设置",
-                style: btnStyle,
-                title: "导入并且覆盖当前的全部设置。（文件后缀名为：.ocssetting）"
-              },
-              (btn) => {
-                btn.onclick = () => {
-                  const input = lib.h("input", { type: "file", accept: ".ocssetting" });
-                  input.onchange = async () => {
-                    var _a;
-                    const file = (_a = input.files) == null ? void 0 : _a[0];
-                    if (file) {
-                      const setting = await file.text();
-                      const obj = JSON.parse(setting);
-                      for (const key of Object.keys(obj)) {
-                        lib.$store.set(key, obj[key]);
-                      }
-                      lib.$message.success({ content: "设置导入成功，页面即将刷新。", duration: 3 });
-                      setTimeout(() => {
-                        location.reload();
-                      }, 3e3);
-                    }
-                  };
-                  input.click();
-                };
-              }
-            )
-          );
-          [cachesBtn, exportSetting, importSetting].forEach((btn) => {
-            btn.onmouseover = () => {
-              btn.style.boxShadow = "0px 0px 4px #0099ff9c";
-            };
-            btn.onmouseout = () => {
-              btn.style.boxShadow = "0px 0px 4px #bebebe";
-            };
-          });
-          const sep = (text) => lib.h("div", { className: "separator", style: { padding: "4px 0px" } }, text);
-          panel.body.replaceChildren(
-            lib.h("div", [sep("题库拓展"), cachesBtn, sep("其他功能"), exportSetting, importSetting])
-          );
-        }
       })
     }
   });
@@ -11927,59 +13986,6 @@ ${content}</tr>
 		  user-select: text !important;
 		}`;
     document.head.append(style);
-  }
-  function createAnswererWrapperList(aw) {
-    return aw.map(
-      (item) => lib.h(
-        "details",
-        [
-          lib.h("summary", [
-            lib.$ui.space([
-              (() => {
-                let isDisabled = CommonProject.scripts.settings.cfg.disabledAnswererWrapperNames.includes(item.name);
-                const checkbox = lib.h("input", { type: "checkbox", checked: !isDisabled, className: "base-style-switch" });
-                checkbox.onclick = () => {
-                  isDisabled = !isDisabled;
-                  if (isDisabled) {
-                    CommonProject.scripts.settings.cfg.disabledAnswererWrapperNames = [
-                      ...CommonProject.scripts.settings.cfg.disabledAnswererWrapperNames,
-                      item.name
-                    ];
-                    lib.$message.warn({
-                      content: "题库：" + item.name + " 已被停用，如需开启请在：通用-全局设置-题库配置中开启。",
-                      duration: 30
-                    });
-                  } else {
-                    CommonProject.scripts.settings.cfg.disabledAnswererWrapperNames = CommonProject.scripts.settings.cfg.disabledAnswererWrapperNames.filter(
-                      (name) => name !== item.name
-                    );
-                    lib.$message.success({
-                      content: "题库：" + item.name + " 已启用。",
-                      duration: 3
-                    });
-                  }
-                };
-                checkbox.title = "点击停用或者启用题库，停用题库后将无法在自动答题中查询题目";
-                return lib.$ui.tooltip(checkbox);
-              })(),
-              lib.h("span", item.name)
-            ])
-          ]),
-          lib.h("ul", [
-            lib.h("li", ["名字	", item.name]),
-            lib.h("li", { innerHTML: `官网	<a target="_blank" href=${item.homepage}>${item.homepage || "无"}</a>` }),
-            lib.h("li", ["接口	", item.url]),
-            lib.h("li", ["请求方法	", item.method]),
-            lib.h("li", ["请求类型	", item.type]),
-            lib.h("li", ["请求头	", JSON.stringify(item.headers, null, 4) || "无"]),
-            lib.h("li", ["请求体	", JSON.stringify(item.data, null, 4) || "无"])
-          ])
-        ],
-        (details) => {
-          details.style.paddingLeft = "12px";
-        }
-      )
-    );
   }
   const createGuide = () => {
     const showProjectDetails = (project2) => {
@@ -12045,34 +14051,28 @@ ${content}</tr>
     const contactUs = lib.h("button", { className: "base-style-button-secondary" }, "🗨️交流群");
     contactUs.onclick = () => window.open("https://docs.ocsjs.com/docs/about#交流方式", "_blank");
     const changeLog = lib.h("button", { className: "base-style-button-secondary" }, "📄更新日志");
-    changeLog.onclick = () => CommonProject.scripts.apps.methods.showChangelog();
+    changeLog.onclick = () => BackgroundProject.scripts.update.methods.showChangelog();
     const closeGuide = lib.h("button", { className: "base-style-button-secondary" }, "📄如何关闭脚本？");
     closeGuide.onclick = () => window.open("https://docs.ocsjs.com/docs/script#%E5%85%B3%E9%97%AD%E8%84%9A%E6%9C%AC%E6%95%99%E7%A8%8B", "_blank");
-    const cardStyle = {
-      border: "1px solid #eee",
-      borderRadius: "4px",
-      padding: "8px",
-      paddingTop: "4px"
-    };
     return lib.h("div", { className: "user-guide" }, [
-      lib.h("div", { style: cardStyle }, [
+      lib.h("div", [
         lib.h("div", { style: { marginBottom: "4px", fontWeight: "bold" } }, [
           "✨兼容的网课平台：",
           lib.h("span", { className: "secondary", style: { fontWeight: "normal" } }, "（未适配的平台将无法运行，请等待适配）")
         ]),
-        lib.h("div", [
-          ...[CXProject, ZHSProject, ZJYProject, IcveMoocProject, ICourseProject].map((project2) => {
-            const btn = lib.h("button", { className: "base-style-button-secondary", style: { margin: "4px" } }, [
-              project2.name
-            ]);
+        lib.h(
+          "div",
+          { style: { display: "flex", flexWrap: "wrap", gap: "4px", maxWidth: "400px" } },
+          [CXProject, ZHSProject, ZJYProject, IcveMoocProject, ICourseProject, YKTProject].map((project2) => {
+            const btn = lib.h("button", { className: "base-style-button-secondary" }, [project2.name]);
             btn.onclick = () => {
               showProjectDetails(project2);
             };
-            return btn;
+            return lib.h("span", [btn]);
           })
-        ])
+        )
       ]),
-      lib.h("div", { style: { ...cardStyle, marginTop: "12px" } }, [
+      lib.h("div", { style: { margin: "12px 0px" } }, [
         lib.h("div", { style: { marginBottom: "8px", fontWeight: "bold" } }, "🌐快捷访问："),
         gotoHome,
         contactUs,
@@ -12081,6 +14081,12 @@ ${content}</tr>
       ])
     ]);
   };
+  const typeMismatchTexts = {
+    single: "⚠️ 给出的答案和选项不匹配，可能是题库答案错误",
+    multiple: "⚠️ 给出的答案和选项不匹配，可能是题库答案错误",
+    judgement: "⚠️ 无法选择，可能是题库答案错误",
+    completion: "⚠️ 给出的答案无法填入，可能是题库答案错误或者格式错误"
+  };
   function createSearchResultAlertElement(result) {
     var _a;
     let info = null;
@@ -12088,7 +14094,7 @@ ${content}</tr>
     if (result.requested === false && result.resolved === false) {
       info = lib.h("div", { className: "result-info unresolved" }, "等待搜索中... 🔍");
     } else if (err) {
-      let href = "#";
+      let href = "";
       if (err == null ? void 0 : err.includes("is not valid JSON")) {
         err = "题库返回数据错误";
         href = "https://docs.ocsjs.com/docs/other/FQA#tk-data-error";
@@ -12096,38 +14102,179 @@ ${content}</tr>
         err = "题库连接失败";
         href = "https://docs.ocsjs.com/docs/other/FQA#tk-error";
       }
-      info = lib.h("div", { className: "result-info error" }, [
-        "❌ " + err,
-        lib.h("a", { href, target: "_blank", style: { marginLeft: "3px" } }, "解决方法?")
-      ]);
+      if (href) {
+        info = lib.h("div", { className: "result-info error" }, [
+          "❌ " + err,
+          lib.h("a", { href, target: "_blank", style: { marginLeft: "3px" } }, "解决方法?")
+        ]);
+      } else {
+        info = lib.h("div", { className: "result-info error" }, ["❌ " + err]);
+      }
     } else if (result.searchInfos.length === 0) {
       info = lib.h("div", { className: "result-info no-answer" }, "❌ 题库没搜索到答案");
     } else {
-      info = result.finish ? null : result.resolved === false ? lib.h("div", { className: "result-info unresolved" }, "等待顺序答题中... ⏱️") : lib.h("div", { className: "result-info error" }, "❌ 此题未完成, 可能是没有匹配的选项。");
+      const mismatchText = result.type && typeMismatchTexts[result.type] || typeMismatchTexts.single;
+      info = result.finish ? null : result.resolved === false ? lib.h("div", { className: "result-info unresolved" }, "等待顺序答题中... ⏱️") : lib.h("div", { className: "result-info warn" }, mismatchText);
     }
     return lib.h("div", { className: "alert-info-wrapper" }, [info != null ? info : lib.h("div")]);
   }
+  const playbackRate = {
+    label: "视频倍速",
+    tag: "select",
+    attrs: { title: "目前智慧树倍速最高只能1.5x，超出有封号风险" },
+    defaultValue: 1,
+    options: [
+      ["1", "1 x"],
+      ["1.25", "1.25 x"],
+      ["1.5", "1.5 x"]
+    ]
+  };
+  const reloadWhenError = {
+    label: "视频黑屏时自动刷新",
+    attrs: { type: "checkbox", title: "当视频出现加载失败，或者黑屏等异常时，自动刷新页面3次尝试修复" },
+    defaultValue: true
+  };
+  const studyNotes = {
+    defaultValue: lib.$ui.notes([
+      "请手动进入视频、作业、考试页面，脚本会自动运行。",
+      "章节测试/掌握度请大家观看完视频后手动打开。",
+      [
+        "请大家仔细打开视频上方的“学前必读”，查看成绩分布。",
+        "如果“平时成绩-学习习惯成绩”占比多的话，就需要规律学习。",
+        "每天定时半小时可获得一分习惯分，如不需要可忽略。"
+      ],
+      "不要最小化浏览器/关闭电脑屏幕，可能导致脚本暂停。",
+      "请使用时关闭卡巴斯基软件，否则会被检测出异常脚本。",
+      "运行中请将浏览器缩放调整至适合的大小（例如 50%），避免元素遮挡导致无法点击。",
+      "兴趣课会自动下一个，所以不提供脚本。"
+    ]).outerHTML
+  };
+  const workNotes = {
+    defaultValue: lib.$ui.notes([
+      "自动答题前请在 “通用-全局设置” 中设置题库配置。",
+      "可以搭配 “通用-在线搜题” 一起使用。",
+      "⚠️ 如果没开始答题，请尝试刷新页面。",
+      "⚠️ 禁止一次性打开多个作业/考试页面。",
+      ["⚠️ 答题中请勿进行任何操作，如需暂停请", "等待全部题目搜索完成并执行自动保存功能后再操作。"]
+    ]).outerHTML
+  };
+  const workDelay = {
+    label: "作业答题开始时间延迟（秒）",
+    defaultValue: 3,
+    attrs: { type: "number", min: "1", step: "1", max: "10" }
+  };
+  const readNotes = {
+    defaultValue: false
+  };
+  const stopTime = {
+    label: "定时停止",
+    tag: "select",
+    attrs: {
+      title: "到时间后自动暂停脚本。仅在共享课系列学习页面生效：\n共享课学习页面(studyvideoh5.zhihuishu.com)、\n新共享课学习页面(studyplush5.zhihuishu.com)、\n新版AI课页面(fusioncourseh5.zhihuishu.com/stuStudy)、\n2025-9月新智慧共享课学习页面(studywisdomh5.zhihuishu.com/study/index)。其它学习平台（新形态/校内课/新智慧/AI教学空间）不受此配置影响。"
+    },
+    defaultValue: "0",
+    options: [
+      ["0", "关闭"],
+      ["0.5", "半小时后"],
+      ["1", "一小时后"],
+      ["2", "两小时后"]
+    ]
+  };
+  const switchMode = {
+    label: "跳转模式",
+    tag: "select",
+    attrs: {
+      title: "章节跳转方式。仅在新形态课程学习页面生效：\nsmartcoursestudent.zhihuishu.com \n及其新域名 ai-smart-course-student-pro.zhihuishu.com 的学习页/课程首页。其它学习平台（共享课/校内课/新智慧/AI教学空间）不受此配置影响。"
+    },
+    defaultValue: "job",
+    options: [
+      ["job", "只跳转必学章节", "章节后面有必学，并且必学数量未完成的章节，如果全部完成将停止学习"],
+      ["all", "顺序跳转"]
+    ]
+  };
+  const skipStudyTimeWarnDialog = {
+    label: "忽略习惯分弹窗",
+    attrs: {
+      title: "忽略学习时长达到习惯分时弹出的提示弹窗。仅在\n新智慧学习页面(wisdom-mooc.zhihuishu.com/study/index)生效。开启后将不再弹出习惯分提示，但如果课程有习惯分需要自行控制学习时长，忽略提示可能拿不到习惯分。",
+      type: "checkbox"
+    },
+    defaultValue: false
+  };
+  const studyCenterConfigs = {
+    notes: studyNotes,
+    playbackRate,
+    volume,
+    definition,
+    restudy,
+    reloadWhenError,
+    stopTime: { ...stopTime, separator: "平台相关高级选项（仅在对应学习页生效）" },
+    switchMode,
+    skipStudyTimeWarnDialog
+  };
+  const workCenterConfigs = {
+    notes: workNotes,
+    workDelay,
+    readNotes
+  };
+  const legacyZhsStudyNamespaces = [
+    "zhs.gxk.study",
+    "zhs.smart.study",
+    "zhs.xnk.study",
+    "zhs.wisdom.study",
+    "zhs.hike.study",
+    "zhs.hike_v2.study"
+  ];
+  const zhsStudyNamespace = "zhs.study";
+  const legacyZhsWorkNamespaces = [
+    "zhs.gxk.work",
+    "zhs.smart.work",
+    "zhs.xnk.work",
+    "zhs.hike.work",
+    "zhs.hike.homework"
+  ];
+  const zhsWorkNamespace = "zhs.work";
+  function migrateNamespace(sourceNamespaces, targetNamespace) {
+    for (const ns of sourceNamespaces) {
+      for (const key of lib.$store.list()) {
+        if (!key.startsWith(ns + "."))
+          continue;
+        const newKey = targetNamespace + key.slice(ns.length);
+        if (lib.$store.get(newKey) === void 0) {
+          lib.$store.set(newKey, lib.$store.get(key));
+        }
+        lib.$store.delete(key);
+      }
+    }
+  }
+  function migrateZhsStudyConfigs() {
+    migrateNamespace(legacyZhsStudyNamespaces, zhsStudyNamespace);
+  }
+  function migrateZhsWorkConfigs() {
+    migrateNamespace(legacyZhsWorkNamespaces, zhsWorkNamespace);
+  }
   async function waitForMedia(options) {
     var _a;
-    const res = await Promise.race([
-      new Promise((resolve, reject) => {
-        const interval = setInterval(() => {
-          const video = ((options == null ? void 0 : options.root) || document).querySelector(
-            `${(options == null ? void 0 : options.videoSelector) || "video"},${(options == null ? void 0 : options.audioSelector) || "audio"}`
-          );
-          if (video && (!(options == null ? void 0 : options.filter) || options.filter(video))) {
-            clearInterval(interval);
-            resolve(video);
+    const timeoutMs = (_a = options == null ? void 0 : options.timeout) != null ? _a : 3 * 60 * 1e3;
+    const res = await new Promise((resolve, reject) => {
+      let timeoutId;
+      const interval = setInterval(() => {
+        const video = ((options == null ? void 0 : options.root) || document).querySelector(
+          `${(options == null ? void 0 : options.videoSelector) || "video"},${(options == null ? void 0 : options.audioSelector) || "audio"}`
+        );
+        if (video && (!(options == null ? void 0 : options.filter) || options.filter(video))) {
+          clearInterval(interval);
+          if (timeoutId !== void 0) {
+            clearTimeout(timeoutId);
           }
-        }, 200);
-      }),
-      $.sleep((_a = options == null ? void 0 : options.timeout) != null ? _a : 3 * 60 * 1e3)
-    ]);
-    if (res) {
-      return res;
-    } else {
-      throw new Error("视频/音频未找到，或者加载超时。");
-    }
+          resolve(video);
+        }
+      }, 200);
+      timeoutId = setTimeout(() => {
+        clearInterval(interval);
+        reject(new Error("视频/音频未找到，或者加载超时。"));
+      }, timeoutMs);
+    });
+    return res;
   }
   function waitForElement(selector, opts) {
     return waitFor(() => {
@@ -12135,21 +14282,44 @@ ${content}</tr>
     }, opts);
   }
   function waitFor(predicate, opts) {
+    const { timeout_seconds, check_period_ms = 1e3, timeout_message } = opts != null ? opts : {};
     return new Promise((resolve, reject) => {
-      let timeout;
-      const interval = setInterval(() => {
-        const result = predicate();
-        if (result) {
-          clearInterval(interval);
-          timeout && clearTimeout(timeout);
-          resolve(result);
+      let timeoutId;
+      let isRunning = false;
+      let finished = false;
+      const intervalId = setInterval(poll, check_period_ms);
+      const cleanup = () => {
+        finished = true;
+        clearInterval(intervalId);
+        if (timeoutId)
+          clearTimeout(timeoutId);
+      };
+      async function poll() {
+        if (isRunning || finished)
+          return;
+        isRunning = true;
+        try {
+          const result = await predicate();
+          if (finished)
+            return;
+          if (result) {
+            cleanup();
+            resolve(result);
+          }
+        } catch (err) {
+          cleanup();
+          reject(err);
+          return;
+        } finally {
+          isRunning = false;
         }
-      }, (opts == null ? void 0 : opts.check_period_ms) || 1e3);
-      if (opts == null ? void 0 : opts.timeout_seconds) {
-        timeout = setTimeout(() => {
-          clearInterval(interval);
-          resolve(void 0);
-        }, ((opts == null ? void 0 : opts.timeout_seconds) || 10) * 1e3);
+      }
+      poll();
+      if (timeout_seconds != null) {
+        timeoutId = setTimeout(() => {
+          cleanup();
+          reject(new Error(timeout_message != null ? timeout_message : `waitFor timeout ${timeout_seconds}s`));
+        }, timeout_seconds * 1e3);
       }
     });
   }
@@ -12357,8 +14527,8 @@ ${content}</tr>
         if (is_resource_box_mode) {
           videoItems = videoItems.filter((el) => {
             var _a;
-            const text = ((_a = el.querySelector(".resource-text")) == null ? void 0 : _a.textContent) || "";
-            const [progress, total] = text.replace("必学", "").trim().split("/").map((s) => parseInt(s));
+            const text2 = ((_a = el.querySelector(".resource-text")) == null ? void 0 : _a.textContent) || "";
+            const [progress, total] = text2.replace("必学", "").trim().split("/").map((s) => parseInt(s));
             return progress < total;
           });
         } else {
@@ -12528,8 +14698,8 @@ ${content}</tr>
         lib.$message.info("正在关闭弹窗测验...");
         if (options.length !== 0) {
           await waitForCaptcha();
-          CommonProject.scripts.render.methods.minimize();
-          CommonProject.scripts.render.methods.setPosition(100, 200);
+          BackgroundProject.scripts.render.methods.minimize();
+          BackgroundProject.scripts.render.methods.setPosition(100, 200);
           const random = Math.floor(Math.random() * options.length);
           await lib.$.sleep(1e3);
           if (remotePage) {
@@ -12619,28 +14789,16 @@ ${content}</tr>
       return ((_a = document.querySelectorAll(".el-tree-node")) == null ? void 0 : _a.length) > 0;
     }
     getNext(opts) {
-      let jobs = Array.from(document.querySelectorAll(".el-tree-node")).filter(
+      const jobs = Array.from(document.querySelectorAll(".el-tree-node")).filter(
         (e) => {
           var _a;
           return ((_a = e.querySelector(".el-tree-node__children")) == null ? void 0 : _a.children.length) === 0;
         }
       );
-      console.log(jobs);
-      if (!opts.restudy) {
-        jobs = jobs.filter((el) => {
-          if (el.querySelector("label.success")) {
-            return false;
-          }
-          return true;
-        });
-      }
-      for (let i = 0; i < jobs.length; i++) {
-        const item = jobs[i];
-        if (item.classList.contains(".is-current")) {
-          return jobs[i + (opts.next ? 1 : 0)];
-        }
-      }
-      return jobs[0];
+      const current_index = jobs.findIndex((job) => job.classList.contains("is-current"));
+      return jobs.find((job, i) => {
+        return i > current_index && (opts.restudy ? true : !job.querySelector("label.success"));
+      });
     }
     hideDialog() {
       lib.$$el(".el-overlay,.el-dialog").forEach((dialog) => {
@@ -12652,7 +14810,7 @@ ${content}</tr>
     name: "知到智慧树",
     domains: [
       "zhihuishu.com",
-      "hike-teaching-center.polymas.com"
+      "polymas.com"
     ],
     scripts: {
       guide: new lib.Script({
@@ -12664,78 +14822,110 @@ ${content}</tr>
         namespace: "zhs.guide",
         configs: {
           notes: {
-            defaultValue: lib.$ui.notes([
-              "请手动进入视频、作业、考试页面，脚本会自动运行。",
-              "兴趣课会自动下一个，所以不提供脚本。"
-            ]).outerHTML
+            defaultValue: createSteps(["登录网课平台", "进入任意视频、作业/考试界面", "等待脚本自动运行"]).outerHTML + lib.$ui.notes(["兴趣课会自动下一个，所以不提供脚本。"]).outerHTML
           }
         },
         oncomplete() {
-          CommonProject.scripts.render.methods.pin(this);
+          BackgroundProject.scripts.render.methods.pin(this);
+          ensureWideViewport();
+        },
+        onrender({ panel }) {
+          if (lib.$gm.isInGMContext()) {
+            const gotoPanel = (scriptKey) => {
+              const target = ZHSProject.scripts[scriptKey];
+              target.projectName = ZHSProject.name;
+              BackgroundProject.scripts.render.methods.pin(target);
+            };
+            panel.body.replaceChildren(
+              lib.h("hr"),
+              lib.$ui.button("👉 前往学习设置", {}, (btn) => {
+                btn.style.marginRight = "12px";
+                btn.onclick = () => gotoPanel("study-center");
+              }),
+              lib.$ui.button("👉 前往作业设置", {}, (btn) => {
+                btn.onclick = () => gotoPanel("work-center");
+              })
+            );
+          }
+        }
+      }),
+      "study-center": new lib.Script({
+        name: "🖥️ 自动学习",
+        matches: [
+          ["共享课学习页面", "studyvideoh5.zhihuishu.com"],
+          ["新共享课学习页面", "studyplush5.zhihuishu.com"],
+          ["新版AI课页面", "fusioncourseh5.zhihuishu.com/stuStudy"],
+          ["2025-9月新智慧共享课学习页面", "studywisdomh5.zhihuishu.com/study/index"],
+          ["新形态课程学习页面", "smartcoursestudent.zhihuishu.com/learnPage"],
+          ["新形态课程新域名学习页面", "ai-smart-course-student-pro.zhihuishu.com/learnPage"],
+          ["新形态课程首页", "smartcoursestudent.zhihuishu.com/singleCourse"],
+          ["新形态课程新域名课程首页", "ai-smart-course-student-pro.zhihuishu.com/singleCourse"],
+          ["校内课学习页面", "zhihuishu.com/aidedteaching/sourceLearning"],
+          ["新智慧学习页面", "wisdom-mooc.zhihuishu.com/study/index"],
+          ["AI教学空间学习首页", "hike-teaching-center.polymas.com/stu-hike/agent-course-hike/ai-course-center"],
+          ["AI教学空间学习页面", "tools-hike/studentStudyResource"],
+          ["AI教学空间学习首页(v2)", /polymas.com\/stu-hike\/agent-course-full\/.*\/stu\/(course-home|study)/],
+          ["AI教学空间学习页面(v2)", "/stu/study/resource-detail"]
+        ],
+        namespace: zhsStudyNamespace,
+        configs: studyCenterConfigs,
+        oncomplete() {
+          migrateZhsStudyConfigs();
+          BackgroundProject.scripts.render.methods.pin(this);
+        }
+      }),
+      "work-center": new lib.Script({
+        name: "📝 作业考试",
+        matches: [
+          ["共享课作业页面", "zhihuishu.com/stuExamWeb.html#/webExamList/dohomework"],
+          ["共享课考试页面", "zhihuishu.com/stuExamWeb.html#/webExamList/doexamination"],
+          ["作业考试列表", "zhihuishu.com/stuExamWeb.html#/webExamList\\?"],
+          ["新形态课程作业页面", "smartcourseexam.zhihuishu.com/ReviewExam"],
+          ["新形态课程-掌握提升页面", "studentexamcomh5.zhihuishu.com/studentReviewTestOrExam"],
+          ["新形态课程-AI助教掌握度", "fusioncourseh5.zhihuishu.com/exam"],
+          ["新形态课程-新AI助教掌握度", "studywisdomh5.zhihuishu.com/exam"],
+          ["新形态课程-新AI学伴掌握度", "wisdom-mooc.zhihuishu.com/exam"],
+          ["新形态课程-新AI学伴掌握度首页", "wisdom-mooc.zhihuishu.com/study/analysis"],
+          ["新形态课程-考试界面", "examloop.zhihuishu.com/exam"],
+          ["校内课作业页面", "zhihuishu.com/atHomeworkExam/stu/homeworkQ/exerciseList"],
+          ["校内课考试页面", "zhihuishu.com/atHomeworkExam/stu/examQ/examexercise"],
+          ["AI教学中心-作业任务页面", "/stu-hike/stuHomeworkDo"],
+          ["AI教学中心-题目作业", "/stu/answer-homework"],
+          ["AI教学中心-考试页面", "/stu-exam/answer-exam"]
+        ],
+        namespace: zhsWorkNamespace,
+        configs: workCenterConfigs,
+        oncomplete() {
+          migrateZhsWorkConfigs();
+          BackgroundProject.scripts.render.methods.pin(this);
+          if (location.href.includes("wisdom-mooc.zhihuishu.com/study/analysis")) {
+            return lib.$message.info({ content: "请手动进入掌握度进行自动答题。", duration: 10 });
+          }
         }
       }),
       "gxk-study": new lib.Script({
         name: "🖥️ 共享课-学习脚本",
+        hideInPanel: true,
         matches: [
           ["共享课学习页面", "studyvideoh5.zhihuishu.com"],
           ["新共享课学习页面", "studyplush5.zhihuishu.com"],
           ["新版AI课页面", "fusioncourseh5.zhihuishu.com/stuStudy"],
           ["2025-9月新智慧共享课学习页面", "studywisdomh5.zhihuishu.com/study/index"]
         ],
-        namespace: "zhs.gxk.study",
+        namespace: zhsStudyNamespace,
         configs: {
-          notes: {
-            defaultValue: lib.$ui.notes([
-              "章节测试请大家观看完视频后手动打开。",
-              [
-                "请大家仔细打开视频上方的”学前必读“，查看成绩分布。",
-                "如果 “平时成绩-学习习惯成绩” 占比多的话，就需要规律学习。",
-                "每天定时半小时可获得一分习惯分。",
-                "如果不想要习惯分可忽略。"
-              ],
-              "请使用时关闭卡巴斯基软件，否则会被检测出异常脚本。",
-              "不要最小化浏览器，可能导致脚本暂停。",
-              "运行中请将浏览器缩放调整至适合的大小，避免元素遮挡，无法点击",
-              "例如：调整缩放到 50%，然后刷新页面即可"
-            ]).outerHTML
-          },
           studyRecord: {
             defaultValue: [],
             extra: {
               appConfigSync: false
             }
           },
-          stopTime: {
-            label: "定时停止",
-            tag: "select",
-            attrs: { title: "到时间后自动暂停脚本" },
-            defaultValue: "0",
-            options: [
-              ["0", "关闭"],
-              ["0.5", "半小时后"],
-              ["1", "一小时后"],
-              ["2", "两小时后"]
-            ]
-          },
+          stopTime,
           restudy,
-          reloadWhenError: {
-            label: "黑屏自动刷新",
-            attrs: { title: "视频黑屏或者检测不到视频时自动刷新页面", type: "checkbox" },
-            defaultValue: true
-          },
+          reloadWhenError,
           volume,
           definition,
-          playbackRate: {
-            label: "视频倍速",
-            tag: "select",
-            attrs: { title: "目前智慧树倍速最高只能1.5x，超出有封号风险" },
-            defaultValue: 1,
-            options: [
-              ["1", "1 x"],
-              ["1.25", "1.25 x"],
-              ["1.5", "1.5 x"]
-            ]
-          }
+          playbackRate
         },
         methods() {
           return {
@@ -12774,7 +14964,7 @@ ${content}</tr>
                 if (href) {
                   lib.$modal.alert({
                     title: "规律学习检测",
-                    content: `自动检测功能已失效，<a href="${href}"> -> 点击此处 <- </a> 前往成绩分析页面，点击 <b>“学习习惯”</b> 即可查看习惯分详情。`
+                    content: `自动检测功能已失效，<a href="${href}"> -> 点击此处 <- </a> 前往成绩分析页面，点击 <b>"学习习惯"</b> 即可查看习惯分详情。`
                   });
                 } else {
                   lib.$modal.alert({
@@ -12809,7 +14999,7 @@ ${content}</tr>
           }
         },
         async oncomplete() {
-          CommonProject.scripts.render.methods.pin(this);
+          migrateZhsStudyConfigs();
           const type = location.href.includes("fusioncourseh5") ? "AI课程" : location.href.includes("studyplush5") ? "新共享课" : location.href.includes("studywisdomh5") ? "新智慧共享课" : "共享课";
           const ProcessorConstructor = location.href.includes("fusioncourseh5") ? FusionCourseH5 : location.href.includes("studyplush5") || location.href.includes("studywisdomh5") ? StudyPlusH5 : StudyVideoH5;
           const processor = new ProcessorConstructor();
@@ -12831,11 +15021,11 @@ ${content}</tr>
           };
           await waitForVideoJob();
           await processor.init();
-          this.onConfigChange("stopTime", (stopTime) => {
-            if (stopTime === "0") {
+          this.onConfigChange("stopTime", (stopTime2) => {
+            if (stopTime2 === "0") {
               lib.$message.info({ content: "定时停止已关闭" });
             } else {
-              autoStop(stopTime);
+              autoStop(stopTime2);
             }
           });
           this.onConfigChange("volume", (curr) => {
@@ -12894,7 +15084,7 @@ ${content}</tr>
                   study2({ next: true });
                   return;
                 }
-                watch(
+                watch$1(
                   processor,
                   {
                     reloadWhenError: this.cfg.reloadWhenError,
@@ -12932,20 +15122,14 @@ ${content}</tr>
       }),
       "gxk-work": new lib.Script({
         name: "✍️ 共享课-作业考试脚本",
+        hideInPanel: true,
         matches: [
           ["共享课作业页面", "zhihuishu.com/stuExamWeb.html#/webExamList/dohomework"],
           ["共享课考试页面", "zhihuishu.com/stuExamWeb.html#/webExamList/doexamination"],
           ["作业考试列表", "zhihuishu.com/stuExamWeb.html#/webExamList\\?"]
         ],
-        namespace: "zhs.gxk.work",
+        namespace: zhsWorkNamespace,
         configs: {
-          notes: {
-            defaultValue: lib.$ui.notes([
-              "自动答题前请在 “通用-全局设置” 中设置题库配置。",
-              "可以搭配 “通用-在线搜题” 一起使用。",
-              ...gxk_read_notes
-            ]).outerHTML
-          },
           workDelay: {
             label: "作业答题开始时间延迟（秒）",
             defaultValue: 3,
@@ -12978,8 +15162,8 @@ ${content}</tr>
               if (isExam2 || isWork2) {
                 const workInfo = await getWorkInfo(remotePage);
                 $render.moveToEdge();
-                CommonProject.scripts.render.methods.normal();
-                CommonProject.scripts.render.methods.pin(this);
+                BackgroundProject.scripts.render.methods.normal();
+                BackgroundProject.scripts.render.methods.pin(this);
                 if (this.cfg.readNotes === false) {
                   const notes = lib.$ui.notes(gxk_read_notes).outerHTML;
                   const start2 = await new Promise((resolve, reject) => {
@@ -13006,14 +15190,15 @@ ${content}</tr>
                 setTimeout(() => {
                   var _a;
                   lib.$message.info({ content: `开始${isExam2 ? "考试" : "作业"}` });
-                  commonWork(this, {
+                  commonWork({
+                    mount_script: ZHSProject.scripts["work-center"],
                     workerProvider: (opts) => gxkWorkAndExam(workInfo, opts),
                     start_delay_seconds: (_a = this.cfg.workDelay) != null ? _a : 3
                   });
                 }, 1e3);
               } else {
                 lib.$message.info({ content: "📢 请手动进入作业/考试，如果未开始答题，请尝试刷新页面。", duration: 0 });
-                CommonProject.scripts.render.methods.pin(this);
+                BackgroundProject.scripts.render.methods.pin(this);
               }
             }
           };
@@ -13027,48 +15212,23 @@ ${content}</tr>
       }),
       "smart-study": new lib.Script({
         name: "🖥️ 新形态课程-学习脚本",
+        hideInPanel: true,
         matches: [
           ["新形态课程学习页面", "smartcoursestudent.zhihuishu.com/learnPage"],
           ["新形态课程新域名学习页面", "ai-smart-course-student-pro.zhihuishu.com/learnPage"],
           ["新形态课程首页", "smartcoursestudent.zhihuishu.com/singleCourse"],
           ["新形态课程新域名课程首页", "ai-smart-course-student-pro.zhihuishu.com/singleCourse"]
         ],
-        namespace: "zhs.smart.study",
+        namespace: zhsStudyNamespace,
         configs: {
-          notes: {
-            defaultValue: lib.$ui.notes([
-              "掌握度和作业请视频看完后自行手动进入",
-              "不要最小化浏览器/关闭电脑屏幕，可能导致脚本暂停。",
-              "任意选择一个章节，脚本会自动往下学“必学”课程。",
-              "运行中请将浏览器缩放调整至适合的大小，避免元素遮挡，无法点击",
-              "例如：调整缩放到 50%，然后刷新页面即可"
-            ]).outerHTML
-          },
-          switchMode: {
-            label: "跳转模式",
-            tag: "select",
-            defaultValue: "job",
-            options: [
-              ["job", "只跳转必学章节", "章节后面有必学，并且必学数量未完成的章节，如果全部完成将停止学习"],
-              ["all", "顺序跳转"]
-            ]
-          },
+          switchMode,
           restudy,
           volume,
           definition,
-          playbackRate: {
-            label: "视频倍速",
-            tag: "select",
-            defaultValue: 1,
-            attrs: { title: "目前智慧树倍速最高只能1.5x，超出有封号风险" },
-            options: [
-              ["1", "1 x"],
-              ["1.25", "1.25 x"],
-              ["1.5", "1.5 x"]
-            ]
-          }
+          playbackRate
         },
         oncomplete() {
+          migrateZhsStudyConfigs();
           this.methods.start();
         },
         onhistorychange(type, ...args) {
@@ -13083,7 +15243,6 @@ ${content}</tr>
                 lib.$message.info({ content: "请点击任意章节开始进行自动学习", duration: 60 });
                 return;
               }
-              CommonProject.scripts.render.methods.pin(this);
               const processor = new StudyVideoH5();
               const getInfos = () => Array.from(document.querySelectorAll(".section-item-collapse-info"));
               const getChapterName = () => {
@@ -13120,7 +15279,7 @@ ${content}</tr>
                 const works = [];
                 for (let index = 0; index < infos.length; index++) {
                   const info = infos[index];
-                  const text = ((_a = info.querySelector(".collapse-info-progress .progress-text")) == null ? void 0 : _a.textContent) || "";
+                  const text2 = ((_a = info.querySelector(".collapse-info-progress .progress-text")) == null ? void 0 : _a.textContent) || "";
                   if (this.cfg.switchMode === "all") {
                     works.push({
                       info,
@@ -13128,7 +15287,7 @@ ${content}</tr>
                       total: 1
                     });
                   } else {
-                    const [progress, total] = text.replace("必学", "").trim().split("/").map((s) => parseInt(s));
+                    const [progress, total] = text2.replace("必学", "").trim().split("/").map((s) => parseInt(s));
                     if (progress < total) {
                       works.push({ progress, total, info });
                     }
@@ -13210,8 +15369,8 @@ ${content}</tr>
                   });
                 } catch {
                   const msg2 = "未找到学习视频，即将自动下一节！";
-                  lib.$message.error(msg2);
-                  $console.error(msg2);
+                  lib.$message.warn(msg2);
+                  $console.warn(msg2);
                   await lib.$.sleep(3e3);
                   await next2();
                   return;
@@ -13263,6 +15422,7 @@ ${content}</tr>
       }),
       "smart-work": new lib.Script({
         name: "✍️ 新形态课程-作业/考试/掌握度脚本",
+        hideInPanel: true,
         matches: [
           ["新形态课程作业页面", "smartcourseexam.zhihuishu.com/ReviewExam"],
           ["新形态课程-掌握提升页面", "studentexamcomh5.zhihuishu.com/studentReviewTestOrExam"],
@@ -13270,17 +15430,8 @@ ${content}</tr>
           ["新形态课程-新AI助教掌握度", "studywisdomh5.zhihuishu.com/exam"],
           ["新形态课程-新AI学伴掌握度", "wisdom-mooc.zhihuishu.com/exam"]
         ],
-        namespace: "zhs.smart.work",
+        namespace: zhsWorkNamespace,
         configs: {
-          notes: {
-            defaultValue: lib.$ui.notes([
-              "自动答题前请在 “通用-全局设置” 中设置题库配置。",
-              "可以搭配 “通用-在线搜题” 一起使用。",
-              "⚠️ 如果没开始答题，请尝试刷新页面。",
-              "⚠️ 禁止一次性打开多个作业/考试页面。",
-              ...remote_not_required_pages.some((domain2) => location.href.includes(domain2)) ? [] : ["⚠️ 答题中请勿进行任何操作，如需暂停答题", "请等待全部题目搜索完成并执行自动保存功能后才能操作。"]
-            ]).outerHTML
-          },
           workDelay: {
             label: "作业答题开始时间延迟（秒）",
             defaultValue: 3,
@@ -13291,7 +15442,6 @@ ${content}</tr>
           return {
             start: async () => {
               var _a;
-              CommonProject.scripts.render.methods.pin(this);
               let remotePage;
               const remote_not_required = remote_not_required_pages.some((domain2) => location.href.includes(domain2));
               remote_not_required ? await waitForElement(".exam-item") : await waitForElement(".questionContent");
@@ -13305,7 +15455,8 @@ ${content}</tr>
                 $render.moveToEdge();
                 lib.$message.warn({ content: "答题完毕之前请勿操作页面！", duration: 0 });
               }
-              commonWork(this, {
+              commonWork({
+                mount_script: ZHSProject.scripts["work-center"],
                 workerProvider: (opts) => {
                   if (remote_not_required) {
                     return fusioncourseWork(remotePage, opts);
@@ -13329,23 +15480,21 @@ ${content}</tr>
       }),
       "smart-exam": new lib.Script({
         name: "✍️ 新形态课程-考试脚本",
+        hideInPanel: true,
         matches: [["新形态课程-考试界面", "examloop.zhihuishu.com/exam"]],
-        configs: {
-          notes: {
-            defaultValue: lib.$ui.notes([
-              "自动答题前请在 “通用-全局设置” 中设置题库配置。",
-              "可以搭配 “通用-在线搜题” 一起使用。",
-              "⚠️ 如果没开始答题，请尝试刷新页面。",
-              "⚠️ 禁止一次性打开多个作业/考试页面。"
-            ]).outerHTML
-          }
-        },
+        namespace: zhsWorkNamespace,
+        configs: {},
         methods() {
           return {
             start: async () => {
-              CommonProject.scripts.render.methods.pin(this);
+              BackgroundProject.scripts.render.methods.pin(this);
               await waitForElement(".question-area-content");
-              commonWork(this, {
+              if (document.querySelector('[mode="REVIEW_MODE"]')) {
+                lib.$message.info("当前试卷状态已完成、脚本将停止运行。");
+                return;
+              }
+              commonWork({
+                mount_script: ZHSProject.scripts["work-center"],
                 workerProvider: (opts) => {
                   return smartExam(void 0, opts);
                 }
@@ -13354,22 +15503,21 @@ ${content}</tr>
           };
         },
         oncomplete() {
+          migrateZhsWorkConfigs();
           this.methods.start();
         }
       }),
       "xnk-study": new lib.Script({
         name: "🖥️ 校内课（翻转课）-学习脚本",
+        hideInPanel: true,
         matches: [["校内课学习页面", "zhihuishu.com/aidedteaching/sourceLearning"]],
-        namespace: "zhs.xnk.study",
+        namespace: zhsStudyNamespace,
         configs: {
-          notes: {
-            defaultValue: lib.$ui.notes(["章节测试请大家观看完视频后手动打开。", "此课程不能使用倍速。"]).outerHTML
-          },
           restudy,
           volume
         },
         oncomplete() {
-          CommonProject.scripts.render.methods.pin(this);
+          migrateZhsStudyConfigs();
           const finish = () => {
             lib.$modal.alert({
               content: "检测到当前视频全部播放完毕，如果还有未完成的视频请刷新重试，或者打开复习模式。"
@@ -13440,68 +15588,42 @@ ${content}</tr>
       }),
       "xnk-work": new lib.Script({
         name: "✍️ 校内课-作业考试脚本",
+        hideInPanel: true,
         matches: [
           ["校内课作业页面", "zhihuishu.com/atHomeworkExam/stu/homeworkQ/exerciseList"],
           ["校内课考试页面", "zhihuishu.com/atHomeworkExam/stu/examQ/examexercise"]
         ],
-        namespace: "zhs.xnk.work",
-        configs: { notes: workNotes },
+        namespace: zhsWorkNamespace,
+        configs: {},
+        onhistorychanged(type) {
+          var _a;
+          if (type === "pushed") {
+            (_a = this.oncomplete) == null ? void 0 : _a.call(this);
+          }
+        },
         async oncomplete() {
-          commonWork(this, {
+          migrateZhsWorkConfigs();
+          commonWork({
+            mount_script: ZHSProject.scripts["work-center"],
             workerProvider: xnkWork
           });
         }
       }),
       "wisdom-study": new lib.Script({
         name: "🖥️ 新智慧学习-学习脚本",
-        matches: [
-          ["2025-12月新智慧学习页面", "wisdom-mooc.zhihuishu.com/study/index"],
-          ["学习提示", "wisdom-mooc.zhihuishu.com/study/analysis"]
-        ],
-        namespace: "zhs.wisdom.study",
+        hideInPanel: true,
+        matches: [["2025-12月新智慧学习页面", "wisdom-mooc.zhihuishu.com/study/index"]],
+        namespace: zhsStudyNamespace,
         configs: {
-          notes: {
-            defaultValue: lib.$ui.notes([
-              "掌握度和作业请视频看完后自行手动进入",
-              "不要最小化浏览器/关闭电脑屏幕，可能导致脚本暂停。",
-              "请使用时关闭卡巴斯基软件，否则会被检测出异常脚本。",
-              "运行中请将浏览器缩放调整至适合的大小，避免元素遮挡，无法点击",
-              "例如：调整缩放到 50%，然后刷新页面即可"
-            ]).outerHTML
-          },
           restudy,
-          skipStudyTimeWarnDialog: {
-            label: "忽略习惯分弹窗",
-            attrs: {
-              title: "如果课程有习惯分需要自行控制学习时长，如果忽略习惯分提示，则可能没有习惯分。",
-              type: "checkbox"
-            },
-            defaultValue: false
-          },
-          reloadWhenError: {
-            label: "视频黑屏时自动刷新",
-            attrs: { type: "checkbox", title: "当视频出现加载失败，或者黑屏等异常时，自动刷新页面3次尝试修复" },
-            defaultValue: true
-          },
+          skipStudyTimeWarnDialog,
+          reloadWhenError,
           volume,
           definition,
-          playbackRate: {
-            label: "视频倍速",
-            tag: "select",
-            defaultValue: 1,
-            attrs: { title: "目前智慧树倍速最高只能1.5x，超出有封号风险" },
-            options: [
-              ["1", "1 x"],
-              ["1.25", "1.25 x"],
-              ["1.5", "1.5 x"]
-            ]
-          }
+          playbackRate
         },
         async oncomplete() {
-          if (location.href.includes("https://wisdom-mooc.zhihuishu.com/study/analysis")) {
-            return lib.$message.info({ content: "请手动进入掌握度进行自动答题。", duration: 10 });
-          }
-          CommonProject.scripts.render.methods.pin(this);
+          migrateZhsStudyConfigs();
           const processor = new WishdomH5();
           this.onConfigChange("volume", (curr) => {
             state$5.study.currentMedia && (state$5.study.currentMedia.volume = curr);
@@ -13732,37 +15854,21 @@ ${content}</tr>
       }),
       hike: new lib.Script({
         name: "🖥️ 教学空间-AI智慧课程-学习脚本",
+        hideInPanel: true,
         matches: [
           ["学习首页", "hike-teaching-center.polymas.com/stu-hike/agent-course-hike/ai-course-center"],
           ["学习页面", "tools-hike/studentStudyResource"]
         ],
-        namespace: "zhs.hike.study",
+        namespace: zhsStudyNamespace,
         configs: {
-          notes: {
-            defaultValue: lib.$ui.notes(["请手动进入视频、作业、考试页面，脚本会自动运行。"]).outerHTML
-          },
           restudy,
-          reloadWhenError: {
-            label: "视频黑屏时自动刷新",
-            attrs: { type: "checkbox", title: "当视频出现加载失败，或者黑屏等异常时，自动刷新页面3次尝试修复" },
-            defaultValue: true
-          },
+          reloadWhenError,
           volume,
           definition,
-          playbackRate: {
-            label: "视频倍速",
-            tag: "select",
-            defaultValue: 1,
-            attrs: { title: "目前智慧树倍速最高只能1.5x，超出有封号风险" },
-            options: [
-              ["1", "1 x"],
-              ["1.25", "1.25 x"],
-              ["1.5", "1.5 x"]
-            ]
-          }
+          playbackRate
         },
         async oncomplete(...args) {
-          CommonProject.scripts.render.methods.pin(this);
+          migrateZhsStudyConfigs();
           if (location.href.includes("stu-hike/agent-course-hike/ai-course-center")) {
             lib.$message.info({ content: "请手动进入视频、作业、考试页面，脚本会自动运行。", duration: 60 });
             return;
@@ -13922,29 +16028,24 @@ ${content}</tr>
       }),
       hike_v2: new lib.Script({
         name: "🖥️ 教学空间-AI智慧课程-学习脚本",
+        hideInPanel: true,
         matches: [
           ["学习首页", /polymas.com\/stu-hike\/agent-course-full\/.*\/stu\/(course-home|study)/],
           ["学习页面", "/stu/study/resource-detail"]
         ],
-        namespace: "zhs.hike_v2.study",
+        namespace: zhsStudyNamespace,
         configs: {
-          notes: {
-            defaultValue: lib.$ui.notes(["请手动进入视频、作业、考试页面，脚本会自动运行。"]).outerHTML
-          },
           restudy,
-          reloadWhenError: {
-            label: "视频黑屏时自动刷新",
-            attrs: { type: "checkbox", title: "当视频出现加载失败，或者黑屏等异常时，自动刷新页面3次尝试修复" },
-            defaultValue: true
-          },
+          reloadWhenError,
           volume
         },
         oncomplete(...args) {
           var _a;
-          (_a = this.onhistorychange) == null ? void 0 : _a.call(this, "push", ...args);
+          (_a = this.onhistorychanged) == null ? void 0 : _a.call(this, "pushed", ...args);
         },
-        async onhistorychange(type) {
-          if (type !== "push") {
+        async onhistorychanged(type) {
+          migrateZhsStudyConfigs();
+          if (type !== "pushed") {
             return;
           }
           if (!location.href.includes("stu/study/resource-detail")) {
@@ -13958,10 +16059,11 @@ ${content}</tr>
           const next2 = async () => {
             var _a;
             (_a = document.querySelector(".drawer-panel")) == null ? void 0 : _a.classList.add("active");
+            await lib.$.sleep(1e3);
             const nextJob = processor.getNext({ next: true, restudy: this.cfg.restudy });
             if (nextJob) {
               nextJob.scrollIntoView({ behavior: "smooth", block: "center" });
-              await lib.$.sleep(200);
+              await lib.$.sleep(1e3);
               nextJob.click();
               await lib.$.sleep(3e3);
               doJob();
@@ -13983,7 +16085,7 @@ ${content}</tr>
           };
           await waitForLoad2();
           await lib.$.sleep(3e3);
-          lib.$message.success({ content: "即将开始自动学习！" });
+          $msg.info("即将开始自动学习：" + processor.getChapterName());
           const reload = async (e) => {
             $console.error(e);
             if (this.cfg.reloadWhenError) {
@@ -14015,73 +16117,131 @@ ${content}</tr>
           };
           const doJob = async () => {
             await waitForCaptcha();
-            if (!document.querySelector(".video-js")) {
+            const [isTopVideoJob, isIframeVideoJob] = [
+              document.querySelector(".video-js"),
+              document.querySelector("#previewIframe")
+            ];
+            if (!isTopVideoJob && !isIframeVideoJob) {
               lib.$message.warn("当前章节不支持学习，即将跳转下一节");
               await lib.$.sleep(3e3);
               await next2();
               return;
             }
-            const set = async () => {
+            if (isIframeVideoJob) {
               try {
-                await lib.$.sleep(1e3);
-                const media = await waitForMedia({ timeout: 5 * 1e3, filter: (m) => m.src.length !== 0 });
-                await lib.$.sleep(1e3);
-                state$5.study.currentMedia = media;
-                if (media) {
-                  media.currentTime = 1;
-                  media.volume = this.cfg.volume;
-                }
-                return state$5.study.currentMedia;
+                const duration = await waitFor(() => lib.$store.get("hikev2_polymas_video_duration"), {
+                  timeout_seconds: 1e3 * 10,
+                  timeout_message: "等待视频时长信息超时"
+                });
+                await waitFor(() => lib.$store.get("hikev2_polymas_video") === "end", {
+                  timeout_seconds: parseFloat(duration || "3") * 1e3,
+                  timeout_message: "等待视频播放完成超时"
+                });
               } catch (e) {
-                reload(e);
+                lib.$message.warn("视频播放状态等待超时，直接跳转下一节（" + String(e) + "）");
               }
-            };
-            lib.$message.info("开始播放");
-            await waitForCaptcha();
-            const video = await set();
-            if (!video) {
-              return;
-            }
-            const video_src = video.src;
-            const videoCheckInterval = setInterval(async () => {
-              if (!(video == null ? void 0 : video.isConnected) || video.src !== video_src) {
-                clearInterval(videoCheckInterval);
-                lib.$message.info({ content: "检测到视频切换中..." });
-                doJob();
-              }
-            }, 3e3);
-            playMedia(() => video == null ? void 0 : video.play()).then(() => {
-              const cn = processor.getChapterName();
-              lib.$message.info({ content: "正在学习：" + cn });
-              $console.log("正在学习：" + cn);
-            });
-            video.onpause = async () => {
-              if (!(video == null ? void 0 : video.isConnected))
-                return;
-              if (!(video == null ? void 0 : video.ended) && state$5.study.stop === false) {
-                await lib.$.sleep(1e3);
-                video == null ? void 0 : video.play();
-              }
-            };
-            video.onended = async () => {
-              if (!(video == null ? void 0 : video.isConnected))
-                return;
               lib.$message.info("即将自动跳转下一节");
-              $console.info("即将自动跳转下一节");
-              clearInterval(videoCheckInterval);
               await lib.$.sleep(3e3);
               await next2();
-            };
+            } else if (isTopVideoJob) {
+              const set = async () => {
+                try {
+                  await lib.$.sleep(1e3);
+                  const media = await waitForMedia({
+                    timeout: 5 * 1e3,
+                    filter: (m) => m.src.length !== 0
+                  });
+                  await lib.$.sleep(1e3);
+                  state$5.study.currentMedia = media;
+                  if (media) {
+                    media.currentTime = 1;
+                    media.volume = this.cfg.volume;
+                  }
+                  return state$5.study.currentMedia;
+                } catch (e) {
+                  reload(e);
+                }
+              };
+              lib.$message.info("开始播放");
+              await waitForCaptcha();
+              const video = await set();
+              if (!video) {
+                return;
+              }
+              const video_src = video.src;
+              const videoCheckInterval = setInterval(async () => {
+                if (!(video == null ? void 0 : video.isConnected) || video.src !== video_src) {
+                  clearInterval(videoCheckInterval);
+                  lib.$message.info({ content: "检测到视频切换中..." });
+                  doJob();
+                }
+              }, 3e3);
+              playMedia(() => video == null ? void 0 : video.play()).then(() => {
+                const cn = processor.getChapterName();
+                lib.$message.info({ content: "正在学习：" + cn });
+                $console.log("正在学习：" + cn);
+              });
+              video.onpause = async () => {
+                if (!(video == null ? void 0 : video.isConnected))
+                  return;
+                if (!(video == null ? void 0 : video.ended) && state$5.study.stop === false) {
+                  await lib.$.sleep(1e3);
+                  video == null ? void 0 : video.play();
+                }
+              };
+              video.onended = async () => {
+                if (!(video == null ? void 0 : video.isConnected))
+                  return;
+                lib.$message.info("即将自动跳转下一节");
+                clearInterval(videoCheckInterval);
+                await lib.$.sleep(3e3);
+                await next2();
+              };
+            }
           };
           doJob();
+        }
+      }),
+      hike_polymas_video: new lib.Script({
+        name: "AI教学中心视频脚本",
+        hideInPanel: true,
+        matches: [["AI教学中心视频", "/resource/online/preview"]],
+        async oncomplete(...args) {
+          lib.$store.set("hikev2_polymas_video", "");
+          lib.$store.set("hikev2_polymas_video_duration", "");
+          waitForMedia().then((media) => {
+            watch$1(
+              {
+                switchLine() {
+                },
+                switchPlaybackRate() {
+                }
+              },
+              { ...ZHSProject.scripts.hike_v2.cfg, playbackRate: 1 },
+              {
+                reload() {
+                  location.reload();
+                },
+                onplay() {
+                  lib.$store.set("hikev2_polymas_video_duration", media.duration.toString());
+                },
+                onended() {
+                  lib.$store.set("hikev2_polymas_video", "end");
+                  lib.$store.set("hikev2_polymas_video_duration", "");
+                }
+              }
+            );
+          }).catch((e) => {
+            lib.$store.set("hike_polymas_video", "end");
+          });
         }
       }),
       "hike-work": new lib.Script({
         matches: [["AI教学中心-作业任务页面", "/stu-hike/stuHomeworkDo"]],
         name: "✍️ 教学空间-AI智慧课程-作业考试脚本",
-        namespace: "zhs.hike.work",
+        hideInPanel: true,
+        namespace: zhsWorkNamespace,
         configs: {
-          notes: workNotes,
           workDelay: {
             label: "作业答题开始时间延迟（秒）",
             defaultValue: 3,
@@ -14090,9 +16250,11 @@ ${content}</tr>
         },
         async oncomplete() {
           var _a;
-          CommonProject.scripts.render.methods.pin(this);
+          migrateZhsWorkConfigs();
+          BackgroundProject.scripts.render.methods.pin(this);
           await waitForElement(".q_main");
-          commonWork(this, {
+          commonWork({
+            mount_script: ZHSProject.scripts["work-center"],
             workerProvider: (opts) => {
               return hikeWork(void 0, opts);
             },
@@ -14101,11 +16263,14 @@ ${content}</tr>
         }
       }),
       "hike-homework": new lib.Script({
-        matches: [["AI教学中心-题目作业", "/stu/answer-homework"]],
+        matches: [
+          ["AI教学中心-题目作业", "/stu/answer-homework"],
+          ["AI教学中心-作业任务页面", "/stu-exam/answer-exam"]
+        ],
         name: "✍️ 教学空间-AI智慧课程-题目作业脚本",
-        namespace: "zhs.hike.homework",
+        hideInPanel: true,
+        namespace: zhsWorkNamespace,
         configs: {
-          notes: workNotes,
           workDelay: {
             label: "作业答题开始时间延迟（秒）",
             defaultValue: 3,
@@ -14114,9 +16279,11 @@ ${content}</tr>
         },
         async oncomplete() {
           var _a;
-          CommonProject.scripts.render.methods.pin(this);
+          migrateZhsWorkConfigs();
+          BackgroundProject.scripts.render.methods.pin(this);
           await waitForElement(".question-item");
-          commonWork(this, {
+          commonWork({
+            mount_script: ZHSProject.scripts["work-center"],
             workerProvider: (opts) => {
               return hikeHomework(void 0, opts);
             },
@@ -14126,8 +16293,9 @@ ${content}</tr>
       })
     }
   });
-  async function watch(processor, options, actions) {
+  async function watch$1(processor, options, actions) {
     const reload = async (e) => {
+      var _a;
       $console.error(e);
       if (options.reloadWhenError) {
         const msg2 = "视频加载失败，即将刷新页面。";
@@ -14153,7 +16321,7 @@ ${content}</tr>
         const msg2 = "视频加载失败，即将跳过。";
         lib.$message.error(msg2);
         $console.log(msg2);
-        actions.onended({ next: true });
+        (_a = actions.onended) == null ? void 0 : _a.call(actions, { next: true });
       }
     };
     const set = async () => {
@@ -14192,13 +16360,17 @@ ${content}</tr>
       return await reload("视频加载失败");
     }
     const videoCheckInterval = setInterval(async () => {
+      var _a;
       if ((video == null ? void 0 : video.isConnected) === false) {
         clearInterval(videoCheckInterval);
         lib.$message.info({ content: "检测到视频切换中..." });
-        actions.onended({ next: false });
+        (_a = actions.onended) == null ? void 0 : _a.call(actions, { next: false });
       }
     }, 3e3);
-    playMedia(() => video == null ? void 0 : video.play());
+    playMedia(() => video == null ? void 0 : video.play()).then(() => {
+      var _a;
+      (_a = actions.onplay) == null ? void 0 : _a.call(actions);
+    });
     video.onpause = async () => {
       if (!(video == null ? void 0 : video.ended) && state$5.study.stop === false) {
         await waitForCaptcha();
@@ -14207,8 +16379,9 @@ ${content}</tr>
       }
     };
     video.onended = () => {
+      var _a;
       clearInterval(videoCheckInterval);
-      actions.onended({ next: true });
+      (_a = actions.onended) == null ? void 0 : _a.call(actions, { next: true });
     };
   }
   async function watchXnk(options, onended) {
@@ -14275,20 +16448,7 @@ ${content}</tr>
   function getPopupCaptcha() {
     return document.querySelector(".yidun_popup");
   }
-  function gxkWorkAndExam(workInfo, {
-    answererWrappers,
-    period,
-    thread,
-    stopSecondWhenFinish,
-    redundanceWordsText,
-    answerSeparators,
-    answerMatchMode
-  }) {
-    console.log('[OCS调试] gxkWorkAndExam 被调用');
-    console.log('[OCS调试] answererWrappers数量:', answererWrappers ? answererWrappers.length : 'null/undefined');
-    if (answererWrappers && answererWrappers.length > 0) {
-      console.log('[OCS调试] 第一个题库URL:', answererWrappers[0].url);
-    }
+  function gxkWorkAndExam(workInfo, { answererWrappers, period, thread, stopSecondWhenFinish, redundanceWordsText, answerSeparators }) {
     var _a, _b, _c;
     CommonProject.scripts.workResults.methods.init({
       questionPositionSyncHandlerType: "zhs-gxk"
@@ -14298,45 +16458,46 @@ ${content}</tr>
       var _a2;
       const div = lib.h("div");
       div.innerHTML = ((_a2 = allExamParts[index]) == null ? void 0 : _a2.name) || "题目读取失败";
-      return removeRedundantWords(
-        optimizationElementWithImage(div, true).innerText || "",
-        redundanceWordsText.split("\n")
-      );
+      const extracted = extractTextWithImages(div);
+      return {
+        text: removeRedundantWords(extracted.text || "", redundanceWordsText.split("\n")),
+        images: extracted.images
+      };
     };
+    const titleText = (_, index) => titleTransform(_, index).text;
+    const optionExtract = (o) => extractTextWithImages(o, {
+      imgFilter: (img) => {
+        if (img.dataset.src)
+          img.src = img.dataset.src;
+        return !!img.closest(".node_detail");
+      }
+    });
     let request_index = 0;
     const worker = new OCSWorker({
       root: ".examPaper_subject",
       elements: {
         title: ".subject_describe > div,.smallStem_describe > div:nth-child(2)",
-        options: (root2) => lib.$$el(".subject_node .nodeLab", root2).map((t2) => {
-          for (const img of Array.from(t2.querySelectorAll(".node_detail img"))) {
-            if (img.dataset.src) {
-              img.src = img.dataset.src;
-            }
-            createUnVisibleTextOfImage(img);
-          }
-          return t2;
-        })
+        options: ".subject_node .nodeLab"
       },
       thread: thread != null ? thread : 1,
       answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-      answerMatchMode,
-      answerer: (elements2, ctx) => {
-        const title = titleTransform(void 0, request_index++);
-        if (title) {
-          return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-            await lib.$.sleep((period != null ? period : 3) * 1e3);
-            return defaultAnswerWrapperHandler(answererWrappers, {
-              type: ctx.type || "unknown",
-              title,
-              options: ctx.elements.options.map((o) => o.innerText).join("\n")
-            });
-          });
-        } else {
-          throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-        }
-      },
+      answerer: createCommonAnswerer({
+        titleTransform: () => titleTransform(void 0, request_index++),
+        optionsTransform: (elements2, ctx) => {
+          var _a2;
+          if (ctx.type === "completion")
+            return "";
+          const optResults = ((_a2 = ctx.elements.options) != null ? _a2 : []).filter(Boolean).map((o) => optionExtract(o));
+          return {
+            text: optResults.map((r) => r.text).join("\n"),
+            images: optResults.flatMap((r) => r.images)
+          };
+        },
+        answererWrappers,
+        period
+      }),
       work: {
+        optionText: (o) => optionExtract(o).text,
         type(ctx) {
           var _a2, _b2, _c2, _d;
           const type = (_d = (_c2 = (_b2 = (_a2 = ctx.elements.title[0].parentElement) == null ? void 0 : _a2.parentElement) == null ? void 0 : _b2.querySelector(".subject_type")) == null ? void 0 : _c2.textContent) == null ? void 0 : _d.trim();
@@ -14360,26 +16521,19 @@ ${content}</tr>
               await lib.$.sleep(200);
             }
           } else if (type === "completion" && answer.trim()) {
-            const text = option.querySelector("textarea");
-            if (text) {
-              text.value = answer;
+            const text2 = option.querySelector("textarea");
+            if (text2) {
+              text2.value = answer;
               await lib.$.sleep(200);
             }
           }
         }
       },
-      onResultsUpdate(curr, index, res) {
-        var _a2, _b2;
-        CommonProject.scripts.workResults.methods.setResults(simplifyWorkResult(res, titleTransform));
-        if ((_a2 = curr.result) == null ? void 0 : _a2.finish) {
-          const title = (_b2 = allExamParts[index]) == null ? void 0 : _b2.name;
-          if (title) {
-            CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(
-              simplifyWorkResult([curr], (_, __) => title)
-            );
-          }
-        }
-        CommonProject.scripts.workResults.methods.updateWorkStateByResults(res);
+      async onResultsInit(_curr, _index, res) {
+        await CommonProject.scripts.workResults.methods.fillAll(res.map((r, i) => simplifyWorkResult(r, titleText, i)));
+      },
+      async onResultsUpdate(curr, index, res) {
+        await CommonProject.scripts.workResults.methods.update(index, simplifyWorkResult(curr, titleText, index));
       }
     });
     checkForCaptcha((hasCaptcha) => {
@@ -14389,7 +16543,7 @@ ${content}</tr>
         worker.emit("continuate");
       }
     });
-    worker.doWork().then(async (res) => {
+    worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug }).then(async (res) => {
       var _a2;
       if (worker.isClose === true) {
         return;
@@ -14428,42 +16582,32 @@ ${content}</tr>
     });
     return worker;
   }
-  function xnkWork({ answererWrappers, period, thread, answerSeparators, answerMatchMode }) {
+  function xnkWork({ answererWrappers, period, thread, answerSeparators }) {
     lib.$message.info({ content: "开始作业" });
-    CommonProject.scripts.workResults.methods.init();
+    CommonProject.scripts.workResults.methods.init({ dynamic: true });
     const titleTransform = (titles) => {
-      return titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => t2 ? optimizationElementWithImage(t2).innerText : "").join(",");
+      return titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => t2 ? extractTextWithImages(t2).text : "").join(",");
     };
-    const workResults = [];
-    let totalQuestionCount = 0;
-    let requestedCount = 0;
-    let resolvedCount = 0;
     const worker = new OCSWorker({
-      root: ".questionBox",
+      root: "div:has(> .questionContent)",
       elements: {
         title: ".questionContent",
-        options: ".optionUl label",
+        options: ".optionUl label, .questiontextarea, .ShortAnswer-textarea",
         questionTit: ".questionTit"
       },
       thread: thread != null ? thread : 1,
       answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-      answerMatchMode,
-      answerer: (elements2, ctx) => {
-        const title = titleTransform(elements2.title);
-        if (title) {
-          return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-            await lib.$.sleep((period != null ? period : 3) * 1e3);
-            return defaultAnswerWrapperHandler(answererWrappers, {
-              type: ctx.type || "unknown",
-              title,
-              options: ctx.elements.options.map((o) => o.innerText).join("\n")
-            });
-          });
-        } else {
-          throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-        }
-      },
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2) => titleTransform(elements2.title),
+        answererWrappers,
+        period
+      }),
       work: {
+        type(ctx) {
+          var _a;
+          const type = ((_a = ctx.elements.questionTit[0]) == null ? void 0 : _a.textContent) || "";
+          return type.includes("单选") ? "single" : type.includes("多选") ? "multiple" : type.includes("判断") ? "judgement" : type.includes("填空") || type.includes("问答") || type.includes("名词解释") ? "completion" : void 0;
+        },
         async handler(type, answer, option, ctx) {
           var _a;
           if (type === "judgement" || type === "single" || type === "multiple") {
@@ -14472,40 +16616,32 @@ ${content}</tr>
               await lib.$.sleep(200);
             }
           } else if (type === "completion" && answer.trim()) {
-            const text = option.querySelector("textarea");
-            if (text) {
-              text.value = answer;
-              await lib.$.sleep(200);
+            const text2 = option.tagName === "TEXTAREA" ? option : option.querySelector("textarea");
+            if (text2) {
+              text2.focus();
+              await lib.$.sleep(100);
+              text2.value = answer;
+              await lib.$.sleep(100);
+              text2.dispatchEvent(new Event("input", { bubbles: true }));
+              await lib.$.sleep(100);
+              text2.blur();
+              await lib.$.sleep(100);
             }
           }
         }
       },
+      onQuestionDetected(current) {
+        updateDynamicResult(current, titleTransform);
+      },
       onResultsUpdate(current, _, res) {
-        var _a;
-        if (current.result) {
-          workResults.push(...simplifyWorkResult([current], titleTransform));
-          CommonProject.scripts.workResults.methods.setResults(workResults);
-          totalQuestionCount++;
-          requestedCount++;
-          resolvedCount++;
-        }
-        if ((_a = current.result) == null ? void 0 : _a.finish) {
-          CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(
-            simplifyWorkResult([current], titleTransform)
-          );
-        }
-        CommonProject.scripts.workResults.methods.updateWorkState({
-          totalQuestionCount,
-          requestedCount,
-          resolvedCount
-        });
+        updateDynamicResult(current, titleTransform);
       }
     });
     const getBtn = () => document.querySelector("span.Topicswitchingbtn:nth-child(2)");
     let next2 = getBtn();
     (async () => {
       while (next2 && worker.isClose === false) {
-        await worker.doWork();
+        await worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug });
         await lib.$.sleep(1e3);
         next2 = getBtn();
         next2 == null ? void 0 : next2.click();
@@ -14515,23 +16651,20 @@ ${content}</tr>
       worker.emit("done");
       CommonProject.scripts.workResults.cfg.questionPositionSyncHandlerType = "zhs-xnk";
     })();
+    dynamicWorkTips(worker);
     return worker;
   }
-  function smartWork(remotePage, { answererWrappers, period, thread, answerSeparators, answerMatchMode }) {
+  function smartWork(remotePage, { answererWrappers, period, thread, answerSeparators }) {
     lib.$message.info({ content: "开始作业" });
-    lib.$message.warn({
-      content: "⚠️ 答题中请勿进行任何操作，如需暂停答题，请等待全部题目搜索完成并执行自动保存功能后才能操作。",
-      duration: 0,
-      closeable: false
-    });
-    CommonProject.scripts.workResults.methods.init();
-    const titleTransform = (titles) => {
-      return titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => t2 ? optimizationElementWithImage(t2).innerText : "").join(",");
+    CommonProject.scripts.workResults.methods.init({ dynamic: true });
+    const titleTransformWithImages = (titles) => {
+      const results = titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => t2 ? extractTextWithImages(t2) : { text: "", images: [] });
+      return {
+        text: results.map((r) => r.text).join(","),
+        images: results.flatMap((r) => r.images)
+      };
     };
-    const workResults = [];
-    let totalQuestionCount = 0;
-    let requestedCount = 0;
-    let resolvedCount = 0;
+    const titleTransform = (titles) => titleTransformWithImages(titles).text;
     const worker = new OCSWorker({
       root: ".questionContent",
       elements: {
@@ -14540,23 +16673,23 @@ ${content}</tr>
       },
       thread: thread != null ? thread : 1,
       answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-      answerMatchMode,
-      answerer: (elements2, ctx) => {
-        const title = titleTransform(elements2.title);
-        if (title) {
-          return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-            await lib.$.sleep((period != null ? period : 3) * 1e3);
-            return defaultAnswerWrapperHandler(answererWrappers, {
-              type: ctx.type || "unknown",
-              title,
-              options: ctx.elements.options.map((o) => o.innerText).join("\n")
-            });
-          });
-        } else {
-          throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-        }
-      },
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2) => titleTransformWithImages(elements2.title),
+        optionsTransform: (elements2, ctx) => {
+          var _a;
+          if (ctx.type === "completion")
+            return "";
+          const optResults = ((_a = ctx.elements.options) != null ? _a : []).filter(Boolean).map((o) => extractTextWithImages(o));
+          return {
+            text: optResults.map((r) => r.text).join("\n"),
+            images: optResults.flatMap((r) => r.images)
+          };
+        },
+        answererWrappers,
+        period
+      }),
       work: {
+        optionText: (o) => extractTextWithImages(o).text,
         type(ctx) {
           var _a, _b, _c;
           const type = (_c = (_b = (_a = ctx.elements.title[0]) == null ? void 0 : _a.parentElement) == null ? void 0 : _b.querySelector(".letterSortNum")) == null ? void 0 : _c.textContent;
@@ -14600,25 +16733,11 @@ ${content}</tr>
           }
         }
       },
+      onQuestionDetected(current) {
+        updateDynamicResult(current, titleTransform);
+      },
       onResultsUpdate(current, _, res) {
-        var _a;
-        if (current.result) {
-          workResults.push(...simplifyWorkResult([current], titleTransform));
-          CommonProject.scripts.workResults.methods.setResults(workResults);
-          totalQuestionCount++;
-          requestedCount++;
-          resolvedCount++;
-        }
-        if ((_a = current.result) == null ? void 0 : _a.finish) {
-          CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(
-            simplifyWorkResult([current], titleTransform)
-          );
-        }
-        CommonProject.scripts.workResults.methods.updateWorkState({
-          totalQuestionCount,
-          requestedCount,
-          resolvedCount
-        });
+        updateDynamicResult(current, titleTransform);
       }
     });
     const getNextBtn = () => document.querySelector(".next-topic.next-t");
@@ -14632,7 +16751,7 @@ ${content}</tr>
           first.click();
         await lib.$.sleep(3e3);
       }
-      let count = 0;
+      let count2 = 0;
       while (worker.isClose === false) {
         await worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug });
         next2 = getNextBtn();
@@ -14645,67 +16764,64 @@ ${content}</tr>
         else
           next2.click();
         await lib.$.sleep(1e3);
-        count++;
+        count2++;
       }
       lib.$message.info({
         content: "作业/考试完成，请自行检查后保存或提交。",
-        duration: count > 10 ? 0 : 30
+        duration: count2 > 10 ? 0 : 30
       });
       worker.emit("done");
       CommonProject.scripts.workResults.cfg.questionPositionSyncHandlerType = "zhs-smart";
     })();
+    dynamicWorkTips(worker);
     return worker;
   }
-  function smartExam(remotePage, { answererWrappers, period, thread, answerSeparators, answerMatchMode }) {
+  function smartExam(remotePage, { answererWrappers, period, thread, answerSeparators }) {
     lib.$message.info({ content: "开始作业" });
-    lib.$message.warn({
-      content: "⚠️ 答题中请勿进行任何操作，如需暂停答题，请等待全部题目搜索完成并执行自动保存功能后才能操作。",
-      duration: 0,
-      closeable: false
-    });
-    CommonProject.scripts.workResults.methods.init();
-    const titleTransform = (titles) => {
-      return titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => t2 ? optimizationElementWithImage(t2).innerText : "").join(",");
+    CommonProject.scripts.workResults.methods.init({ dynamic: true });
+    const titleTransformWithImages = (titles) => {
+      const results = titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => t2 ? extractTextWithImages(t2) : { text: "", images: [] });
+      return {
+        text: results.map((r) => r.text).join(","),
+        images: results.flatMap((r) => r.images)
+      };
     };
-    const workResults = [];
-    let totalQuestionCount = 0;
-    let requestedCount = 0;
-    let resolvedCount = 0;
+    const titleTransform = (titles) => titleTransformWithImages(titles).text;
     const worker = new OCSWorker({
       root: ".question-area-content",
       elements: {
         type: "div.flex.items-center.mb-\\[16px\\]",
         title: "div.flex-1 .mb-\\[32px\\] .text-mainText.font-medium",
-        options: "label.user-select.group"
+        options: "label.user-select.group,div.real-editor"
       },
       thread: thread != null ? thread : 1,
       answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-      answerMatchMode,
-      answerer: (elements2, ctx) => {
-        const title = titleTransform(elements2.title);
-        if (title) {
-          return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-            await lib.$.sleep((period != null ? period : 3) * 1e3);
-            return defaultAnswerWrapperHandler(answererWrappers, {
-              type: ctx.type || "unknown",
-              title,
-              options: ctx.elements.options.map((o) => o.innerText).join("\n")
-            });
-          });
-        } else {
-          throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-        }
-      },
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2) => titleTransformWithImages(elements2.title),
+        optionsTransform: (elements2, ctx) => {
+          var _a;
+          if (ctx.type === "completion")
+            return "";
+          const optResults = ((_a = ctx.elements.options) != null ? _a : []).filter(Boolean).map((o) => extractTextWithImages(o));
+          return {
+            text: optResults.map((r) => r.text).join("\n"),
+            images: optResults.flatMap((r) => r.images)
+          };
+        },
+        answererWrappers,
+        period
+      }),
       work: {
+        optionText: (o) => extractTextWithImages(o).text,
         type(ctx) {
           const type = ctx.elements.type[0].textContent;
-          if (type == null ? void 0 : type.includes("单选题")) {
+          if (type == null ? void 0 : type.includes("单选")) {
             return "single";
           } else if (type == null ? void 0 : type.includes("多选题")) {
             return "multiple";
-          } else if (type == null ? void 0 : type.includes("判断题")) {
+          } else if (type == null ? void 0 : type.includes("判断")) {
             return "judgement";
-          } else if (type == null ? void 0 : type.includes("填空")) {
+          } else if ((type == null ? void 0 : type.includes("填空")) || (type == null ? void 0 : type.includes("问答"))) {
             return "completion";
           } else {
             return void 0;
@@ -14721,28 +16837,26 @@ ${content}</tr>
               }
               await lib.$.sleep(200);
             }
+          } else if (type === "completion") {
+            if (option.classList.contains("real-editor")) {
+              option.ckeditorInstance.data.set(answer);
+            } else {
+              const input = option.querySelector("input");
+              if (input) {
+                input.value = answer;
+                Reflect.set(input, "composition", true);
+                input.dispatchEvent(new Event("input", { bubbles: true }));
+              }
+            }
+            await lib.$.sleep(200);
           }
         }
       },
+      onQuestionDetected(current) {
+        updateDynamicResult(current, titleTransform);
+      },
       onResultsUpdate(current, _, res) {
-        var _a;
-        if (current.result) {
-          workResults.push(...simplifyWorkResult([current], titleTransform));
-          CommonProject.scripts.workResults.methods.setResults(workResults);
-          totalQuestionCount++;
-          requestedCount++;
-          resolvedCount++;
-        }
-        if ((_a = current.result) == null ? void 0 : _a.finish) {
-          CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(
-            simplifyWorkResult([current], titleTransform)
-          );
-        }
-        CommonProject.scripts.workResults.methods.updateWorkState({
-          totalQuestionCount,
-          requestedCount,
-          resolvedCount
-        });
+        updateDynamicResult(current, titleTransform);
       }
     });
     const getNextBtn = () => Array.from(document.querySelectorAll("button")).find(
@@ -14761,7 +16875,7 @@ ${content}</tr>
           first.click();
         await lib.$.sleep(3e3);
       }
-      let count = 0;
+      let count2 = 0;
       while (worker.isClose === false) {
         await worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug });
         next2 = getNextBtn();
@@ -14774,27 +16888,34 @@ ${content}</tr>
         else
           next2.click();
         await lib.$.sleep(1e3);
-        count++;
+        count2++;
       }
       lib.$message.info({
         content: "作业/考试完成，请自行检查后保存或提交。",
-        duration: count > 10 ? 0 : 30
+        duration: count2 > 10 ? 0 : 30
       });
       worker.emit("done");
       CommonProject.scripts.workResults.cfg.questionPositionSyncHandlerType = "zhs-smart";
     })();
+    dynamicWorkTips(worker);
     return worker;
   }
-  function fusioncourseWork(remotePage, { answererWrappers, period, thread, answerSeparators, answerMatchMode }) {
+  function fusioncourseWork(remotePage, { answererWrappers, period, thread, answerSeparators }) {
     lib.$message.info({ content: "开始作业" });
     CommonProject.scripts.workResults.methods.init({
       questionPositionSyncHandlerType: "zhs-fusion"
     });
     const titleTransform = (titles) => {
-      return titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => t2 ? optimizationElementWithImage(t2).innerText : "").join(",");
+      return titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => t2 ? extractTextWithImages(t2).text : "").join(",");
     };
     const worker = new OCSWorker({
       root: ".exam-item",
+      rootObserver: {
+        enabled: true,
+        onRootLost: () => {
+          CommonProject.scripts.workResults.methods.clearResults();
+        }
+      },
       elements: {
         type: ".quest-type",
         title: ".quest-title .option-name",
@@ -14802,22 +16923,11 @@ ${content}</tr>
       },
       thread: thread != null ? thread : 1,
       answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-      answerMatchMode,
-      answerer: (elements2, ctx) => {
-        const title = titleTransform(elements2.title);
-        if (title) {
-          return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-            await lib.$.sleep((period != null ? period : 3) * 1e3);
-            return defaultAnswerWrapperHandler(answererWrappers, {
-              type: ctx.type || "unknown",
-              title,
-              options: ctx.elements.options.map((o) => o.innerText).join("\n")
-            });
-          });
-        } else {
-          throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-        }
-      },
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2) => titleTransform(elements2.title),
+        answererWrappers,
+        period
+      }),
       work: {
         type(ctx) {
           const type = ctx.elements.type[0].textContent;
@@ -14849,20 +16959,16 @@ ${content}</tr>
           }
         }
       },
-      onResultsUpdate(current, _, res) {
-        var _a;
-        if (current.result) {
-          CommonProject.scripts.workResults.methods.setResults(simplifyWorkResult(res, titleTransform));
-        }
-        if ((_a = current.result) == null ? void 0 : _a.finish) {
-          CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(
-            simplifyWorkResult([current], titleTransform)
-          );
-        }
-        CommonProject.scripts.workResults.methods.updateWorkStateByResults(res);
+      async onResultsInit(_curr, _index, res) {
+        await CommonProject.scripts.workResults.methods.fillAll(
+          res.map((r, i) => simplifyWorkResult(r, titleTransform, i))
+        );
+      },
+      async onResultsUpdate(current, index, res) {
+        await CommonProject.scripts.workResults.methods.update(index, simplifyWorkResult(current, titleTransform, index));
       }
     });
-    worker.doWork().then(async (res) => {
+    worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug }).then(async (res) => {
       if (worker.isClose === true) {
         return;
       }
@@ -14879,13 +16985,14 @@ ${content}</tr>
     });
     return worker;
   }
-  function hikeWork(remotePage, { answererWrappers, period, thread, answerSeparators, answerMatchMode }) {
+  function hikeWork(remotePage, { answererWrappers, period, thread, answerSeparators }) {
     lib.$message.info({ content: "开始作业" });
     CommonProject.scripts.workResults.methods.init({
-      questionPositionSyncHandlerType: "zhs-hike"
+      questionPositionSyncHandlerType: "zhs-hike",
+      dynamic: true
     });
     const titleTransform = (titles) => {
-      return titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => t2 ? optimizationElementWithImage(t2).innerText : "").join(",");
+      return titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => t2 ? extractTextWithImages(t2).text : "").join(",");
     };
     const worker = new OCSWorker({
       root: ".q_main",
@@ -14896,22 +17003,11 @@ ${content}</tr>
       },
       thread: thread != null ? thread : 1,
       answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-      answerMatchMode,
-      answerer: (elements2, ctx) => {
-        const title = titleTransform(elements2.title);
-        if (title) {
-          return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-            await lib.$.sleep((period != null ? period : 3) * 1e3);
-            return defaultAnswerWrapperHandler(answererWrappers, {
-              type: ctx.type || "unknown",
-              title,
-              options: ctx.elements.options.map((o) => o.innerText).join("\n")
-            });
-          });
-        } else {
-          throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-        }
-      },
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2) => titleTransform(elements2.title),
+        answererWrappers,
+        period
+      }),
       work: {
         type(ctx) {
           const type = ctx.elements.type[0].textContent;
@@ -14943,22 +17039,16 @@ ${content}</tr>
           }
         }
       },
+      onQuestionDetected(current) {
+        updateDynamicResult(current, titleTransform);
+      },
       onResultsUpdate(current, _, res) {
-        var _a;
-        if (current.result) {
-          CommonProject.scripts.workResults.methods.setResults(simplifyWorkResult(res, titleTransform));
-        }
-        if ((_a = current.result) == null ? void 0 : _a.finish) {
-          CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(
-            simplifyWorkResult([current], titleTransform)
-          );
-        }
-        CommonProject.scripts.workResults.methods.updateWorkStateByResults(res);
+        updateDynamicResult(current, titleTransform);
       }
     });
     const getNextBtn = () => document.querySelector(".check_btn:not(.is-disabled)");
     let next2 = getNextBtn();
-    let count = 0;
+    let count2 = 0;
     (async () => {
       const first = document.querySelector(".card_ul .card_li");
       if (first) {
@@ -14978,45 +17068,35 @@ ${content}</tr>
           else
             next2.click();
           await lib.$.sleep(1e3);
-          count++;
+          count2++;
         }
       }
-      lib.$message.info({ content: "作业/考试完成，请自行检查后保存或提交。", duration: count > 10 ? 0 : 30 });
+      lib.$message.info({ content: "作业/考试完成，请自行检查后保存或提交。", duration: count2 > 10 ? 0 : 30 });
       worker.emit("done");
       CommonProject.scripts.workResults.cfg.questionPositionSyncHandlerType = "zhs-hike";
     })();
+    dynamicWorkTips(worker);
     return worker;
   }
-  function hikeHomework(remotePage, { answererWrappers, period, thread, answerSeparators, answerMatchMode }) {
+  function hikeHomework(remotePage, { answererWrappers, period, thread, answerSeparators }) {
     lib.$message.info({ content: "开始作业" });
     const titleTransform = (titles) => {
-      return titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => t2 ? optimizationElementWithImage(t2).innerText : "").join(",");
+      return titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => t2 ? extractTextWithImages(t2).text : "").join(",");
     };
     const worker = new OCSWorker({
       root: ".question-item",
       elements: {
         type: ".title-box,.combination-title",
-        title: ".qeustion-content > span, .combination-content > span",
+        title: ".qeustion-content , .combination-content ",
         options: ".option-item, .vditor-content"
       },
       thread: thread != null ? thread : 1,
       answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-      answerMatchMode,
-      answerer: (elements2, ctx) => {
-        const title = titleTransform(elements2.title);
-        if (title) {
-          return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-            await lib.$.sleep((period != null ? period : 3) * 1e3);
-            return defaultAnswerWrapperHandler(answererWrappers, {
-              type: ctx.type || "unknown",
-              title,
-              options: ctx.elements.options.map((o) => o.innerText).join("\n")
-            });
-          });
-        } else {
-          throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-        }
-      },
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2) => titleTransform(elements2.title),
+        answererWrappers,
+        period
+      }),
       work: {
         type(ctx) {
           const type = ctx.elements.type[0].textContent;
@@ -15047,17 +17127,13 @@ ${content}</tr>
           }
         }
       },
-      onResultsUpdate(current, _, res) {
-        var _a;
-        if (current.result) {
-          CommonProject.scripts.workResults.methods.setResults(simplifyWorkResult(res, titleTransform));
-        }
-        if ((_a = current.result) == null ? void 0 : _a.finish) {
-          CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(
-            simplifyWorkResult([current], titleTransform)
-          );
-        }
-        CommonProject.scripts.workResults.methods.updateWorkStateByResults(res);
+      async onResultsInit(_curr, _index, res) {
+        await CommonProject.scripts.workResults.methods.fillAll(
+          res.map((r, i) => simplifyWorkResult(r, titleTransform, i))
+        );
+      },
+      async onResultsUpdate(current, index, res) {
+        await CommonProject.scripts.workResults.methods.update(index, simplifyWorkResult(current, titleTransform, index));
       }
     });
     worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug }).then(() => {
@@ -15076,12 +17152,12 @@ ${content}</tr>
       return `${second}秒`;
     }
   }
-  function autoStop(stopTime) {
+  function autoStop(stopTime2) {
     var _a, _b;
     clearInterval(state$5.study.stopInterval);
     (_a = state$5.study.stopMessage) == null ? void 0 : _a.remove();
-    if (stopTime !== "0") {
-      let stopCount = parseFloat(stopTime) * 60 * 60;
+    if (stopTime2 !== "0") {
+      let stopCount = parseFloat(stopTime2) * 60 * 60;
       state$5.study.stopInterval = setInterval(() => {
         var _a2;
         if (stopCount > 0) {
@@ -15095,7 +17171,9 @@ ${content}</tr>
           lib.$modal.alert({ content: "脚本暂停，已获得今日平时分，如需继续观看，请刷新页面。" });
         }
       }, 1e3);
-      const val = ((_b = ZHSProject.scripts["gxk-study"].configs.stopTime.options.find((t2) => t2[0] === stopTime)) == null ? void 0 : _b[0]) || "0";
+      const val = ((_b = (ZHSProject.scripts["gxk-study"].configs.stopTime.options || []).find(
+        (t2) => t2[0] === stopTime2
+      )) == null ? void 0 : _b[0]) || "0";
       const date = new Date();
       date.setMinutes(date.getMinutes() + parseFloat(val) * 60);
       state$5.study.stopMessage = lib.$message.info({
@@ -15103,6 +17181,44 @@ ${content}</tr>
         content: `在 ${date.toLocaleTimeString()} 脚本将自动暂停`
       });
     }
+  }
+  const MIN_VIEWPORT_WIDTH = 1280;
+  const MIN_VIEWPORT_HEIGHT = 720;
+  function ensureWideViewport() {
+    const { innerWidth: width, innerHeight: height } = window;
+    if (width >= MIN_VIEWPORT_WIDTH && height >= MIN_VIEWPORT_HEIGHT) {
+      return;
+    }
+    lib.$modal.confirm({
+      title: "界面分辨率提示",
+      content: lib.h("div", {}, [
+        "当前界面分辨率过小，可能影响学习、播放等自动点击功能，点击确定自动调整界面尺寸。",
+        lib.h("div", { style: { fontSize: "12px", color: "#999", marginTop: "8px" } }, "如需恢复请刷新界面")
+      ]),
+      confirmButtonText: "确定",
+      cancelButtonText: "暂不调整",
+      onConfirm: () => {
+        adjustViewportScale(width, height);
+      }
+    });
+  }
+  function adjustViewportScale(width, height) {
+    const scale = Math.min(1, Math.min(width / MIN_VIEWPORT_WIDTH, height / MIN_VIEWPORT_HEIGHT));
+    if (scale >= 1) {
+      return;
+    }
+    const styleId = "ocs-viewport-scale-style";
+    let style = document.getElementById(styleId);
+    if (style === null) {
+      style = document.createElement("style");
+      style.id = styleId;
+      document.head.append(style);
+    }
+    style.innerText = `html { zoom: ${scale}; }`;
+    lib.$message.success({
+      duration: 5,
+      content: `已自动调整缩放至 ${Math.round(scale * 100)}%，以满足 1280x720 最小分辨率要求`
+    });
   }
   function fixProcessBar() {
     const bar = document.querySelector(".controlsBar");
@@ -15123,2683 +17239,738 @@ ${content}</tr>
       content: "检测到当前视频全部播放完毕，如果还有未完成的视频请刷新重试，或者打开复习模式。"
     });
   }
-  var md5$1 = { exports: {} };
-  var crypt = { exports: {} };
-  (function() {
-    var base64map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", crypt$1 = {
-      rotl: function(n, b) {
-        return n << b | n >>> 32 - b;
-      },
-      rotr: function(n, b) {
-        return n << 32 - b | n >>> b;
-      },
-      endian: function(n) {
-        if (n.constructor == Number) {
-          return crypt$1.rotl(n, 8) & 16711935 | crypt$1.rotl(n, 24) & 4278255360;
-        }
-        for (var i = 0; i < n.length; i++)
-          n[i] = crypt$1.endian(n[i]);
-        return n;
-      },
-      randomBytes: function(n) {
-        for (var bytes = []; n > 0; n--)
-          bytes.push(Math.floor(Math.random() * 256));
-        return bytes;
-      },
-      bytesToWords: function(bytes) {
-        for (var words = [], i = 0, b = 0; i < bytes.length; i++, b += 8)
-          words[b >>> 5] |= bytes[i] << 24 - b % 32;
-        return words;
-      },
-      wordsToBytes: function(words) {
-        for (var bytes = [], b = 0; b < words.length * 32; b += 8)
-          bytes.push(words[b >>> 5] >>> 24 - b % 32 & 255);
-        return bytes;
-      },
-      bytesToHex: function(bytes) {
-        for (var hex = [], i = 0; i < bytes.length; i++) {
-          hex.push((bytes[i] >>> 4).toString(16));
-          hex.push((bytes[i] & 15).toString(16));
-        }
-        return hex.join("");
-      },
-      hexToBytes: function(hex) {
-        for (var bytes = [], c = 0; c < hex.length; c += 2)
-          bytes.push(parseInt(hex.substr(c, 2), 16));
-        return bytes;
-      },
-      bytesToBase64: function(bytes) {
-        for (var base64 = [], i = 0; i < bytes.length; i += 3) {
-          var triplet = bytes[i] << 16 | bytes[i + 1] << 8 | bytes[i + 2];
-          for (var j = 0; j < 4; j++)
-            if (i * 8 + j * 6 <= bytes.length * 8)
-              base64.push(base64map.charAt(triplet >>> 6 * (3 - j) & 63));
-            else
-              base64.push("=");
-        }
-        return base64.join("");
-      },
-      base64ToBytes: function(base64) {
-        base64 = base64.replace(/[^A-Z0-9+\/]/ig, "");
-        for (var bytes = [], i = 0, imod4 = 0; i < base64.length; imod4 = ++i % 4) {
-          if (imod4 == 0)
-            continue;
-          bytes.push((base64map.indexOf(base64.charAt(i - 1)) & Math.pow(2, -2 * imod4 + 8) - 1) << imod4 * 2 | base64map.indexOf(base64.charAt(i)) >>> 6 - imod4 * 2);
-        }
-        return bytes;
-      }
-    };
-    crypt.exports = crypt$1;
-  })();
-  var charenc = {
-    utf8: {
-      stringToBytes: function(str) {
-        return charenc.bin.stringToBytes(unescape(encodeURIComponent(str)));
-      },
-      bytesToString: function(bytes) {
-        return decodeURIComponent(escape(charenc.bin.bytesToString(bytes)));
-      }
-    },
-    bin: {
-      stringToBytes: function(str) {
-        for (var bytes = [], i = 0; i < str.length; i++)
-          bytes.push(str.charCodeAt(i) & 255);
-        return bytes;
-      },
-      bytesToString: function(bytes) {
-        for (var str = [], i = 0; i < bytes.length; i++)
-          str.push(String.fromCharCode(bytes[i]));
-        return str.join("");
-      }
+  const refTableCache = /* @__PURE__ */ new Map();
+  const REVALIDATE_WITH_VALIDATOR_MS = 60 * 60 * 1e3;
+  const REVALIDATE_NO_VALIDATOR_MS = 7 * 24 * 60 * 60 * 1e3;
+  const CACHE_NAME = "ocs-font-decrypt-ref-table-v1";
+  let cachePromise;
+  function openCache() {
+    if (!cachePromise) {
+      cachePromise = typeof caches === "undefined" ? Promise.resolve(void 0) : caches.open(CACHE_NAME).catch(() => void 0);
     }
-  };
-  var charenc_1 = charenc;
-  /*!
-   * Determine if an object is a Buffer
-   *
-   * @author   Feross Aboukhadijeh <https://feross.org>
-   * @license  MIT
-   */
-  var isBuffer_1 = function(obj) {
-    return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer);
-  };
-  function isBuffer(obj) {
-    return !!obj.constructor && typeof obj.constructor.isBuffer === "function" && obj.constructor.isBuffer(obj);
+    return cachePromise;
   }
-  function isSlowBuffer(obj) {
-    return typeof obj.readFloatLE === "function" && typeof obj.slice === "function" && isBuffer(obj.slice(0, 0));
+  async function readPersistedRecord(url) {
+    var _a, _b;
+    const cache = await openCache();
+    if (!cache)
+      return void 0;
+    try {
+      const res = await cache.match(url);
+      if (!res)
+        return void 0;
+      const updatedAt = Number(res.headers.get("x-ocs-updated-at") || 0);
+      if (!updatedAt)
+        return void 0;
+      const data = await res.arrayBuffer();
+      return {
+        updatedAt,
+        etag: (_a = res.headers.get("etag")) != null ? _a : void 0,
+        lastModified: (_b = res.headers.get("last-modified")) != null ? _b : void 0,
+        data
+      };
+    } catch {
+      return void 0;
+    }
   }
-  (function() {
-    var crypt$1 = crypt.exports, utf8 = charenc_1.utf8, isBuffer2 = isBuffer_1, bin = charenc_1.bin, md52 = function(message2, options) {
-      if (message2.constructor == String)
-        if (options && options.encoding === "binary")
-          message2 = bin.stringToBytes(message2);
-        else
-          message2 = utf8.stringToBytes(message2);
-      else if (isBuffer2(message2))
-        message2 = Array.prototype.slice.call(message2, 0);
-      else if (!Array.isArray(message2) && message2.constructor !== Uint8Array)
-        message2 = message2.toString();
-      var m = crypt$1.bytesToWords(message2), l = message2.length * 8, a = 1732584193, b = -271733879, c = -1732584194, d = 271733878;
-      for (var i = 0; i < m.length; i++) {
-        m[i] = (m[i] << 8 | m[i] >>> 24) & 16711935 | (m[i] << 24 | m[i] >>> 8) & 4278255360;
-      }
-      m[l >>> 5] |= 128 << l % 32;
-      m[(l + 64 >>> 9 << 4) + 14] = l;
-      var FF = md52._ff, GG = md52._gg, HH = md52._hh, II = md52._ii;
-      for (var i = 0; i < m.length; i += 16) {
-        var aa = a, bb = b, cc = c, dd = d;
-        a = FF(a, b, c, d, m[i + 0], 7, -680876936);
-        d = FF(d, a, b, c, m[i + 1], 12, -389564586);
-        c = FF(c, d, a, b, m[i + 2], 17, 606105819);
-        b = FF(b, c, d, a, m[i + 3], 22, -1044525330);
-        a = FF(a, b, c, d, m[i + 4], 7, -176418897);
-        d = FF(d, a, b, c, m[i + 5], 12, 1200080426);
-        c = FF(c, d, a, b, m[i + 6], 17, -1473231341);
-        b = FF(b, c, d, a, m[i + 7], 22, -45705983);
-        a = FF(a, b, c, d, m[i + 8], 7, 1770035416);
-        d = FF(d, a, b, c, m[i + 9], 12, -1958414417);
-        c = FF(c, d, a, b, m[i + 10], 17, -42063);
-        b = FF(b, c, d, a, m[i + 11], 22, -1990404162);
-        a = FF(a, b, c, d, m[i + 12], 7, 1804603682);
-        d = FF(d, a, b, c, m[i + 13], 12, -40341101);
-        c = FF(c, d, a, b, m[i + 14], 17, -1502002290);
-        b = FF(b, c, d, a, m[i + 15], 22, 1236535329);
-        a = GG(a, b, c, d, m[i + 1], 5, -165796510);
-        d = GG(d, a, b, c, m[i + 6], 9, -1069501632);
-        c = GG(c, d, a, b, m[i + 11], 14, 643717713);
-        b = GG(b, c, d, a, m[i + 0], 20, -373897302);
-        a = GG(a, b, c, d, m[i + 5], 5, -701558691);
-        d = GG(d, a, b, c, m[i + 10], 9, 38016083);
-        c = GG(c, d, a, b, m[i + 15], 14, -660478335);
-        b = GG(b, c, d, a, m[i + 4], 20, -405537848);
-        a = GG(a, b, c, d, m[i + 9], 5, 568446438);
-        d = GG(d, a, b, c, m[i + 14], 9, -1019803690);
-        c = GG(c, d, a, b, m[i + 3], 14, -187363961);
-        b = GG(b, c, d, a, m[i + 8], 20, 1163531501);
-        a = GG(a, b, c, d, m[i + 13], 5, -1444681467);
-        d = GG(d, a, b, c, m[i + 2], 9, -51403784);
-        c = GG(c, d, a, b, m[i + 7], 14, 1735328473);
-        b = GG(b, c, d, a, m[i + 12], 20, -1926607734);
-        a = HH(a, b, c, d, m[i + 5], 4, -378558);
-        d = HH(d, a, b, c, m[i + 8], 11, -2022574463);
-        c = HH(c, d, a, b, m[i + 11], 16, 1839030562);
-        b = HH(b, c, d, a, m[i + 14], 23, -35309556);
-        a = HH(a, b, c, d, m[i + 1], 4, -1530992060);
-        d = HH(d, a, b, c, m[i + 4], 11, 1272893353);
-        c = HH(c, d, a, b, m[i + 7], 16, -155497632);
-        b = HH(b, c, d, a, m[i + 10], 23, -1094730640);
-        a = HH(a, b, c, d, m[i + 13], 4, 681279174);
-        d = HH(d, a, b, c, m[i + 0], 11, -358537222);
-        c = HH(c, d, a, b, m[i + 3], 16, -722521979);
-        b = HH(b, c, d, a, m[i + 6], 23, 76029189);
-        a = HH(a, b, c, d, m[i + 9], 4, -640364487);
-        d = HH(d, a, b, c, m[i + 12], 11, -421815835);
-        c = HH(c, d, a, b, m[i + 15], 16, 530742520);
-        b = HH(b, c, d, a, m[i + 2], 23, -995338651);
-        a = II(a, b, c, d, m[i + 0], 6, -198630844);
-        d = II(d, a, b, c, m[i + 7], 10, 1126891415);
-        c = II(c, d, a, b, m[i + 14], 15, -1416354905);
-        b = II(b, c, d, a, m[i + 5], 21, -57434055);
-        a = II(a, b, c, d, m[i + 12], 6, 1700485571);
-        d = II(d, a, b, c, m[i + 3], 10, -1894986606);
-        c = II(c, d, a, b, m[i + 10], 15, -1051523);
-        b = II(b, c, d, a, m[i + 1], 21, -2054922799);
-        a = II(a, b, c, d, m[i + 8], 6, 1873313359);
-        d = II(d, a, b, c, m[i + 15], 10, -30611744);
-        c = II(c, d, a, b, m[i + 6], 15, -1560198380);
-        b = II(b, c, d, a, m[i + 13], 21, 1309151649);
-        a = II(a, b, c, d, m[i + 4], 6, -145523070);
-        d = II(d, a, b, c, m[i + 11], 10, -1120210379);
-        c = II(c, d, a, b, m[i + 2], 15, 718787259);
-        b = II(b, c, d, a, m[i + 9], 21, -343485551);
-        a = a + aa >>> 0;
-        b = b + bb >>> 0;
-        c = c + cc >>> 0;
-        d = d + dd >>> 0;
-      }
-      return crypt$1.endian([a, b, c, d]);
-    };
-    md52._ff = function(a, b, c, d, x, s, t2) {
-      var n = a + (b & c | ~b & d) + (x >>> 0) + t2;
-      return (n << s | n >>> 32 - s) + b;
-    };
-    md52._gg = function(a, b, c, d, x, s, t2) {
-      var n = a + (b & d | c & ~d) + (x >>> 0) + t2;
-      return (n << s | n >>> 32 - s) + b;
-    };
-    md52._hh = function(a, b, c, d, x, s, t2) {
-      var n = a + (b ^ c ^ d) + (x >>> 0) + t2;
-      return (n << s | n >>> 32 - s) + b;
-    };
-    md52._ii = function(a, b, c, d, x, s, t2) {
-      var n = a + (c ^ (b | ~d)) + (x >>> 0) + t2;
-      return (n << s | n >>> 32 - s) + b;
-    };
-    md52._blocksize = 16;
-    md52._digestsize = 16;
-    md5$1.exports = function(message2, options) {
-      if (message2 === void 0 || message2 === null)
-        throw new Error("Illegal argument " + message2);
-      var digestbytes = crypt$1.wordsToBytes(md52(message2, options));
-      return options && options.asBytes ? digestbytes : options && options.asString ? bin.bytesToString(digestbytes) : crypt$1.bytesToHex(digestbytes);
-    };
-  })();
-  var md5 = md5$1.exports;
-  var Typr = {};
-  Typr.parse = function(buff) {
-    var bin = Typr._bin;
-    var data = new Uint8Array(buff);
-    var offset = 0;
-    bin.readFixed(data, offset);
-    offset += 4;
-    var numTables = bin.readUshort(data, offset);
-    offset += 2;
-    bin.readUshort(data, offset);
-    offset += 2;
-    bin.readUshort(data, offset);
-    offset += 2;
-    bin.readUshort(data, offset);
-    offset += 2;
-    var tags = ["cmap", "head", "hhea", "maxp", "hmtx", "name", "OS/2", "post", "loca", "glyf", "kern", "CFF ", "GPOS", "GSUB", "SVG "];
-    var obj = { _data: data };
-    var tabs = {};
-    for (var i = 0; i < numTables; i++) {
-      var tag = bin.readASCII(data, offset, 4);
-      offset += 4;
-      bin.readUint(data, offset);
-      offset += 4;
-      var toffset = bin.readUint(data, offset);
-      offset += 4;
-      var length = bin.readUint(data, offset);
-      offset += 4;
-      tabs[tag] = { offset: toffset, length };
+  function buildCachedResponse(record) {
+    const headers = new Headers({ "x-ocs-updated-at": String(record.updatedAt) });
+    if (record.etag)
+      headers.set("etag", record.etag);
+    if (record.lastModified)
+      headers.set("last-modified", record.lastModified);
+    return new Response(record.data, { headers });
+  }
+  async function persist(url, buf, etag, lastModified) {
+    const cache = await openCache();
+    if (!cache)
+      return;
+    try {
+      await cache.put(url, buildCachedResponse({ updatedAt: Date.now(), etag, lastModified, data: buf }));
+    } catch {
     }
-    for (var i = 0; i < tags.length; i++) {
-      var t2 = tags[i];
-      if (tabs[t2])
-        obj[t2.trim()] = Typr[t2.trim()].parse(data, tabs[t2].offset, tabs[t2].length, obj);
+  }
+  async function touchPersisted(url, record) {
+    const cache = await openCache();
+    if (!cache)
+      return;
+    try {
+      await cache.put(url, buildCachedResponse({ ...record, updatedAt: Date.now() }));
+    } catch {
     }
-    return obj;
-  };
-  Typr._tabOffset = function(data, tab) {
-    var bin = Typr._bin;
-    var numTables = bin.readUshort(data, 4);
-    var offset = 12;
-    for (var i = 0; i < numTables; i++) {
-      var tag = bin.readASCII(data, offset, 4);
-      offset += 4;
-      bin.readUint(data, offset);
-      offset += 4;
-      var toffset = bin.readUint(data, offset);
-      offset += 4;
-      bin.readUint(data, offset);
-      offset += 4;
-      if (tag == tab)
-        return toffset;
+  }
+  async function deletePersisted(url) {
+    const cache = await openCache();
+    if (!cache)
+      return;
+    try {
+      await cache.delete(url);
+    } catch {
     }
-    return 0;
-  };
-  Typr._bin = { readFixed: function(data, o) {
-    return (data[o] << 8 | data[o + 1]) + (data[o + 2] << 8 | data[o + 3]) / (256 * 256 + 4);
-  }, readF2dot14: function(data, o) {
-    var num = Typr._bin.readShort(data, o);
-    return num / 16384;
-  }, readInt: function(buff, p) {
-    var a = Typr._bin.t.uint8;
-    a[0] = buff[p + 3];
-    a[1] = buff[p + 2];
-    a[2] = buff[p + 1];
-    a[3] = buff[p];
-    return Typr._bin.t.int32[0];
-  }, readInt8: function(buff, p) {
-    var a = Typr._bin.t.uint8;
-    a[0] = buff[p];
-    return Typr._bin.t.int8[0];
-  }, readShort: function(buff, p) {
-    var a = Typr._bin.t.uint8;
-    a[1] = buff[p];
-    a[0] = buff[p + 1];
-    return Typr._bin.t.int16[0];
-  }, readUshort: function(buff, p) {
-    return buff[p] << 8 | buff[p + 1];
-  }, readUshorts: function(buff, p, len) {
-    var arr = [];
-    for (var i = 0; i < len; i++)
-      arr.push(Typr._bin.readUshort(buff, p + i * 2));
-    return arr;
-  }, readUint: function(buff, p) {
-    var a = Typr._bin.t.uint8;
-    a[3] = buff[p];
-    a[2] = buff[p + 1];
-    a[1] = buff[p + 2];
-    a[0] = buff[p + 3];
-    return Typr._bin.t.uint32[0];
-  }, readUint64: function(buff, p) {
-    return Typr._bin.readUint(buff, p) * (4294967295 + 1) + Typr._bin.readUint(buff, p + 4);
-  }, readASCII: function(buff, p, l) {
-    var s = "";
-    for (var i = 0; i < l; i++)
-      s += String.fromCharCode(buff[p + i]);
-    return s;
-  }, readUnicode: function(buff, p, l) {
-    var s = "";
-    for (var i = 0; i < l; i++) {
-      var c = buff[p++] << 8 | buff[p++];
-      s += String.fromCharCode(c);
-    }
-    return s;
-  }, _tdec: window["TextDecoder"] ? new window["TextDecoder"]() : null, readUTF8: function(buff, p, l) {
-    var tdec = Typr._bin._tdec;
-    if (tdec && p == 0 && l == buff.length)
-      return tdec["decode"](buff);
-    return Typr._bin.readASCII(buff, p, l);
-  }, readBytes: function(buff, p, l) {
-    var arr = [];
-    for (var i = 0; i < l; i++)
-      arr.push(buff[p + i]);
-    return arr;
-  }, readASCIIArray: function(buff, p, l) {
-    var s = [];
-    for (var i = 0; i < l; i++)
-      s.push(String.fromCharCode(buff[p + i]));
-    return s;
-  } };
-  Typr._bin.t = { buff: new ArrayBuffer(8) };
-  Typr._bin.t.int8 = new Int8Array(Typr._bin.t.buff);
-  Typr._bin.t.uint8 = new Uint8Array(Typr._bin.t.buff);
-  Typr._bin.t.int16 = new Int16Array(Typr._bin.t.buff);
-  Typr._bin.t.uint16 = new Uint16Array(Typr._bin.t.buff);
-  Typr._bin.t.int32 = new Int32Array(Typr._bin.t.buff);
-  Typr._bin.t.uint32 = new Uint32Array(Typr._bin.t.buff);
-  Typr._lctf = {};
-  Typr._lctf.parse = function(data, offset, length, font, subt) {
-    var bin = Typr._bin;
-    var obj = {};
-    var offset0 = offset;
-    bin.readFixed(data, offset);
-    offset += 4;
-    var offScriptList = bin.readUshort(data, offset);
-    offset += 2;
-    var offFeatureList = bin.readUshort(data, offset);
-    offset += 2;
-    var offLookupList = bin.readUshort(data, offset);
-    offset += 2;
-    obj.scriptList = Typr._lctf.readScriptList(data, offset0 + offScriptList);
-    obj.featureList = Typr._lctf.readFeatureList(data, offset0 + offFeatureList);
-    obj.lookupList = Typr._lctf.readLookupList(data, offset0 + offLookupList, subt);
-    return obj;
-  };
-  Typr._lctf.readLookupList = function(data, offset, subt) {
-    var bin = Typr._bin;
-    var offset0 = offset;
-    var obj = [];
-    var count = bin.readUshort(data, offset);
-    offset += 2;
-    for (var i = 0; i < count; i++) {
-      var noff = bin.readUshort(data, offset);
-      offset += 2;
-      var lut = Typr._lctf.readLookupTable(data, offset0 + noff, subt);
-      obj.push(lut);
-    }
-    return obj;
-  };
-  Typr._lctf.readLookupTable = function(data, offset, subt) {
-    var bin = Typr._bin;
-    var offset0 = offset;
-    var obj = { tabs: [] };
-    obj.ltype = bin.readUshort(data, offset);
-    offset += 2;
-    obj.flag = bin.readUshort(data, offset);
-    offset += 2;
-    var cnt = bin.readUshort(data, offset);
-    offset += 2;
-    for (var i = 0; i < cnt; i++) {
-      var noff = bin.readUshort(data, offset);
-      offset += 2;
-      var tab = subt(data, obj.ltype, offset0 + noff);
-      obj.tabs.push(tab);
-    }
-    return obj;
-  };
-  Typr._lctf.numOfOnes = function(n) {
-    var num = 0;
-    for (var i = 0; i < 32; i++)
-      if ((n >>> i & 1) != 0)
-        num++;
-    return num;
-  };
-  Typr._lctf.readClassDef = function(data, offset) {
-    var bin = Typr._bin;
-    var obj = [];
-    var format = bin.readUshort(data, offset);
-    offset += 2;
-    if (format == 1) {
-      var startGlyph = bin.readUshort(data, offset);
-      offset += 2;
-      var glyphCount = bin.readUshort(data, offset);
-      offset += 2;
-      for (var i = 0; i < glyphCount; i++) {
-        obj.push(startGlyph + i);
-        obj.push(startGlyph + i);
-        obj.push(bin.readUshort(data, offset));
-        offset += 2;
-      }
-    }
-    if (format == 2) {
-      var count = bin.readUshort(data, offset);
-      offset += 2;
-      for (var i = 0; i < count; i++) {
-        obj.push(bin.readUshort(data, offset));
-        offset += 2;
-        obj.push(bin.readUshort(data, offset));
-        offset += 2;
-        obj.push(bin.readUshort(data, offset));
-        offset += 2;
-      }
-    }
-    return obj;
-  };
-  Typr._lctf.getInterval = function(tab, val) {
-    for (var i = 0; i < tab.length; i += 3) {
-      var start2 = tab[i], end = tab[i + 1];
-      tab[i + 2];
-      if (start2 <= val && val <= end)
-        return i;
-    }
-    return -1;
-  };
-  Typr._lctf.readValueRecord = function(data, offset, valFmt) {
-    var bin = Typr._bin;
-    var arr = [];
-    arr.push(valFmt & 1 ? bin.readShort(data, offset) : 0);
-    offset += valFmt & 1 ? 2 : 0;
-    arr.push(valFmt & 2 ? bin.readShort(data, offset) : 0);
-    offset += valFmt & 2 ? 2 : 0;
-    arr.push(valFmt & 4 ? bin.readShort(data, offset) : 0);
-    offset += valFmt & 4 ? 2 : 0;
-    arr.push(valFmt & 8 ? bin.readShort(data, offset) : 0);
-    offset += valFmt & 8 ? 2 : 0;
-    return arr;
-  };
-  Typr._lctf.readCoverage = function(data, offset) {
-    var bin = Typr._bin;
-    var cvg = {};
-    cvg.fmt = bin.readUshort(data, offset);
-    offset += 2;
-    var count = bin.readUshort(data, offset);
-    offset += 2;
-    if (cvg.fmt == 1)
-      cvg.tab = bin.readUshorts(data, offset, count);
-    if (cvg.fmt == 2)
-      cvg.tab = bin.readUshorts(data, offset, count * 3);
-    return cvg;
-  };
-  Typr._lctf.coverageIndex = function(cvg, val) {
-    var tab = cvg.tab;
-    if (cvg.fmt == 1)
-      return tab.indexOf(val);
-    if (cvg.fmt == 2) {
-      var ind = Typr._lctf.getInterval(tab, val);
-      if (ind != -1)
-        return tab[ind + 2] + (val - tab[ind]);
-    }
-    return -1;
-  };
-  Typr._lctf.readFeatureList = function(data, offset) {
-    var bin = Typr._bin;
-    var offset0 = offset;
-    var obj = [];
-    var count = bin.readUshort(data, offset);
-    offset += 2;
-    for (var i = 0; i < count; i++) {
-      var tag = bin.readASCII(data, offset, 4);
-      offset += 4;
-      var noff = bin.readUshort(data, offset);
-      offset += 2;
-      obj.push({ tag: tag.trim(), tab: Typr._lctf.readFeatureTable(data, offset0 + noff) });
-    }
-    return obj;
-  };
-  Typr._lctf.readFeatureTable = function(data, offset) {
-    var bin = Typr._bin;
-    bin.readUshort(data, offset);
-    offset += 2;
-    var lookupCount = bin.readUshort(data, offset);
-    offset += 2;
-    var indices = [];
-    for (var i = 0; i < lookupCount; i++)
-      indices.push(bin.readUshort(data, offset + 2 * i));
-    return indices;
-  };
-  Typr._lctf.readScriptList = function(data, offset) {
-    var bin = Typr._bin;
-    var offset0 = offset;
-    var obj = {};
-    var count = bin.readUshort(data, offset);
-    offset += 2;
-    for (var i = 0; i < count; i++) {
-      var tag = bin.readASCII(data, offset, 4);
-      offset += 4;
-      var noff = bin.readUshort(data, offset);
-      offset += 2;
-      obj[tag.trim()] = Typr._lctf.readScriptTable(data, offset0 + noff);
-    }
-    return obj;
-  };
-  Typr._lctf.readScriptTable = function(data, offset) {
-    var bin = Typr._bin;
-    var offset0 = offset;
-    var obj = {};
-    var defLangSysOff = bin.readUshort(data, offset);
-    offset += 2;
-    obj.default = Typr._lctf.readLangSysTable(data, offset0 + defLangSysOff);
-    var langSysCount = bin.readUshort(data, offset);
-    offset += 2;
-    for (var i = 0; i < langSysCount; i++) {
-      var tag = bin.readASCII(data, offset, 4);
-      offset += 4;
-      var langSysOff = bin.readUshort(data, offset);
-      offset += 2;
-      obj[tag.trim()] = Typr._lctf.readLangSysTable(data, offset0 + langSysOff);
-    }
-    return obj;
-  };
-  Typr._lctf.readLangSysTable = function(data, offset) {
-    var bin = Typr._bin;
-    var obj = {};
-    bin.readUshort(data, offset);
-    offset += 2;
-    obj.reqFeature = bin.readUshort(data, offset);
-    offset += 2;
-    var featureCount = bin.readUshort(data, offset);
-    offset += 2;
-    obj.features = bin.readUshorts(data, offset, featureCount);
-    return obj;
-  };
-  Typr.CFF = {};
-  Typr.CFF.parse = function(data, offset, length) {
-    var bin = Typr._bin;
-    data = new Uint8Array(data.buffer, offset, length);
-    offset = 0;
-    data[offset];
-    offset++;
-    data[offset];
-    offset++;
-    data[offset];
-    offset++;
-    data[offset];
-    offset++;
-    var ninds = [];
-    offset = Typr.CFF.readIndex(data, offset, ninds);
-    var names = [];
-    for (var i = 0; i < ninds.length - 1; i++)
-      names.push(bin.readASCII(data, offset + ninds[i], ninds[i + 1] - ninds[i]));
-    offset += ninds[ninds.length - 1];
-    var tdinds = [];
-    offset = Typr.CFF.readIndex(data, offset, tdinds);
-    var topDicts = [];
-    for (var i = 0; i < tdinds.length - 1; i++)
-      topDicts.push(Typr.CFF.readDict(data, offset + tdinds[i], offset + tdinds[i + 1]));
-    offset += tdinds[tdinds.length - 1];
-    var topdict = topDicts[0];
-    var sinds = [];
-    offset = Typr.CFF.readIndex(data, offset, sinds);
-    var strings = [];
-    for (var i = 0; i < sinds.length - 1; i++)
-      strings.push(bin.readASCII(data, offset + sinds[i], sinds[i + 1] - sinds[i]));
-    offset += sinds[sinds.length - 1];
-    Typr.CFF.readSubrs(data, offset, topdict);
-    if (topdict.CharStrings) {
-      offset = topdict.CharStrings;
-      var sinds = [];
-      offset = Typr.CFF.readIndex(data, offset, sinds);
-      var cstr = [];
-      for (var i = 0; i < sinds.length - 1; i++)
-        cstr.push(bin.readBytes(data, offset + sinds[i], sinds[i + 1] - sinds[i]));
-      topdict.CharStrings = cstr;
-    }
-    if (topdict.Encoding)
-      topdict.Encoding = Typr.CFF.readEncoding(data, topdict.Encoding, topdict.CharStrings.length);
-    if (topdict.charset)
-      topdict.charset = Typr.CFF.readCharset(data, topdict.charset, topdict.CharStrings.length);
-    if (topdict.Private) {
-      offset = topdict.Private[1];
-      topdict.Private = Typr.CFF.readDict(data, offset, offset + topdict.Private[0]);
-      if (topdict.Private.Subrs)
-        Typr.CFF.readSubrs(data, offset + topdict.Private.Subrs, topdict.Private);
-    }
-    var obj = {};
-    for (var p in topdict) {
-      if (["FamilyName", "FullName", "Notice", "version", "Copyright"].indexOf(p) != -1)
-        obj[p] = strings[topdict[p] - 426 + 35];
-      else
-        obj[p] = topdict[p];
-    }
-    return obj;
-  };
-  Typr.CFF.readSubrs = function(data, offset, obj) {
-    var bin = Typr._bin;
-    var gsubinds = [];
-    offset = Typr.CFF.readIndex(data, offset, gsubinds);
-    var bias, nSubrs = gsubinds.length;
-    if (nSubrs < 1240)
-      bias = 107;
-    else if (nSubrs < 33900)
-      bias = 1131;
-    else
-      bias = 32768;
-    obj.Bias = bias;
-    obj.Subrs = [];
-    for (var i = 0; i < gsubinds.length - 1; i++)
-      obj.Subrs.push(bin.readBytes(data, offset + gsubinds[i], gsubinds[i + 1] - gsubinds[i]));
-  };
-  Typr.CFF.tableSE = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 0, 111, 112, 113, 114, 0, 115, 116, 117, 118, 119, 120, 121, 122, 0, 123, 0, 124, 125, 126, 127, 128, 129, 130, 131, 0, 132, 133, 0, 134, 135, 136, 137, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 138, 0, 139, 0, 0, 0, 0, 140, 141, 142, 143, 0, 0, 0, 0, 0, 144, 0, 0, 0, 145, 0, 0, 146, 147, 148, 149, 0, 0, 0, 0];
-  Typr.CFF.glyphByUnicode = function(cff, code) {
-    for (var i = 0; i < cff.charset.length; i++)
-      if (cff.charset[i] == code)
-        return i;
-    return -1;
-  };
-  Typr.CFF.glyphBySE = function(cff, charcode) {
-    if (charcode < 0 || charcode > 255)
-      return -1;
-    return Typr.CFF.glyphByUnicode(cff, Typr.CFF.tableSE[charcode]);
-  };
-  Typr.CFF.readEncoding = function(data, offset, num) {
-    Typr._bin;
-    var array = [".notdef"];
-    var format = data[offset];
-    offset++;
-    if (format == 0) {
-      var nCodes = data[offset];
-      offset++;
-      for (var i = 0; i < nCodes; i++)
-        array.push(data[offset + i]);
-    } else
-      throw "error: unknown encoding format: " + format;
-    return array;
-  };
-  Typr.CFF.readCharset = function(data, offset, num) {
-    var bin = Typr._bin;
-    var charset = [".notdef"];
-    var format = data[offset];
-    offset++;
-    if (format == 0) {
-      for (var i = 0; i < num; i++) {
-        var first = bin.readUshort(data, offset);
-        offset += 2;
-        charset.push(first);
-      }
-    } else if (format == 1 || format == 2) {
-      while (charset.length < num) {
-        var first = bin.readUshort(data, offset);
-        offset += 2;
-        var nLeft = 0;
-        if (format == 1) {
-          nLeft = data[offset];
-          offset++;
-        } else {
-          nLeft = bin.readUshort(data, offset);
-          offset += 2;
-        }
-        for (var i = 0; i <= nLeft; i++) {
-          charset.push(first);
-          first++;
+  }
+  function unpackBits(packed, offset, count2, dims) {
+    const bytesPerGlyph = dims / 8;
+    const out = new Uint8Array(count2 * dims);
+    for (let i = 0; i < count2; i++) {
+      const pBase = offset + i * bytesPerGlyph;
+      const oBase = i * dims;
+      for (let b = 0; b < bytesPerGlyph; b++) {
+        const byte = packed[pBase + b];
+        for (let k = 0; k < 8; k++) {
+          out[oBase + b * 8 + k] = byte >> 7 - k & 1;
         }
       }
-    } else
-      throw "error: format: " + format;
-    return charset;
-  };
-  Typr.CFF.readIndex = function(data, offset, inds) {
-    var bin = Typr._bin;
-    var count = bin.readUshort(data, offset);
-    offset += 2;
-    var offsize = data[offset];
-    offset++;
-    if (offsize == 1)
-      for (var i = 0; i < count + 1; i++)
-        inds.push(data[offset + i]);
-    else if (offsize == 2)
-      for (var i = 0; i < count + 1; i++)
-        inds.push(bin.readUshort(data, offset + i * 2));
-    else if (offsize == 3)
-      for (var i = 0; i < count + 1; i++)
-        inds.push(bin.readUint(data, offset + i * 3 - 1) & 16777215);
-    else if (count != 0)
-      throw "unsupported offset size: " + offsize + ", count: " + count;
-    offset += (count + 1) * offsize;
-    return offset - 1;
-  };
-  Typr.CFF.getCharString = function(data, offset, o) {
-    var bin = Typr._bin;
-    var b0 = data[offset], b1 = data[offset + 1];
-    data[offset + 2];
-    data[offset + 3];
-    data[offset + 4];
-    var vs = 1;
-    var op = null, val = null;
-    if (b0 <= 20) {
-      op = b0;
-      vs = 1;
-    }
-    if (b0 == 12) {
-      op = b0 * 100 + b1;
-      vs = 2;
-    }
-    if (21 <= b0 && b0 <= 27) {
-      op = b0;
-      vs = 1;
-    }
-    if (b0 == 28) {
-      val = bin.readShort(data, offset + 1);
-      vs = 3;
-    }
-    if (29 <= b0 && b0 <= 31) {
-      op = b0;
-      vs = 1;
-    }
-    if (32 <= b0 && b0 <= 246) {
-      val = b0 - 139;
-      vs = 1;
-    }
-    if (247 <= b0 && b0 <= 250) {
-      val = (b0 - 247) * 256 + b1 + 108;
-      vs = 2;
-    }
-    if (251 <= b0 && b0 <= 254) {
-      val = -(b0 - 251) * 256 - b1 - 108;
-      vs = 2;
-    }
-    if (b0 == 255) {
-      val = bin.readInt(data, offset + 1) / 65535;
-      vs = 5;
-    }
-    o.val = val != null ? val : "o" + op;
-    o.size = vs;
-  };
-  Typr.CFF.readCharString = function(data, offset, length) {
-    var end = offset + length;
-    var bin = Typr._bin;
-    var arr = [];
-    while (offset < end) {
-      var b0 = data[offset], b1 = data[offset + 1];
-      data[offset + 2];
-      data[offset + 3];
-      data[offset + 4];
-      var vs = 1;
-      var op = null, val = null;
-      if (b0 <= 20) {
-        op = b0;
-        vs = 1;
-      }
-      if (b0 == 12) {
-        op = b0 * 100 + b1;
-        vs = 2;
-      }
-      if (b0 == 19 || b0 == 20) {
-        op = b0;
-        vs = 2;
-      }
-      if (21 <= b0 && b0 <= 27) {
-        op = b0;
-        vs = 1;
-      }
-      if (b0 == 28) {
-        val = bin.readShort(data, offset + 1);
-        vs = 3;
-      }
-      if (29 <= b0 && b0 <= 31) {
-        op = b0;
-        vs = 1;
-      }
-      if (32 <= b0 && b0 <= 246) {
-        val = b0 - 139;
-        vs = 1;
-      }
-      if (247 <= b0 && b0 <= 250) {
-        val = (b0 - 247) * 256 + b1 + 108;
-        vs = 2;
-      }
-      if (251 <= b0 && b0 <= 254) {
-        val = -(b0 - 251) * 256 - b1 - 108;
-        vs = 2;
-      }
-      if (b0 == 255) {
-        val = bin.readInt(data, offset + 1) / 65535;
-        vs = 5;
-      }
-      arr.push(val != null ? val : "o" + op);
-      offset += vs;
-    }
-    return arr;
-  };
-  Typr.CFF.readDict = function(data, offset, end) {
-    var bin = Typr._bin;
-    var dict = {};
-    var carr = [];
-    while (offset < end) {
-      var b0 = data[offset], b1 = data[offset + 1];
-      data[offset + 2];
-      data[offset + 3];
-      data[offset + 4];
-      var vs = 1;
-      var key = null, val = null;
-      if (b0 == 28) {
-        val = bin.readShort(data, offset + 1);
-        vs = 3;
-      }
-      if (b0 == 29) {
-        val = bin.readInt(data, offset + 1);
-        vs = 5;
-      }
-      if (32 <= b0 && b0 <= 246) {
-        val = b0 - 139;
-        vs = 1;
-      }
-      if (247 <= b0 && b0 <= 250) {
-        val = (b0 - 247) * 256 + b1 + 108;
-        vs = 2;
-      }
-      if (251 <= b0 && b0 <= 254) {
-        val = -(b0 - 251) * 256 - b1 - 108;
-        vs = 2;
-      }
-      if (b0 == 255) {
-        val = bin.readInt(data, offset + 1) / 65535;
-        vs = 5;
-        throw "unknown number";
-      }
-      if (b0 == 30) {
-        var nibs = [];
-        vs = 1;
-        while (true) {
-          var b = data[offset + vs];
-          vs++;
-          var nib0 = b >> 4, nib1 = b & 15;
-          if (nib0 != 15)
-            nibs.push(nib0);
-          if (nib1 != 15)
-            nibs.push(nib1);
-          if (nib1 == 15)
-            break;
-        }
-        var s = "";
-        var chars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ".", "e", "e-", "reserved", "-", "endOfNumber"];
-        for (var i = 0; i < nibs.length; i++)
-          s += chars[nibs[i]];
-        val = parseFloat(s);
-      }
-      if (b0 <= 21) {
-        var keys = ["version", "Notice", "FullName", "FamilyName", "Weight", "FontBBox", "BlueValues", "OtherBlues", "FamilyBlues", "FamilyOtherBlues", "StdHW", "StdVW", "escape", "UniqueID", "XUID", "charset", "Encoding", "CharStrings", "Private", "Subrs", "defaultWidthX", "nominalWidthX"];
-        key = keys[b0];
-        vs = 1;
-        if (b0 == 12) {
-          var keys = ["Copyright", "isFixedPitch", "ItalicAngle", "UnderlinePosition", "UnderlineThickness", "PaintType", "CharstringType", "FontMatrix", "StrokeWidth", "BlueScale", "BlueShift", "BlueFuzz", "StemSnapH", "StemSnapV", "ForceBold", 0, 0, "LanguageGroup", "ExpansionFactor", "initialRandomSeed", "SyntheticBase", "PostScript", "BaseFontName", "BaseFontBlend", 0, 0, 0, 0, 0, 0, "ROS", "CIDFontVersion", "CIDFontRevision", "CIDFontType", "CIDCount", "UIDBase", "FDArray", "FDSelect", "FontName"];
-          key = keys[b1];
-          vs = 2;
-        }
-      }
-      if (key != null) {
-        dict[key] = carr.length == 1 ? carr[0] : carr;
-        carr = [];
-      } else
-        carr.push(val);
-      offset += vs;
-    }
-    return dict;
-  };
-  Typr.cmap = {};
-  Typr.cmap.parse = function(data, offset, length) {
-    data = new Uint8Array(data.buffer, offset, length);
-    offset = 0;
-    var bin = Typr._bin;
-    var obj = {};
-    bin.readUshort(data, offset);
-    offset += 2;
-    var numTables = bin.readUshort(data, offset);
-    offset += 2;
-    var offs = [];
-    obj.tables = [];
-    for (var i = 0; i < numTables; i++) {
-      var platformID = bin.readUshort(data, offset);
-      offset += 2;
-      var encodingID = bin.readUshort(data, offset);
-      offset += 2;
-      var noffset = bin.readUint(data, offset);
-      offset += 4;
-      var id = "p" + platformID + "e" + encodingID;
-      var tind = offs.indexOf(noffset);
-      if (tind == -1) {
-        tind = obj.tables.length;
-        var subt;
-        offs.push(noffset);
-        var format = bin.readUshort(data, noffset);
-        if (format == 0)
-          subt = Typr.cmap.parse0(data, noffset);
-        else if (format == 4)
-          subt = Typr.cmap.parse4(data, noffset);
-        else if (format == 6)
-          subt = Typr.cmap.parse6(data, noffset);
-        else if (format == 12)
-          subt = Typr.cmap.parse12(data, noffset);
-        else
-          console.log("unknown format: " + format, platformID, encodingID, noffset);
-        obj.tables.push(subt);
-      }
-      if (obj[id] != null)
-        throw "multiple tables for one platform+encoding";
-      obj[id] = tind;
-    }
-    return obj;
-  };
-  Typr.cmap.parse0 = function(data, offset) {
-    var bin = Typr._bin;
-    var obj = {};
-    obj.format = bin.readUshort(data, offset);
-    offset += 2;
-    var len = bin.readUshort(data, offset);
-    offset += 2;
-    bin.readUshort(data, offset);
-    offset += 2;
-    obj.map = [];
-    for (var i = 0; i < len - 6; i++)
-      obj.map.push(data[offset + i]);
-    return obj;
-  };
-  Typr.cmap.parse4 = function(data, offset) {
-    var bin = Typr._bin;
-    var offset0 = offset;
-    var obj = {};
-    obj.format = bin.readUshort(data, offset);
-    offset += 2;
-    var length = bin.readUshort(data, offset);
-    offset += 2;
-    bin.readUshort(data, offset);
-    offset += 2;
-    var segCountX2 = bin.readUshort(data, offset);
-    offset += 2;
-    var segCount = segCountX2 / 2;
-    obj.searchRange = bin.readUshort(data, offset);
-    offset += 2;
-    obj.entrySelector = bin.readUshort(data, offset);
-    offset += 2;
-    obj.rangeShift = bin.readUshort(data, offset);
-    offset += 2;
-    obj.endCount = bin.readUshorts(data, offset, segCount);
-    offset += segCount * 2;
-    offset += 2;
-    obj.startCount = bin.readUshorts(data, offset, segCount);
-    offset += segCount * 2;
-    obj.idDelta = [];
-    for (var i = 0; i < segCount; i++) {
-      obj.idDelta.push(bin.readShort(data, offset));
-      offset += 2;
-    }
-    obj.idRangeOffset = bin.readUshorts(data, offset, segCount);
-    offset += segCount * 2;
-    obj.glyphIdArray = [];
-    while (offset < offset0 + length) {
-      obj.glyphIdArray.push(bin.readUshort(data, offset));
-      offset += 2;
-    }
-    return obj;
-  };
-  Typr.cmap.parse6 = function(data, offset) {
-    var bin = Typr._bin;
-    var obj = {};
-    obj.format = bin.readUshort(data, offset);
-    offset += 2;
-    bin.readUshort(data, offset);
-    offset += 2;
-    bin.readUshort(data, offset);
-    offset += 2;
-    obj.firstCode = bin.readUshort(data, offset);
-    offset += 2;
-    var entryCount = bin.readUshort(data, offset);
-    offset += 2;
-    obj.glyphIdArray = [];
-    for (var i = 0; i < entryCount; i++) {
-      obj.glyphIdArray.push(bin.readUshort(data, offset));
-      offset += 2;
-    }
-    return obj;
-  };
-  Typr.cmap.parse12 = function(data, offset) {
-    var bin = Typr._bin;
-    var obj = {};
-    obj.format = bin.readUshort(data, offset);
-    offset += 2;
-    offset += 2;
-    bin.readUint(data, offset);
-    offset += 4;
-    bin.readUint(data, offset);
-    offset += 4;
-    var nGroups = bin.readUint(data, offset);
-    offset += 4;
-    obj.groups = [];
-    for (var i = 0; i < nGroups; i++) {
-      var off = offset + i * 12;
-      var startCharCode = bin.readUint(data, off + 0);
-      var endCharCode = bin.readUint(data, off + 4);
-      var startGlyphID = bin.readUint(data, off + 8);
-      obj.groups.push([startCharCode, endCharCode, startGlyphID]);
-    }
-    return obj;
-  };
-  Typr.glyf = {};
-  Typr.glyf.parse = function(data, offset, length, font) {
-    var obj = [];
-    for (var g = 0; g < font.maxp.numGlyphs; g++)
-      obj.push(null);
-    return obj;
-  };
-  Typr.glyf._parseGlyf = function(font, g) {
-    var bin = Typr._bin;
-    var data = font._data;
-    var offset = Typr._tabOffset(data, "glyf") + font.loca[g];
-    if (font.loca[g] == font.loca[g + 1])
-      return null;
-    var gl = {};
-    gl.noc = bin.readShort(data, offset);
-    offset += 2;
-    gl.xMin = bin.readShort(data, offset);
-    offset += 2;
-    gl.yMin = bin.readShort(data, offset);
-    offset += 2;
-    gl.xMax = bin.readShort(data, offset);
-    offset += 2;
-    gl.yMax = bin.readShort(data, offset);
-    offset += 2;
-    if (gl.xMin >= gl.xMax || gl.yMin >= gl.yMax)
-      return null;
-    if (gl.noc > 0) {
-      gl.endPts = [];
-      for (var i = 0; i < gl.noc; i++) {
-        gl.endPts.push(bin.readUshort(data, offset));
-        offset += 2;
-      }
-      var instructionLength = bin.readUshort(data, offset);
-      offset += 2;
-      if (data.length - offset < instructionLength)
-        return null;
-      gl.instructions = bin.readBytes(data, offset, instructionLength);
-      offset += instructionLength;
-      var crdnum = gl.endPts[gl.noc - 1] + 1;
-      gl.flags = [];
-      for (var i = 0; i < crdnum; i++) {
-        var flag = data[offset];
-        offset++;
-        gl.flags.push(flag);
-        if ((flag & 8) != 0) {
-          var rep = data[offset];
-          offset++;
-          for (var j = 0; j < rep; j++) {
-            gl.flags.push(flag);
-            i++;
-          }
-        }
-      }
-      gl.xs = [];
-      for (var i = 0; i < crdnum; i++) {
-        var i8 = (gl.flags[i] & 2) != 0, same = (gl.flags[i] & 16) != 0;
-        if (i8) {
-          gl.xs.push(same ? data[offset] : -data[offset]);
-          offset++;
-        } else {
-          if (same)
-            gl.xs.push(0);
-          else {
-            gl.xs.push(bin.readShort(data, offset));
-            offset += 2;
-          }
-        }
-      }
-      gl.ys = [];
-      for (var i = 0; i < crdnum; i++) {
-        var i8 = (gl.flags[i] & 4) != 0, same = (gl.flags[i] & 32) != 0;
-        if (i8) {
-          gl.ys.push(same ? data[offset] : -data[offset]);
-          offset++;
-        } else {
-          if (same)
-            gl.ys.push(0);
-          else {
-            gl.ys.push(bin.readShort(data, offset));
-            offset += 2;
-          }
-        }
-      }
-      var x = 0, y = 0;
-      for (var i = 0; i < crdnum; i++) {
-        x += gl.xs[i];
-        y += gl.ys[i];
-        gl.xs[i] = x;
-        gl.ys[i] = y;
-      }
-    } else {
-      var ARG_1_AND_2_ARE_WORDS = 1 << 0;
-      var ARGS_ARE_XY_VALUES = 1 << 1;
-      var WE_HAVE_A_SCALE = 1 << 3;
-      var MORE_COMPONENTS = 1 << 5;
-      var WE_HAVE_AN_X_AND_Y_SCALE = 1 << 6;
-      var WE_HAVE_A_TWO_BY_TWO = 1 << 7;
-      var WE_HAVE_INSTRUCTIONS = 1 << 8;
-      gl.parts = [];
-      var flags;
-      do {
-        flags = bin.readUshort(data, offset);
-        offset += 2;
-        var part = { m: { a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0 }, p1: -1, p2: -1 };
-        gl.parts.push(part);
-        part.glyphIndex = bin.readUshort(data, offset);
-        offset += 2;
-        if (flags & ARG_1_AND_2_ARE_WORDS) {
-          var arg1 = bin.readShort(data, offset);
-          offset += 2;
-          var arg2 = bin.readShort(data, offset);
-          offset += 2;
-        } else {
-          var arg1 = bin.readInt8(data, offset);
-          offset++;
-          var arg2 = bin.readInt8(data, offset);
-          offset++;
-        }
-        if (flags & ARGS_ARE_XY_VALUES) {
-          part.m.tx = arg1;
-          part.m.ty = arg2;
-        } else {
-          part.p1 = arg1;
-          part.p2 = arg2;
-        }
-        if (flags & WE_HAVE_A_SCALE) {
-          part.m.a = part.m.d = bin.readF2dot14(data, offset);
-          offset += 2;
-        } else if (flags & WE_HAVE_AN_X_AND_Y_SCALE) {
-          part.m.a = bin.readF2dot14(data, offset);
-          offset += 2;
-          part.m.d = bin.readF2dot14(data, offset);
-          offset += 2;
-        } else if (flags & WE_HAVE_A_TWO_BY_TWO) {
-          part.m.a = bin.readF2dot14(data, offset);
-          offset += 2;
-          part.m.b = bin.readF2dot14(data, offset);
-          offset += 2;
-          part.m.c = bin.readF2dot14(data, offset);
-          offset += 2;
-          part.m.d = bin.readF2dot14(data, offset);
-          offset += 2;
-        }
-      } while (flags & MORE_COMPONENTS);
-      if (flags & WE_HAVE_INSTRUCTIONS) {
-        var numInstr = bin.readUshort(data, offset);
-        offset += 2;
-        gl.instr = [];
-        for (var i = 0; i < numInstr; i++) {
-          gl.instr.push(data[offset]);
-          offset++;
-        }
-      }
-    }
-    return gl;
-  };
-  Typr.GPOS = {};
-  Typr.GPOS.parse = function(data, offset, length, font) {
-    return Typr._lctf.parse(data, offset, length, font, Typr.GPOS.subt);
-  };
-  Typr.GPOS.subt = function(data, ltype, offset) {
-    if (ltype != 2)
-      return null;
-    var bin = Typr._bin, offset0 = offset, tab = {};
-    tab.format = bin.readUshort(data, offset);
-    offset += 2;
-    var covOff = bin.readUshort(data, offset);
-    offset += 2;
-    tab.coverage = Typr._lctf.readCoverage(data, covOff + offset0);
-    tab.valFmt1 = bin.readUshort(data, offset);
-    offset += 2;
-    tab.valFmt2 = bin.readUshort(data, offset);
-    offset += 2;
-    var ones1 = Typr._lctf.numOfOnes(tab.valFmt1);
-    var ones2 = Typr._lctf.numOfOnes(tab.valFmt2);
-    if (tab.format == 1) {
-      tab.pairsets = [];
-      var count = bin.readUshort(data, offset);
-      offset += 2;
-      for (var i = 0; i < count; i++) {
-        var psoff = bin.readUshort(data, offset);
-        offset += 2;
-        psoff += offset0;
-        var pvcount = bin.readUshort(data, psoff);
-        psoff += 2;
-        var arr = [];
-        for (var j = 0; j < pvcount; j++) {
-          var gid2 = bin.readUshort(data, psoff);
-          psoff += 2;
-          var value1, value2;
-          if (tab.valFmt1 != 0) {
-            value1 = Typr._lctf.readValueRecord(data, psoff, tab.valFmt1);
-            psoff += ones1 * 2;
-          }
-          if (tab.valFmt2 != 0) {
-            value2 = Typr._lctf.readValueRecord(data, psoff, tab.valFmt2);
-            psoff += ones2 * 2;
-          }
-          arr.push({ gid2, val1: value1, val2: value2 });
-        }
-        tab.pairsets.push(arr);
-      }
-    }
-    if (tab.format == 2) {
-      var classDef1 = bin.readUshort(data, offset);
-      offset += 2;
-      var classDef2 = bin.readUshort(data, offset);
-      offset += 2;
-      var class1Count = bin.readUshort(data, offset);
-      offset += 2;
-      var class2Count = bin.readUshort(data, offset);
-      offset += 2;
-      tab.classDef1 = Typr._lctf.readClassDef(data, offset0 + classDef1);
-      tab.classDef2 = Typr._lctf.readClassDef(data, offset0 + classDef2);
-      tab.matrix = [];
-      for (var i = 0; i < class1Count; i++) {
-        var row = [];
-        for (var j = 0; j < class2Count; j++) {
-          var value1 = null, value2 = null;
-          if (tab.valFmt1 != 0) {
-            value1 = Typr._lctf.readValueRecord(data, offset, tab.valFmt1);
-            offset += ones1 * 2;
-          }
-          if (tab.valFmt2 != 0) {
-            value2 = Typr._lctf.readValueRecord(data, offset, tab.valFmt2);
-            offset += ones2 * 2;
-          }
-          row.push({ val1: value1, val2: value2 });
-        }
-        tab.matrix.push(row);
-      }
-    }
-    return tab;
-  };
-  Typr.GSUB = {};
-  Typr.GSUB.parse = function(data, offset, length, font) {
-    return Typr._lctf.parse(data, offset, length, font, Typr.GSUB.subt);
-  };
-  Typr.GSUB.subt = function(data, ltype, offset) {
-    var bin = Typr._bin, offset0 = offset, tab = {};
-    if (ltype != 1 && ltype != 4 && ltype != 5)
-      return null;
-    tab.fmt = bin.readUshort(data, offset);
-    offset += 2;
-    var covOff = bin.readUshort(data, offset);
-    offset += 2;
-    tab.coverage = Typr._lctf.readCoverage(data, covOff + offset0);
-    if (ltype == 1) {
-      if (tab.fmt == 1) {
-        tab.delta = bin.readShort(data, offset);
-        offset += 2;
-      } else if (tab.fmt == 2) {
-        var cnt = bin.readUshort(data, offset);
-        offset += 2;
-        tab.newg = bin.readUshorts(data, offset, cnt);
-        offset += tab.newg.length * 2;
-      }
-    } else if (ltype == 4) {
-      tab.vals = [];
-      var cnt = bin.readUshort(data, offset);
-      offset += 2;
-      for (var i = 0; i < cnt; i++) {
-        var loff = bin.readUshort(data, offset);
-        offset += 2;
-        tab.vals.push(Typr.GSUB.readLigatureSet(data, offset0 + loff));
-      }
-    } else if (ltype == 5) {
-      if (tab.fmt == 2) {
-        var cDefOffset = bin.readUshort(data, offset);
-        offset += 2;
-        tab.cDef = Typr._lctf.readClassDef(data, offset0 + cDefOffset);
-        tab.scset = [];
-        var subClassSetCount = bin.readUshort(data, offset);
-        offset += 2;
-        for (var i = 0; i < subClassSetCount; i++) {
-          var scsOff = bin.readUshort(data, offset);
-          offset += 2;
-          tab.scset.push(scsOff == 0 ? null : Typr.GSUB.readSubClassSet(data, offset0 + scsOff));
-        }
-      } else
-        console.log("unknown table format", tab.fmt);
-    }
-    return tab;
-  };
-  Typr.GSUB.readSubClassSet = function(data, offset) {
-    var rUs = Typr._bin.readUshort, offset0 = offset, lset = [];
-    var cnt = rUs(data, offset);
-    offset += 2;
-    for (var i = 0; i < cnt; i++) {
-      var loff = rUs(data, offset);
-      offset += 2;
-      lset.push(Typr.GSUB.readSubClassRule(data, offset0 + loff));
-    }
-    return lset;
-  };
-  Typr.GSUB.readSubClassRule = function(data, offset) {
-    var rUs = Typr._bin.readUshort, rule = {};
-    var gcount = rUs(data, offset);
-    offset += 2;
-    var scount = rUs(data, offset);
-    offset += 2;
-    rule.input = [];
-    for (var i = 0; i < gcount - 1; i++) {
-      rule.input.push(rUs(data, offset));
-      offset += 2;
-    }
-    rule.substLookupRecords = Typr.GSUB.readSubstLookupRecords(data, offset, scount);
-    return rule;
-  };
-  Typr.GSUB.readSubstLookupRecords = function(data, offset, cnt) {
-    var rUs = Typr._bin.readUshort;
-    var out = [];
-    for (var i = 0; i < cnt; i++) {
-      out.push(rUs(data, offset), rUs(data, offset + 2));
-      offset += 4;
     }
     return out;
-  };
-  Typr.GSUB.readChainSubClassSet = function(data, offset) {
-    var bin = Typr._bin, offset0 = offset, lset = [];
-    var cnt = bin.readUshort(data, offset);
-    offset += 2;
-    for (var i = 0; i < cnt; i++) {
-      var loff = bin.readUshort(data, offset);
-      offset += 2;
-      lset.push(Typr.GSUB.readChainSubClassRule(data, offset0 + loff));
+  }
+  function parseRefTable(buf) {
+    const dv = new DataView(buf);
+    const magic = String.fromCharCode(dv.getUint8(0), dv.getUint8(1), dv.getUint8(2), dv.getUint8(3));
+    if (magic !== "FRB2") {
+      throw new Error("[font-decrypt] 无效的特征表格式: " + magic);
     }
-    return lset;
-  };
-  Typr.GSUB.readChainSubClassRule = function(data, offset) {
-    var bin = Typr._bin, rule = {};
-    var pps = ["backtrack", "input", "lookahead"];
-    for (var pi = 0; pi < pps.length; pi++) {
-      var cnt = bin.readUshort(data, offset);
-      offset += 2;
-      if (pi == 1)
-        cnt--;
-      rule[pps[pi]] = bin.readUshorts(data, offset, cnt);
-      offset += rule[pps[pi]].length * 2;
+    const count2 = dv.getUint32(4, true);
+    const threshold = dv.getUint32(8, true);
+    const gc = dv.getUint32(12, true);
+    const gf = dv.getUint32(16, true);
+    const cps = new Uint32Array(count2);
+    let off = 20;
+    for (let i = 0; i < count2; i++, off += 4) {
+      cps[i] = dv.getUint32(off, true);
     }
-    var cnt = bin.readUshort(data, offset);
-    offset += 2;
-    rule.subst = bin.readUshorts(data, offset, cnt * 2);
-    offset += rule.subst.length * 2;
-    return rule;
-  };
-  Typr.GSUB.readLigatureSet = function(data, offset) {
-    var bin = Typr._bin, offset0 = offset, lset = [];
-    var lcnt = bin.readUshort(data, offset);
-    offset += 2;
-    for (var j = 0; j < lcnt; j++) {
-      var loff = bin.readUshort(data, offset);
-      offset += 2;
-      lset.push(Typr.GSUB.readLigature(data, offset0 + loff));
-    }
-    return lset;
-  };
-  Typr.GSUB.readLigature = function(data, offset) {
-    var bin = Typr._bin, lig = { chain: [] };
-    lig.nglyph = bin.readUshort(data, offset);
-    offset += 2;
-    var ccnt = bin.readUshort(data, offset);
-    offset += 2;
-    for (var k = 0; k < ccnt - 1; k++) {
-      lig.chain.push(bin.readUshort(data, offset));
-      offset += 2;
-    }
-    return lig;
-  };
-  Typr.head = {};
-  Typr.head.parse = function(data, offset, length) {
-    var bin = Typr._bin;
-    var obj = {};
-    bin.readFixed(data, offset);
-    offset += 4;
-    obj.fontRevision = bin.readFixed(data, offset);
-    offset += 4;
-    bin.readUint(data, offset);
-    offset += 4;
-    bin.readUint(data, offset);
-    offset += 4;
-    obj.flags = bin.readUshort(data, offset);
-    offset += 2;
-    obj.unitsPerEm = bin.readUshort(data, offset);
-    offset += 2;
-    obj.created = bin.readUint64(data, offset);
-    offset += 8;
-    obj.modified = bin.readUint64(data, offset);
-    offset += 8;
-    obj.xMin = bin.readShort(data, offset);
-    offset += 2;
-    obj.yMin = bin.readShort(data, offset);
-    offset += 2;
-    obj.xMax = bin.readShort(data, offset);
-    offset += 2;
-    obj.yMax = bin.readShort(data, offset);
-    offset += 2;
-    obj.macStyle = bin.readUshort(data, offset);
-    offset += 2;
-    obj.lowestRecPPEM = bin.readUshort(data, offset);
-    offset += 2;
-    obj.fontDirectionHint = bin.readShort(data, offset);
-    offset += 2;
-    obj.indexToLocFormat = bin.readShort(data, offset);
-    offset += 2;
-    obj.glyphDataFormat = bin.readShort(data, offset);
-    offset += 2;
-    return obj;
-  };
-  Typr.hhea = {};
-  Typr.hhea.parse = function(data, offset, length) {
-    var bin = Typr._bin;
-    var obj = {};
-    bin.readFixed(data, offset);
-    offset += 4;
-    obj.ascender = bin.readShort(data, offset);
-    offset += 2;
-    obj.descender = bin.readShort(data, offset);
-    offset += 2;
-    obj.lineGap = bin.readShort(data, offset);
-    offset += 2;
-    obj.advanceWidthMax = bin.readUshort(data, offset);
-    offset += 2;
-    obj.minLeftSideBearing = bin.readShort(data, offset);
-    offset += 2;
-    obj.minRightSideBearing = bin.readShort(data, offset);
-    offset += 2;
-    obj.xMaxExtent = bin.readShort(data, offset);
-    offset += 2;
-    obj.caretSlopeRise = bin.readShort(data, offset);
-    offset += 2;
-    obj.caretSlopeRun = bin.readShort(data, offset);
-    offset += 2;
-    obj.caretOffset = bin.readShort(data, offset);
-    offset += 2;
-    offset += 4 * 2;
-    obj.metricDataFormat = bin.readShort(data, offset);
-    offset += 2;
-    obj.numberOfHMetrics = bin.readUshort(data, offset);
-    offset += 2;
-    return obj;
-  };
-  Typr.hmtx = {};
-  Typr.hmtx.parse = function(data, offset, length, font) {
-    var bin = Typr._bin;
-    var obj = {};
-    obj.aWidth = [];
-    obj.lsBearing = [];
-    var aw = 0, lsb = 0;
-    for (var i = 0; i < font.maxp.numGlyphs; i++) {
-      if (i < font.hhea.numberOfHMetrics) {
-        aw = bin.readUshort(data, offset);
-        offset += 2;
-        lsb = bin.readShort(data, offset);
-        offset += 2;
-      }
-      obj.aWidth.push(aw);
-      obj.lsBearing.push(lsb);
-    }
-    return obj;
-  };
-  Typr.kern = {};
-  Typr.kern.parse = function(data, offset, length, font) {
-    var bin = Typr._bin;
-    var version = bin.readUshort(data, offset);
-    offset += 2;
-    if (version == 1)
-      return Typr.kern.parseV1(data, offset - 2, length, font);
-    var nTables = bin.readUshort(data, offset);
-    offset += 2;
-    var map = { glyph1: [], rval: [] };
-    for (var i = 0; i < nTables; i++) {
-      offset += 2;
-      var length = bin.readUshort(data, offset);
-      offset += 2;
-      var coverage = bin.readUshort(data, offset);
-      offset += 2;
-      var format = coverage >>> 8;
-      format &= 15;
-      if (format == 0)
-        offset = Typr.kern.readFormat0(data, offset, map);
-      else
-        throw "unknown kern table format: " + format;
-    }
-    return map;
-  };
-  Typr.kern.parseV1 = function(data, offset, length, font) {
-    var bin = Typr._bin;
-    bin.readFixed(data, offset);
-    offset += 4;
-    var nTables = bin.readUint(data, offset);
-    offset += 4;
-    var map = { glyph1: [], rval: [] };
-    for (var i = 0; i < nTables; i++) {
-      bin.readUint(data, offset);
-      offset += 4;
-      var coverage = bin.readUshort(data, offset);
-      offset += 2;
-      bin.readUshort(data, offset);
-      offset += 2;
-      var format = coverage >>> 8;
-      format &= 15;
-      if (format == 0)
-        offset = Typr.kern.readFormat0(data, offset, map);
-      else
-        throw "unknown kern table format: " + format;
-    }
-    return map;
-  };
-  Typr.kern.readFormat0 = function(data, offset, map) {
-    var bin = Typr._bin;
-    var pleft = -1;
-    var nPairs = bin.readUshort(data, offset);
-    offset += 2;
-    bin.readUshort(data, offset);
-    offset += 2;
-    bin.readUshort(data, offset);
-    offset += 2;
-    bin.readUshort(data, offset);
-    offset += 2;
-    for (var j = 0; j < nPairs; j++) {
-      var left = bin.readUshort(data, offset);
-      offset += 2;
-      var right = bin.readUshort(data, offset);
-      offset += 2;
-      var value = bin.readShort(data, offset);
-      offset += 2;
-      if (left != pleft) {
-        map.glyph1.push(left);
-        map.rval.push({ glyph2: [], vals: [] });
-      }
-      var rval = map.rval[map.rval.length - 1];
-      rval.glyph2.push(right);
-      rval.vals.push(value);
-      pleft = left;
-    }
-    return offset;
-  };
-  Typr.loca = {};
-  Typr.loca.parse = function(data, offset, length, font) {
-    var bin = Typr._bin;
-    var obj = [];
-    var ver = font.head.indexToLocFormat;
-    var len = font.maxp.numGlyphs + 1;
-    if (ver == 0)
-      for (var i = 0; i < len; i++)
-        obj.push(bin.readUshort(data, offset + (i << 1)) << 1);
-    if (ver == 1)
-      for (var i = 0; i < len; i++)
-        obj.push(bin.readUint(data, offset + (i << 2)));
-    return obj;
-  };
-  Typr.maxp = {};
-  Typr.maxp.parse = function(data, offset, length) {
-    var bin = Typr._bin;
-    var obj = {};
-    var ver = bin.readUint(data, offset);
-    offset += 4;
-    obj.numGlyphs = bin.readUshort(data, offset);
-    offset += 2;
-    if (ver == 65536) {
-      obj.maxPoints = bin.readUshort(data, offset);
-      offset += 2;
-      obj.maxContours = bin.readUshort(data, offset);
-      offset += 2;
-      obj.maxCompositePoints = bin.readUshort(data, offset);
-      offset += 2;
-      obj.maxCompositeContours = bin.readUshort(data, offset);
-      offset += 2;
-      obj.maxZones = bin.readUshort(data, offset);
-      offset += 2;
-      obj.maxTwilightPoints = bin.readUshort(data, offset);
-      offset += 2;
-      obj.maxStorage = bin.readUshort(data, offset);
-      offset += 2;
-      obj.maxFunctionDefs = bin.readUshort(data, offset);
-      offset += 2;
-      obj.maxInstructionDefs = bin.readUshort(data, offset);
-      offset += 2;
-      obj.maxStackElements = bin.readUshort(data, offset);
-      offset += 2;
-      obj.maxSizeOfInstructions = bin.readUshort(data, offset);
-      offset += 2;
-      obj.maxComponentElements = bin.readUshort(data, offset);
-      offset += 2;
-      obj.maxComponentDepth = bin.readUshort(data, offset);
-      offset += 2;
-    }
-    return obj;
-  };
-  Typr.name = {};
-  Typr.name.parse = function(data, offset, length) {
-    var bin = Typr._bin;
-    var obj = {};
-    bin.readUshort(data, offset);
-    offset += 2;
-    var count = bin.readUshort(data, offset);
-    offset += 2;
-    bin.readUshort(data, offset);
-    offset += 2;
-    var offset0 = offset;
-    for (var i = 0; i < count; i++) {
-      var platformID = bin.readUshort(data, offset);
-      offset += 2;
-      var encodingID = bin.readUshort(data, offset);
-      offset += 2;
-      var languageID = bin.readUshort(data, offset);
-      offset += 2;
-      var nameID = bin.readUshort(data, offset);
-      offset += 2;
-      var length = bin.readUshort(data, offset);
-      offset += 2;
-      var noffset = bin.readUshort(data, offset);
-      offset += 2;
-      var plat = "p" + platformID;
-      if (obj[plat] == null)
-        obj[plat] = {};
-      var names = ["copyright", "fontFamily", "fontSubfamily", "ID", "fullName", "version", "postScriptName", "trademark", "manufacturer", "designer", "description", "urlVendor", "urlDesigner", "licence", "licenceURL", "---", "typoFamilyName", "typoSubfamilyName", "compatibleFull", "sampleText", "postScriptCID", "wwsFamilyName", "wwsSubfamilyName", "lightPalette", "darkPalette"];
-      var cname = names[nameID];
-      var soff = offset0 + count * 12 + noffset;
-      var str;
-      if (platformID == 0)
-        str = bin.readUnicode(data, soff, length / 2);
-      else if (platformID == 3 && encodingID == 0)
-        str = bin.readUnicode(data, soff, length / 2);
-      else if (encodingID == 0)
-        str = bin.readASCII(data, soff, length);
-      else if (encodingID == 1)
-        str = bin.readUnicode(data, soff, length / 2);
-      else if (encodingID == 3)
-        str = bin.readUnicode(data, soff, length / 2);
-      else if (platformID == 1) {
-        str = bin.readASCII(data, soff, length);
-        console.log("reading unknown MAC encoding " + encodingID + " as ASCII");
-      } else
-        throw "unknown encoding " + encodingID + ", platformID: " + platformID;
-      obj[plat][cname] = str;
-      obj[plat]._lang = languageID;
-    }
-    for (var p in obj)
-      if (obj[p].postScriptName != null && obj[p]._lang == 1033)
-        return obj[p];
-    for (var p in obj)
-      if (obj[p].postScriptName != null && obj[p]._lang == 3084)
-        return obj[p];
-    for (var p in obj)
-      if (obj[p].postScriptName != null)
-        return obj[p];
-    var tname;
-    for (var p in obj) {
-      tname = p;
-      break;
-    }
-    console.log("returning name table with languageID " + obj[tname]._lang);
-    return obj[tname];
-  };
-  Typr["OS/2"] = {};
-  Typr["OS/2"].parse = function(data, offset, length) {
-    var bin = Typr._bin;
-    var ver = bin.readUshort(data, offset);
-    offset += 2;
-    var obj = {};
-    if (ver == 0)
-      Typr["OS/2"].version0(data, offset, obj);
-    else if (ver == 1)
-      Typr["OS/2"].version1(data, offset, obj);
-    else if (ver == 2 || ver == 3 || ver == 4)
-      Typr["OS/2"].version2(data, offset, obj);
-    else if (ver == 5)
-      Typr["OS/2"].version5(data, offset, obj);
-    else
-      throw "unknown OS/2 table version: " + ver;
-    return obj;
-  };
-  Typr["OS/2"].version0 = function(data, offset, obj) {
-    var bin = Typr._bin;
-    obj.xAvgCharWidth = bin.readShort(data, offset);
-    offset += 2;
-    obj.usWeightClass = bin.readUshort(data, offset);
-    offset += 2;
-    obj.usWidthClass = bin.readUshort(data, offset);
-    offset += 2;
-    obj.fsType = bin.readUshort(data, offset);
-    offset += 2;
-    obj.ySubscriptXSize = bin.readShort(data, offset);
-    offset += 2;
-    obj.ySubscriptYSize = bin.readShort(data, offset);
-    offset += 2;
-    obj.ySubscriptXOffset = bin.readShort(data, offset);
-    offset += 2;
-    obj.ySubscriptYOffset = bin.readShort(data, offset);
-    offset += 2;
-    obj.ySuperscriptXSize = bin.readShort(data, offset);
-    offset += 2;
-    obj.ySuperscriptYSize = bin.readShort(data, offset);
-    offset += 2;
-    obj.ySuperscriptXOffset = bin.readShort(data, offset);
-    offset += 2;
-    obj.ySuperscriptYOffset = bin.readShort(data, offset);
-    offset += 2;
-    obj.yStrikeoutSize = bin.readShort(data, offset);
-    offset += 2;
-    obj.yStrikeoutPosition = bin.readShort(data, offset);
-    offset += 2;
-    obj.sFamilyClass = bin.readShort(data, offset);
-    offset += 2;
-    obj.panose = bin.readBytes(data, offset, 10);
-    offset += 10;
-    obj.ulUnicodeRange1 = bin.readUint(data, offset);
-    offset += 4;
-    obj.ulUnicodeRange2 = bin.readUint(data, offset);
-    offset += 4;
-    obj.ulUnicodeRange3 = bin.readUint(data, offset);
-    offset += 4;
-    obj.ulUnicodeRange4 = bin.readUint(data, offset);
-    offset += 4;
-    obj.achVendID = [bin.readInt8(data, offset), bin.readInt8(data, offset + 1), bin.readInt8(data, offset + 2), bin.readInt8(data, offset + 3)];
-    offset += 4;
-    obj.fsSelection = bin.readUshort(data, offset);
-    offset += 2;
-    obj.usFirstCharIndex = bin.readUshort(data, offset);
-    offset += 2;
-    obj.usLastCharIndex = bin.readUshort(data, offset);
-    offset += 2;
-    obj.sTypoAscender = bin.readShort(data, offset);
-    offset += 2;
-    obj.sTypoDescender = bin.readShort(data, offset);
-    offset += 2;
-    obj.sTypoLineGap = bin.readShort(data, offset);
-    offset += 2;
-    obj.usWinAscent = bin.readUshort(data, offset);
-    offset += 2;
-    obj.usWinDescent = bin.readUshort(data, offset);
-    offset += 2;
-    return offset;
-  };
-  Typr["OS/2"].version1 = function(data, offset, obj) {
-    var bin = Typr._bin;
-    offset = Typr["OS/2"].version0(data, offset, obj);
-    obj.ulCodePageRange1 = bin.readUint(data, offset);
-    offset += 4;
-    obj.ulCodePageRange2 = bin.readUint(data, offset);
-    offset += 4;
-    return offset;
-  };
-  Typr["OS/2"].version2 = function(data, offset, obj) {
-    var bin = Typr._bin;
-    offset = Typr["OS/2"].version1(data, offset, obj);
-    obj.sxHeight = bin.readShort(data, offset);
-    offset += 2;
-    obj.sCapHeight = bin.readShort(data, offset);
-    offset += 2;
-    obj.usDefault = bin.readUshort(data, offset);
-    offset += 2;
-    obj.usBreak = bin.readUshort(data, offset);
-    offset += 2;
-    obj.usMaxContext = bin.readUshort(data, offset);
-    offset += 2;
-    return offset;
-  };
-  Typr["OS/2"].version5 = function(data, offset, obj) {
-    var bin = Typr._bin;
-    offset = Typr["OS/2"].version2(data, offset, obj);
-    obj.usLowerOpticalPointSize = bin.readUshort(data, offset);
-    offset += 2;
-    obj.usUpperOpticalPointSize = bin.readUshort(data, offset);
-    offset += 2;
-    return offset;
-  };
-  Typr.post = {};
-  Typr.post.parse = function(data, offset, length) {
-    var bin = Typr._bin;
-    var obj = {};
-    obj.version = bin.readFixed(data, offset);
-    offset += 4;
-    obj.italicAngle = bin.readFixed(data, offset);
-    offset += 4;
-    obj.underlinePosition = bin.readShort(data, offset);
-    offset += 2;
-    obj.underlineThickness = bin.readShort(data, offset);
-    offset += 2;
-    return obj;
-  };
-  Typr.SVG = {};
-  Typr.SVG.parse = function(data, offset, length) {
-    var bin = Typr._bin;
-    var obj = { entries: [] };
-    var offset0 = offset;
-    bin.readUshort(data, offset);
-    offset += 2;
-    var svgDocIndexOffset = bin.readUint(data, offset);
-    offset += 4;
-    bin.readUint(data, offset);
-    offset += 4;
-    offset = svgDocIndexOffset + offset0;
-    var numEntries = bin.readUshort(data, offset);
-    offset += 2;
-    for (var i = 0; i < numEntries; i++) {
-      var startGlyphID = bin.readUshort(data, offset);
-      offset += 2;
-      var endGlyphID = bin.readUshort(data, offset);
-      offset += 2;
-      var svgDocOffset = bin.readUint(data, offset);
-      offset += 4;
-      var svgDocLength = bin.readUint(data, offset);
-      offset += 4;
-      var sbuf = new Uint8Array(data.buffer, offset0 + svgDocOffset + svgDocIndexOffset, svgDocLength);
-      var svg = bin.readUTF8(sbuf, 0, sbuf.length);
-      for (var f = startGlyphID; f <= endGlyphID; f++) {
-        obj.entries[f] = svg;
+    const packed = new Uint8Array(buf);
+    const coarse = unpackBits(packed, off, count2, gc * gc);
+    off += count2 * gc * gc / 8;
+    const fine = unpackBits(packed, off, count2, gf * gf);
+    return { count: count2, cps, coarse, fine, gc, gf, threshold };
+  }
+  async function fetchAndParseRefTable(url) {
+    var _a, _b;
+    const record = await readPersistedRecord(url);
+    const hasValidator = !!((record == null ? void 0 : record.etag) || (record == null ? void 0 : record.lastModified));
+    const interval = hasValidator ? REVALIDATE_WITH_VALIDATOR_MS : REVALIDATE_NO_VALIDATOR_MS;
+    const parseRecord = (r) => parseRefTable(r.data);
+    if (record && Date.now() - record.updatedAt <= interval) {
+      try {
+        console.debug("[font-decrypt] 特征表命中本地缓存：", url);
+        return parseRecord(record);
+      } catch {
+        await deletePersisted(url);
       }
     }
-    return obj;
-  };
-  Typr.SVG.toPath = function(str) {
-    var pth = { cmds: [], crds: [] };
-    if (str == null)
-      return pth;
-    var prsr = new DOMParser();
-    var doc = prsr["parseFromString"](str, "image/svg+xml");
-    var svg = doc.firstChild;
-    while (svg.tagName != "svg")
-      svg = svg.nextSibling;
-    var vb = svg.getAttribute("viewBox");
-    if (vb)
-      vb = vb.trim().split(" ").map(parseFloat);
-    else
-      vb = [0, 0, 1e3, 1e3];
-    Typr.SVG._toPath(svg.children, pth);
-    for (var i = 0; i < pth.crds.length; i += 2) {
-      var x = pth.crds[i], y = pth.crds[i + 1];
-      x -= vb[0];
-      y -= vb[1];
-      y = -y;
-      pth.crds[i] = x;
-      pth.crds[i + 1] = y;
-    }
-    return pth;
-  };
-  Typr.SVG._toPath = function(nds, pth, fill) {
-    for (var ni = 0; ni < nds.length; ni++) {
-      var nd = nds[ni], tn = nd.tagName;
-      var cfl = nd.getAttribute("fill");
-      if (cfl == null)
-        cfl = fill;
-      if (tn == "g")
-        Typr.SVG._toPath(nd.children, pth, cfl);
-      else if (tn == "path") {
-        pth.cmds.push(cfl ? cfl : "#000000");
-        var d = nd.getAttribute("d");
-        var toks = Typr.SVG._tokens(d);
-        Typr.SVG._toksToPath(toks, pth);
-        pth.cmds.push("X");
-      } else if (tn == "defs")
-        ;
-      else
-        console.log(tn, nd);
-    }
-  };
-  Typr.SVG._tokens = function(d) {
-    var ts = [], off = 0, rn = false, cn = "";
-    while (off < d.length) {
-      var cc = d.charCodeAt(off), ch = d.charAt(off);
-      off++;
-      var isNum = 48 <= cc && cc <= 57 || ch == "." || ch == "-";
-      if (rn) {
-        if (ch == "-") {
-          ts.push(parseFloat(cn));
-          cn = ch;
-        } else if (isNum)
-          cn += ch;
-        else {
-          ts.push(parseFloat(cn));
-          if (ch != "," && ch != " ")
-            ts.push(ch);
-          rn = false;
-        }
-      } else {
-        if (isNum) {
-          cn = ch;
-          rn = true;
-        } else if (ch != "," && ch != " ")
-          ts.push(ch);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 3e4);
+    try {
+      const headers = {};
+      if (record == null ? void 0 : record.etag) {
+        headers["If-None-Match"] = record.etag;
+      } else if (record == null ? void 0 : record.lastModified) {
+        headers["If-Modified-Since"] = record.lastModified;
       }
-    }
-    if (rn)
-      ts.push(parseFloat(cn));
-    return ts;
-  };
-  Typr.SVG._toksToPath = function(ts, pth) {
-    var i = 0, x = 0, y = 0, ox = 0, oy = 0;
-    var pc = { M: 2, L: 2, H: 1, V: 1, S: 4, C: 6 };
-    var cmds = pth.cmds, crds = pth.crds;
-    while (i < ts.length) {
-      var cmd = ts[i];
-      i++;
-      if (cmd == "z") {
-        cmds.push("Z");
-        x = ox;
-        y = oy;
-      } else {
-        var cmu = cmd.toUpperCase();
-        var ps = pc[cmu], reps = Typr.SVG._reps(ts, i, ps);
-        for (var j = 0; j < reps; j++) {
-          var xi = 0, yi = 0;
-          if (cmd != cmu) {
-            xi = x;
-            yi = y;
-          }
-          if (cmu == "M") {
-            x = xi + ts[i++];
-            y = yi + ts[i++];
-            cmds.push("M");
-            crds.push(x, y);
-            ox = x;
-            oy = y;
-          } else if (cmu == "L") {
-            x = xi + ts[i++];
-            y = yi + ts[i++];
-            cmds.push("L");
-            crds.push(x, y);
-          } else if (cmu == "H") {
-            x = xi + ts[i++];
-            cmds.push("L");
-            crds.push(x, y);
-          } else if (cmu == "V") {
-            y = yi + ts[i++];
-            cmds.push("L");
-            crds.push(x, y);
-          } else if (cmu == "C") {
-            var x1 = xi + ts[i++], y1 = yi + ts[i++], x2 = xi + ts[i++], y2 = yi + ts[i++], x3 = xi + ts[i++], y3 = yi + ts[i++];
-            cmds.push("C");
-            crds.push(x1, y1, x2, y2, x3, y3);
-            x = x3;
-            y = y3;
-          } else if (cmu == "S") {
-            var co = Math.max(crds.length - 4, 0);
-            var x1 = x + x - crds[co], y1 = y + y - crds[co + 1];
-            var x2 = xi + ts[i++], y2 = yi + ts[i++], x3 = xi + ts[i++], y3 = yi + ts[i++];
-            cmds.push("C");
-            crds.push(x1, y1, x2, y2, x3, y3);
-            x = x3;
-            y = y3;
-          } else
-            console.log("Unknown SVG command " + cmd);
+      const res = await fetch(url, { signal: controller.signal, headers });
+      if (res.status === 304 && record) {
+        console.debug("[font-decrypt] 特征表服务端未变更（304），沿用本地缓存：", url);
+        await touchPersisted(url, record);
+        return parseRecord(record);
+      }
+      if (!res.ok) {
+        throw new Error("[font-decrypt] 特征表下载失败: HTTP " + res.status);
+      }
+      const buf = await res.arrayBuffer();
+      const table = parseRefTable(buf);
+      await persist(url, buf, (_a = res.headers.get("etag")) != null ? _a : void 0, (_b = res.headers.get("last-modified")) != null ? _b : void 0);
+      console.debug("[font-decrypt] 特征表已从网络加载并缓存：", url);
+      return table;
+    } catch (err) {
+      if (record) {
+        try {
+          console.warn("[font-decrypt] 特征表网络加载失败，回退使用本地缓存：", url);
+          return parseRecord(record);
+        } catch {
+          await deletePersisted(url);
         }
       }
+      throw err;
+    } finally {
+      clearTimeout(timer);
     }
-  };
-  Typr.SVG._reps = function(ts, off, ps) {
-    var i = off;
-    while (i < ts.length) {
-      if (typeof ts[i] == "string")
+  }
+  function loadRefTable(url) {
+    let cached = refTableCache.get(url);
+    if (!cached) {
+      cached = fetchAndParseRefTable(url).catch((err) => {
+        refTableCache.delete(url);
+        throw err;
+      });
+      refTableCache.set(url, cached);
+    }
+    return cached;
+  }
+  const WORKER_TIMEOUT = 3e4;
+  const WORKER_SOURCE = `
+'use strict';
+var RENDER = 360, SQ = 480, BASELINE = 384, SHORTLIST = 40, INK_THRESHOLD = 40;
+
+var renderCv = null;
+function getRenderCtx() {
+	if (!renderCv) {
+		renderCv = new OffscreenCanvas(SQ, SQ);
+		renderCv.ctx = renderCv.getContext('2d', { willReadFrequently: true });
+	}
+	return renderCv.ctx;
+}
+
+var covCv = {};
+function isCoveredByFont(fontFamily, ch) {
+	var render = function (fallback) {
+		var cv = covCv[fallback];
+		if (!cv) {
+			cv = new OffscreenCanvas(200, 200);
+			cv.ctx = cv.getContext('2d', { willReadFrequently: true });
+			covCv[fallback] = cv;
+		}
+		var ctx = cv.ctx;
+		ctx.clearRect(0, 0, 200, 200);
+		ctx.fillStyle = '#fff';
+		ctx.font = '120px "' + fontFamily + '", ' + fallback;
+		ctx.textBaseline = 'middle';
+		ctx.fillText(ch, 10, 100);
+		return ctx.getImageData(0, 0, 200, 200).data;
+	};
+	var a = render('serif');
+	var b = render('sans-serif');
+	var diff = 0;
+	for (var i = 3; i < a.length; i += 4) {
+		diff += Math.abs(a[i] - b[i]);
+	}
+	return diff < 1000;
+}
+
+function renderGlyph(fontFamily, ch, table) {
+	var ctx = getRenderCtx();
+	ctx.clearRect(0, 0, SQ, SQ);
+	ctx.fillStyle = '#fff';
+	ctx.font = RENDER + 'px "' + fontFamily + '"';
+	ctx.textBaseline = 'alphabetic';
+	var advance = ctx.measureText(ch).width;
+	ctx.fillText(ch, (SQ - advance) / 2, BASELINE);
+	var px = ctx.getImageData(0, 0, SQ, SQ).data;
+
+	var hasInk = false;
+	for (var i = 3; i < px.length; i += 4) {
+		if (px[i] > INK_THRESHOLD) { hasInk = true; break; }
+	}
+	if (!hasInk) {
+		return null;
+	}
+
+	var W = SQ + 1;
+	var ii = new Uint32Array(W * W);
+	for (var y = 0; y < SQ; y++) {
+		var rowSum = 0;
+		var srcRow = y * SQ * 4;
+		var dstRow = (y + 1) * W;
+		var upRow = y * W;
+		for (var x = 0; x < SQ; x++) {
+			rowSum += px[srcRow + x * 4 + 3];
+			ii[dstRow + x + 1] = ii[upRow + x + 1] + rowSum;
+		}
+	}
+
+	var box = function (n) {
+		var b = SQ / n;
+		var area = b * b;
+		var out = new Uint8Array(n * n);
+		for (var gy = 0; gy < n; gy++) {
+			for (var gx = 0; gx < n; gx++) {
+				var y0 = gy * b;
+				var x0 = gx * b;
+				var sum = ii[(y0 + b) * W + x0 + b] - ii[y0 * W + x0 + b] - ii[(y0 + b) * W + x0] + ii[y0 * W + x0];
+				out[gy * n + gx] = sum / area > table.threshold ? 1 : 0;
+			}
+		}
+		return out;
+	};
+
+	return { coarse: box(table.gc), fine: box(table.gf) };
+}
+
+function bitDistance(tableArr, idx, dims, q) {
+	var s = 0;
+	var base = idx * dims;
+	for (var i = 0; i < dims; i++) {
+		if (tableArr[base + i] !== q[i]) { s++; }
+	}
+	return s;
+}
+
+function crackChar(table, feat) {
+	var count = table.count;
+	var dists = new Float64Array(count);
+	for (var i = 0; i < count; i++) {
+		dists[i] = bitDistance(table.coarse, i, table.gc * table.gc, feat.coarse);
+	}
+	var sorted = Float64Array.from(dists);
+	sorted.sort();
+	var threshold = sorted[Math.min(SHORTLIST, count) - 1];
+	var idx = [];
+	for (var j = 0; j < count; j++) {
+		if (dists[j] <= threshold) { idx.push(j); }
+	}
+	var bestI = -1, best = Infinity, second = Infinity;
+	for (var k = 0; k < idx.length; k++) {
+		var d = bitDistance(table.fine, idx[k], table.gf * table.gf, feat.fine);
+		if (d < best) { second = best; best = d; bestI = idx[k]; }
+		else if (d < second) { second = d; }
+	}
+	return {
+		ch: String.fromCodePoint(table.cps[bestI]),
+		margin: second > 0 ? 1 - best / second : 1
+	};
+}
+
+self.onmessage = function (e) {
+	var msg = e.data;
+	(async function () {
+		if (typeof FontFace === 'undefined' || typeof OffscreenCanvas === 'undefined' || !self.fonts) {
+			throw new Error('worker env unsupported');
+		}
+		var family = 'font-decrypt-w-' + Math.random().toString(36).slice(2);
+		var source = typeof msg.fontSource === 'string' ? 'url("' + msg.fontSource + '")' : msg.fontSource;
+		var face = new FontFace(family, source, msg.fontWeight ? { weight: msg.fontWeight } : {});
+		await face.load();
+		self.fonts.add(face);
+		var table = {
+			count: msg.count, cps: msg.cps, coarse: msg.coarse, fine: msg.fine,
+			gc: msg.gc, gf: msg.gf, threshold: msg.threshold
+		};
+		var map = {};
+		var details = [];
+		var uniq = msg.chars;
+		for (var i = 0; i < uniq.length; i++) {
+			var ch = uniq[i];
+			if (!isCoveredByFont(family, ch)) { map[ch] = ch; continue; }
+			var feat = renderGlyph(family, ch, table);
+			if (!feat) { map[ch] = ch; continue; }
+			var r = crackChar(table, feat);
+			map[ch] = r.ch;
+			details.push({ from: ch, to: r.ch, margin: +r.margin.toFixed(3) });
+			self.postMessage({ type: 'progress', done: i + 1, total: uniq.length });
+		}
+		self.postMessage({ type: 'result', map: map, details: details });
+	})().catch(function (err) {
+		self.postMessage({ type: 'error', message: String((err && err.message) || err) });
+	});
+};
+`;
+  function crackFontInWorker(fontSource, chars, config2, table) {
+    return new Promise((resolve) => {
+      if (typeof Worker === "undefined" || typeof OffscreenCanvas === "undefined") {
+        return resolve(null);
+      }
+      let worker;
+      try {
+        const url = URL.createObjectURL(new Blob([WORKER_SOURCE], { type: "application/javascript" }));
+        worker = new Worker(url);
+        URL.revokeObjectURL(url);
+      } catch {
+        return resolve(null);
+      }
+      let settled = false;
+      const timer = setTimeout(() => done(null), WORKER_TIMEOUT);
+      const done = (r) => {
+        if (!settled) {
+          settled = true;
+          clearTimeout(timer);
+          worker.terminate();
+          resolve(r);
+        }
+      };
+      worker.onerror = () => done(null);
+      worker.onmessage = (e) => {
+        var _a;
+        const msg2 = e.data;
+        if (msg2.type === "progress") {
+          (_a = config2.onProgress) == null ? void 0 : _a.call(config2, msg2.done, msg2.total);
+        } else if (msg2.type === "result") {
+          done({ map: msg2.map, details: msg2.details });
+        } else if (msg2.type === "error") {
+          done(null);
+        }
+      };
+      worker.postMessage({
+        fontSource,
+        chars,
+        fontWeight: config2.fontWeight,
+        count: table.count,
+        cps: table.cps,
+        coarse: table.coarse,
+        fine: table.fine,
+        gc: table.gc,
+        gf: table.gf,
+        threshold: table.threshold
+      });
+    });
+  }
+  const RENDER = 360;
+  const SQ = 480;
+  const BASELINE = 384;
+  const SHORTLIST = 40;
+  const INK_THRESHOLD = 40;
+  let renderCanvas;
+  function getRenderCanvas() {
+    if (!renderCanvas) {
+      const cv = document.createElement("canvas");
+      cv.width = SQ;
+      cv.height = SQ;
+      renderCanvas = { cv, ctx: cv.getContext("2d", { willReadFrequently: true }) };
+    }
+    return renderCanvas;
+  }
+  function renderGlyph(fontFamily, ch, table) {
+    const { ctx } = getRenderCanvas();
+    ctx.clearRect(0, 0, SQ, SQ);
+    ctx.fillStyle = "#fff";
+    ctx.font = `${RENDER}px "${fontFamily}"`;
+    ctx.textBaseline = "alphabetic";
+    const advance = ctx.measureText(ch).width;
+    ctx.fillText(ch, (SQ - advance) / 2, BASELINE);
+    const px = ctx.getImageData(0, 0, SQ, SQ).data;
+    let hasInk = false;
+    for (let i = 3; i < px.length; i += 4) {
+      if (px[i] > INK_THRESHOLD) {
+        hasInk = true;
         break;
-      i += ps;
-    }
-    return (i - off) / ps;
-  };
-  if (Typr == null)
-    Typr = {};
-  if (Typr.U == null)
-    Typr.U = {};
-  Typr.U.codeToGlyph = function(font, code) {
-    var cmap = font.cmap;
-    var tind = -1;
-    if (cmap.p0e4 != null)
-      tind = cmap.p0e4;
-    else if (cmap.p3e1 != null)
-      tind = cmap.p3e1;
-    else if (cmap.p1e0 != null)
-      tind = cmap.p1e0;
-    if (tind == -1)
-      throw "no familiar platform and encoding!";
-    var tab = cmap.tables[tind];
-    if (tab.format == 0) {
-      if (code >= tab.map.length)
-        return 0;
-      return tab.map[code];
-    } else if (tab.format == 4) {
-      var sind = -1;
-      for (var i = 0; i < tab.endCount.length; i++)
-        if (code <= tab.endCount[i]) {
-          sind = i;
-          break;
-        }
-      if (sind == -1)
-        return 0;
-      if (tab.startCount[sind] > code)
-        return 0;
-      var gli = 0;
-      if (tab.idRangeOffset[sind] != 0)
-        gli = tab.glyphIdArray[code - tab.startCount[sind] + (tab.idRangeOffset[sind] >> 1) - (tab.idRangeOffset.length - sind)];
-      else
-        gli = code + tab.idDelta[sind];
-      return gli & 65535;
-    } else if (tab.format == 12) {
-      if (code > tab.groups[tab.groups.length - 1][1])
-        return 0;
-      for (var i = 0; i < tab.groups.length; i++) {
-        var grp = tab.groups[i];
-        if (grp[0] <= code && code <= grp[1])
-          return grp[2] + (code - grp[0]);
       }
-      return 0;
-    } else
-      throw "unknown cmap table format " + tab.format;
-  };
-  Typr.U.glyphToPath = function(font, gid) {
-    var path = { cmds: [], crds: [] };
-    if (font.SVG && font.SVG.entries[gid]) {
-      var p = font.SVG.entries[gid];
-      if (p == null)
-        return path;
-      if (typeof p == "string") {
-        p = Typr.SVG.toPath(p);
-        font.SVG.entries[gid] = p;
+    }
+    if (!hasInk) {
+      return null;
+    }
+    const W = SQ + 1;
+    const ii = new Uint32Array(W * W);
+    for (let y = 0; y < SQ; y++) {
+      let rowSum = 0;
+      const srcRow = y * SQ * 4;
+      const dstRow = (y + 1) * W;
+      const upRow = y * W;
+      for (let x = 0; x < SQ; x++) {
+        rowSum += px[srcRow + x * 4 + 3];
+        ii[dstRow + x + 1] = ii[upRow + x + 1] + rowSum;
       }
-      return p;
-    } else if (font.CFF) {
-      var state2 = { x: 0, y: 0, stack: [], nStems: 0, haveWidth: false, width: font.CFF.Private ? font.CFF.Private.defaultWidthX : 0, open: false };
-      Typr.U._drawCFF(font.CFF.CharStrings[gid], state2, font.CFF, path);
-    } else if (font.glyf) {
-      Typr.U._drawGlyf(gid, font, path);
     }
-    return path;
-  };
-  Typr.U._drawGlyf = function(gid, font, path) {
-    var gl = font.glyf[gid];
-    if (gl == null)
-      gl = font.glyf[gid] = Typr.glyf._parseGlyf(font, gid);
-    if (gl != null) {
-      if (gl.noc > -1)
-        Typr.U._simpleGlyph(gl, path);
-      else
-        Typr.U._compoGlyph(gl, font, path);
-    }
-  };
-  Typr.U._simpleGlyph = function(gl, p) {
-    for (var c = 0; c < gl.noc; c++) {
-      var i0 = c == 0 ? 0 : gl.endPts[c - 1] + 1;
-      var il = gl.endPts[c];
-      for (var i = i0; i <= il; i++) {
-        var pr = i == i0 ? il : i - 1;
-        var nx = i == il ? i0 : i + 1;
-        var onCurve = gl.flags[i] & 1;
-        var prOnCurve = gl.flags[pr] & 1;
-        var nxOnCurve = gl.flags[nx] & 1;
-        var x = gl.xs[i], y = gl.ys[i];
-        if (i == i0) {
-          if (onCurve) {
-            if (prOnCurve)
-              Typr.U.P.moveTo(p, gl.xs[pr], gl.ys[pr]);
-            else {
-              Typr.U.P.moveTo(p, x, y);
-              continue;
-            }
-          } else {
-            if (prOnCurve)
-              Typr.U.P.moveTo(p, gl.xs[pr], gl.ys[pr]);
-            else
-              Typr.U.P.moveTo(p, (gl.xs[pr] + x) / 2, (gl.ys[pr] + y) / 2);
-          }
-        }
-        if (onCurve) {
-          if (prOnCurve)
-            Typr.U.P.lineTo(p, x, y);
-        } else {
-          if (nxOnCurve)
-            Typr.U.P.qcurveTo(p, x, y, gl.xs[nx], gl.ys[nx]);
-          else
-            Typr.U.P.qcurveTo(p, x, y, (x + gl.xs[nx]) / 2, (y + gl.ys[nx]) / 2);
+    const box = (n) => {
+      const b = SQ / n;
+      const area = b * b;
+      const out = new Uint8Array(n * n);
+      for (let gy = 0; gy < n; gy++) {
+        for (let gx = 0; gx < n; gx++) {
+          const y0 = gy * b;
+          const x0 = gx * b;
+          const sum = ii[(y0 + b) * W + x0 + b] - ii[y0 * W + x0 + b] - ii[(y0 + b) * W + x0] + ii[y0 * W + x0];
+          out[gy * n + gx] = sum / area > table.threshold ? 1 : 0;
         }
       }
-      Typr.U.P.closePath(p);
+      return out;
+    };
+    return { coarse: box(table.gc), fine: box(table.gf) };
+  }
+  const coverageCanvasCache = {};
+  function isCoveredByFont(fontFamily, ch) {
+    const render2 = (fallback) => {
+      var _a;
+      const key = fontFamily + "|" + fallback;
+      const cv = (_a = coverageCanvasCache[key]) != null ? _a : coverageCanvasCache[key] = (() => {
+        const c = document.createElement("canvas");
+        c.width = 200;
+        c.height = 200;
+        return c;
+      })();
+      const ctx = cv.getContext("2d", { willReadFrequently: true });
+      ctx.clearRect(0, 0, 200, 200);
+      ctx.fillStyle = "#fff";
+      ctx.font = `120px "${fontFamily}", ${fallback}`;
+      ctx.textBaseline = "middle";
+      ctx.fillText(ch, 10, 100);
+      return ctx.getImageData(0, 0, 200, 200).data;
+    };
+    const a = render2("serif");
+    const b = render2("sans-serif");
+    let diff = 0;
+    for (let i = 3; i < a.length; i += 4) {
+      diff += Math.abs(a[i] - b[i]);
     }
-  };
-  Typr.U._compoGlyph = function(gl, font, p) {
-    for (var j = 0; j < gl.parts.length; j++) {
-      var path = { cmds: [], crds: [] };
-      var prt = gl.parts[j];
-      Typr.U._drawGlyf(prt.glyphIndex, font, path);
-      var m = prt.m;
-      for (var i = 0; i < path.crds.length; i += 2) {
-        var x = path.crds[i], y = path.crds[i + 1];
-        p.crds.push(x * m.a + y * m.b + m.tx);
-        p.crds.push(x * m.c + y * m.d + m.ty);
-      }
-      for (var i = 0; i < path.cmds.length; i++)
-        p.cmds.push(path.cmds[i]);
-    }
-  };
-  Typr.U._getGlyphClass = function(g, cd) {
-    var intr = Typr._lctf.getInterval(cd, g);
-    return intr == -1 ? 0 : cd[intr + 2];
-  };
-  Typr.U.getPairAdjustment = function(font, g1, g2) {
-    if (font.GPOS) {
-      var ltab = null;
-      for (var i = 0; i < font.GPOS.featureList.length; i++) {
-        var fl = font.GPOS.featureList[i];
-        if (fl.tag == "kern") {
-          for (var j = 0; j < fl.tab.length; j++)
-            if (font.GPOS.lookupList[fl.tab[j]].ltype == 2)
-              ltab = font.GPOS.lookupList[fl.tab[j]];
-        }
-      }
-      if (ltab) {
-        for (var i = 0; i < ltab.tabs.length; i++) {
-          var tab = ltab.tabs[i];
-          var ind = Typr._lctf.coverageIndex(tab.coverage, g1);
-          if (ind == -1)
-            continue;
-          var adj;
-          if (tab.format == 1) {
-            var right = tab.pairsets[ind];
-            for (var j = 0; j < right.length; j++)
-              if (right[j].gid2 == g2)
-                adj = right[j];
-            if (adj == null)
-              continue;
-          } else if (tab.format == 2) {
-            var c1 = Typr.U._getGlyphClass(g1, tab.classDef1);
-            var c2 = Typr.U._getGlyphClass(g2, tab.classDef2);
-            var adj = tab.matrix[c1][c2];
-          }
-          return adj.val1[2];
-        }
+    return diff < 1e3;
+  }
+  function bitDistance(tableArr, idx, dims, q) {
+    let s = 0;
+    const base = idx * dims;
+    for (let i = 0; i < dims; i++) {
+      if (tableArr[base + i] !== q[i]) {
+        s++;
       }
     }
-    if (font.kern) {
-      var ind1 = font.kern.glyph1.indexOf(g1);
-      if (ind1 != -1) {
-        var ind2 = font.kern.rval[ind1].glyph2.indexOf(g2);
-        if (ind2 != -1)
-          return font.kern.rval[ind1].vals[ind2];
+    return s;
+  }
+  function crackChar(table, feat) {
+    const { count: count2, cps, coarse, fine, gc, gf } = table;
+    const dists = new Float64Array(count2);
+    for (let i = 0; i < count2; i++) {
+      dists[i] = bitDistance(coarse, i, gc * gc, feat.coarse);
+    }
+    const sorted = Float64Array.from(dists);
+    sorted.sort();
+    const threshold = sorted[Math.min(SHORTLIST, count2) - 1];
+    const idx = [];
+    for (let i = 0; i < count2; i++) {
+      if (dists[i] <= threshold) {
+        idx.push(i);
       }
     }
-    return 0;
-  };
-  Typr.U.stringToGlyphs = function(font, str) {
-    var gls = [];
-    for (var i = 0; i < str.length; i++) {
-      var cc = str.codePointAt(i);
-      if (cc > 65535)
-        i++;
-      gls.push(Typr.U.codeToGlyph(font, cc));
-    }
-    var gsub = font["GSUB"];
-    if (gsub == null)
-      return gls;
-    var llist = gsub.lookupList, flist = gsub.featureList;
-    var wsep = '\n	" ,.:;!?()  ،';
-    var R2 = "آأؤإاةدذرزوٱٲٳٵٶٷڈډڊڋڌڍڎڏڐڑڒړڔڕږڗژڙۀۃۄۅۆۇۈۉۊۋۍۏےۓەۮۯܐܕܖܗܘܙܞܨܪܬܯݍݙݚݛݫݬݱݳݴݸݹࡀࡆࡇࡉࡔࡧࡩࡪࢪࢫࢬࢮࢱࢲࢹૅેૉ૊૎૏ૐ૑૒૝ૡ૤૯஁ஃ஄அஉ஌எஏ஑னப஫஬";
-    var L = "ꡲ્૗";
-    for (var ci = 0; ci < gls.length; ci++) {
-      var gl = gls[ci];
-      var slft = ci == 0 || wsep.indexOf(str[ci - 1]) != -1;
-      var srgt = ci == gls.length - 1 || wsep.indexOf(str[ci + 1]) != -1;
-      if (!slft && R2.indexOf(str[ci - 1]) != -1)
-        slft = true;
-      if (!srgt && R2.indexOf(str[ci]) != -1)
-        srgt = true;
-      if (!srgt && L.indexOf(str[ci + 1]) != -1)
-        srgt = true;
-      if (!slft && L.indexOf(str[ci]) != -1)
-        slft = true;
-      var feat = null;
-      if (slft)
-        feat = srgt ? "isol" : "init";
-      else
-        feat = srgt ? "fina" : "medi";
-      for (var fi = 0; fi < flist.length; fi++) {
-        if (flist[fi].tag != feat)
-          continue;
-        for (var ti = 0; ti < flist[fi].tab.length; ti++) {
-          var tab = llist[flist[fi].tab[ti]];
-          if (tab.ltype != 1)
-            continue;
-          Typr.U._applyType1(gls, ci, tab);
-        }
+    let bestI = -1;
+    let best = Infinity;
+    let second = Infinity;
+    for (let k = 0; k < idx.length; k++) {
+      const i = idx[k];
+      const d = bitDistance(fine, i, gf * gf, feat.fine);
+      if (d < best) {
+        second = best;
+        best = d;
+        bestI = i;
+      } else if (d < second) {
+        second = d;
       }
     }
-    var cligs = ["rlig", "liga", "mset"];
-    for (var ci = 0; ci < gls.length; ci++) {
-      var gl = gls[ci];
-      var rlim = Math.min(3, gls.length - ci - 1);
-      for (var fi = 0; fi < flist.length; fi++) {
-        var fl = flist[fi];
-        if (cligs.indexOf(fl.tag) == -1)
-          continue;
-        for (var ti = 0; ti < fl.tab.length; ti++) {
-          var tab = llist[fl.tab[ti]];
-          for (var j = 0; j < tab.tabs.length; j++) {
-            if (tab.tabs[j] == null)
-              continue;
-            var ind = Typr._lctf.coverageIndex(tab.tabs[j].coverage, gl);
-            if (ind == -1)
-              continue;
-            if (tab.ltype == 4) {
-              var vals = tab.tabs[j].vals[ind];
-              for (var k = 0; k < vals.length; k++) {
-                var lig = vals[k], rl = lig.chain.length;
-                if (rl > rlim)
-                  continue;
-                var good = true;
-                for (var l = 0; l < rl; l++)
-                  if (lig.chain[l] != gls[ci + (1 + l)])
-                    good = false;
-                if (!good)
-                  continue;
-                gls[ci] = lig.nglyph;
-                for (var l = 0; l < rl; l++)
-                  gls[ci + l + 1] = -1;
-              }
-            } else if (tab.ltype == 5) {
-              var ltab = tab.tabs[j];
-              if (ltab.fmt != 2)
-                continue;
-              var cind = Typr._lctf.getInterval(ltab.cDef, gl);
-              var cls = ltab.cDef[cind + 2], scs = ltab.scset[cls];
-              for (var i = 0; i < scs.length; i++) {
-                var sc = scs[i], inp = sc.input;
-                if (inp.length > rlim)
-                  continue;
-                var good = true;
-                for (var l = 0; l < inp.length; l++) {
-                  var cind2 = Typr._lctf.getInterval(ltab.cDef, gls[ci + 1 + l]);
-                  if (cind == -1 && ltab.cDef[cind2 + 2] != inp[l]) {
-                    good = false;
-                    break;
-                  }
-                }
-                if (!good)
-                  continue;
-                var lrs = sc.substLookupRecords;
-                for (var k = 0; k < lrs.length; k += 2) {
-                  lrs[k];
-                  lrs[k + 1];
-                }
-              }
+    return {
+      ch: String.fromCodePoint(cps[bestI]),
+      best,
+      second,
+      margin: second > 0 ? 1 - best / second : 1
+    };
+  }
+  async function crackFont(fontSource, chars, config2) {
+    var _a;
+    const table = await loadRefTable(config2.refTableUrl);
+    const uniq = [...new Set(chars)].filter((c) => c.trim() !== "");
+    if (config2.useWorker !== false) {
+      const r = await crackFontInWorker(fontSource, uniq, config2, table);
+      if (r) {
+        return r;
+      }
+    }
+    const family = "font-decrypt-" + Math.random().toString(36).slice(2);
+    const source = typeof fontSource === "string" ? `url("${fontSource}")` : fontSource;
+    const face = new FontFace(family, source, config2.fontWeight ? { weight: config2.fontWeight } : {});
+    await Promise.race([
+      face.load(),
+      new Promise((resolve, reject) => setTimeout(() => reject(new Error("[font-decrypt] 字体加载超时")), 15e3))
+    ]);
+    document.fonts.add(face);
+    const map = {};
+    const details = [];
+    for (let i = 0; i < uniq.length; i++) {
+      const ch = uniq[i];
+      if (!isCoveredByFont(family, ch)) {
+        map[ch] = ch;
+        continue;
+      }
+      const feat = renderGlyph(family, ch, table);
+      if (!feat) {
+        map[ch] = ch;
+        continue;
+      }
+      const r = crackChar(table, feat);
+      map[ch] = r.ch;
+      details.push({ from: ch, to: r.ch, margin: +r.margin.toFixed(3) });
+      (_a = config2.onProgress) == null ? void 0 : _a.call(config2, i + 1, uniq.length);
+      if (i % 10 === 9) {
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      }
+    }
+    return { map, details };
+  }
+  function decryptText(text2, map) {
+    return [...text2].map((c) => {
+      var _a;
+      return (_a = map[c]) != null ? _a : c;
+    }).join("");
+  }
+  function decryptElements(roots, map) {
+    var _a;
+    for (const root2 of Array.isArray(roots) ? roots : [roots]) {
+      const walker = document.createTreeWalker(root2, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) {
+        nodes.push(walker.currentNode);
+      }
+      for (const node of nodes) {
+        node.nodeValue = decryptText((_a = node.nodeValue) != null ? _a : "", map);
+      }
+    }
+  }
+  function collectChars(roots) {
+    var _a;
+    let text2 = "";
+    for (const root2 of Array.isArray(roots) ? roots : [roots]) {
+      text2 += (_a = root2.textContent) != null ? _a : "";
+    }
+    return text2;
+  }
+  function findFontUrls(doc = document) {
+    var _a, _b;
+    const urls = /* @__PURE__ */ new Set();
+    for (const sheet of Array.from(doc.styleSheets)) {
+      try {
+        for (const rule of Array.from(sheet.cssRules)) {
+          if (rule instanceof CSSFontFaceRule) {
+            const m = /url\(["']?([^"')]+)["']?\)/.exec(rule.style.getPropertyValue("src"));
+            if (m) {
+              urls.add(new URL(m[1], location.href).href);
             }
           }
         }
+      } catch {
       }
     }
-    return gls;
-  };
-  Typr.U._applyType1 = function(gls, ci, tab) {
-    var gl = gls[ci];
-    for (var j = 0; j < tab.tabs.length; j++) {
-      var ttab = tab.tabs[j];
-      var ind = Typr._lctf.coverageIndex(ttab.coverage, gl);
-      if (ind == -1)
-        continue;
-      if (ttab.fmt == 1)
-        gls[ci] = gls[ci] + ttab.delta;
-      else
-        gls[ci] = ttab.newg[ind];
-    }
-  };
-  Typr.U.glyphsToPath = function(font, gls, clr) {
-    var tpath = { cmds: [], crds: [] };
-    var x = 0;
-    for (var i = 0; i < gls.length; i++) {
-      var gid = gls[i];
-      if (gid == -1)
-        continue;
-      var gid2 = i < gls.length - 1 && gls[i + 1] != -1 ? gls[i + 1] : 0;
-      var path = Typr.U.glyphToPath(font, gid);
-      for (var j = 0; j < path.crds.length; j += 2) {
-        tpath.crds.push(path.crds[j] + x);
-        tpath.crds.push(path.crds[j + 1]);
-      }
-      if (clr)
-        tpath.cmds.push(clr);
-      for (var j = 0; j < path.cmds.length; j++)
-        tpath.cmds.push(path.cmds[j]);
-      if (clr)
-        tpath.cmds.push("X");
-      x += font.hmtx.aWidth[gid];
-      if (i < gls.length - 1)
-        x += Typr.U.getPairAdjustment(font, gid, gid2);
-    }
-    return tpath;
-  };
-  Typr.U.pathToSVG = function(path, prec) {
-    if (prec == null)
-      prec = 5;
-    var out = [], co = 0, lmap = { M: 2, L: 2, Q: 4, C: 6 };
-    for (var i = 0; i < path.cmds.length; i++) {
-      var cmd = path.cmds[i], cn = co + (lmap[cmd] ? lmap[cmd] : 0);
-      out.push(cmd);
-      while (co < cn) {
-        var c = path.crds[co++];
-        out.push(parseFloat(c.toFixed(prec)) + (co == cn ? "" : " "));
+    const perf = (_b = (_a = doc.defaultView) == null ? void 0 : _a.performance) != null ? _b : performance;
+    for (const entry of perf.getEntriesByType("resource")) {
+      if (/\.(ttf|otf|woff2?)(\?|$)/i.test(entry.name)) {
+        urls.add(entry.name);
       }
     }
-    return out.join("");
-  };
-  Typr.U.pathToContext = function(path, ctx) {
-    var c = 0, crds = path.crds;
-    for (var j = 0; j < path.cmds.length; j++) {
-      var cmd = path.cmds[j];
-      if (cmd == "M") {
-        ctx.moveTo(crds[c], crds[c + 1]);
-        c += 2;
-      } else if (cmd == "L") {
-        ctx.lineTo(crds[c], crds[c + 1]);
-        c += 2;
-      } else if (cmd == "C") {
-        ctx.bezierCurveTo(crds[c], crds[c + 1], crds[c + 2], crds[c + 3], crds[c + 4], crds[c + 5]);
-        c += 6;
-      } else if (cmd == "Q") {
-        ctx.quadraticCurveTo(crds[c], crds[c + 1], crds[c + 2], crds[c + 3]);
-        c += 4;
-      } else if (cmd.charAt(0) == "#") {
-        ctx.beginPath();
-        ctx.fillStyle = cmd;
-      } else if (cmd == "Z") {
-        ctx.closePath();
-      } else if (cmd == "X") {
-        ctx.fill();
-      }
+    return [...urls];
+  }
+  function extractFontFromStyle(doc, fontFamilyMarker) {
+    var _a, _b;
+    const styleEl = Array.from(doc.head.querySelectorAll("style")).find((s) => {
+      var _a2;
+      return (_a2 = s.textContent) == null ? void 0 : _a2.includes(fontFamilyMarker);
+    });
+    const base64 = (_b = (_a = styleEl == null ? void 0 : styleEl.textContent) == null ? void 0 : _a.match(/base64,([\w\W]+?)['")]/)) == null ? void 0 : _b[1];
+    if (!base64) {
+      return void 0;
     }
-  };
-  Typr.U.P = {};
-  Typr.U.P.moveTo = function(p, x, y) {
-    p.cmds.push("M");
-    p.crds.push(x, y);
-  };
-  Typr.U.P.lineTo = function(p, x, y) {
-    p.cmds.push("L");
-    p.crds.push(x, y);
-  };
-  Typr.U.P.curveTo = function(p, a, b, c, d, e, f) {
-    p.cmds.push("C");
-    p.crds.push(a, b, c, d, e, f);
-  };
-  Typr.U.P.qcurveTo = function(p, a, b, c, d) {
-    p.cmds.push("Q");
-    p.crds.push(a, b, c, d);
-  };
-  Typr.U.P.closePath = function(p) {
-    p.cmds.push("Z");
-  };
-  Typr.U._drawCFF = function(cmds, state2, font, p) {
-    var stack = state2.stack;
-    var nStems = state2.nStems, haveWidth = state2.haveWidth, width = state2.width, open = state2.open;
-    var i = 0;
-    var x = state2.x, y = state2.y, c1x = 0, c1y = 0, c2x = 0, c2y = 0, c3x = 0, c3y = 0, c4x = 0, c4y = 0, jpx = 0, jpy = 0;
-    var o = { val: 0, size: 0 };
-    while (i < cmds.length) {
-      Typr.CFF.getCharString(cmds, i, o);
-      var v = o.val;
-      i += o.size;
-      if (v == "o1" || v == "o18") {
-        var hasWidthArg;
-        hasWidthArg = stack.length % 2 !== 0;
-        if (hasWidthArg && !haveWidth) {
-          width = stack.shift() + font.Private.nominalWidthX;
-        }
-        nStems += stack.length >> 1;
-        stack.length = 0;
-        haveWidth = true;
-      } else if (v == "o3" || v == "o23") {
-        var hasWidthArg;
-        hasWidthArg = stack.length % 2 !== 0;
-        if (hasWidthArg && !haveWidth) {
-          width = stack.shift() + font.Private.nominalWidthX;
-        }
-        nStems += stack.length >> 1;
-        stack.length = 0;
-        haveWidth = true;
-      } else if (v == "o4") {
-        if (stack.length > 1 && !haveWidth) {
-          width = stack.shift() + font.Private.nominalWidthX;
-          haveWidth = true;
-        }
-        if (open)
-          Typr.U.P.closePath(p);
-        y += stack.pop();
-        Typr.U.P.moveTo(p, x, y);
-        open = true;
-      } else if (v == "o5") {
-        while (stack.length > 0) {
-          x += stack.shift();
-          y += stack.shift();
-          Typr.U.P.lineTo(p, x, y);
-        }
-      } else if (v == "o6" || v == "o7") {
-        var count = stack.length;
-        var isX = v == "o6";
-        for (var j = 0; j < count; j++) {
-          var sval = stack.shift();
-          if (isX)
-            x += sval;
-          else
-            y += sval;
-          isX = !isX;
-          Typr.U.P.lineTo(p, x, y);
-        }
-      } else if (v == "o8" || v == "o24") {
-        var count = stack.length;
-        var index = 0;
-        while (index + 6 <= count) {
-          c1x = x + stack.shift();
-          c1y = y + stack.shift();
-          c2x = c1x + stack.shift();
-          c2y = c1y + stack.shift();
-          x = c2x + stack.shift();
-          y = c2y + stack.shift();
-          Typr.U.P.curveTo(p, c1x, c1y, c2x, c2y, x, y);
-          index += 6;
-        }
-        if (v == "o24") {
-          x += stack.shift();
-          y += stack.shift();
-          Typr.U.P.lineTo(p, x, y);
-        }
-      } else if (v == "o11")
-        break;
-      else if (v == "o1234" || v == "o1235" || v == "o1236" || v == "o1237") {
-        if (v == "o1234") {
-          c1x = x + stack.shift();
-          c1y = y;
-          c2x = c1x + stack.shift();
-          c2y = c1y + stack.shift();
-          jpx = c2x + stack.shift();
-          jpy = c2y;
-          c3x = jpx + stack.shift();
-          c3y = c2y;
-          c4x = c3x + stack.shift();
-          c4y = y;
-          x = c4x + stack.shift();
-          Typr.U.P.curveTo(p, c1x, c1y, c2x, c2y, jpx, jpy);
-          Typr.U.P.curveTo(p, c3x, c3y, c4x, c4y, x, y);
-        }
-        if (v == "o1235") {
-          c1x = x + stack.shift();
-          c1y = y + stack.shift();
-          c2x = c1x + stack.shift();
-          c2y = c1y + stack.shift();
-          jpx = c2x + stack.shift();
-          jpy = c2y + stack.shift();
-          c3x = jpx + stack.shift();
-          c3y = jpy + stack.shift();
-          c4x = c3x + stack.shift();
-          c4y = c3y + stack.shift();
-          x = c4x + stack.shift();
-          y = c4y + stack.shift();
-          stack.shift();
-          Typr.U.P.curveTo(p, c1x, c1y, c2x, c2y, jpx, jpy);
-          Typr.U.P.curveTo(p, c3x, c3y, c4x, c4y, x, y);
-        }
-        if (v == "o1236") {
-          c1x = x + stack.shift();
-          c1y = y + stack.shift();
-          c2x = c1x + stack.shift();
-          c2y = c1y + stack.shift();
-          jpx = c2x + stack.shift();
-          jpy = c2y;
-          c3x = jpx + stack.shift();
-          c3y = c2y;
-          c4x = c3x + stack.shift();
-          c4y = c3y + stack.shift();
-          x = c4x + stack.shift();
-          Typr.U.P.curveTo(p, c1x, c1y, c2x, c2y, jpx, jpy);
-          Typr.U.P.curveTo(p, c3x, c3y, c4x, c4y, x, y);
-        }
-        if (v == "o1237") {
-          c1x = x + stack.shift();
-          c1y = y + stack.shift();
-          c2x = c1x + stack.shift();
-          c2y = c1y + stack.shift();
-          jpx = c2x + stack.shift();
-          jpy = c2y + stack.shift();
-          c3x = jpx + stack.shift();
-          c3y = jpy + stack.shift();
-          c4x = c3x + stack.shift();
-          c4y = c3y + stack.shift();
-          if (Math.abs(c4x - x) > Math.abs(c4y - y)) {
-            x = c4x + stack.shift();
-          } else {
-            y = c4y + stack.shift();
+    const raw = window.atob(base64);
+    const buffer = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i++) {
+      buffer[i] = raw.charCodeAt(i);
+    }
+    return buffer.buffer;
+  }
+  function listFontFaces(doc = document) {
+    var _a, _b;
+    const faces = [];
+    for (const sheet of Array.from(doc.styleSheets)) {
+      try {
+        for (const rule of Array.from(sheet.cssRules)) {
+          if (rule instanceof CSSFontFaceRule) {
+            const family = rule.style.getPropertyValue("font-family").replace(/["']/g, "").trim();
+            const m = /url\(["']?([^"')]+)["']?\)/.exec(rule.style.getPropertyValue("src"));
+            if (family && m) {
+              const base = (_b = (_a = doc.location) == null ? void 0 : _a.href) != null ? _b : location.href;
+              faces.push({ family, src: m[1].startsWith("data:") ? m[1] : new URL(m[1], base).href });
+            }
           }
-          Typr.U.P.curveTo(p, c1x, c1y, c2x, c2y, jpx, jpy);
-          Typr.U.P.curveTo(p, c3x, c3y, c4x, c4y, x, y);
         }
-      } else if (v == "o14") {
-        if (stack.length > 0 && !haveWidth) {
-          width = stack.shift() + font.nominalWidthX;
-          haveWidth = true;
-        }
-        if (stack.length == 4) {
-          var adx = stack.shift();
-          var ady = stack.shift();
-          var bchar = stack.shift();
-          var achar = stack.shift();
-          var bind = Typr.CFF.glyphBySE(font, bchar);
-          var aind = Typr.CFF.glyphBySE(font, achar);
-          Typr.U._drawCFF(font.CharStrings[bind], state2, font, p);
-          state2.x = adx;
-          state2.y = ady;
-          Typr.U._drawCFF(font.CharStrings[aind], state2, font, p);
-        }
-        if (open) {
-          Typr.U.P.closePath(p);
-          open = false;
-        }
-      } else if (v == "o19" || v == "o20") {
-        var hasWidthArg;
-        hasWidthArg = stack.length % 2 !== 0;
-        if (hasWidthArg && !haveWidth) {
-          width = stack.shift() + font.Private.nominalWidthX;
-        }
-        nStems += stack.length >> 1;
-        stack.length = 0;
-        haveWidth = true;
-        i += nStems + 7 >> 3;
-      } else if (v == "o21") {
-        if (stack.length > 2 && !haveWidth) {
-          width = stack.shift() + font.Private.nominalWidthX;
-          haveWidth = true;
-        }
-        y += stack.pop();
-        x += stack.pop();
-        if (open)
-          Typr.U.P.closePath(p);
-        Typr.U.P.moveTo(p, x, y);
-        open = true;
-      } else if (v == "o22") {
-        if (stack.length > 1 && !haveWidth) {
-          width = stack.shift() + font.Private.nominalWidthX;
-          haveWidth = true;
-        }
-        x += stack.pop();
-        if (open)
-          Typr.U.P.closePath(p);
-        Typr.U.P.moveTo(p, x, y);
-        open = true;
-      } else if (v == "o25") {
-        while (stack.length > 6) {
-          x += stack.shift();
-          y += stack.shift();
-          Typr.U.P.lineTo(p, x, y);
-        }
-        c1x = x + stack.shift();
-        c1y = y + stack.shift();
-        c2x = c1x + stack.shift();
-        c2y = c1y + stack.shift();
-        x = c2x + stack.shift();
-        y = c2y + stack.shift();
-        Typr.U.P.curveTo(p, c1x, c1y, c2x, c2y, x, y);
-      } else if (v == "o26") {
-        if (stack.length % 2) {
-          x += stack.shift();
-        }
-        while (stack.length > 0) {
-          c1x = x;
-          c1y = y + stack.shift();
-          c2x = c1x + stack.shift();
-          c2y = c1y + stack.shift();
-          x = c2x;
-          y = c2y + stack.shift();
-          Typr.U.P.curveTo(p, c1x, c1y, c2x, c2y, x, y);
-        }
-      } else if (v == "o27") {
-        if (stack.length % 2) {
-          y += stack.shift();
-        }
-        while (stack.length > 0) {
-          c1x = x + stack.shift();
-          c1y = y;
-          c2x = c1x + stack.shift();
-          c2y = c1y + stack.shift();
-          x = c2x + stack.shift();
-          y = c2y;
-          Typr.U.P.curveTo(p, c1x, c1y, c2x, c2y, x, y);
-        }
-      } else if (v == "o10" || v == "o29") {
-        var obj = v == "o10" ? font.Private : font;
-        if (stack.length == 0) {
-          console.log("error: empty stack");
-        } else {
-          var ind = stack.pop();
-          var subr = obj.Subrs[ind + obj.Bias];
-          state2.x = x;
-          state2.y = y;
-          state2.nStems = nStems;
-          state2.haveWidth = haveWidth;
-          state2.width = width;
-          state2.open = open;
-          Typr.U._drawCFF(subr, state2, font, p);
-          x = state2.x;
-          y = state2.y;
-          nStems = state2.nStems;
-          haveWidth = state2.haveWidth;
-          width = state2.width;
-          open = state2.open;
-        }
-      } else if (v == "o30" || v == "o31") {
-        var count, count1 = stack.length;
-        var index = 0;
-        var alternate = v == "o31";
-        count = count1 & ~2;
-        index += count1 - count;
-        while (index < count) {
-          if (alternate) {
-            c1x = x + stack.shift();
-            c1y = y;
-            c2x = c1x + stack.shift();
-            c2y = c1y + stack.shift();
-            y = c2y + stack.shift();
-            if (count - index == 5) {
-              x = c2x + stack.shift();
-              index++;
-            } else
-              x = c2x;
-            alternate = false;
-          } else {
-            c1x = x;
-            c1y = y + stack.shift();
-            c2x = c1x + stack.shift();
-            c2y = c1y + stack.shift();
-            x = c2x + stack.shift();
-            if (count - index == 5) {
-              y = c2y + stack.shift();
-              index++;
-            } else
-              y = c2y;
-            alternate = true;
-          }
-          Typr.U.P.curveTo(p, c1x, c1y, c2x, c2y, x, y);
-          index += 4;
-        }
-      } else if ((v + "").charAt(0) == "o") {
-        console.log("Unknown operation: " + v, cmds);
-        throw v;
-      } else
-        stack.push(v);
+      } catch {
+      }
     }
-    state2.x = x;
-    state2.y = y;
-    state2.nStems = nStems;
-    state2.haveWidth = haveWidth;
-    state2.width = width;
-    state2.open = open;
-  };
-  var typr_js = Typr;
+    return faces;
+  }
+  class FontDecryptor {
+    constructor(fontSource, config2) {
+      this.map = {};
+      this.queue = Promise.resolve();
+      this.fontSource = fontSource;
+      this.config = config2;
+    }
+    static async create(fontSource, config2) {
+      await loadRefTable(config2.refTableUrl);
+      return new FontDecryptor(fontSource, config2);
+    }
+    get size() {
+      return Object.keys(this.map).length;
+    }
+    decrypt(els) {
+      return this.enqueue(async () => {
+        const chars = collectChars(els);
+        const newChars = [...new Set(chars)].filter((c) => c.trim() !== "" && !(c in this.map));
+        if (newChars.length) {
+          const useWorker = newChars.length > 20 ? this.config.useWorker : false;
+          const r = await crackFont(this.fontSource, newChars, { ...this.config, useWorker });
+          Object.assign(this.map, r.map);
+        }
+        decryptElements(els, this.map);
+      });
+    }
+    waitForIdle() {
+      return this.queue;
+    }
+    enqueue(task) {
+      const run = this.queue.then(task, task);
+      this.queue = run.catch(() => void 0);
+      return run;
+    }
+  }
+  function watchElements(root2, selector, onFound, options) {
+    var _a, _b;
+    const target = root2 instanceof Document ? (_a = root2.body) != null ? _a : root2.documentElement : root2;
+    const debounceMs = (_b = options == null ? void 0 : options.debounceMs) != null ? _b : 50;
+    let stopped = false;
+    let timer;
+    let running = false;
+    let rescan = false;
+    const scan = async () => {
+      if (stopped || running) {
+        rescan = !stopped;
+        return;
+      }
+      running = true;
+      try {
+        const els = Array.from(target.querySelectorAll(selector));
+        if (els.length) {
+          await onFound(els);
+        }
+      } catch (err) {
+        console.error("[font-decrypt] watchElements 回调执行失败：", err);
+      } finally {
+        running = false;
+        if (rescan && !stopped) {
+          rescan = false;
+          schedule();
+        }
+      }
+    };
+    const schedule = () => {
+      if (stopped) {
+        return;
+      }
+      clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        timer = void 0;
+        scan();
+      }, debounceMs);
+    };
+    const observer = new MutationObserver(schedule);
+    observer.observe(target, { childList: true, subtree: true, characterData: true });
+    scan();
+    return {
+      stop: () => {
+        stopped = true;
+        clearTimeout(timer);
+        timer = void 0;
+        observer.disconnect();
+      },
+      isBusy: () => timer !== void 0 || running || rescan
+    };
+  }
+  const CX_SECRET_REF_TABLE_URL = "https://cdn.ocsjs.com/resources/font/font_ref_cx.bin";
+  const HIGHT_PLAYBACK_RATE_WARNS = [
+    "⚠️高倍速、夜间、白天大量运行 等情况\n可能导致学习记录清空/回退",
+    "⚠️超星后台可以看到学习时长，请谨慎设置",
+    "⚠️如已清空/回退，请降低倍速至1-2倍"
+  ];
   let top$1 = globalThis.top;
   try {
-    top$1.typrMapping = top$1.typrMapping || void 0;
     top$1.jobs = top$1.jobs || [];
     top$1.currentMedia = top$1.currentMedia || void 0;
   } catch {
@@ -17834,7 +18005,9 @@ ${content}</tr>
       "ccqmxx.com",
       "jxgmxy.com",
       "jnzyjsxy.cn",
-      "sslibrary.com"
+      "smjyxy.cn",
+      "sslibrary.com",
+      "xuexi365.com"
     ],
     scripts: {
       env: new lib.Script({
@@ -17874,7 +18047,7 @@ ${content}</tr>
         namespace: "cx.guide",
         configs: {
           notes: {
-            defaultValue: `请手动进入视频、作业、考试页面，脚本会自动运行。`
+            defaultValue: createSteps(["登录网课平台", "进入任意视频、作业/考试界面", "等待脚本自动运行"]).outerHTML
           }
         },
         oncomplete() {
@@ -17882,7 +18055,28 @@ ${content}</tr>
             lib.$message.success("已进入学习页面，请等待自动运行...");
             return;
           }
+          if (self !== top$1)
+            return;
           lib.$message.info("请手动进入视频、作业、考试页面，脚本会自动运行。");
+        },
+        onrender({ panel }) {
+          if (lib.$gm.isInGMContext()) {
+            const gotoPanel = (scriptKey) => {
+              const target = CXProject.scripts[scriptKey];
+              target.projectName = CXProject.name;
+              BackgroundProject.scripts.render.methods.pin(target);
+            };
+            panel.body.replaceChildren(
+              lib.h("hr"),
+              lib.$ui.button("👉 前往学习设置", {}, (btn) => {
+                btn.style.marginRight = "12px";
+                btn.onclick = () => gotoPanel("study");
+              }),
+              lib.$ui.button("👉 前往作业设置", {}, (btn) => {
+                btn.onclick = () => gotoPanel("work");
+              })
+            );
+          }
         }
       }),
       study: new lib.Script({
@@ -17898,10 +18092,10 @@ ${content}</tr>
               ["任务点不是顺序执行，如果某一个任务没有动", "请查看是否有其他任务正在学习，耐心等待即可。"],
               "闯关模式请注意题库如果没完成，需要自己完成才能解锁章节。",
               "请勿凌晨刷课，部分学校课程可能会清空进度。",
-              ["⚠️目前超星倍速风控严重，如果高倍速", "完成后被清空还原，请调到1-2倍速学习！"]
+              ["⚠️目前超星倍速风控严重，如果高倍速", "被平台清空进度，请调到1-2倍速学习！"]
             ]).outerHTML
           },
-          playbackRate,
+          playbackRate: { ...playbackRate$1, attrs: { title: HIGHT_PLAYBACK_RATE_WARNS.join("\n") } },
           volume,
           videoQuizStrategy: {
             label: "视频内题目",
@@ -17920,17 +18114,35 @@ ${content}</tr>
             tag: "select",
             options: [
               ["next", "完成后跳转下一节", "完成小节后，自动点击下一节按钮"],
-              ["job", "完成后跳转未完成任务点", "如果未找到任务点，则会直接结束脚本运行，目前处于试验阶段。"],
+              ["job", "智能模式", "自动寻找任务点完成"],
               ["manually", "完成后暂停，等待手动跳转", "适用于自己手动运行"]
             ],
-            defaultValue: "next"
+            defaultValue: "job"
           },
           restudy: {
             label: "复习模式",
-            attrs: { title: "已经完成的视频继续学习，并从当前的章节往下开始学习", type: "checkbox" },
+            attrs: { title: "已经完成的视频继续学习", type: "checkbox" },
             defaultValue: false
           },
+          enables: {
+            ...dropdownStyle,
+            label: "高级设置",
+            attrs: { type: "checkbox" },
+            defaultValue: false
+          },
+          autoJumpToUnFinishJob: {
+            elementClassName: "config-details",
+            showIf: "cx.new.study.enables",
+            label: "自动前往首个任务点",
+            attrs: {
+              type: "checkbox",
+              title: "进入学习界面后自动前往未完成的任务点，如果关闭则从当前任务点往下学习 （积分课、智慧课程等课程 建议关闭）"
+            },
+            defaultValue: true
+          },
           forceLearn: {
+            elementClassName: "config-details",
+            showIf: "cx.new.study.enables",
             label: "强制学习",
             attrs: {
               title: "视频一般分为：非任务点、任务点、和已完成任务点，当遇到“非任务点”时需要开启此选项才会进行学习",
@@ -17939,6 +18151,8 @@ ${content}</tr>
             defaultValue: false
           },
           backToFirstWhenFinish: {
+            elementClassName: "config-details",
+            showIf: "cx.new.study.enables",
             label: "完成全部后重新学习",
             attrs: {
               type: "checkbox",
@@ -17947,7 +18161,9 @@ ${content}</tr>
             defaultValue: false
           },
           showTextareaWhenEdit: {
+            elementClassName: "config-details",
             label: "编辑时显示自定义编辑框",
+            showIf: "cx.new.study.enables",
             attrs: {
               type: "checkbox",
               title: "超星默认禁止在编辑框中复制粘贴，开启此选项可以在文本框编辑时生成一个自定义编辑框进行编辑，脚本会将内容同步到编辑框中。"
@@ -17955,17 +18171,13 @@ ${content}</tr>
             defaultValue: true
           },
           notifyWhenHasFaceRecognition: {
+            elementClassName: "config-details",
+            showIf: "cx.new.study.enables",
             label: "出现人脸识别时通知我",
             attrs: {
               type: "checkbox"
             },
             defaultValue: true
-          },
-          enables: {
-            ...dropdownStyle,
-            label: "高级设置",
-            attrs: { type: "checkbox" },
-            defaultValue: false
           },
           enableMedia: {
             elementClassName: "config-details",
@@ -18005,12 +18217,8 @@ ${content}</tr>
           state$4.study.playbackRateWarningListenerId = this.onConfigChange("playbackRate", (playbackRate2) => {
             if (playbackRate2 > 2) {
               lib.$modal.alert({
-                title: "⚠️高倍速警告",
-                content: lib.$ui.notes([
-                  "⚠️高倍速可能导致学习记录清空/回退",
-                  "⚠️超星后台可以看到学习时长，请谨慎设置",
-                  "⚠️如已清空/回退，请降低倍速至1-2倍"
-                ]),
+                title: "⚠️高倍速警告 （倍速 >= 2）",
+                content: lib.$ui.notes(HIGHT_PLAYBACK_RATE_WARNS),
                 maskCloseable: false,
                 confirmButtonText: "我已知晓风险"
               });
@@ -18062,8 +18270,7 @@ ${content}</tr>
             this.onConfigChange("volume", updateMediaState);
             await study({
               ...this.cfg,
-              playbackRate: parseFloat(this.cfg.playbackRate.toString()),
-              workOptions: CommonProject.scripts.settings.methods.getWorkOptions()
+              playbackRate: parseFloat(this.cfg.playbackRate.toString())
             });
           }
         }
@@ -18072,16 +18279,44 @@ ${content}</tr>
         name: "✍️ 作业考试脚本",
         matches: [
           ["作业页面", "/mooc2/work/dowork"],
-          ["考试整卷预览页面", "/mooc2/exam/preview"]
+          ["考试整卷预览页面", "/mooc2/exam/preview"],
+          ["作业完成界面", "/work/view"]
         ],
         namespace: "cx.new.work",
-        configs: { notes: workNotes },
+        configs: { notes: workNotes$1 },
         async oncomplete() {
+          if (location.href.includes("/work/view")) {
+            return lib.$message.info("当前作业已提交、自动答题关闭");
+          }
+          await ensureCxFontDecrypted();
           const isExam2 = /\/exam\/preview/.test(location.href);
-          commonWork(this, {
-            workerProvider: (opts) => workOrExam$1(isExam2 ? "exam" : "work", { ...opts, preview_mode: true }),
-            enable_control_panel: true
+          commonWork({
+            mount_script: this,
+            workerProvider: (opts) => workOrExam$1(isExam2 ? "exam" : "work", { ...opts, preview_mode: true })
           });
+        }
+      }),
+      mobilelearn: new lib.Script({
+        name: "✍️ 任务列表",
+        matches: [
+          ["任务列表首页", "/page/active/stuActiveList"],
+          ["随堂练习页面", "/page/quiz/stu/answerQuestion2"]
+        ],
+        namespace: "cx.new.mobilelearn",
+        configs: { notes: workNotes$1 },
+        async oncomplete() {
+          if (location.href.includes("/page/quiz/stu/answerQuestion2")) {
+            await waitForElement(".left-question-list");
+            await $.sleep(1e3);
+            await ensureCxFontDecrypted();
+            CORSUtils.pinWorkPanel();
+            commonWork({
+              iframe_control: true,
+              workerProvider: (opts) => mobilelearn(opts)
+            });
+            return;
+          }
+          CommonEvents.emitWorkerStateChange("close");
         }
       }),
       autoRead: new lib.Script({
@@ -18104,7 +18339,7 @@ ${content}</tr>
           }
         },
         oncomplete() {
-          CommonProject.scripts.render.methods.pin(this);
+          BackgroundProject.scripts.render.methods.pin(this);
           lib.$message.info("请手动点击任意章节开始自动阅读");
           if (location.href.includes("/ztnodedetailcontroller/visitnodedetail") === false) {
             startAtFirst();
@@ -18166,8 +18401,7 @@ ${content}</tr>
           ["", "mycourse/studentcourse"],
           ["", "work/getAllWork"],
           ["", "work/doHomeWorkNew"],
-          ["", "exam/test\\?"],
-          ["", "mooc-ans/mycourse/studentstudy"]
+          ["", "exam/test\\?"]
         ],
         hideInPanel: true,
         async oncomplete() {
@@ -18204,12 +18438,13 @@ ${content}</tr>
       }),
       examRedirect: new lib.Script({
         name: "考试整卷预览脚本",
+        hideInPanel: true,
         matches: [
           ["新版考试页面", "exam-ans/exam/test/reVersionTestStartNew"],
           ["新版考试页面2", "mooc-ans/exam/test/reVersionTestStartNew"]
         ],
-        hideInPanel: true,
-        oncomplete() {
+        configs: { notes: workNotes$1 },
+        async oncomplete() {
           var _a, _b;
           if ((_b = (_a = lib.$gm.unsafeWindow.document.querySelector(".mark_info")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.includes("不允许整卷预览")) {
             lib.$message.warn({
@@ -18223,9 +18458,11 @@ ${content}</tr>
             });
             const isExam2 = /\/exam\/test/.test(location.href);
             const workOptions = CommonProject.scripts.settings.methods.getWorkOptions();
-            commonWork(CXProject.scripts.work, {
+            BackgroundProject.scripts.render.methods.pin(this);
+            await ensureCxFontDecrypted();
+            commonWork({
+              mount_script: this,
               start_delay_seconds: workOptions.period,
-              enable_control_panel: true,
               workerProvider: (opts) => workOrExam$1(isExam2 ? "exam" : "work", { ...opts, preview_mode: false, thread: 1 })
             });
             return;
@@ -18300,17 +18537,15 @@ ${content}</tr>
         namespace: "cx.new.study-dispatcher",
         hideInPanel: true,
         async oncomplete() {
-          const restudy2 = CXProject.scripts.study.cfg.restudy;
-          CommonProject.scripts.render.methods.pin(CXProject.scripts.study);
           let chapters = await CXAnalyses.waitForChapterInfos();
-          if (!restudy2) {
-            const params = new URLSearchParams(window.location.href);
-            const mooc = params.get("mooc2");
-            if (mooc === null) {
-              params.set("mooc2", "1");
-              window.location.replace(decodeURIComponent(params.toString()));
-              return;
-            }
+          const params = new URLSearchParams(window.location.href);
+          const mooc = params.get("mooc2");
+          if (mooc === null) {
+            params.set("mooc2", "1");
+            window.location.replace(decodeURIComponent(params.toString()));
+            return;
+          }
+          if (CXProject.scripts.study.cfg.autoJumpToUnFinishJob) {
             chapters = chapters.filter((chapter) => chapter.unFinishCount !== 0);
             if (chapters.length === 0) {
               lib.$message.warn({ content: "页面任务点数量为空! 请刷新重试!" });
@@ -18318,20 +18553,14 @@ ${content}</tr>
               const params2 = new URLSearchParams(window.location.href);
               const courseId = params2.get("courseId");
               const classId = params2.get("clazzid");
-              setTimeout(() => {
-                if (lib.$$el(`.posCatalog_active[id="cur${chapters[0].chapterId}"]`).length === 0) {
-                  lib.$gm.unsafeWindow.getTeacherAjax(courseId, classId, chapters[0].chapterId);
-                  setTimeout(() => {
-                    CXAnalyses.scrollToActiveChapter();
-                  }, 1e3);
-                }
-              }, 1e3);
+              if (lib.$$el(`.posCatalog_active[id="cur${chapters[0].chapterId}"]`).length === 0) {
+                lib.$gm.unsafeWindow.getTeacherAjax(courseId, classId, chapters[0].chapterId);
+              }
+              await $.sleep(1e3);
             }
-          } else {
-            setTimeout(() => {
-              CXAnalyses.scrollToActiveChapter();
-            }, 1e3);
           }
+          await $.sleep(1e3);
+          CXAnalyses.scrollToActiveChapter();
         }
       }),
       cxSecretFontRecognize: new lib.Script({
@@ -18342,8 +18571,11 @@ ${content}</tr>
           ["考试整卷预览", "/mooc2/exam/preview"],
           ["作业", "/mooc2/work/dowork"]
         ],
+        onstart() {
+          loadRefTable(CX_SECRET_REF_TABLE_URL).catch(() => void 0);
+        },
         async oncomplete() {
-          await mappingRecognize();
+          await ensureCxFontDecrypted();
         }
       }),
       jfkGuide: new lib.Script({
@@ -18352,14 +18584,11 @@ ${content}</tr>
         namespace: "cx.jfk.guide",
         configs: {
           notes: {
-            defaultValue: lib.$ui.notes([
-              "积分课请进入课程后，开启复习模式，并且关闭自动下一章",
-              "课程完成后请手动切换，如果由脚本进行自动跳转会出现乱跳转的可能。"
-            ]).outerHTML
+            defaultValue: createSteps(["进入课程", "开启复习模式，并关闭自动下一章", "课程完成后手动切换"]).outerHTML + lib.$ui.notes(["⚠️ 如果由脚本进行自动跳转会出现乱跳转的可能，请手动切换课程。"]).outerHTML
           }
         },
         oncomplete(...args) {
-          CommonProject.scripts.render.methods.pin(this);
+          BackgroundProject.scripts.render.methods.pin(this);
         }
       })
     }
@@ -18370,7 +18599,6 @@ ${content}</tr>
     thread,
     redundanceWordsText,
     answerSeparators,
-    answerMatchMode,
     preview_mode
   }) {
     lib.$message.info(`开始${type === "work" ? "作业" : "考试"}`);
@@ -18380,27 +18608,45 @@ ${content}</tr>
       });
     }
     const workOrExamQuestionTitleTransform = (titles) => {
-      const optimizationTitle = titles.map((titleElement) => {
-        if (titleElement) {
-          const titleCloneEl = titleElement.cloneNode(true);
+      const is_multiple_question = titles.length > 1;
+      const images = [];
+      const optimizationTitle = titles.map((el, i) => {
+        var _a, _b;
+        if (el) {
+          const titleCloneEl = el.cloneNode(true);
           const childNodes = titleCloneEl.childNodes;
-          childNodes[0].remove();
-          childNodes[0].remove();
-          return optimizationElementWithImage(titleCloneEl, true).innerText;
+          if (i === 0) {
+            (_a = childNodes[0]) == null ? void 0 : _a.remove();
+            (_b = childNodes[0]) == null ? void 0 : _b.remove();
+          }
+          const extracted = extractTextWithImages(titleCloneEl);
+          images.push(...extracted.images);
+          return extracted.text;
         }
         return "";
-      }).join(",");
-      return removeRedundantWords(
-        StringUtils.of(optimizationTitle).nowrap(" ").nospace().toString().trim(),
+      }).join("\n");
+      const text2 = removeRedundantWords(
+        StringUtils.of(optimizationTitle).nowrap(is_multiple_question ? "\n" : " ").nospace().toString().trim(),
         redundanceWordsText.split("\n")
       );
+      return { text: text2, images };
     };
+    const workOrExamQuestionTitleText = (titles) => workOrExamQuestionTitleTransform(titles).text;
     const worker = new OCSWorker({
       root: ".questionLi",
       elements: {
-        title: [
-          (root2) => lib.$el("h3", root2)
-        ],
+        title: (root2) => lib.$$el(
+          !preview_mode ? [".splitS-left .mark_name", ".line_wid_half.fl,.line_wid_half.fr"].join(",") : [
+            ":scope > h3",
+            ":scope > div:not(.stem_answer,.mark_answer)",
+            ":scope > p",
+            ".line_wid_half.fl,.line_wid_half.fr"
+          ].join(","),
+          root2
+        ).filter((e) => {
+          var _a;
+          return !!((_a = e.textContent) == null ? void 0 : _a.trim());
+        }),
         options: ".answerBg .answer_p, .textDIV, .eidtDiv",
         type: type === "exam" ? 'input[name^="type"]' : 'input[id^="answertype"]',
         lineAnswerInput: ".line_answer input[name^=answer]",
@@ -18410,71 +18656,73 @@ ${content}</tr>
       },
       thread: thread != null ? thread : 1,
       answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-      answerMatchMode,
-      answerer: (elements2, ctx) => {
-        if (elements2.title) {
-          const title = workOrExamQuestionTitleTransform(elements2.title);
-          if (title) {
-            const typeInput = elements2.type[0];
-            return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-              await $.sleep((period != null ? period : 3) * 1e3);
-              return defaultAnswerWrapperHandler(answererWrappers, {
-                type: (typeInput ? getQuestionType(parseInt(typeInput.value)) : void 0) || "unknown",
-                title,
-                options: ctx.type === "completion" ? "" : ctx.elements.options.map((o) => optimizationElementWithImage(o, true).innerText).join("\n")
-              });
-            });
-          } else {
-            throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2, ctx) => {
+          if (elements2.title) {
+            return workOrExamQuestionTitleTransform(elements2.title);
           }
-        } else {
-          throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-        }
-      },
+          return "";
+        },
+        optionsTransform: (elements2, ctx) => {
+          var _a, _b;
+          const typeInput = (_a = elements2.type) == null ? void 0 : _a[0];
+          const type2 = (typeInput ? getQuestionType(parseInt(typeInput.value)) : void 0) || "unknown";
+          ctx.type = type2;
+          if (type2 === "completion")
+            return "";
+          const optResults = ((_b = ctx.elements.options) != null ? _b : []).filter(Boolean).map((o) => extractTextWithImages(o));
+          return {
+            text: optResults.map((r) => r.text).join("\n"),
+            images: optResults.flatMap((r) => r.images)
+          };
+        },
+        answererWrappers,
+        period
+      }),
       work: async (ctx) => {
-        var _a;
+        var _a, _b;
         const { elements: elements2, searchInfos } = ctx;
-        const typeInput = elements2.type[0];
-        const type2 = getQuestionType(parseInt(typeInput.value));
+        const type2 = getQuestionType(
+          parseInt(((_a = elements2.type.find((t2) => {
+            var _a2;
+            return (_a2 = t2.getAttribute("name")) == null ? void 0 : _a2.match(/type\d+/);
+          })) == null ? void 0 : _a.getAttribute("value")) || "-1")
+        );
         if (type2 && (type2 === "completion" || type2 === "multiple" || type2 === "judgement" || type2 === "single")) {
-          const resolver = createDefaultQuestionResolver(ctx)[type2];
-          return await resolver(
-            searchInfos,
-            elements2.options.map((option) => optimizationElementWithImage(option)),
-            async (type3, answer, option) => {
-              var _a2, _b, _c;
-              if (type3 === "judgement" || type3 === "single" || type3 === "multiple") {
-                if ((option == null ? void 0 : option.parentElement) && lib.$$el('[class*="check_answer"]', option.parentElement).length === 0) {
-                  option.click();
-                  await $.sleep(500);
-                }
-              } else if (type3 === "completion" && answer.trim()) {
-                const text = option == null ? void 0 : option.querySelector("textarea");
-                const textareaFrame = option == null ? void 0 : option.querySelector("iframe");
-                if (text) {
-                  text.value = answer;
-                }
-                if (textareaFrame == null ? void 0 : textareaFrame.contentDocument) {
-                  textareaFrame.contentDocument.body.innerHTML = answer;
-                }
-                if ((_a2 = option == null ? void 0 : option.parentElement) == null ? void 0 : _a2.parentElement) {
-                  (_c = lib.$el("[onclick*=saveQuestion]", (_b = option == null ? void 0 : option.parentElement) == null ? void 0 : _b.parentElement)) == null ? void 0 : _c.click();
-                  await $.sleep(500);
-                }
+          const resolver = createDefaultQuestionResolver(ctx, (o) => extractTextWithImages(o).text)[type2];
+          return await resolver(searchInfos, elements2.options, async (type3, answer, option) => {
+            var _a2, _b2, _c;
+            if (type3 === "judgement" || type3 === "single" || type3 === "multiple") {
+              if ((option == null ? void 0 : option.parentElement) && lib.$$el('[class*="check_answer"]', option.parentElement).length === 0) {
+                option.click();
+                await $.sleep(500);
+              }
+            } else if (type3 === "completion" && answer.trim()) {
+              const text2 = option == null ? void 0 : option.querySelector("textarea");
+              const textareaFrame = option == null ? void 0 : option.querySelector("iframe");
+              if (text2) {
+                text2.value = answer;
+              }
+              if (textareaFrame == null ? void 0 : textareaFrame.contentDocument) {
+                textareaFrame.contentDocument.body.innerHTML = answer;
+              }
+              if ((_a2 = option == null ? void 0 : option.parentElement) == null ? void 0 : _a2.parentElement) {
+                (_c = lib.$el("[onclick*=saveQuestion]", (_b2 = option == null ? void 0 : option.parentElement) == null ? void 0 : _b2.parentElement)) == null ? void 0 : _c.click();
+                await $.sleep(500);
               }
             }
-          );
+          });
         } else if (type2 && type2 === "line") {
           for (const answers of searchInfos.map((info) => info.results.map((res) => res.answer))) {
             let ans = answers;
             if (ans.length === 1) {
               ans = splitAnswer(ans[0]);
             }
-            if (ans.filter(Boolean).length !== 0 && elements2.lineAnswerInput) {
+            if (ans.filter(Boolean).length !== 0 && elements2.lineAnswerInput && ans.filter(Boolean).length === elements2.lineSelectBox.length) {
               for (let index = 0; index < elements2.lineSelectBox.length; index++) {
                 const box = elements2.lineSelectBox[index];
                 if (ans[index]) {
-                  (_a = lib.$el(`li[data=${ans[index]}] a`, box)) == null ? void 0 : _a.click();
+                  (_b = lib.$el(`li[data=${ans[index]}] a`, box)) == null ? void 0 : _b.click();
                   await $.sleep(200);
                 }
               }
@@ -18489,30 +18737,33 @@ ${content}</tr>
         }
         return { finish: false };
       },
-      async onResultsUpdate(current, _, res) {
-        var _a, _b;
-        if (!preview_mode) {
-          if ((_a = current.result) == null ? void 0 : _a.finish) {
-            await CommonProject.scripts.workResults.methods.appendResults(
-              simplifyWorkResult(res, workOrExamQuestionTitleTransform)
-            );
-            CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(
-              simplifyWorkResult([current], workOrExamQuestionTitleTransform)
-            );
-          }
+      onQuestionDetected(current) {
+        if (preview_mode) {
           return;
         }
-        CommonProject.scripts.workResults.methods.setResults(simplifyWorkResult(res, workOrExamQuestionTitleTransform));
-        CommonProject.scripts.workResults.methods.updateWorkStateByResults(res);
-        if ((_b = current.result) == null ? void 0 : _b.finish) {
-          CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(
-            simplifyWorkResult([current], workOrExamQuestionTitleTransform)
-          );
+        updateDynamicResult(current, workOrExamQuestionTitleText);
+      },
+      async onResultsInit(_curr, _index, res) {
+        if (!preview_mode) {
+          return;
         }
+        await CommonProject.scripts.workResults.methods.fillAll(
+          res.map((r, i) => simplifyWorkResult(r, workOrExamQuestionTitleText, i))
+        );
+      },
+      async onResultsUpdate(current, index, res) {
+        if (!preview_mode) {
+          updateDynamicResult(current, workOrExamQuestionTitleText);
+          return;
+        }
+        await CommonProject.scripts.workResults.methods.update(
+          index,
+          simplifyWorkResult(current, workOrExamQuestionTitleText, index)
+        );
       }
     });
     if (preview_mode) {
-      worker.doWork().then(() => {
+      worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug }).then(() => {
         lib.$message.info({ content: "作业/考试完成，请自行检查后保存或提交。", duration: 0 });
         worker.emit("done");
       }).catch((err) => {
@@ -18524,8 +18775,10 @@ ${content}</tr>
       let next2 = getNextBtn();
       (async () => {
         while (next2 && worker.isClose === false) {
+          await ensureCxFontDecrypted();
           await worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug });
-          await $.sleep(1e3);
+          lib.$message.info({ content: "已完成，即将下一题", duration: 0 });
+          await $.sleep(3e3);
           next2 = getNextBtn();
           next2 == null ? void 0 : next2.click();
           await $.sleep(1e3);
@@ -18537,77 +18790,138 @@ ${content}</tr>
     }
     return worker;
   }
-  async function mappingRecognize(doc = document) {
-    var _a, _b;
-    let typrMapping = /* @__PURE__ */ Object.create({});
-    try {
-      top$1.typrMapping = top$1.typrMapping || await loadTyprMapping();
-      typrMapping = top$1.typrMapping;
-    } catch {
-      typrMapping = await loadTyprMapping();
+  function mobilelearn(opts) {
+    var _a;
+    lib.$message.info(`开始作业随堂练习`);
+    CommonProject.scripts.workResults.methods.init();
+    function titleText(el) {
+      const clone2 = el.cloneNode(true);
+      return extractTextWithImages(clone2).text;
     }
-    const fontFaceEl = Array.from(doc.head.querySelectorAll("style")).find(
-      (style) => {
-        var _a2;
-        return (_a2 = style.textContent) == null ? void 0 : _a2.includes("font-cxsecret");
-      }
-    );
-    const base64ToUint8Array = (base64) => {
-      const data = window.atob(base64);
-      const buffer = new Uint8Array(data.length);
-      for (let i = 0; i < data.length; ++i) {
-        buffer[i] = data.charCodeAt(i);
-      }
-      return buffer;
-    };
-    const fontMap = typrMapping;
-    if (fontFaceEl && Object.keys(fontMap).length > 0) {
-      const font = (_b = (_a = fontFaceEl.textContent) == null ? void 0 : _a.match(/base64,([\w\W]+?)'/)) == null ? void 0 : _b[1];
-      if (font) {
-        $console.log("正在识别繁体字");
-        const code = typr_js.parse(base64ToUint8Array(font));
-        const match = {};
-        for (let i = 19968; i < 40870; i++) {
-          const Glyph = typr_js.U.codeToGlyph(code, i);
-          if (!Glyph)
-            continue;
-          const path = typr_js.U.glyphToPath(code, Glyph);
-          const hex = md5(JSON.stringify(path)).slice(24);
-          match[i.toString()] = fontMap[hex];
-        }
-        const fonts = CXAnalyses.getSecretFont(doc);
-        fonts.forEach((el, index) => {
-          let html = el.innerHTML;
-          for (const key in match) {
-            const word = String.fromCharCode(parseInt(key));
-            const value = String.fromCharCode(match[key]);
-            if (word === value) {
-              continue;
+    const redundanceWords = opts.redundanceWordsText.split("\n").filter(Boolean);
+    const titleTransform = (titles) => titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map(
+      (t2) => t2 ? removeRedundantWords(StringUtils.of(titleText(t2)).nowrap(" ").nospace().toString().trim(), redundanceWords) : ""
+    ).join(",");
+    const worker = new OCSWorker({
+      root: ".question-item",
+      elements: {
+        title: ".question-name .html-content-box",
+        options: ".option-result"
+      },
+      thread: (_a = opts.thread) != null ? _a : 1,
+      answerSeparators: opts.answerSeparators.split(",").map((s) => s.trim()),
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2, ctx) => {
+          if (elements2.title) {
+            return titleTransform(elements2.title);
+          }
+          return "";
+        },
+        answererWrappers: opts.answererWrappers,
+        period: opts.period
+      }),
+      work: {
+        type(ctx) {
+          const cl = ctx.root.classList;
+          return cl.contains("single-choice") ? "single" : cl.contains("multiple-choice") ? "multiple" : ctx.elements.options.length === 2 ? "judgement" : "completion";
+        },
+        async handler(type, answer, option, ctx) {
+          var _a2, _b, _c;
+          if (type === "judgement" || type === "single" || type === "multiple") {
+            if (!(option == null ? void 0 : option.classList.contains("active"))) {
+              option.click();
+              await $.sleep(500);
             }
-            while (html.indexOf(word) !== -1) {
-              html = html.replace(word, value);
+          } else if (type === "completion" && answer.trim()) {
+            const text2 = option == null ? void 0 : option.querySelector("textarea");
+            const textareaFrame = option == null ? void 0 : option.querySelector("iframe");
+            if (text2) {
+              text2.value = answer;
+            }
+            if (textareaFrame == null ? void 0 : textareaFrame.contentDocument) {
+              textareaFrame.contentDocument.body.innerHTML = answer;
+            }
+            if ((_a2 = option == null ? void 0 : option.parentElement) == null ? void 0 : _a2.parentElement) {
+              (_c = lib.$el("[onclick*=saveQuestion]", (_b = option == null ? void 0 : option.parentElement) == null ? void 0 : _b.parentElement)) == null ? void 0 : _c.click();
+              await $.sleep(500);
             }
           }
-          el.innerHTML = html;
-          el.classList.remove("font-cxsecret");
-        });
-        $console.log("识别繁体字完成。");
-      } else {
-        $console.log("未检测到繁体字。");
+        }
+      },
+      async onResultsInit(_curr, _index, res) {
+        await CommonProject.scripts.workResults.methods.fillAll(
+          res.map((r, i) => simplifyWorkResult(r, titleTransform, i))
+        );
+      },
+      async onResultsUpdate(current, index, res) {
+        await CommonProject.scripts.workResults.methods.update(index, simplifyWorkResult(current, titleTransform, index));
+      }
+    });
+    worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug }).then(() => {
+      lib.$message.info({ content: "随堂练习完成，请自行检查后保存或提交。", duration: 0 });
+      worker.emit("done");
+    }).catch((err) => {
+      console.error(err);
+      lib.$message.error("答题程序发生错误 : " + err.message);
+    });
+    return worker;
+  }
+  let cxFontMap;
+  let cxFontCrackJob;
+  let cxFontCrackFailed = false;
+  function crackCxFontOnce(doc) {
+    if (!cxFontCrackJob) {
+      cxFontCrackJob = (async () => {
+        const fontBuffer = extractFontFromStyle(doc, "font-cxsecret");
+        if (!fontBuffer) {
+          $console.log("未检测到加密文字。");
+          return void 0;
+        }
+        const fonts = CXAnalyses.getSecretFont(doc);
+        if (fonts.length === 0) {
+          return void 0;
+        }
+        const t2 = Date.now();
+        try {
+          const { map, details } = await crackFont(fontBuffer, collectChars(fonts), {
+            refTableUrl: CX_SECRET_REF_TABLE_URL,
+            onProgress: (done, total) => console.log(`加密文字识别中 ${done}/${total}`)
+          });
+          const lowMargin = details.filter((d) => d.margin < 0.3);
+          if (lowMargin.length > 0) {
+            const msg2 = `有 ${lowMargin.length} 个字符识别置信度较低，可能存在误差`;
+            $console.warn(msg2);
+            console.log(msg2, lowMargin);
+          }
+          $console.info("文字解密完成，耗时 " + ((Date.now() - t2) / 1e3).toFixed(1) + " 秒");
+          return map;
+        } catch (err) {
+          cxFontCrackFailed = true;
+          $console.error("加密文字识别失败：", String(err));
+          lib.$message.error("加密文字识别失败：" + String(err));
+          return void 0;
+        }
+      })();
+    }
+    return cxFontCrackJob;
+  }
+  async function ensureCxFontDecrypted(doc = document) {
+    if (cxFontCrackFailed) {
+      return;
+    }
+    const fonts = CXAnalyses.getSecretFont(doc);
+    if (fonts.length === 0) {
+      return;
+    }
+    if (!cxFontMap) {
+      cxFontMap = await crackCxFontOnce(doc);
+      if (!cxFontMap) {
+        cxFontCrackJob = void 0;
+        return;
       }
     }
-  }
-  async function loadTyprMapping() {
-    try {
-      $console.log("正在加载繁体字库。");
-      return await request("https://cdn.ocsjs.com/resources/font/table.json", {
-        type: "GM_xmlhttpRequest",
-        method: "get",
-        responseType: "json"
-      });
-    } catch (err) {
-      $console.error("载繁体字库加载失败，请刷新页面重试：", String(err));
-    }
+    decryptElements(fonts, cxFontMap);
+    fonts.forEach((el) => el.classList.remove("font-cxsecret"));
   }
   const CXAnalyses = {
     isInSpecialMode() {
@@ -18620,11 +18934,11 @@ ${content}</tr>
           const id = chapter.getAttribute("id");
           if (id) {
             const counter = await lib.$store.getTab("chapter_counter") || /* @__PURE__ */ Object.create({});
-            let count = Reflect.get(counter, id);
-            count = count ? count + 1 : 1;
-            Reflect.set(counter, id, count);
+            let count2 = Reflect.get(counter, id);
+            count2 = count2 ? count2 + 1 : 1;
+            Reflect.set(counter, id, count2);
             let res = false;
-            if (count >= 3) {
+            if (count2 >= 3) {
               Reflect.set(counter, id, 1);
               res = true;
             }
@@ -18799,90 +19113,80 @@ ${content}</tr>
     };
     await runJobs();
     top$1._preChapterId = "";
-    const next2 = async () => {
-      if (CXAnalyses.isInFinalTab()) {
-        if (await CXAnalyses.isStuckInBreakingMode()) {
-          return lib.$modal.alert({
-            content: "检测到当前课程为闯关模式（有小旗帜图标）, 但是已经重复进入多次，应该是章节测试没有完成，或者其他情况导致，请手动完成章节测试，然后手动点击下一章。"
-          });
-        }
-      }
-      if (CXAnalyses.isInFinalChapter()) {
-        let content = "";
-        if (opts.backToFirstWhenFinish) {
-          content = "已经抵达最后一个章节，10秒后返回第一个章节重新开始。";
-          setTimeout(() => {
-            var _a2;
-            (_a2 = top$1 == null ? void 0 : top$1.document.querySelector(".posCatalog_name")) == null ? void 0 : _a2.click();
-          }, 10 * 1e3);
-          lib.$message.info({ content, duration: 30 });
+    if (CXProject.scripts.study.cfg.mode === "manually") {
+      const msg22 = "页面任务点已完成，自动跳转已关闭，请手动跳转。";
+      lib.$message.warn({ content: msg22, duration: 0 });
+      $console.warn(msg22);
+      return;
+    }
+    if (CXAnalyses.isInFinalTab() && await CXAnalyses.isStuckInBreakingMode()) {
+      return lib.$modal.alert({
+        content: "检测到当前课程为闯关模式（有小旗帜图标）, 但是已经重复进入多次，应该是章节测试没有完成，或者其他情况导致，请手动完成章节测试，然后手动点击下一章。"
+      });
+    }
+    if (CXAnalyses.isInFinalChapter()) {
+      let content = "";
+      if (opts.backToFirstWhenFinish) {
+        content = "已经抵达最后一个章节，10秒后返回第一个章节重新开始。";
+        setTimeout(() => {
+          var _a2;
+          (_a2 = top$1 == null ? void 0 : top$1.document.querySelector(".posCatalog_name")) == null ? void 0 : _a2.click();
+        }, 10 * 1e3);
+        lib.$message.info({ content, duration: 30 });
+      } else {
+        if (CXAnalyses.isFinishedAllChapters()) {
+          content = "全部任务点已完成！";
         } else {
-          if (CXAnalyses.isFinishedAllChapters()) {
-            content = "全部任务点已完成！";
-          } else {
-            content = "已经抵达最后一个章节！但仍然有任务点未完成，请手动切换至未完成的章节。";
-          }
-          lib.$modal.alert({ content });
+          content = "已经抵达最后一个章节！但仍然有任务点未完成，请手动切换至未完成的章节。";
         }
+        lib.$modal.alert({ content });
+      }
+      CommonProject.scripts.settings.methods.notificationBySetting(content, {
+        duration: 0,
+        extraTitle: "超星学习通学习脚本"
+      });
+      return;
+    }
+    const msg2 = "页面任务点已完成，即将跳转。";
+    lib.$message.success({ content: msg2 });
+    $console.info(msg2);
+    await $.sleep(3e3);
+    if (CXProject.scripts.study.cfg.mode === "job" && CXAnalyses.isInFinalTab()) {
+      const elements2 = CXAnalyses.getChapterInfos().filter((el) => {
+        var _a2;
+        return el.unFinishCount > 0 || ((_a2 = el.element.parentElement) == null ? void 0 : _a2.classList.contains("posCatalog_active"));
+      }).map((el) => el.element.parentElement);
+      if (elements2.length === 0) {
+        const content = "全部任务点已完成！";
+        lib.$modal.alert({ content });
         CommonProject.scripts.settings.methods.notificationBySetting(content, {
           duration: 0,
           extraTitle: "超星学习通学习脚本"
         });
         return;
       }
-      if (CXProject.scripts.study.cfg.mode === "job") {
-        if (CXAnalyses.isInFinalTab()) {
-          const elements2 = CXAnalyses.getChapterInfos().filter((el) => {
-            var _a2;
-            return el.unFinishCount > 0 || ((_a2 = el.element.parentElement) == null ? void 0 : _a2.classList.contains("posCatalog_active"));
-          }).map((el) => el.element.parentElement);
-          if (elements2.length === 0) {
-            const content = "全部任务点已完成！";
-            lib.$modal.alert({ content });
-            CommonProject.scripts.settings.methods.notificationBySetting(content, {
-              duration: 0,
-              extraTitle: "超星学习通学习脚本"
-            });
-            return;
-          }
-          let nextChapter = elements2[0];
-          const currentIndex = elements2.findIndex((el) => el.classList.contains("posCatalog_active"));
-          if (currentIndex !== -1 && currentIndex + 1 < elements2.length) {
-            nextChapter = elements2[currentIndex + 1];
-            CXAnalyses.scrollToActiveChapter();
-            setTimeout(() => {
-              var _a2;
-              (_a2 = nextChapter.querySelector(".posCatalog_name")) == null ? void 0 : _a2.click();
-            }, 1e3);
-          }
-        }
-      } else if (CXProject.scripts.study.cfg.mode === "next") {
-        const curCourseId = lib.$el("#curCourseId", top$1 == null ? void 0 : top$1.document);
-        const curChapterId = lib.$el("#curChapterId", top$1 == null ? void 0 : top$1.document);
-        const curClazzId = lib.$el("#curClazzId", top$1 == null ? void 0 : top$1.document);
-        const count = lib.$$el("#prev_tab .prev_ul li", top$1 == null ? void 0 : top$1.document);
-        if (curChapterId && curCourseId && curClazzId) {
-          top$1._preChapterId = curChapterId.value;
-          CXAnalyses.scrollToActiveChapter();
-          await $.sleep(200);
-          top$1 == null ? void 0 : top$1.PCount.next(count.length.toString(), curChapterId.value, curCourseId.value, curClazzId.value, "");
-        } else {
-          $console.warn("参数错误，无法跳转下一章，请尝试手动切换。");
-        }
-      } else {
-        $console.warn("未知的跳转模式，请联系作者反馈");
+      let nextChapter = elements2[0];
+      const currentIndex = elements2.findIndex((el) => el.classList.contains("posCatalog_active"));
+      if (currentIndex !== -1 && currentIndex + 1 < elements2.length) {
+        nextChapter = elements2[currentIndex + 1];
+        CXAnalyses.scrollToActiveChapter();
+        setTimeout(() => {
+          var _a2;
+          (_a2 = nextChapter.querySelector(".posCatalog_name")) == null ? void 0 : _a2.click();
+        }, 1e3);
       }
-    };
-    if (CXProject.scripts.study.cfg.mode !== "manually") {
-      const msg2 = "页面任务点已完成，即将跳转。";
-      lib.$message.success({ content: msg2 });
-      $console.info(msg2);
-      await $.sleep(5e3);
-      next2();
+    }
+    const curCourseId = lib.$el("#curCourseId", top$1 == null ? void 0 : top$1.document);
+    const curChapterId = lib.$el("#curChapterId", top$1 == null ? void 0 : top$1.document);
+    const curClazzId = lib.$el("#curClazzId", top$1 == null ? void 0 : top$1.document);
+    const count2 = lib.$$el("#prev_tab .prev_ul li", top$1 == null ? void 0 : top$1.document);
+    if (curChapterId && curCourseId && curClazzId) {
+      top$1._preChapterId = curChapterId.value;
+      CXAnalyses.scrollToActiveChapter();
+      await $.sleep(200);
+      top$1 == null ? void 0 : top$1.PCount.next(count2.length.toString(), curChapterId.value, curCourseId.value, curClazzId.value, "");
     } else {
-      const msg2 = "页面任务点已完成，自动跳转已关闭，请手动跳转。";
-      lib.$message.warn({ content: msg2, duration: 0 });
-      $console.warn(msg2);
+      $console.warn("参数错误，无法跳转下一章，请尝试手动切换。");
     }
   }
   function searchIFrame(root2) {
@@ -18969,14 +19273,13 @@ ${content}</tr>
                 $console.log(msg2);
               } else {
                 if (work_type === "job" || work_type === "not-job" && CommonProject.scripts.settings.cfg["work-when-no-job"]) {
-                  if (opts.workOptions.answererWrappers === void 0 || opts.workOptions.answererWrappers.length === 0) {
+                  const workOptions = CommonProject.scripts.settings.methods.getWorkOptions();
+                  if (workOptions.answererWrappers === void 0 || workOptions.answererWrappers.length === 0) {
                     answerWrapperEmptyWarning(0);
                   } else {
                     func = () => {
-                      const msg2 = `开始答题 : ` + jobName;
-                      lib.$message.info({ content: msg2 });
-                      $console.log(msg2);
-                      return JobRunner.chapter(root2, opts.workOptions);
+                      $console.log(`开始答题 : ` + jobName);
+                      return JobRunner.chapter(root2, workOptions);
                     };
                   }
                 }
@@ -19153,26 +19456,35 @@ ${content}</tr>
       thread,
       stopSecondWhenFinish,
       redundanceWordsText,
-      answerSeparators,
-      answerMatchMode
+      answerSeparators
     }) {
       if (answererWrappers === void 0 || answererWrappers.length === 0) {
         return answerWrapperEmptyWarning(0);
       }
-      $console.info("开始章节测试");
-      const visual_state = CommonProject.scripts.render.cfg.visual;
+      const visual_state = BackgroundProject.scripts.render.cfg.visual;
       const frameWindow = frame.contentWindow;
+      await ensureCxFontDecrypted(frameWindow.document);
+      CommonEvents.emitWorkerStateChange("start");
       const { TiMu } = domSearchAll({ TiMu: ".TiMu" }, frameWindow.document);
       CORSUtils.panelNormal();
       CommonProject.scripts.workResults.methods.init();
       CORSUtils.pinWorkPanel();
       const chapterTestTaskQuestionTitleTransform = (titles) => {
+        const images = [];
         const removed = removeRedundantWords(
-          titles.map((t2) => t2 ? optimizationElementWithImage(t2, true).innerText : "").join(","),
+          titles.map((t2) => {
+            if (!t2)
+              return "";
+            const extracted = extractTextWithImages(t2);
+            images.push(...extracted.images);
+            return extracted.text;
+          }).join(","),
           redundanceWordsText.split("\n")
         );
-        return removed.trim().replace(/^\d+[。、.]/, "").replace(/（\d+\.\d+分）/, "").replace(/\(..题, \d+?分\)/, "").replace(/\(..题, \d+\.\d+分\)/, "").replace(/[[(【（](..题|名词解释|完形填空|阅读理解)[\])】）]/, "").trim();
+        const text2 = removed.trim().replace(/^\d+[。、.]/, "").replace(/（\d+\.\d+分）/, "").replace(/\(..题, \d+?分\)/, "").replace(/\(..题, \d+\.\d+分\)/, "").replace(/[[(【（](..题|名词解释|完形填空|阅读理解)[\])】）]/, "").trim();
+        return { text: text2, images };
       };
+      const chapterTestTaskQuestionTitleText = (titles) => chapterTestTaskQuestionTitleTransform(titles).text;
       const worker = new OCSWorker({
         root: TiMu,
         elements: {
@@ -19187,30 +19499,28 @@ ${content}</tr>
         },
         thread: thread != null ? thread : 1,
         answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-        answerMatchMode,
-        answerer: (elements2, ctx) => {
-          const title = chapterTestTaskQuestionTitleTransform(elements2.title);
-          if (title) {
-            const typeInput = elements2.type[0];
-            return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-              await $.sleep((period != null ? period : 3) * 1e3);
-              return defaultAnswerWrapperHandler(answererWrappers, {
-                type: (typeInput ? getQuestionType(parseInt(typeInput.value)) : void 0) || "unknown",
-                title,
-                options: ctx.type === "completion" ? "" : ctx.elements.options.map((o) => optimizationElementWithImage(o, true).innerText).join("\n")
-              });
-            });
-          } else {
-            throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-          }
-        },
+        answerer: createCommonAnswerer({
+          titleTransform: (elements2, ctx) => chapterTestTaskQuestionTitleTransform(elements2.title),
+          optionsTransform: (elements2, ctx) => {
+            var _a, _b;
+            const typeInput = (_a = elements2.type) == null ? void 0 : _a[0];
+            const type = (typeInput ? getQuestionType(parseInt(typeInput.value)) : void 0) || "unknown";
+            ctx.type = type;
+            if (type === "completion")
+              return "";
+            const optResults = ((_b = ctx.elements.options) != null ? _b : []).filter(Boolean).map((o) => extractTextWithImages(o));
+            return { text: optResults.map((r) => r.text).join("\n"), images: optResults.flatMap((r) => r.images) };
+          },
+          answererWrappers,
+          period
+        }),
         work: async (ctx) => {
           var _a;
           const { elements: elements2, searchInfos } = ctx;
           const typeInput = elements2.type[0];
           const type = typeInput ? getQuestionType(parseInt(typeInput.value)) : void 0;
           if (type && (type === "completion" || type === "multiple" || type === "judgement" || type === "single")) {
-            const resolver = createDefaultQuestionResolver(ctx)[type];
+            const resolver = createDefaultQuestionResolver(ctx, (o) => extractTextWithImages(o).text)[type];
             const handler = (type2, answer, option, ctx2) => {
               var _a2, _b, _c, _d, _e, _f, _g;
               if (type2 === "judgement" || type2 === "single" || type2 === "multiple") {
@@ -19221,10 +19531,10 @@ ${content}</tr>
                   option == null ? void 0 : option.click();
                 }
               } else if (type2 === "completion" && answer.trim()) {
-                const text = (_d = option == null ? void 0 : option.parentElement) == null ? void 0 : _d.querySelector("textarea");
+                const text2 = (_d = option == null ? void 0 : option.parentElement) == null ? void 0 : _d.querySelector("textarea");
                 const textareaFrame = (_e = option == null ? void 0 : option.parentElement) == null ? void 0 : _e.querySelector("iframe");
-                if (text) {
-                  text.value = answer;
+                if (text2) {
+                  text2.value = answer;
                 }
                 if (textareaFrame == null ? void 0 : textareaFrame.contentDocument) {
                   textareaFrame.contentDocument.body.innerHTML = answer;
@@ -19234,11 +19544,7 @@ ${content}</tr>
                 }
               }
             };
-            return await resolver(
-              searchInfos,
-              elements2.options.map((option) => optimizationElementWithImage(option)),
-              handler
-            );
+            return await resolver(searchInfos, elements2.options, handler);
           } else if (type && type === "line") {
             const select = (el, opt_val) => {
               const selected = el.querySelector(`option[selected]`);
@@ -19256,9 +19562,9 @@ ${content}</tr>
                     const box = elements2.lineSelectBox[index];
                     if (splited_ans[index]) {
                       select(box, splited_ans[index]);
-                      const text = (_a = box.parentElement) == null ? void 0 : _a.querySelector(".chosen-single span");
-                      if (text)
-                        text.textContent = splited_ans[index];
+                      const text2 = (_a = box.parentElement) == null ? void 0 : _a.querySelector(".chosen-single span");
+                      if (text2)
+                        text2.textContent = splited_ans[index];
                       await $.sleep(200);
                     }
                   }
@@ -19270,39 +19576,39 @@ ${content}</tr>
           }
           return { finish: false };
         },
-        async onResultsUpdate(curr, _, res) {
-          var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
-          CommonProject.scripts.workResults.methods.setResults(
-            simplifyWorkResult(res, chapterTestTaskQuestionTitleTransform)
+        async onResultsInit(_curr, _index, res) {
+          await CommonProject.scripts.workResults.methods.fillAll(
+            res.map((r, i) => simplifyWorkResult(r, chapterTestTaskQuestionTitleText, i))
           );
-          if ((_a = curr.result) == null ? void 0 : _a.finish) {
-            CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(
-              simplifyWorkResult([curr], chapterTestTaskQuestionTitleTransform)
-            );
-          }
-          CommonProject.scripts.workResults.methods.updateWorkStateByResults(res);
-          if (((_b = curr.result) == null ? void 0 : _b.finish) === false && curr.resolved === true) {
-            const options = ((_d = (_c = curr.ctx) == null ? void 0 : _c.elements) == null ? void 0 : _d.options) || [];
-            const typeInput = (_f = (_e = curr.ctx) == null ? void 0 : _e.elements) == null ? void 0 : _f.type[0];
+        },
+        async onResultsUpdate(curr, index, res) {
+          var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+          await CommonProject.scripts.workResults.methods.update(
+            index,
+            simplifyWorkResult(curr, chapterTestTaskQuestionTitleText, index)
+          );
+          if (((_a = curr.result) == null ? void 0 : _a.finish) === false && curr.resolved === true) {
+            const options = ((_c = (_b = curr.ctx) == null ? void 0 : _b.elements) == null ? void 0 : _c.options) || [];
+            const typeInput = (_e = (_d = curr.ctx) == null ? void 0 : _d.elements) == null ? void 0 : _e.type[0];
             const type = typeInput ? getQuestionType(parseInt(typeInput.value)) : void 0;
             const commonSetting = CommonProject.scripts.settings.cfg;
             if (commonSetting["randomWork-choice"] && (type === "judgement" || type === "single" || type === "multiple")) {
               $console.log("正在随机作答");
               const option = options[Math.floor(Math.random() * options.length)];
-              (_h = (_g = option == null ? void 0 : option.parentElement) == null ? void 0 : _g.querySelector("a,label")) == null ? void 0 : _h.click();
+              (_g = (_f = option == null ? void 0 : option.parentElement) == null ? void 0 : _f.querySelector("a,label")) == null ? void 0 : _g.click();
             } else if (commonSetting["randomWork-complete"] && type === "completion") {
               $console.log("正在随机作答");
               for (const option of options) {
-                const textarea = (_i = option == null ? void 0 : option.parentElement) == null ? void 0 : _i.querySelector("textarea");
+                const textarea = (_h = option == null ? void 0 : option.parentElement) == null ? void 0 : _h.querySelector("textarea");
                 const completeTexts = commonSetting["randomWork-completeTexts-textarea"].split("\n").filter(Boolean);
-                const text = completeTexts[Math.floor(Math.random() * completeTexts.length)];
-                const textareaFrame = (_j = option == null ? void 0 : option.parentElement) == null ? void 0 : _j.querySelector("iframe");
-                if (text) {
+                const text2 = completeTexts[Math.floor(Math.random() * completeTexts.length)];
+                const textareaFrame = (_i = option == null ? void 0 : option.parentElement) == null ? void 0 : _i.querySelector("iframe");
+                if (text2) {
                   if (textarea) {
-                    textarea.value = text;
+                    textarea.value = text2;
                   }
                   if (textareaFrame == null ? void 0 : textareaFrame.contentDocument) {
-                    textareaFrame.contentDocument.body.innerHTML = text;
+                    textareaFrame.contentDocument.body.innerHTML = text2;
                   }
                 } else {
                   $console.error("请设置随机填空的文案");
@@ -19339,7 +19645,8 @@ ${content}</tr>
           }
         }
       });
-      const results = await worker.doWork();
+      const results = await worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug });
+      CommonEvents.emitWorkerStateChange("done");
       const msg2 = `答题完成，将等待 ${stopSecondWhenFinish} 秒后进行保存或提交。`;
       $console.info(msg2);
       lib.$message.info({ content: msg2, duration: stopSecondWhenFinish });
@@ -19364,7 +19671,7 @@ ${content}</tr>
           }
         }
       });
-      if (visual_state === "minimize" && CommonProject.scripts.render.cfg.visual !== "minimize") {
+      if (visual_state === "minimize" && BackgroundProject.scripts.render.cfg.visual !== "minimize") {
         CORSUtils.panelMinimize();
       }
       worker.emit("done");
@@ -19483,13 +19790,13 @@ ${content}</tr>
   }
   const CORSUtils = {
     pinWorkPanel: lib.cors.defineTopFunction(() => {
-      CommonProject.scripts.render.methods.pin(CommonProject.scripts.workResults);
+      BackgroundProject.scripts.render.methods.pin(CommonProject.scripts.workResults);
     }),
     panelNormal: lib.cors.defineTopFunction(() => {
-      CommonProject.scripts.render.methods.normal();
+      BackgroundProject.scripts.render.methods.normal();
     }),
     panelMinimize: lib.cors.defineTopFunction(() => {
-      CommonProject.scripts.render.methods.minimize();
+      BackgroundProject.scripts.render.methods.minimize();
     })
   };
   const state$3 = {
@@ -19535,16 +19842,17 @@ ${content}</tr>
           ["个人首页", "icve.com.cn/studycenter"],
           ["学习页面", "icve.com.cn/study/directory"],
           ["MOOC学院-个人首页", "user.icve.com.cn"],
-          ["MOOC学院-首页", "mooc.icve.com.cn"]
+          ["MOOC学院-首页", "mooc.icve.com.cn"],
+          ["AI课程首页", "ai.icve.com.cn/app/my-excellent-home"]
         ],
         namespace: "icve.guide",
         configs: {
           notes: {
-            defaultValue: lib.$ui.notes(["请点击任意课程进入", "进入课程后点击任意章节进入，即可自动学习"]).outerHTML
+            defaultValue: createSteps(["点击任意课程进入", "点击任意章节进入学习", "等待脚本自动运行"]).outerHTML
           }
         },
         oncomplete() {
-          CommonProject.scripts.render.methods.pin(this);
+          BackgroundProject.scripts.render.methods.pin(this);
         }
       }),
       studyCenter: new lib.Script({
@@ -19555,7 +19863,7 @@ ${content}</tr>
           ["课程列表", "icve.com.cn/study/directory/directory_list.html"]
         ],
         configs: {
-          playbackRate,
+          playbackRate: playbackRate$1,
           volume,
           currentCourseUrlList: {
             defaultValue: []
@@ -19583,7 +19891,7 @@ ${content}</tr>
               return;
             }
           }
-          CommonProject.scripts.render.methods.pin(this);
+          BackgroundProject.scripts.render.methods.pin(this);
           this.onConfigChange("playbackRate", (playbackRate2) => {
             state$3.study.currentMedia && (state$3.study.currentMedia.playbackRate = parseFloat(playbackRate2.toString()));
           });
@@ -19666,7 +19974,7 @@ ${content}</tr>
               "手动进入作业页面才能使用自动答题。"
             ]).outerHTML
           },
-          playbackRate,
+          playbackRate: playbackRate$1,
           volume,
           restudy,
           showScrollBar: {
@@ -19703,7 +20011,7 @@ ${content}</tr>
         },
         async oncomplete() {
           var _a;
-          CommonProject.scripts.render.methods.pin(this);
+          BackgroundProject.scripts.render.methods.pin(this);
           await $.sleep(3e3);
           this.onConfigChange("volume", (v) => state$3.study.currentMedia && (state$3.study.currentMedia.volume = v));
           this.onConfigChange(
@@ -19849,7 +20157,8 @@ ${content}</tr>
             var _a;
             (_a = document.querySelectorAll(`.sheet_nums [id*="sheetSeq"]`).item(0)) == null ? void 0 : _a.click();
           };
-          commonWork(this, {
+          commonWork({
+            mount_script: this,
             workerProvider: work,
             beforeRunning: async () => {
               resetToBegin();
@@ -19886,6 +20195,7 @@ ${content}</tr>
         namespace: "icve.ai.study",
         matches: [
           ["课程页面", "ai.icve.com.cn/app/coursedetails-excellent"],
+          ["课程页面", "ai.icve.com.cn/app/my-excellent-home"],
           ["学习页面", "ai.icve.com.cn/excellent-study"]
         ],
         configs: {
@@ -19918,8 +20228,8 @@ ${content}</tr>
           },
           restudy
         },
-        onhistorychange(type) {
-          if (type !== "replace") {
+        onhistorychanged(type) {
+          if (type !== "replaced") {
             return;
           }
           if (location.href.includes("kcnr")) {
@@ -19927,7 +20237,10 @@ ${content}</tr>
           }
         },
         async oncomplete(type) {
-          CommonProject.scripts.render.methods.pin(this);
+          if (document.location.href.includes("ai.icve.com.cn/app/my-excellent-home")) {
+            return lib.$message.info("点击任意课程开始自动学习");
+          }
+          BackgroundProject.scripts.render.methods.pin(this);
           this.onConfigChange("volume", (val) => {
             if (state$3.study.currentMedia) {
               state$3.study.currentMedia.volume = parseFloat(val.toString());
@@ -19982,7 +20295,7 @@ ${content}</tr>
               footer: void 0,
               content: "正在展开全部章节列表，请耐心等待不要操作..."
             });
-            const titles = Array.from(document.querySelectorAll(".one-title")).filter(
+            const not_scrolled_titles = Array.from(document.querySelectorAll(".one-title")).filter(
               (el) => !el.querySelector(".zhankai")
             );
             const waitForChapterOpen = (title) => {
@@ -20005,12 +20318,12 @@ ${content}</tr>
                 }, 10 * 1e3);
               });
             };
-            for (const title of titles) {
+            for (const nst of not_scrolled_titles) {
               try {
-                (_a = title.querySelector(".jiantou")) == null ? void 0 : _a.click();
-                title.focus();
-                title.scrollIntoView({ behavior: "smooth", block: "center" });
-                await waitForChapterOpen(title);
+                (_a = nst.querySelector(".jiantou")) == null ? void 0 : _a.click();
+                nst.focus();
+                nst.scrollIntoView({ behavior: "smooth", block: "center" });
+                await waitForChapterOpen(nst);
                 await $.sleep(1e3);
               } catch (e) {
                 $console.error("打开章节失败", e);
@@ -20035,7 +20348,7 @@ ${content}</tr>
               const active = document.querySelector(".panelList .node.active");
               active == null ? void 0 : active.focus();
               active == null ? void 0 : active.scrollIntoView({ behavior: "smooth", block: "center" });
-              if ((active == null ? void 0 : active.querySelector(".wc")) && !this.cfg.restudy) {
+              if ((active == null ? void 0 : active.querySelector("i.wc")) && !this.cfg.restudy) {
                 return $msg_and_log$1("info", "当前任务已完成，即将跳过");
               }
               const vue = (_a2 = lib.$el(".FilePreview")) == null ? void 0 : _a2.__vue__;
@@ -20086,12 +20399,10 @@ ${content}</tr>
           };
           const getNext = () => {
             const list = Array.from(document.querySelectorAll(".panelList .node"));
-            for (let index = 0; index < list.length; index++) {
-              const element = list[index];
-              if (element.classList.contains("active")) {
-                return list[index + 1];
-              }
-            }
+            const current_index = list.findIndex((e) => e.classList.contains("active"));
+            return list.find((el, index) => {
+              return index > current_index && (this.cfg.restudy || el.querySelector("i.wc") === null);
+            });
           };
           study2(study_id);
         }
@@ -20116,7 +20427,8 @@ ${content}</tr>
             var _a;
             (_a = document.querySelectorAll(`.list-box span`).item(0)) == null ? void 0 : _a.click();
           };
-          commonWork(this, {
+          commonWork({
+            mount_script: this,
             workerProvider: aiWork,
             beforeRunning: async () => {
               resetToBegin();
@@ -20154,26 +20466,27 @@ ${content}</tr>
       });
     });
   }
-  function work({ answererWrappers, period, thread, answerSeparators, answerMatchMode }) {
+  function work({ answererWrappers, period, thread, answerSeparators }) {
     lib.$message.info("开始作业");
-    CommonProject.scripts.workResults.methods.init();
+    CommonProject.scripts.workResults.methods.init({ dynamic: true });
     console.log({ answererWrappers, period, thread });
-    const titleTransform = (titles) => {
-      return titles.filter((t2) => t2 == null ? void 0 : t2.innerText).map((t2) => {
+    const titleTransformWithImages = (titles) => {
+      const images = [];
+      const text2 = titles.filter((t2) => (t2 == null ? void 0 : t2.innerText) || (t2 == null ? void 0 : t2.querySelector("img"))).map((t2) => {
         var _a, _b;
         if (t2) {
           const title = t2.cloneNode(true);
           (_a = title.querySelector('[name*="questionIndex"]')) == null ? void 0 : _a.remove();
           (_b = title.querySelector(".q_score")) == null ? void 0 : _b.remove();
-          return title.innerText.trim().replace(/^、/, "") || "";
+          const extracted = extractTextWithImages(title);
+          images.push(...extracted.images);
+          return extracted.text.trim().replace(/^、/, "") || "";
         }
         return "";
       }).join(",");
+      return { text: text2, images };
     };
-    const workResults = [];
-    let totalQuestionCount = 0;
-    let requestedCount = 0;
-    let resolvedCount = 0;
+    const titleTransform = (titles) => titleTransformWithImages(titles).text;
     function getType(options) {
       const radio_len = options.map((o) => o.querySelector('[type="radio"]')).reduce((a, b) => {
         return a + (b ? 1 : 0);
@@ -20188,22 +20501,23 @@ ${content}</tr>
       },
       thread: thread != null ? thread : 1,
       answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-      answerMatchMode,
-      answerer: (elements2, ctx) => {
-        const title = titleTransform(elements2.title);
-        if (title) {
-          return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-            await $.sleep((period != null ? period : 3) * 1e3);
-            return defaultAnswerWrapperHandler(answererWrappers, {
-              type: getType(ctx.elements.options) || "unknown",
-              title,
-              options: ctx.elements.options.map((o) => o.innerText).join("\n")
-            });
-          });
-        } else {
-          throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-        }
-      },
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2, _ctx) => titleTransformWithImages(elements2.title),
+        optionsTransform: (elements2, ctx) => {
+          var _a;
+          const type = getType(ctx.elements.options) || "unknown";
+          ctx.type = type;
+          if (type === "completion")
+            return "";
+          const optResults = ((_a = ctx.elements.options) != null ? _a : []).filter(Boolean).map((o) => extractTextWithImages(o));
+          return {
+            text: optResults.map((r) => r.text).join("\n"),
+            images: optResults.flatMap((r) => r.images)
+          };
+        },
+        answererWrappers,
+        period
+      }),
       async work(ctx) {
         const options = ctx.elements.options;
         const type = getType(options);
@@ -20224,7 +20538,7 @@ ${content}</tr>
             }
           }
         } else {
-          const resolver = createDefaultQuestionResolver(ctx)[type];
+          const resolver = createDefaultQuestionResolver(ctx, (o) => extractTextWithImages(o).text)[type];
           const res = await resolver(ctx.searchInfos, ctx.elements.options, (type2, answer, option) => {
             var _a, _b;
             if (type2 === "judgement" || type2 === "single" || type2 === "multiple") {
@@ -20232,10 +20546,10 @@ ${content}</tr>
                 (_a = lib.$el("div", option)) == null ? void 0 : _a.click();
               }
             } else if (type2 === "completion" && answer.trim()) {
-              const text = option.querySelector("textarea");
+              const text2 = option.querySelector("textarea");
               const textIframe = option.querySelector('iframe[id*="ueditor"]');
-              if (text) {
-                text.value = answer;
+              if (text2) {
+                text2.value = answer;
               }
               if (textIframe) {
                 const view = (_b = textIframe.contentWindow) == null ? void 0 : _b.document.querySelector("body.view > p");
@@ -20252,25 +20566,11 @@ ${content}</tr>
       onElementSearched(elements2, root2) {
         console.log("elements", elements2);
       },
+      onQuestionDetected(currentResult) {
+        updateDynamicResult(currentResult, titleTransform);
+      },
       onResultsUpdate(currentResult) {
-        var _a;
-        if (currentResult.resolved) {
-          workResults.push(...simplifyWorkResult([currentResult], titleTransform));
-          CommonProject.scripts.workResults.methods.setResults(workResults);
-          totalQuestionCount++;
-          requestedCount++;
-          resolvedCount++;
-          if ((_a = currentResult.result) == null ? void 0 : _a.finish) {
-            CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(
-              simplifyWorkResult([currentResult], titleTransform)
-            );
-          }
-          CommonProject.scripts.workResults.methods.updateWorkState({
-            totalQuestionCount,
-            requestedCount,
-            resolvedCount
-          });
-        }
+        updateDynamicResult(currentResult, titleTransform);
       }
     });
     const getNextBtn = () => document.querySelector(".paging_next");
@@ -20291,25 +20591,26 @@ ${content}</tr>
       worker.emit("done");
       CommonProject.scripts.workResults.cfg.questionPositionSyncHandlerType = "icve";
     })();
+    dynamicWorkTips(worker);
     return worker;
   }
-  function aiWork({ answererWrappers, period, thread, answerSeparators, answerMatchMode }) {
+  function aiWork({ answererWrappers, period, thread, answerSeparators }) {
     lib.$message.info("开始作业");
-    CommonProject.scripts.workResults.methods.init();
+    CommonProject.scripts.workResults.methods.init({ dynamic: true });
     console.log({ answererWrappers, period, thread });
     const titleTransform = (titles) => {
-      return titles.filter((t2) => (t2 == null ? void 0 : t2.innerText) || (t2 == null ? void 0 : t2.querySelector("img"))).map((t2) => {
+      const images = [];
+      const text2 = titles.filter((t2) => (t2 == null ? void 0 : t2.innerText) || (t2 == null ? void 0 : t2.querySelector("img"))).map((t2) => {
         if (t2) {
-          const el = optimizationElementWithImage(t2, true);
-          return (el.textContent || "").replace(/\s+/g, " ").trim() || "";
+          const extracted = extractTextWithImages(t2);
+          images.push(...extracted.images);
+          return extracted.text.replace(/\s+/g, " ").trim() || "";
         }
         return "";
       }).join(",");
+      return { text: text2, images };
     };
-    const workResults = [];
-    let totalQuestionCount = 0;
-    let requestedCount = 0;
-    let resolvedCount = 0;
+    const titleText = (titles) => titleTransform(titles).text;
     function getType(options) {
       const radio_len = options.map((o) => o.querySelector('[type="radio"]')).reduce((a, b) => {
         return a + (b ? 1 : 0);
@@ -20324,23 +20625,21 @@ ${content}</tr>
       },
       thread: thread != null ? thread : 1,
       answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-      answerMatchMode,
-      answerer: (elements2, ctx) => {
-        const title = titleTransform(elements2.title);
-        if (title) {
-          return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-            await $.sleep((period != null ? period : 3) * 1e3);
-            return defaultAnswerWrapperHandler(answererWrappers, {
-              type: getType(ctx.elements.options) || "unknown",
-              title,
-              options: ctx.elements.options.map((o) => optimizationElementWithImage(o, true).innerText).join("\n")
-            });
-          });
-        } else {
-          throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-        }
-      },
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2, _ctx) => titleTransform(elements2.title),
+        optionsTransform: (elements2, ctx) => {
+          ctx.type = getType(ctx.elements.options) || "unknown";
+          const optResults = ctx.elements.options.map((o) => extractTextWithImages(o));
+          return {
+            text: optResults.map((r) => r.text).join("\n"),
+            images: optResults.flatMap((r) => r.images)
+          };
+        },
+        answererWrappers,
+        period
+      }),
       work: {
+        optionText: (o) => extractTextWithImages(o).text,
         type: (ctx) => {
           return getType(ctx.elements.options);
         },
@@ -20364,29 +20663,13 @@ ${content}</tr>
         }
       },
       onElementSearched(elements2, root2) {
-        var _a;
         console.log("elements", elements2);
-        (_a = elements2.options) == null ? void 0 : _a.forEach((option) => optimizationElementWithImage(option));
+      },
+      onQuestionDetected(currentResult) {
+        updateDynamicResult(currentResult, titleText);
       },
       onResultsUpdate(currentResult) {
-        var _a;
-        if (currentResult.resolved) {
-          workResults.push(...simplifyWorkResult([currentResult], titleTransform));
-          CommonProject.scripts.workResults.methods.setResults(workResults);
-          totalQuestionCount++;
-          requestedCount++;
-          resolvedCount++;
-          if ((_a = currentResult.result) == null ? void 0 : _a.finish) {
-            CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(
-              simplifyWorkResult([currentResult], titleTransform)
-            );
-          }
-          CommonProject.scripts.workResults.methods.updateWorkState({
-            totalQuestionCount,
-            requestedCount,
-            resolvedCount
-          });
-        }
+        updateDynamicResult(currentResult, titleText);
       }
     });
     const getNextBtn = () => document.querySelector("div.center_btn > button:nth-child(2)");
@@ -20407,6 +20690,7 @@ ${content}</tr>
       worker.emit("done");
       CommonProject.scripts.workResults.cfg.questionPositionSyncHandlerType = "icve";
     })();
+    dynamicWorkTips(worker);
     return worker;
   }
   function waitForPopupQuestion(dom2) {
@@ -20489,7 +20773,7 @@ ${content}</tr>
         namespace: "zjy.study.guide",
         configs: {
           notes: {
-            defaultValue: "请点击任意章节，进入学习。"
+            defaultValue: createSteps(["登录网课平台", "点击任意章节进入学习", "等待脚本自动运行"]).outerHTML
           }
         }
       }),
@@ -20606,7 +20890,6 @@ ${content}</tr>
               }
               state$2.studyingId = id;
               state$2.studying = true;
-              CommonProject.scripts.render.methods.pin(this);
               this.onConfigChange("volume", (val) => {
                 if (state$2.media) {
                   state$2.media.volume = parseFloat(val.toString());
@@ -20674,9 +20957,9 @@ ${content}</tr>
               if (["ppt", "doc", "pptx", "docx", "pdf", "txt", "ppt文档", "xls", "xlsx"].some((i) => courseType === i)) {
                 await watchFile(this.cfg.pptReadPeriod);
               } else if (["video", "audio", "mp4", "mp3", "flv", "wav", "视频"].some((i) => courseType === i)) {
-                const text = ((_a = lib.$el(".guide")) == null ? void 0 : _a.textContent) || "";
+                const text2 = ((_a = lib.$el(".guide")) == null ? void 0 : _a.textContent) || "";
                 msg2 = `任务点 ${courseInfo.name}，不支持播放。`;
-                if (text.includes("很抱歉，您的浏览器不支持播放此类文件") || text.includes("此视频暂无法播放")) {
+                if (text2.includes("很抱歉，您的浏览器不支持播放此类文件") || text2.includes("此视频暂无法播放")) {
                   msg2 = `任务点 ${courseInfo.name}，不支持播放。`;
                   lib.$message.error(msg2);
                   $console.error(msg2);
@@ -20722,7 +21005,8 @@ ${content}</tr>
             main: async () => {
               if (isWork() || isExam()) {
                 await waitForQuestions();
-                commonWork(this, {
+                commonWork({
+                  mount_script: this,
                   workerProvider: (opt) => workOrExam(isWork() ? "work" : "exam", opt)
                 });
               }
@@ -20964,7 +21248,7 @@ ${content}</tr>
       ].join(",")
     );
   }
-  function workOrExam(type, { answererWrappers, period, thread, answerSeparators, answerMatchMode }) {
+  function workOrExam(type, { answererWrappers, period, thread, answerSeparators }) {
     lib.$message.info({ content: "开始作业" });
     CommonProject.scripts.workResults.methods.init({
       questionPositionSyncHandlerType: "zjy"
@@ -20980,22 +21264,11 @@ ${content}</tr>
       },
       thread: thread != null ? thread : 1,
       answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-      answerMatchMode,
-      answerer: (elements2, ctx) => {
-        const title = titleTransform(elements2.title);
-        if (title) {
-          return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-            await $.sleep((period != null ? period : 3) * 1e3);
-            return defaultAnswerWrapperHandler(answererWrappers, {
-              type: ctx.type || "unknown",
-              title,
-              options: ctx.elements.options.map((o) => o.innerText).join("\n")
-            });
-          });
-        } else {
-          throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-        }
-      },
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2, _ctx) => titleTransform(elements2.title),
+        answererWrappers,
+        period
+      }),
       work: {
         type(ctx) {
           const options = ctx.elements.options;
@@ -21011,11 +21284,11 @@ ${content}</tr>
               (_b = option.querySelector("label")) == null ? void 0 : _b.click();
             }
           } else if (type2 === "completion" && answer.trim()) {
-            const text = option.querySelector('input[type="text"]');
+            const text2 = option.querySelector('input[type="text"]');
             const textarea = option.querySelector("textarea");
-            if (text) {
-              text.value = answer;
-              text.dispatchEvent(new Event("input", { bubbles: true }));
+            if (text2) {
+              text2.value = answer;
+              text2.dispatchEvent(new Event("input", { bubbles: true }));
             } else if (textarea) {
               textarea.value = answer;
               textarea.dispatchEvent(new Event("input", { bubbles: true }));
@@ -21023,13 +21296,13 @@ ${content}</tr>
           }
         }
       },
-      onResultsUpdate(curr, _, res) {
-        var _a;
-        CommonProject.scripts.workResults.methods.setResults(simplifyWorkResult(res, titleTransform));
-        if ((_a = curr.result) == null ? void 0 : _a.finish) {
-          CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(simplifyWorkResult([curr], titleTransform));
-        }
-        CommonProject.scripts.workResults.methods.updateWorkStateByResults(res);
+      async onResultsInit(_curr, _index, res) {
+        await CommonProject.scripts.workResults.methods.fillAll(
+          res.map((r, i) => simplifyWorkResult(r, titleTransform, i))
+        );
+      },
+      async onResultsUpdate(curr, index, res) {
+        await CommonProject.scripts.workResults.methods.update(index, simplifyWorkResult(curr, titleTransform, index));
       }
     });
     worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug }).then(() => {
@@ -21059,6 +21332,9 @@ ${content}</tr>
         hideInPanel: true,
         matches: [["所有页面", "icourse163.org"]],
         oncomplete() {
+          if (location.pathname.startsWith("/mooc/learn")) {
+            return;
+          }
           setInterval(() => {
             var _a, _b;
             const hash = new URL(window.location.href).hash;
@@ -21094,7 +21370,7 @@ ${content}</tr>
         namespace: "icourse.guide-v1",
         configs: {
           notes: {
-            defaultValue: lib.$ui.notes(["手动进入任意课程里的课件/作业，即可开始自动学习"]).outerHTML
+            defaultValue: createSteps(["登录网课平台", "进入任意课程的课件/作业界面", "等待脚本自动运行"]).outerHTML
           },
           runAtHash: {
             defaultValue: ["/home/course"]
@@ -21104,7 +21380,7 @@ ${content}</tr>
           return {
             main: async () => {
               console.log(state$1, this.cfg.runAtHash);
-              CommonProject.scripts.render.methods.pin(this);
+              BackgroundProject.scripts.render.methods.pin(this);
             }
           };
         }
@@ -21127,7 +21403,7 @@ ${content}</tr>
           runAtHash: {
             defaultValue: "/learn/content?type=detail"
           },
-          playbackRate,
+          playbackRate: playbackRate$1,
           volume,
           readSpeed: {
             label: "PPT翻阅速度（秒）",
@@ -21163,7 +21439,6 @@ ${content}</tr>
         methods() {
           return {
             main: async ({ canRun, job_id }) => {
-              CommonProject.scripts.render.methods.pin(this);
               const remotePage = await BackgroundProject.scripts.dev.methods.getRemotePlaywrightCurrentPage();
               if (!remotePage) {
                 return $playwright.showError();
@@ -21222,7 +21497,6 @@ ${content}</tr>
                           console.log("worker", worker);
                           worker.once("done", resolve);
                           worker.once("close", resolve);
-                          worker.once("stop", resolve);
                         });
                       });
                       $msg_and_log("info", "测验完成");
@@ -21339,6 +21613,212 @@ ${content}</tr>
           };
         }
       }),
+      study_v2: new lib.Script({
+        name: "🖥️ 智慧慕课",
+        matches: [["新智慧慕课", "/mooc/learn"]],
+        namespace: "icourse.study-v2",
+        configs: {
+          notes: {
+            defaultValue: lib.$ui.notes([
+              "请勿在使用过程中最小化浏览器",
+              "自动讨论默认关闭，如需开启请在下方设置中设置",
+              "作业请完成课程后手动进入"
+            ]).outerHTML
+          },
+          playbackRate: playbackRate$1,
+          volume,
+          readSpeed: {
+            label: "PPT翻阅速度（秒）",
+            attrs: { type: "number", step: "1", min: "1", max: "10" },
+            defaultValue: 1
+          },
+          discussionStrategy: {
+            label: "讨论自动回复方式",
+            tag: "select",
+            defaultValue: "random",
+            options: [
+              ["not-reply", "不讨论回复"],
+              ["random", "随机抽取评论区的内容进行回复"],
+              ["max-show-up", "获取出现最多的评论进行回复"],
+              ["max-fav", "获取最多点赞的评论进行回复"],
+              ["use-newest", "获取最新的评论进行回复"]
+            ]
+          },
+          enableChapterTest: {
+            label: "随堂测验自动答题",
+            attrs: {
+              type: "checkbox",
+              title: "是否开启随堂测验自动答题，默认关闭，测试时只需点击即可完成测验，但这里保留选项防止需要开启。"
+            },
+            defaultValue: false
+          }
+        },
+        methods() {
+          return {
+            waitForV2PageLoaded: () => waitForElement('[data-page-state="loaded"]'),
+            main: async () => {
+              const section = await waitForElement(".learn-courseware-panel");
+              const canRun = () => section == null ? void 0 : section.isConnected;
+              lib.$message.info("正在自动学习中...");
+              const remotePage = await BackgroundProject.scripts.dev.methods.getRemotePlaywrightCurrentPage();
+              if (!remotePage) {
+                return $playwright.showError();
+              }
+              $render.moveToEdge();
+              const getCurrentChapter = () => document.querySelectorAll("header > div.flex.flex-wrap.items-center.gap-3 button.rounded-\\[8px\\]")[0];
+              const getCurrentLesson = () => document.querySelectorAll("header > div.flex.flex-wrap.items-center.gap-3 button.rounded-\\[8px\\]")[1];
+              const getCurrentUnit = () => document.querySelector(".learn-unit-tabs-scroll button[class*=rgba]");
+              const study2 = async () => {
+                var _a, _b;
+                await $.sleep(2e3);
+                BackgroundProject.scripts.render.methods.pin(this);
+                const lessonName = (_a = getCurrentLesson()) == null ? void 0 : _a.textContent;
+                const currentUnitItem = getCurrentUnit();
+                const unitName = (_b = getCurrentUnit()) == null ? void 0 : _b.textContent;
+                const isJob = (iconName) => !!(currentUnitItem == null ? void 0 : currentUnitItem.querySelector(`[data-lesson-type-icon="${iconName}"]`));
+                const isJobFinish = (unit) => !!(unit == null ? void 0 : unit.querySelector(".lucide-circle-check"));
+                await (async () => {
+                  if (!canRun()) {
+                    return;
+                  }
+                  if (isJobFinish(currentUnitItem)) {
+                    return lib.$message.info("当前任务已完成，即将跳转");
+                  }
+                  const jobs = [isJob("video"), isJob("pdf"), isJob("discussion"), isJob("quiz")];
+                  const hasJobs = jobs.every((job) => job);
+                  const [isVideoJob, isPdfJob, isDiscussionJob, isQuizJob] = jobs;
+                  if (hasJobs) {
+                    $msg_and_log("info", `正在学习：${lessonName || ""} - ${unitName || ""}`);
+                  }
+                  if (isVideoJob) {
+                    await waitForElement("video, audio");
+                    await watchMedia(this.cfg.playbackRate, this.cfg.volume);
+                    return lib.$message.info("视频学习完成，准备跳转下一章");
+                  }
+                  if (isPdfJob) {
+                    await waitForElement(".pdf-unit-reader");
+                    await readPPT_v2(remotePage, this.cfg.readSpeed);
+                    return lib.$message.info("PPT完成，准备跳转下一章");
+                  }
+                  if (isDiscussionJob) {
+                    await waitForElement("#forum-reply-form");
+                    await discussion_v2(remotePage, this.cfg.discussionStrategy);
+                    return lib.$message.info("讨论完成，准备跳转下一章");
+                  }
+                  if (isQuizJob) {
+                    await waitForElement(".lesson-quiz-question-rich-text");
+                    $msg_and_log("info", "开始答题");
+                    if (this.cfg.enableChapterTest) {
+                      await new Promise((resolve) => {
+                        commonWork({
+                          mount_script: this,
+                          workerProvider: (opts) => {
+                            const worker = chapter_v2(remotePage, opts);
+                            worker.once("done", () => {
+                              clearInterval(interval);
+                              resolve();
+                            });
+                            worker.once("close", () => {
+                              clearInterval(interval);
+                              resolve();
+                            });
+                            const interval = setInterval(() => {
+                              if (canRun() === false) {
+                                $msg_and_log("warn", "检测到页面切换，无法继续答题，将关闭自动答题。");
+                                clearInterval(interval);
+                                worker.emit("close");
+                              }
+                            }, 1e3);
+                            return worker;
+                          },
+                          start_delay_seconds: 3
+                        });
+                      });
+                      $msg_and_log("info", "测验完成");
+                    } else {
+                      $msg_and_log(
+                        "warn",
+                        "随堂测验自动答题功能已关闭（上方菜单栏-中国大学MOOC-学习脚本中开启），即将跳过。"
+                      );
+                    }
+                    return lib.$message.info("答题完成，准备跳转下一章");
+                  }
+                  lib.$message.warn("未找到学习内容，或者此章节不支持自动学习！即将跳过本章节");
+                })();
+                await $.sleep(2e3);
+                if (canRun()) {
+                  await gotoNextJob();
+                }
+              };
+              async function gotoNextJob() {
+                const list = await next2();
+                for (const item of list) {
+                  const el = typeof item === "function" ? item() : item;
+                  if (el) {
+                    await (remotePage == null ? void 0 : remotePage.click(el));
+                    await $.sleep(500);
+                  }
+                }
+                if (list.length === 0) {
+                  lib.$message.success({ content: "所有章节学习完成！", duration: 0 });
+                  $console.info("所有章节学习完成！");
+                  CommonProject.scripts.settings.methods.notificationBySetting("所有章节学习完成！", {
+                    duration: 0,
+                    extraTitle: "中国大学MOOC学习脚本"
+                  });
+                }
+              }
+              async function next2() {
+                var _a, _b, _c, _d, _e;
+                const nextEl = (_a = getCurrentUnit()) == null ? void 0 : _a.nextElementSibling;
+                if (nextEl) {
+                  return [() => nextEl];
+                }
+                await (remotePage == null ? void 0 : remotePage.click(getCurrentLesson()));
+                const nextLesson = (_c = (_b = getCurrentLesson().nextElementSibling) == null ? void 0 : _b.querySelector("button.text-primary-700")) == null ? void 0 : _c.nextElementSibling;
+                if (nextLesson) {
+                  return [() => nextLesson];
+                }
+                await (remotePage == null ? void 0 : remotePage.click(getCurrentChapter()));
+                const nextChapter = (_e = (_d = getCurrentChapter().nextElementSibling) == null ? void 0 : _d.querySelector("button.text-primary-700")) == null ? void 0 : _e.nextElementSibling;
+                if (nextChapter) {
+                  return [
+                    () => nextChapter,
+                    () => getCurrentLesson(),
+                    () => {
+                      var _a2;
+                      return (_a2 = getCurrentLesson().nextElementSibling) == null ? void 0 : _a2.querySelectorAll("button")[0];
+                    }
+                  ];
+                } else {
+                  return [];
+                }
+              }
+              study2();
+            }
+          };
+        },
+        async onhistorychange(type) {
+          await this.methods.waitForV2PageLoaded();
+          if (type === "push") {
+            if (document.querySelector('[class="course-content-card"]')) {
+              return lib.$message.info({ content: "请手动进入视频、作业页面，脚本会自动运行。", duration: 10 });
+            }
+            if (document.querySelector(".learn-courseware-panel")) {
+              return this.methods.main();
+            }
+          }
+        },
+        async oncomplete() {
+          await this.methods.waitForV2PageLoaded();
+          if (document.querySelector('[class="course-content-card"]')) {
+            return lib.$message.info({ content: "请手动进入视频、作业页面，脚本会自动运行。", duration: 10 });
+          }
+          if (document.querySelector(".learn-courseware-panel")) {
+            return this.methods.main();
+          }
+        }
+      }),
       work: new lib.Script({
         name: "✍️ 作业考试脚本",
         namespace: "icourse.work-v2",
@@ -21370,11 +21850,11 @@ ${content}</tr>
               return $playwright.showError();
             }
             await waitForQuestion();
-            CommonProject.scripts.render.methods.pin(this);
-            CommonProject.scripts.render.methods.normal();
+            BackgroundProject.scripts.render.methods.pin(this);
+            BackgroundProject.scripts.render.methods.normal();
             $msg_and_log("info", "开始答题");
-            CommonProject.scripts.render.methods.pin(this);
-            commonWork(this, {
+            commonWork({
+              mount_script: this,
               workerProvider: (opts) => {
                 const worker = workAndExam(remotePage, type, opts);
                 worker.once("close", () => {
@@ -21390,7 +21870,6 @@ ${content}</tr>
                 return worker;
               },
               onWorkerCreated,
-              enable_control_panel: true,
               start_delay_seconds: 3
             });
           };
@@ -21421,7 +21900,7 @@ ${content}</tr>
         },
         hideInPanel: true,
         oncomplete(...args) {
-          CommonProject.scripts.render.methods.pin(this);
+          BackgroundProject.scripts.render.methods.pin(this);
           lib.$message.info("检测到中国大学MOOC空白页面，即将重定向修复...");
           setTimeout(() => {
             location.href = "https://www.icourse163.org/";
@@ -21440,29 +21919,26 @@ ${content}</tr>
       }, 1e3);
     });
   }
-  function workAndExam(rp, type, {
-    answererWrappers,
-    redundanceWordsText,
-    upload,
-    stopSecondWhenFinish,
-    answerSeparators,
-    answerMatchMode
-  }) {
+  function workAndExam(rp, type, { answererWrappers, redundanceWordsText, upload, stopSecondWhenFinish, answerSeparators }) {
     CommonProject.scripts.workResults.methods.init({
       questionPositionSyncHandlerType: "icourse"
     });
     const titleTransform = (titles) => {
-      return removeRedundantWords(
+      const images = [];
+      const text2 = removeRedundantWords(
         titles.filter((t2) => (t2 == null ? void 0 : t2.innerText) || (t2 == null ? void 0 : t2.querySelector("img"))).map((t2) => {
           if (t2) {
-            const el = optimizationElementWithImage(t2, true);
-            return (el.textContent || "").replace(/\s+/g, " ").trim() || "";
+            const extracted = extractTextWithImages(t2);
+            images.push(...extracted.images);
+            return extracted.text.replace(/\s+/g, " ").trim() || "";
           }
           return "";
         }).filter((t2) => t2.trim() !== "").join(",").replace(/[\u200A-\u200F]/g, ""),
         redundanceWordsText.split("\n")
       );
+      return { text: text2, images };
     };
+    const titleText = (titles) => titleTransform(titles).text;
     const work_type = type;
     const worker = new OCSWorker({
       root: type === "exam" ? "[class*=questionBody]" : ".u-questionItem",
@@ -21472,23 +21948,20 @@ ${content}</tr>
       },
       thread: 1,
       answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
-      answerMatchMode,
-      answerer: (elements2, ctx) => {
-        const title = titleTransform(elements2.title);
-        if (title) {
-          return CommonProject.scripts.apps.methods.searchAnswerInCaches(title, async () => {
-            await $.sleep(5 * 1e3);
-            return defaultAnswerWrapperHandler(answererWrappers, {
-              type: ctx.type || "unknown",
-              title,
-              options: ctx.elements.options.map((o) => optimizationElementWithImage(o, true).innerText).join("\n")
-            });
-          });
-        } else {
-          throw new Error("题目为空，请查看题目是否为空，或者忽略此题");
-        }
-      },
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2, _ctx) => titleTransform(elements2.title),
+        optionsTransform: (elements2, ctx) => {
+          const optResults = ctx.elements.options.map((o) => extractTextWithImages(o));
+          return {
+            text: optResults.map((r) => r.text).join("\n"),
+            images: optResults.flatMap((r) => r.images)
+          };
+        },
+        answererWrappers,
+        period: 5
+      }),
       work: {
+        optionText: (o) => extractTextWithImages(o).text,
         async handler(type2, answer, option) {
           var _a;
           if (type2 === "judgement" || type2 === "single" || type2 === "multiple") {
@@ -21501,12 +21974,12 @@ ${content}</tr>
                 });
               }
             }
-            const text = option.querySelector(".f-richEditorText");
+            const text2 = option.querySelector(".f-richEditorText");
             const input = option.querySelector("input");
-            if (input && !(input == null ? void 0 : input.checked) && text) {
+            if (input && !(input == null ? void 0 : input.checked) && text2) {
               await networkIdleRequire(rp, async () => {
                 await $.sleep(1e3);
-                await rp.click(text);
+                await rp.click(text2);
               });
             }
           } else if (type2 === "completion" && answer.trim()) {
@@ -21524,7 +21997,6 @@ ${content}</tr>
       },
       onElementSearched(elements2, root2) {
         elements2.options.forEach((el) => {
-          optimizationElementWithImage(el);
           const correct = el.querySelector(".u-icon-correct");
           const wrong = el.querySelector(".u-icon-wrong");
           if (correct) {
@@ -21535,13 +22007,11 @@ ${content}</tr>
           }
         });
       },
-      onResultsUpdate(curr, _, res) {
-        var _a;
-        CommonProject.scripts.workResults.methods.setResults(simplifyWorkResult(res, titleTransform));
-        if ((_a = curr.result) == null ? void 0 : _a.finish) {
-          CommonProject.scripts.apps.methods.addQuestionCacheFromWorkResult(simplifyWorkResult([curr], titleTransform));
-        }
-        CommonProject.scripts.workResults.methods.updateWorkStateByResults(res);
+      async onResultsInit(_curr, _index, res) {
+        await CommonProject.scripts.workResults.methods.fillAll(res.map((r, i) => simplifyWorkResult(r, titleText, i)));
+      },
+      async onResultsUpdate(curr, index, res) {
+        await CommonProject.scripts.workResults.methods.update(index, simplifyWorkResult(curr, titleText, index));
       }
     });
     worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug }).then(async (results) => {
@@ -21566,6 +22036,8 @@ ${content}</tr>
               return;
             }
             if (uploadable) {
+              BackgroundProject.scripts.render.methods.minimize();
+              BackgroundProject.scripts.render.methods.setPosition(100, 200);
               const sumbit = document.querySelector(".j-submit");
               if (sumbit) {
                 await rp.click(sumbit);
@@ -21578,6 +22050,111 @@ ${content}</tr>
       } else {
         lib.$message.success({ content: "作业/考试完成，请自行检查后保存或提交。", duration: 0 });
       }
+      worker.emit("done");
+    }).catch((err) => {
+      lib.$message.error({ content: "答题程序发生错误 : " + err.message, duration: 0 });
+    });
+    return worker;
+  }
+  function chapter_v2(rp, { answererWrappers, redundanceWordsText, upload, stopSecondWhenFinish, answerSeparators }) {
+    const titleTransform = (titles) => {
+      const images = [];
+      const text2 = removeRedundantWords(
+        titles.filter((t2) => (t2 == null ? void 0 : t2.innerText) || (t2 == null ? void 0 : t2.querySelector("img"))).map((t2) => {
+          if (t2) {
+            const extracted = extractTextWithImages(t2);
+            images.push(...extracted.images);
+            return extracted.text.replace(/\s+/g, " ").trim() || "";
+          }
+          return "";
+        }).filter((t2) => t2.trim() !== "").join(",").replace(/[\u200A-\u200F]/g, ""),
+        redundanceWordsText.split("\n")
+      );
+      return { text: text2, images };
+    };
+    const titleText = (titles) => titleTransform(titles).text;
+    const worker = new OCSWorker({
+      root: '[data-testid="lesson-quiz-unit"] article',
+      elements: {
+        title: ".lesson-quiz-question-rich-text",
+        options: "label.cursor-pointer"
+      },
+      thread: 1,
+      answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2, _ctx) => titleTransform(elements2.title),
+        optionsTransform: (elements2, ctx) => {
+          const optResults = ctx.elements.options.map((o) => extractTextWithImages(o));
+          return {
+            text: optResults.map((r) => r.text).join("\n"),
+            images: optResults.flatMap((r) => r.images)
+          };
+        },
+        answererWrappers,
+        period: 5
+      }),
+      work: {
+        optionText: (o) => extractTextWithImages(o).text,
+        async handler(type, answer, option) {
+          var _a;
+          if (type === "judgement" || type === "single" || type === "multiple") {
+            const input = option.querySelector("input");
+            if (input && !(input == null ? void 0 : input.checked)) {
+              await $.sleep(1e3);
+              await rp.click(option);
+            }
+          } else if (type === "completion" && answer.trim()) {
+            const textarea = option.querySelector("textarea");
+            const id = ((_a = textarea == null ? void 0 : textarea.getAttribute("id")) == null ? void 0 : _a.toString()) || "";
+            if (id && (textarea == null ? void 0 : textarea.value.trim()) !== answer.trim()) {
+              await $.sleep(1e3);
+              await rp.click("#" + id);
+              await rp.fill("#" + id, answer.trim());
+            }
+          }
+        }
+      },
+      async onResultsInit(_curr, _index, res) {
+        await CommonProject.scripts.workResults.methods.fillAll(res.map((r, i) => simplifyWorkResult(r, titleText, i)));
+      },
+      async onResultsUpdate(curr, index, res) {
+        await CommonProject.scripts.workResults.methods.update(index, simplifyWorkResult(curr, titleText, index));
+      }
+    });
+    worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug }).then(async (results) => {
+      if (worker.isClose) {
+        return;
+      }
+      $msg_and_log("info", `答题完成，将等待 ${stopSecondWhenFinish} 秒后进行保存或提交。`);
+      await $.sleep(stopSecondWhenFinish * 1e3);
+      if (worker.isClose) {
+        return;
+      }
+      await worker.uploadHandler({
+        type: upload,
+        results,
+        async callback(finishedRate, uploadable) {
+          const content = `完成率 ${finishedRate.toFixed(2)}% :  ${uploadable ? "3秒后将自动提交" : "3秒后将自动跳过（没保存按钮）"} `;
+          $console.info(content);
+          lib.$message.success({ content, duration: 10 });
+          await $.sleep(3e3);
+          if (worker.isClose) {
+            return;
+          }
+          if (uploadable) {
+            BackgroundProject.scripts.render.methods.minimize();
+            BackgroundProject.scripts.render.methods.setPosition(100, 200);
+            const sumbit = Array.from(document.querySelectorAll("button.bg-primary-600")).find(
+              (e) => (e.textContent || "") === "提交"
+            );
+            if (sumbit) {
+              await rp.click(sumbit);
+            } else {
+              $msg_and_log("warn", "没有找到提交按钮，将跳过提交。");
+            }
+          }
+        }
+      });
       worker.emit("done");
     }).catch((err) => {
       lib.$message.error({ content: "答题程序发生错误 : " + err.message, duration: 0 });
@@ -21618,6 +22195,24 @@ ${content}</tr>
           await remotePage.click(next2);
         } else {
           $msg_and_log("error", "未找到PPT的下一页按钮！");
+          return;
+        }
+        await $.sleep(readSpeed * 1e3);
+      }
+    }
+  }
+  async function readPPT_v2(remotePage, readSpeed) {
+    var _a, _b;
+    const reader = document.querySelector(".pdf-unit-renderer");
+    if (reader) {
+      const [start2, total] = ((_b = (_a = document.querySelector(".mooc-docs-reader__page-status")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.split("/").map((s) => parseInt(s.trim()))) || [0, 0];
+      for (let index = start2; index < total + 1; index++) {
+        const next2 = document.querySelector('button[aria-label="下一页"]');
+        if (next2) {
+          await remotePage.click(next2);
+        } else {
+          $msg_and_log("error", "未找到PPT的下一页按钮！");
+          return;
         }
         await $.sleep(readSpeed * 1e3);
       }
@@ -21643,7 +22238,7 @@ ${content}</tr>
     } else if (discussionStrategy === "max-fav") {
       const list = Array.from(document.querySelectorAll(".j-reply-all .f-pr"));
       let max = 0;
-      let maxEl = void 0;
+      let maxEl = list[0];
       for (const item of list) {
         const num = parseInt(((_c = item.querySelector(".bar .num")) == null ? void 0 : _c.textContent) || "0");
         if (num > max) {
@@ -21679,12 +22274,74 @@ ${content}</tr>
       $msg_and_log("error", "获取评论输入框失败！");
     }
   }
+  async function discussion_v2(remotePage, discussionStrategy) {
+    var _a, _b, _c, _d;
+    if (discussionStrategy === "not-reply") {
+      return $msg_and_log("warn", "讨论自动回复功能已关闭（上方菜单栏-中国大学MOOC-学习脚本中开启）。");
+    }
+    let res = "";
+    const text_list = Array.from(document.querySelectorAll("article.soft-shell.p-5 > p"));
+    if (discussionStrategy === "max-show-up") {
+      const mapping = /* @__PURE__ */ new Map();
+      for (const item of text_list) {
+        mapping.set(item.textContent, (mapping.get(item.textContent) || 0) + 1);
+      }
+      const content = (_b = (_a = [...mapping.entries()].sort((a, b) => b[1] - a[1])) == null ? void 0 : _a[0]) == null ? void 0 : _b[0];
+      if (!content) {
+        $msg_and_log("error", "读取出现最多评论失败！");
+      }
+      res = content;
+    } else if (discussionStrategy === "max-fav") {
+      const discussion_list = Array.from(document.querySelectorAll("article.soft-shell"));
+      let max = 0;
+      let maxEl = discussion_list[0];
+      for (const item of discussion_list) {
+        const num = parseInt(((_c = item.querySelector('button[aria-label="赞同"]')) == null ? void 0 : _c.textContent) || "0");
+        if (num > max) {
+          max = num;
+          maxEl = item;
+        }
+      }
+      const content = ((_d = maxEl == null ? void 0 : maxEl.querySelector("p.whitespace-pre-wrap")) == null ? void 0 : _d.textContent) || "";
+      if (!content) {
+        $msg_and_log("error", "读取最多点赞评论失败！");
+      }
+      res = content;
+    } else if (discussionStrategy === "random") {
+      const content = text_list[Math.floor(Math.random() * text_list.length)].textContent || "";
+      if (!content) {
+        $msg_and_log("error", "读取随机评论失败！");
+      }
+      res = content;
+    } else if (discussionStrategy === "use-newest") {
+      const content = text_list[0].textContent || "";
+      if (!content) {
+        $msg_and_log("error", "读取最新评论失败！");
+      }
+      res = content;
+    }
+    const p = document.querySelector(".ql-editor p");
+    const submit = document.querySelector('#forum-reply-form button[type="submit"]');
+    if (p && submit) {
+      p.innerText = res;
+      await $.sleep(1e3);
+      if (submit) {
+        await remotePage.click(submit);
+        lib.$message.info("提交回复成功！");
+      } else {
+        $msg_and_log("error", "获取提交按钮失败！");
+      }
+      await $.sleep(2e3);
+    } else {
+      $msg_and_log("error", "获取评论输入框失败！");
+    }
+  }
   async function networkIdleRequire(rp, cb) {
     await cb();
     const modal2 = await waitFor(() => document.querySelector(".ux-modal_content_content"), {
       check_period_ms: 200,
       timeout_seconds: 1
-    });
+    }).catch(() => void 0);
     if (modal2) {
       const msg2 = lib.$message.warn("答题速度过快导致并发限制、3秒后再继续答题。");
       await rp.click(".ux-modal-btn");
@@ -21693,31 +22350,37 @@ ${content}</tr>
       msg2 == null ? void 0 : msg2.remove();
     }
   }
+  const YKT_EXAM_REF_TABLE_URL = "https://cdn.ocsjs.com/resources/font/font_ref_yuketang.bin";
   const state = {
     study: {
-      currentMedia: void 0
+      currentMedia: void 0,
+      is_ai_watch_mode: false
     }
   };
-  const changeCurrentLeafJobName = lib.cors.defineTopFunction((name) => {
-    var _a;
-    (_a = lib.$elements.currentScriptPanel) == null ? void 0 : _a.body.replaceChildren(
-      lib.h("div", { className: "card", style: { marginTop: "12px" } }, ["当前正在学习：" + name])
-    );
-  });
   const YKTProject = lib.Project.create({
     name: "雨课堂",
-    domains: ["yuketang.cn"],
+    domains: ["yuketang.cn", "gdufemooc.cn"],
     scripts: {
       guide: new lib.Script({
-        name: "🖥️ 使用提示",
+        name: "💡 使用提示",
         matches: [
           ["雨课堂课程列表", "/v2/web/index"],
-          ["学习内容界面", "/v2/web/studentLog"]
+          ["学习内容界面", "/v2/web/studentLog"],
+          ["长江雨课堂手机版主页", "/m/v2/course/normalcourse/logs"],
+          ["课堂界面", "/v2/web/student-lesson-report"]
         ],
         namespace: "yuketang.study.guide",
         configs: {
           notes: {
-            defaultValue: "请点击课程里面任意章节，进入学习。"
+            defaultValue: createSteps(["登录网课平台", "点击课程中任意章节进入学习", "等待脚本自动运行"]).outerHTML
+          }
+        },
+        oncomplete(...args) {
+          if (location.href.includes("/m/v2/course/normalcourse/logs")) {
+            return lib.$message.info("请点击任意视频，进入自动学习。");
+          }
+          if (location.href.includes("/v2/web/student-lesson-report")) {
+            return lib.$message.info("课堂任务不支持学习，请切换到视频、作业等任务。");
           }
         }
       }),
@@ -21739,229 +22402,61 @@ ${content}</tr>
           };
         }
       }),
-      v2_study: new lib.Script({
-        name: "📚 课程学习",
+      upsupportNote: new lib.Script({
+        name: "不支持提示",
+        matches: [["课堂界面", "/v2/web/student-lesson-report"]],
+        hideInPanel: true,
+        oncomplete() {
+        }
+      }),
+      ppt: new lib.Script({
+        name: "📚 PPT自动阅读",
+        matches: [["PPT界面", /v2\/web\/studentCards\/.*\/ppt/]],
+        hideInPanel: true,
+        async oncomplete() {
+          lib.$message.info("正在学习PPT中，请耐心等待...");
+          for (const item of Array.from(document.querySelectorAll(".swiper-container .container")).filter(
+            (el) => !!el.querySelector(".noRead")
+          )) {
+            await lib.$.sleep(1e3);
+            item.click();
+          }
+          lib.$message.info({ content: "PPT阅读完毕，请手动切换到下一个任务", duration: 0 });
+        }
+      }),
+      ai: new lib.Script({
+        name: "🖥️ 课程学习",
         matches: [
-          ["课程学习界面", "/v2/web/studentLog"],
-          ["课程列表", /pro\/lms\/.*\/.*\/studycontent/],
-          ["视频界面", "v2/web/xcloud/video-student"],
-          ["视频讨论界面", /v2\/web\/lms\/.*\/forum/]
+          ["学习中心", "/v2/web/index"],
+          ["课程列表", "/v2/web/studentLog"],
+          ["AI学伴课程界面", "/ai-workspace/lms-graph"],
+          ["AI学伴课程界面手机版", "/ai-workspace/lms-graph-mobile"]
         ],
-        namespace: "yuketang.study.v2",
+        namespace: "yuketang.study.ai",
         configs: {
           notes: {
             defaultValue: lib.$ui.notes([
               "请点击任意小节，脚本会自动运行，并自动下一节。",
               "修改音量、倍速后请刷新页面使设置生效。",
-              "⚠️ 章节测试自动答题还在开发中，请耐心等待",
-              "⚠️ 手动搜题可使用官方题库的在线搜题功能： tk.enncy.cn "
+              "课件/PPT 等任务请手动进入触发自动阅读",
+              ["遇到作业任务点时可自动搜题作答", "（需在 通用-全局设置 中配置题库）。"]
             ]).outerHTML
           },
-          currentLeafIndex: {
-            defaultValue: -1
-          },
-          currentStudyUrl: {
-            defaultValue: ""
-          },
-          goNext: {
-            defaultValue: false
-          },
-          auto: {
-            label: "自动学习",
-            attrs: { type: "checkbox", title: "自动寻找未完成章节、或者自动下一节学习" },
-            defaultValue: false
-          },
           restudy,
-          volume,
-          playbackRate: {
-            label: "视频倍速",
-            tag: "select",
-            defaultValue: 1,
-            options: [
-              ["1", "1 x"],
-              ["1.25", "1.25 x"],
-              ["1.5", "1.5 x"],
-              ["2", "2.0 x"]
-            ]
+          problemWork: {
+            label: "作业自动答题",
+            attrs: { type: "checkbox", title: "遇到作业任务点时自动搜题作答并按设置提交（需配置题库）" },
+            defaultValue: true
           },
           discussMode: {
             label: "讨论任务模式",
             tag: "select",
             defaultValue: "random",
             options: [
-              ["random", "随机评论"],
-              ["first", "截取第一条评论"],
-              ["none", "不进行评论"]
+              ["random", "随机采用他人评论"],
+              ["first", "采用第一条评论"],
+              ["none", "不评论"]
             ]
-          }
-        },
-        onhistorychange(type, ...args) {
-          var _a;
-          if (type === "push") {
-            (_a = this.oncomplete) == null ? void 0 : _a.call(this);
-          }
-        },
-        async oncomplete() {
-          CommonProject.scripts.render.methods.pin(this);
-          if (document.location.pathname.includes("/v2/web/studentLog")) {
-            const tab = await waitForElement("#tab-content");
-            tab == null ? void 0 : tab.click();
-            return;
-          }
-          if (document.location.pathname.includes("v2/web/xcloud/video-student")) {
-            try {
-              await waitForElement(
-                [
-                  "#video-box",
-                  ".digital-human-video-element-selector"
-                ].join(",")
-              );
-              await lib.$.sleep(2e3);
-              await v2_watch({
-                volume: this.cfg.volume,
-                playbackRate: this.cfg.playbackRate
-              });
-              this.cfg.goNext = true;
-              lib.$message.info("视频学习完成，即将自动进入下一节");
-              setTimeout(() => {
-                location.href = this.cfg.currentStudyUrl;
-              }, 3e3);
-            } catch (e) {
-              $msg.error({ content: String(e), duration: 0 });
-            }
-            return;
-          }
-          if (/v2\/web\/lms\/.*\/forum/.test(document.location.pathname)) {
-            const new_discuss_list = await waitForElement(".new_discuss_list");
-            const textarea = await waitForElement("textarea.el-textarea__inner");
-            if (!new_discuss_list || !textarea) {
-              lib.$message.error("讨论区元素加载失败，请刷新界面重试。");
-              return;
-            }
-            const discusses = Array.from(new_discuss_list.querySelectorAll(".cont_detail")).map((el) => el.textContent || "").filter((text) => text.trim() !== "");
-            console.log(discusses);
-            if (this.cfg.discussMode === "random") {
-              const random_discuss = discusses[Math.floor(Math.random() * discusses.length)];
-              textarea.value = random_discuss;
-            } else if (this.cfg.discussMode === "first") {
-              textarea.value = discusses[0] || "";
-            } else {
-              lib.$message.info("已设置为不进行评论，跳过评论步骤。");
-              return;
-            }
-            textarea.dispatchEvent(new Event("input", { bubbles: true }));
-            const submit_btn = await waitForElement("button.submitComment");
-            submit_btn == null ? void 0 : submit_btn.click();
-            this.cfg.goNext = true;
-            lib.$message.success("评论提交成功，即将自动进入下一节");
-            setTimeout(() => {
-              location.href = this.cfg.currentStudyUrl;
-            }, 3e3);
-            return;
-          }
-          await waitForElement(".chapter-list");
-          await lib.$.sleep(2e3);
-          const vue_data = document.querySelector(".study-content__container").__vue__;
-          const chapter_list = JSON.parse(JSON.stringify(vue_data.chapter_list || []));
-          const leaf_schedules = vue_data.leaf_schedules || [];
-          const leaf_list = [];
-          while (chapter_list.length > 0) {
-            const chapter = chapter_list.shift();
-            if (!chapter)
-              break;
-            while (chapter.section_leaf_list.length > 0) {
-              const leaf = chapter.section_leaf_list.shift();
-              if (!leaf)
-                break;
-              if (leaf.leaf_list) {
-                leaf_list.push(...leaf.leaf_list);
-              } else {
-                leaf_list.push(leaf);
-              }
-            }
-          }
-          const getJobName = (leaf) => {
-            var _a;
-            return ((_a = leaf.querySelector(".leaf-title")) == null ? void 0 : _a.textContent) || "未知章节";
-          };
-          const leafs = Array.from(document.querySelectorAll(".leaf-detail"));
-          for (let index = 0; index < leafs.length; index++) {
-            const leaf = leafs[index];
-            leaf.addEventListener("click", () => {
-              this.cfg.goNext = false;
-              this.cfg.currentLeafIndex = index;
-              this.cfg.currentStudyUrl = (top == null ? void 0 : top.document.location.href) || "";
-              const name = getJobName(leaf);
-              changeCurrentLeafJobName(name);
-              $console.log("正在学习：" + name);
-            });
-          }
-          const currentLeaf = leafs[this.cfg.currentLeafIndex];
-          if (currentLeaf) {
-            currentLeaf.scrollIntoView({ behavior: "smooth", block: "center" });
-            changeCurrentLeafJobName(getJobName(currentLeaf));
-          }
-          const isLeafFinished = (leaf_index) => {
-            var _a;
-            const leaf_id = (_a = leaf_list[leaf_index]) == null ? void 0 : _a.id;
-            if (!leaf_id)
-              return false;
-            const schedule = leaf_schedules[leaf_id];
-            return schedule === 1;
-          };
-          const getNext = () => {
-            let index = this.cfg.currentLeafIndex;
-            while (index + 1 < leafs.length) {
-              index++;
-              if (["shipin", "taolun1"].some(
-                (name) => {
-                  var _a;
-                  return (_a = leafs[index]) == null ? void 0 : _a.querySelector(`.iconfont.icon--${name}`);
-                }
-              ) && !isLeafFinished(index)) {
-                break;
-              }
-            }
-            return leafs[index];
-          };
-          if (this.cfg.auto) {
-            const next2 = getNext();
-            if (!next2) {
-              return lib.$modal.alert({
-                content: "检测到当前课程全部完成，如果还有未完成的视频请刷新重试，或者打开复习模式。"
-              });
-            }
-            if (this.cfg.goNext) {
-              const timeout = setTimeout(() => {
-                next2.click();
-                modal2 == null ? void 0 : modal2.remove();
-              }, 5e3);
-              const modal2 = lib.$modal.confirm({
-                content: "5秒后即将自动继续学习：" + getJobName(next2),
-                cancelButtonText: "取消自动学习",
-                duration: 5,
-                onCancel() {
-                  clearTimeout(timeout);
-                  lib.$message.warn({ content: "已取消自动进入下一节，后续请手动操作进入。", duration: 0 });
-                }
-              });
-            }
-          }
-        }
-      }),
-      ai: new lib.Script({
-        name: "🤖 AI学伴",
-        matches: [["AI学伴课程界面", "/ai-workspace/lms-graph"]],
-        namespace: "yuketang.study.ai",
-        configs: {
-          notes: {
-            defaultValue: "请点击任意章节，进入学习。"
-          },
-          restudy,
-          reloadWhenError: {
-            label: "黑屏自动刷新",
-            attrs: { title: "视频黑屏或者检测不到视频时自动刷新页面", type: "checkbox" },
-            defaultValue: true
           },
           volume,
           playbackRate: {
@@ -21977,63 +22472,131 @@ ${content}</tr>
           }
         },
         async oncomplete() {
-          await lib.$.sleep(3e3);
-          CommonProject.scripts.render.methods.pin(this);
-          this.onConfigChange("volume", (curr) => {
-            state.study.currentMedia && (state.study.currentMedia.volume = curr);
-          });
-          this.onConfigChange("playbackRate", (curr) => {
-            state.study.currentMedia && (state.study.currentMedia.playbackRate = curr);
-          });
-          const max_level = 5;
-          for (let i = 0; i < max_level; i++) {
-            document.querySelectorAll(".expand-icon:not(.is-expanded )").forEach((el) => el.click());
-            await lib.$.sleep(100);
+          if (location.href.includes("ai-workspace/lms-graph-mobile")) {
+            lib.$message.warn("即将切换到电脑版AI课程...");
+            await lib.$.sleep(3e3);
+            location.href = location.href.replace("lms-graph-mobile", "lms-graph");
+            return;
           }
+          if (location.href.includes("/v2/web/index") || location.href.includes("/v2/web/studentLog")) {
+            BackgroundProject.scripts.render.methods.pin(this);
+            lib.$message.info("请手动进入到任意章节开始自动学习。");
+            return;
+          }
+          this.onConfigChange(
+            "volume",
+            debounce_1$1((val) => {
+              if (state.study.is_ai_watch_mode) {
+                if (state.study.currentMedia)
+                  state.study.currentMedia.volume = val;
+              } else {
+                lib.$message.info("音量设置已修改，刷新页面后生效");
+              }
+            }, 200)
+          );
+          this.onConfigChange(
+            "playbackRate",
+            debounce_1$1((val) => {
+              if (state.study.is_ai_watch_mode) {
+                if (state.study.currentMedia)
+                  state.study.currentMedia.playbackRate = val;
+              } else {
+                lib.$message.info("倍速设置已修改，刷新页面后生效");
+              }
+            }, 200)
+          );
           const getJobs = () => Array.from(document.querySelectorAll("div.leaf-item"));
           const getJobName = () => {
             var _a;
             return ((_a = document.querySelector(".leaf-item.is-active .leaf-item-title")) == null ? void 0 : _a.textContent) || "未知任务点";
           };
+          const getJobTag = (el) => {
+            var _a;
+            return (((_a = el.querySelector(".leaf-item-tag")) == null ? void 0 : _a.textContent) || "").trim();
+          };
           const getNextJob = () => {
-            let jobs = getJobs();
+            const jobs = getJobs();
             const active_index = jobs.findIndex((job) => job.classList.contains("is-active"));
-            if (!this.cfg.restudy) {
-              jobs = jobs.splice(active_index);
-              jobs = jobs.filter((el) => !el.querySelector(".icon-yuanquangou"));
-              jobs = jobs.filter((el) => {
-                var _a;
-                return !(((_a = el.querySelector(".leaf-item-tag")) == null ? void 0 : _a.textContent) || "").includes("自测");
-              });
-            }
-            const new_active_index = jobs.findIndex((job) => job.classList.contains("is-active"));
-            return jobs[new_active_index + 1];
+            return jobs.find((job, i) => {
+              const tag_text = getJobTag(job);
+              const support = ["视频", "作业", "讨论", "图文"].includes(tag_text.trim());
+              const finished = job.querySelector("[class*=yuanquangou]");
+              return i > active_index && support && (this.cfg.restudy || !finished);
+            });
           };
           try {
-            $msg.info("等待任务加载中...");
+            lib.$message.info("等待任务加载中...");
             await waitForElement(".detail-container", {
               timeout_seconds: 10 * 1e3
             });
-            $msg.info("即将开始自动学习");
+            await lib.$.sleep(3e3);
           } catch (e) {
             lib.$message.error("元素加载失败，请刷新界面重试。");
+          }
+          const max_level = 5;
+          for (let i = 0; i < max_level; i++) {
+            document.querySelectorAll(".nav-item-title:not(.is-expand )").forEach((el) => el.click());
+            await lib.$.sleep(100);
           }
           const study2 = async () => {
             try {
               if (lib.$el(".detail-container video")) {
                 $msg.info("即将开始视频学习：" + getJobName());
-                await ai_watch({
-                  volume: this.cfg.volume,
-                  playbackRate: this.cfg.playbackRate
-                });
-                $msg.success("视频学习完成");
+                if (document.querySelector(".digital-human-video-element-selector")) {
+                  await ai_watch({
+                    volume: this.cfg.volume,
+                    playbackRate: this.cfg.playbackRate
+                  });
+                } else {
+                  await watch({
+                    volume: this.cfg.volume,
+                    playbackRate: this.cfg.playbackRate
+                  });
+                }
                 await lib.$.sleep(3e3);
               }
-              if (lib.$el(".detail-container .problem-common")) {
-                $msg.warn("自测任务暂未支持，请联系作者反馈：" + getJobName());
+              const forum = lib.$el(".detail-container .lms-graph-forum");
+              if (forum) {
+                $msg.info("即将开始自动讨论：" + getJobName());
+                await autoCommentYktForum(forum, this.cfg.discussMode);
+                $msg.success("自动讨论完成");
+                await lib.$.sleep(3e3);
+              }
+              if (lib.$el(".detail-container .lms-graph-exercise")) {
+                if (this.cfg.problemWork) {
+                  const exerciseIframe = lib.$el(".detail-container .lms-graph-exercise iframe#iframeExerciseId");
+                  if (!exerciseIframe) {
+                    $console.warn("作业任务点结构未识别（缺少 iframe#iframeExerciseId），跳过自动答题。");
+                  } else if (!exerciseIframe.contentDocument) {
+                    $console.warn("作业 iframe 无法访问（可能跨域），跳过自动答题。");
+                  } else {
+                    lib.$message.info("检测到作业任务点，等待作业页面加载...");
+                    const questionRoot = await waitForElement(
+                      () => {
+                        var _a;
+                        return (_a = exerciseIframe.contentDocument) == null ? void 0 : _a.querySelector(".container-problem .subject-item");
+                      },
+                      { timeout_seconds: 20, check_period_ms: 200 }
+                    ).catch(() => void 0);
+                    if (!questionRoot) {
+                      $console.warn("作业页面加载超时，跳过自动答题。");
+                    } else {
+                      await new Promise((resolve) => {
+                        commonWork({
+                          mount_script: this,
+                          workerProvider: (opts) => {
+                            return createYktEmbeddedWorkLoop(opts, exerciseIframe.contentDocument, () => resolve());
+                          }
+                        });
+                      });
+                      lib.$message.success("作业任务点答题完成。");
+                    }
+                  }
+                }
                 await lib.$.sleep(3e3);
               }
             } catch (e) {
+              $console.error(`当前任务点无法完成，即将跳转下一节（${e}）`);
               lib.$message.error(`当前任务点无法完成，即将跳转下一节（${e}）`);
             }
             const next2 = getNextJob();
@@ -22050,56 +22613,666 @@ ${content}</tr>
           };
           study2();
         }
-      }),
-      "font-decrypt": new lib.Script({
-        name: "🔤 字体解密",
-        matches: [
-          ["AI伴学自测界面", "/v2/web/iframe-self-test"],
-          ["V2学习内容-作业界面", "/v2/web/cloud/student/exercise"]
-        ],
-        async oncomplete() {
-          var _a;
-          const mapping = await loadFontMapping();
-          console.log(mapping);
-          const els = Array.from(document.querySelectorAll(".xuetangx-com-encrypted-font"));
-          for (const el of els) {
-            for (const _char in mapping) {
-              if ((_a = el.textContent) == null ? void 0 : _a.includes(_char)) {
-                el.textContent = el.textContent.replace(new RegExp(_char, "g"), mapping[_char]);
-              }
-            }
-          }
-          console.log("字体替换完成");
-        }
       })
     }
   });
-  async function loadFontMapping() {
-    try {
-      $msg.info("正在解析字体");
-      return await request("https://cdn.ocsjs.com/resources/font/yuketang_font_map.json", {
-        type: "GM_xmlhttpRequest",
-        method: "get",
-        responseType: "json"
-      });
-    } catch (err) {
-      $msg.error("载繁体字库加载失败，请刷新页面重试：" + String(err));
+  async function autoCommentYktForum(forum, discussMode) {
+    var _a, _b;
+    const speakStatus = (_b = (_a = forum.querySelector(".learning-space-control-unit .control-right .f12")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.trim();
+    if (speakStatus == null ? void 0 : speakStatus.includes("已发言")) {
+      lib.$message.info("当前讨论已发言，跳过评论步骤。");
+      return;
     }
+    if (discussMode === "none") {
+      lib.$message.info("已设置为不进行评论，跳过评论步骤。");
+      return;
+    }
+    const textarea = await waitForElement(
+      () => forum.querySelector(".forum-publish textarea.el-textarea__inner"),
+      { timeout_seconds: 20, check_period_ms: 500, timeout_message: "讨论区输入框加载超时。" }
+    );
+    const discusses = Array.from(forum.querySelectorAll(".forum-content .forum-item .comment-text")).map((el) => (el.textContent || "").trim()).filter(Boolean);
+    if (discusses.length === 0) {
+      throw new Error("讨论区暂无评论可参考，无法自动评论。");
+    }
+    const content = discussMode === "first" ? discusses[0] : discusses[Math.floor(Math.random() * discusses.length)];
+    textarea.value = content;
+    textarea.dispatchEvent(new Event("input", { bubbles: true }));
+    const send_btn = await waitForElement(() => forum.querySelector(".prompt-send-btn:not(.disabled)"), {
+      timeout_seconds: 10,
+      check_period_ms: 500,
+      timeout_message: "讨论区发送按钮未解除禁用，评论提交失败。"
+    });
+    send_btn.click();
+    await lib.$.sleep(1e3);
+  }
+  const YKT_ENCRYPTED_SELECTOR = ".xuetangx-com-encrypted-font";
+  const fontDecryptors = /* @__PURE__ */ new Map();
+  let fontWatchController;
+  async function setupYuketangFontDecrypt(doc = document) {
+    fontWatchController == null ? void 0 : fontWatchController.stop();
+    fontWatchController = void 0;
+    const dec_msg = lib.$message.info({ content: "字体解密中...", duration: 0 });
+    const waitStart = Date.now();
+    let noCipherStable = 0;
+    while (!doc.querySelector(YKT_ENCRYPTED_SELECTOR) && Date.now() - waitStart < 3e3) {
+      const bodyRendered = !!doc.querySelector(".container-problem .problem-body, .exam-body, .subject-item");
+      noCipherStable = bodyRendered ? noCipherStable + 1 : 0;
+      if (noCipherStable >= 3) {
+        $console.log("题目已渲染且未检测到加密文字，跳过初始解密等待。");
+        break;
+      }
+      await lib.$.sleep(200);
+    }
+    if (!doc.querySelector(YKT_ENCRYPTED_SELECTOR)) {
+      $console.log("暂未检测到加密文字，将持续监听页面变化。");
+      dec_msg == null ? void 0 : dec_msg.remove();
+    }
+    let firstDecrypt = true;
+    const decryptEls = async (els) => {
+      var _a, _b;
+      els = els.filter((el) => el.classList.contains("xuetangx-com-encrypted-font"));
+      if (els.length === 0) {
+        return;
+      }
+      for (const el of els) {
+        el.classList.remove("xuetangx-com-encrypted-font");
+        el.classList.add("xuetangx-com-font-decrypting");
+      }
+      const markFailed = (groupEls) => {
+        for (const el of groupEls) {
+          el.classList.remove("xuetangx-com-font-decrypting");
+          el.classList.add("xuetangx-com-font-decrypt-failed");
+        }
+      };
+      const findExamFontUrl = () => {
+        const faces = listFontFaces(doc);
+        const face = faces.find((f) => /exam|decrypt/i.test(f.family) || /exam_font|fe_font/.test(f.src));
+        if (face) {
+          return face.src;
+        }
+        return findFontUrls(doc).find((u) => /exam_font|fe_font/.test(u));
+      };
+      let examFontUrl = findExamFontUrl();
+      const fontWaitStart = Date.now();
+      while (!examFontUrl && Date.now() - fontWaitStart < 1e4) {
+        await lib.$.sleep(300);
+        examFontUrl = findExamFontUrl();
+      }
+      if (!examFontUrl) {
+        $console.warn(
+          `[font-decrypt] 等待考试字体超时（@font-face=[${listFontFaces(doc).map((f) => f.family).join(", ")}], 字体文件=[${findFontUrls(doc).join(", ")}]），跳过解密。`
+        );
+        markFailed(els);
+        return;
+      }
+      const resolveFontSource = (family) => {
+        var _a2, _b2;
+        const faces = listFontFaces(doc);
+        return (_b2 = (_a2 = faces.find((f) => family.includes(f.family) || f.family.includes(family))) == null ? void 0 : _a2.src) != null ? _b2 : examFontUrl;
+      };
+      const groups = /* @__PURE__ */ new Map();
+      for (const el of els) {
+        const view = (_a = el.ownerDocument.defaultView) != null ? _a : window;
+        const family = (view.getComputedStyle(el).fontFamily || "").split(",")[0].replace(/["']/g, "").trim();
+        const group = (_b = groups.get(family)) != null ? _b : [];
+        group.push(el);
+        groups.set(family, group);
+      }
+      for (const [family, groupEls] of groups) {
+        const fontSource = resolveFontSource(family);
+        if (!fontSource) {
+          $console.warn(`[font-decrypt] 未找到字体 ${family} 对应的字体文件，跳过解密。`);
+          markFailed(groupEls);
+          continue;
+        }
+        try {
+          let decryptor = fontDecryptors.get(fontSource);
+          if (!decryptor) {
+            decryptor = await FontDecryptor.create(fontSource, {
+              refTableUrl: YKT_EXAM_REF_TABLE_URL,
+              fontWeight: "250"
+            });
+            fontDecryptors.set(fontSource, decryptor);
+          }
+          await decryptor.decrypt(groupEls);
+          for (const el of groupEls) {
+            el.classList.remove("xuetangx-com-font-decrypting");
+            el.classList.add("xuetangx-com-font-decrypted");
+          }
+          if (firstDecrypt) {
+            firstDecrypt = false;
+            if (dec_msg)
+              dec_msg.textContent = "字体解密完成，切换题目时将自动解密新内容。";
+          }
+        } catch (err) {
+          $console.error(`[font-decrypt] 字体 ${family} 解密失败：`, String(err));
+          markFailed(groupEls);
+        }
+      }
+      setTimeout(() => {
+        dec_msg == null ? void 0 : dec_msg.remove();
+      }, 3e3);
+    };
+    activeDecryptHandler = decryptEls;
+    fontWatchController = watchElements(doc, YKT_ENCRYPTED_SELECTOR, (found) => enqueueYktDecrypt(found));
+    $console.log("字体动态解密已启动。");
+  }
+  let activeDecryptHandler;
+  let decryptChain = Promise.resolve();
+  function enqueueYktDecrypt(els) {
+    const run = decryptChain.then(() => activeDecryptHandler == null ? void 0 : activeDecryptHandler(els));
+    decryptChain = run.then(
+      () => void 0,
+      () => void 0
+    );
+    return run;
+  }
+  async function decryptYktNow(doc) {
+    await ensureYktFontDecrypt(doc);
+    const els = Array.from(doc.querySelectorAll(YKT_ENCRYPTED_SELECTOR));
+    if (els.length) {
+      await enqueueYktDecrypt(els);
+    }
+    await decryptChain;
+  }
+  let fontDecryptSetupPromise;
+  let fontDecryptSetupDoc;
+  function ensureYktFontDecrypt(doc = document) {
+    if (!fontDecryptSetupPromise || fontDecryptSetupDoc !== doc) {
+      fontDecryptSetupDoc = doc;
+      fontDecryptSetupPromise = setupYuketangFontDecrypt(doc).catch((err) => {
+        fontDecryptSetupPromise = void 0;
+        fontDecryptSetupDoc = void 0;
+        throw err;
+      });
+    }
+    return fontDecryptSetupPromise;
+  }
+  function parseYktQuestionType(typeText) {
+    if (typeText.includes("单选")) {
+      return "single";
+    }
+    if (typeText.includes("多选")) {
+      return "multiple";
+    }
+    if (typeText.includes("判断")) {
+      return "judgement";
+    }
+    if (typeText.includes("填空") || typeText.includes("简答") || typeText.includes("问答") || typeText.includes("主观")) {
+      return "completion";
+    }
+    return void 0;
+  }
+  function currentYktQuestionMarker(doc) {
+    var _a, _b, _c;
+    return (_c = (_b = (_a = doc.querySelector(".container-problem .subject-item .item-type")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.replace(/\s+/g, "")) != null ? _c : "";
+  }
+  function fillYktUEditor(iframe, answer) {
+    var _a, _b, _c;
+    const html2 = "<p>" + answer.trim().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n+/g, "</p><p>") + "</p>";
+    const containerId = (_a = iframe.closest('[id^="ueditor-"]')) == null ? void 0 : _a.id;
+    const ue = (_b = iframe.ownerDocument.defaultView) == null ? void 0 : _b.UE;
+    if (containerId && ue) {
+      try {
+        const editor = ue.getEditor(containerId);
+        editor.ready(() => editor.setContent(html2));
+        return;
+      } catch (err) {
+        $console.warn("[answer] UEditor API 填充失败，尝试直接写入：", String(err));
+      }
+    }
+    const body = (_c = iframe.contentDocument) == null ? void 0 : _c.body;
+    if (body) {
+      body.innerHTML = html2;
+      body.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+  }
+  async function submitYktCurrentQuestion(doc, order) {
+    const hasStatusMark = () => {
+      var _a, _b;
+      const item = doc.querySelector(`.problems-aside .subject-item.J_order[data-order="${order}"]`);
+      return !!(item == null ? void 0 : item.querySelector(".icon-status")) || !!((_b = (_a = item == null ? void 0 : item.querySelector(".text-status")) == null ? void 0 : _a.textContent) == null ? void 0 : _b.includes("未批改"));
+    };
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const submitBtn = Array.from(
+        doc.querySelectorAll(".problem-box button.el-button--primary")
+      ).find((b) => {
+        var _a;
+        return ((_a = b.textContent) == null ? void 0 : _a.trim().includes("提交")) && !b.disabled && !b.classList.contains("is-disabled");
+      });
+      if (!submitBtn) {
+        return attempt > 0 ? hasStatusMark() : false;
+      }
+      submitBtn.click();
+      await lib.$.sleep(1e3);
+      const waitStart = Date.now();
+      while (Date.now() - waitStart < 1e4) {
+        if (hasStatusMark()) {
+          return true;
+        }
+        await lib.$.sleep(300);
+      }
+    }
+    $console.error("未检测到完成状态。");
+    return false;
+  }
+  async function waitYktQuestionReady(prevMarker, doc, timeoutMs = 15e3) {
+    var _a;
+    const start2 = Date.now();
+    while (Date.now() - start2 < timeoutMs) {
+      const marker = currentYktQuestionMarker(doc);
+      if (marker && marker !== prevMarker) {
+        break;
+      }
+      await lib.$.sleep(200);
+    }
+    let stable = 0;
+    while (Date.now() - start2 < timeoutMs) {
+      await decryptYktNow(doc);
+      const body = doc.querySelector(".container-problem .problem-body");
+      const hasContent = !!((_a = body == null ? void 0 : body.textContent) == null ? void 0 : _a.trim()) || !!(body == null ? void 0 : body.querySelector("img"));
+      const hasCipher = !!doc.querySelector(
+        `.container-problem ${YKT_ENCRYPTED_SELECTOR}, .container-problem .xuetangx-com-font-decrypting`
+      );
+      if (hasContent && !hasCipher) {
+        stable++;
+        if (stable >= 2) {
+          return;
+        }
+      } else {
+        stable = 0;
+      }
+      await lib.$.sleep(200);
+    }
+    $console.warn(`[answer] 等待题目就绪超时（${timeoutMs}ms），将就绪状态降级继续。`);
+  }
+  const YKT_BLANK_INPUT_SELECTOR = 'input.blank-item-dynamic, input[placeholder="输入答案"]';
+  function cloneYktForTextExtract(el) {
+    const clone2 = el.cloneNode(true);
+    for (const img of Array.from(clone2.querySelectorAll("img.kfformula"))) {
+      const latex = img.getAttribute("data-latex") || (img.getAttribute("data-slatex") || "").replace(/\\\\/g, "\\");
+      img.replaceWith(latex.trim() ? ` $${latex}$ ` : " [公式] ");
+    }
+    return clone2;
+  }
+  function extractYktTitleText(el) {
+    const clone2 = cloneYktForTextExtract(el);
+    for (const input of Array.from(clone2.querySelectorAll(YKT_BLANK_INPUT_SELECTOR))) {
+      input.replaceWith("____");
+    }
+    return extractTextWithImages(clone2).text;
+  }
+  function createYktAnswerWorker({
+    answererWrappers,
+    period,
+    thread,
+    redundanceWordsText,
+    answerSeparators
+  }) {
+    const redundanceWords = redundanceWordsText.split("\n").filter(Boolean);
+    const titleTransform = (titles) => titles.filter((t2) => {
+      var _a;
+      return !!t2 && (!!((_a = t2.textContent) == null ? void 0 : _a.trim()) || !!t2.querySelector("img"));
+    }).map(
+      (t2) => t2 ? removeRedundantWords(
+        StringUtils.of(extractYktTitleText(t2)).nowrap(" ").nospace().toString().trim(),
+        redundanceWords
+      ) : ""
+    ).join(",");
+    const optionText = (option) => {
+      const input = option.querySelector("input");
+      if ((input == null ? void 0 : input.value) === "true") {
+        return "对";
+      }
+      if ((input == null ? void 0 : input.value) === "false") {
+        return "错";
+      }
+      const textEl = option.querySelector(".radioText, .checkboxText");
+      return extractTextWithImages(cloneYktForTextExtract(textEl != null ? textEl : option)).text;
+    };
+    const questionRootRef = [];
+    const worker = new OCSWorker({
+      root: questionRootRef,
+      rootObserver: {
+        enabled: true,
+        onRootLost: () => {
+          CommonProject.scripts.workResults.methods.clearResults();
+        }
+      },
+      elements: {
+        title: (root2) => {
+          const pb = lib.$$el(".problem-body", root2);
+          return pb.length ? pb : lib.$$el(".item-body > div", root2).slice(0, 1);
+        },
+        type: ".item-type",
+        options: (root2) => {
+          const labels = lib.$$el('ul[class*="list-unstyled"] li label', root2);
+          if (labels.length) {
+            return labels;
+          }
+          const editors = lib.$$el('iframe[id^="ueditor_"]', root2);
+          if (editors.length) {
+            return editors;
+          }
+          const blanks = lib.$$el(YKT_BLANK_INPUT_SELECTOR, root2);
+          return blanks.length ? blanks : lib.$$el("textarea", root2);
+        }
+      },
+      thread: thread != null ? thread : 1,
+      answerSeparators: answerSeparators.split(",").map((s) => s.trim()),
+      answerer: createCommonAnswerer({
+        titleTransform: (elements2) => titleTransform(elements2.title),
+        optionsTransform: (elements2, ctx) => {
+          var _a, _b, _c, _d;
+          ctx.type = parseYktQuestionType((_c = (_b = (_a = elements2.type) == null ? void 0 : _a[0]) == null ? void 0 : _b.textContent) != null ? _c : "");
+          if (ctx.type === "completion") {
+            return "";
+          }
+          return ((_d = elements2.options) != null ? _d : []).map((o) => optionText(o)).join("\n");
+        },
+        answererWrappers,
+        period
+      }),
+      work: async (ctx) => {
+        var _a, _b, _c;
+        const type = (_b = (_a = ctx.type) != null ? _a : defaultWorkTypeResolver(ctx)) != null ? _b : "single";
+        const resolver = createDefaultQuestionResolver(ctx, (o) => optionText(o))[type];
+        if (!resolver) {
+          return { finish: false };
+        }
+        return await resolver(
+          ctx.searchInfos,
+          (_c = ctx.elements.options) != null ? _c : [],
+          async (t2, answer, option) => {
+            var _a2;
+            if (t2 === "judgement" || t2 === "single" || t2 === "multiple") {
+              if (option && !option.classList.contains("is-checked") && ((_a2 = option.querySelector("input")) == null ? void 0 : _a2.checked) !== true) {
+                option.click();
+                await lib.$.sleep(300);
+              }
+            } else if (t2 === "completion" && answer.trim()) {
+              if ((option == null ? void 0 : option.tagName) === "IFRAME") {
+                fillYktUEditor(option, answer);
+                await lib.$.sleep(300);
+              } else {
+                const input = (option == null ? void 0 : option.tagName) === "TEXTAREA" || (option == null ? void 0 : option.tagName) === "INPUT" ? option : option == null ? void 0 : option.querySelector("textarea,input");
+                if (input) {
+                  input.value = answer;
+                  input.dispatchEvent(new Event("input", { bubbles: true }));
+                  await lib.$.sleep(200);
+                }
+              }
+            }
+          }
+        );
+      },
+      onQuestionDetected(current) {
+        updateDynamicResult(current, titleTransform);
+      },
+      onResultsUpdate(current, _, res) {
+        updateDynamicResult(current, titleTransform);
+      }
+    });
+    return { worker, questionRootRef };
+  }
+  async function waitYktCaptcha(doc) {
+    const getCaptcha = () => doc.querySelector("#homework-automation-risk-challenge");
+    if (!getCaptcha()) {
+      return;
+    }
+    $console.warn("[answer] 检测到平台风控验证码，等待手动完成...");
+    const message2 = lib.$message.warn({
+      content: "检测到平台风控验证码，请手动完成验证，完成后将自动继续答题。",
+      duration: 0
+    });
+    CommonProject.scripts.settings.methods.notificationBySetting(
+      "雨课堂脚本：检测到平台风控验证码，请手动完成验证，完成后将自动继续答题。",
+      { duration: 0 }
+    );
+    await new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (!getCaptcha()) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 1e3);
+    });
+    message2 == null ? void 0 : message2.remove();
+    lib.$message.success("验证码已完成，继续自动答题。");
+  }
+  async function waitYktWorkConfirmDialog(doc) {
+    const getDialog = () => {
+      const els = Array.from(
+        doc.querySelectorAll(".homework-problem-change-guard-dialog,.homework-problem-batch-submit-dialog")
+      );
+      if (els.some(
+        (e) => {
+          var _a;
+          return ((_a = e == null ? void 0 : e.parentElement) == null ? void 0 : _a.classList.contains("el-dialog__wrapper")) && (e == null ? void 0 : e.parentElement.style.display) !== "none";
+        }
+      )) {
+        return true;
+      }
+    };
+    if (!getDialog()) {
+      return;
+    }
+    $console.warn("[answer] 检测到作业存在未保存答案，等待手动确认...");
+    const message2 = lib.$message.warn({
+      content: "检测到作业存在未保存答案，请手动确认 。",
+      duration: 0
+    });
+    CommonProject.scripts.settings.methods.notificationBySetting("雨课堂脚本：检测到作业存在未保存答案，请手动确认 。", {
+      duration: 0
+    });
+    await new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (!getDialog()) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 1e3);
+    });
+    message2 == null ? void 0 : message2.remove();
+  }
+  async function runYktAnswerLoop(worker, questionRootRef, doc) {
+    var _a, _b, _c;
+    const allResults = [];
+    try {
+      await ensureYktFontDecrypt(doc);
+    } catch (err) {
+      $console.error("字体解密初始化失败：", String(err));
+    }
+    const getUnfinishedNavItems = () => Array.from(doc.querySelectorAll(".problems-aside .subject-item.J_order")).filter((el) => {
+      var _a2, _b2;
+      if (el.querySelector(".icon-status")) {
+        return false;
+      }
+      if ((_b2 = (_a2 = el.querySelector(".text-status")) == null ? void 0 : _a2.textContent) == null ? void 0 : _b2.includes("未批改")) {
+        return false;
+      }
+      return true;
+    });
+    const processedOrders = /* @__PURE__ */ new Set();
+    const processedMarkers = /* @__PURE__ */ new Set();
+    let prevMarker = null;
+    let completedAll = false;
+    while (worker.isClose === false) {
+      await waitYktCaptcha(doc);
+      if (worker.isClose) {
+        break;
+      }
+      const unfinished = getUnfinishedNavItems().filter(
+        (el) => {
+          var _a2;
+          return !processedOrders.has((_a2 = el.getAttribute("data-order")) != null ? _a2 : "");
+        }
+      );
+      if (unfinished.length === 0) {
+        completedAll = true;
+        break;
+      }
+      let target = unfinished.find((n) => n.classList.contains("active"));
+      if (!target) {
+        target = unfinished[0];
+        prevMarker = currentYktQuestionMarker(doc);
+        target.click();
+        await lib.$.sleep(1e3);
+        await waitYktWorkConfirmDialog(doc);
+      }
+      await waitYktQuestionReady(prevMarker, doc);
+      const marker = currentYktQuestionMarker(doc);
+      if (marker && processedMarkers.has(marker)) {
+        $console.warn(`[answer] 题目 "${marker}" 重复出现（切换失败或状态未刷新），终止作答以防死循环。`);
+        break;
+      }
+      if (marker) {
+        processedMarkers.add(marker);
+      }
+      const order = (_a = target.getAttribute("data-order")) != null ? _a : "";
+      processedOrders.add(order);
+      questionRootRef.splice(
+        0,
+        questionRootRef.length,
+        ...Array.from(doc.querySelectorAll(".container-problem .subject-item"))
+      );
+      if (questionRootRef.length === 0) {
+        break;
+      }
+      try {
+        const results = await worker.doWork({ enable_debug: BackgroundProject.scripts.dev.cfg.enable_answerer_debug });
+        allResults.push(...results);
+        const finished = !!((_c = (_b = results[0]) == null ? void 0 : _b.result) == null ? void 0 : _c.finish);
+        if (finished) {
+          const submitted = await submitYktCurrentQuestion(doc, order);
+          if (!submitted) {
+            $console.warn(`[answer] 本题提交失败: ${marker}`);
+          }
+        }
+        await lib.$.sleep(1e3);
+        await waitYktWorkConfirmDialog(doc);
+      } catch (err) {
+        $console.error("[answer] 答题异常，终止作答：", String(err));
+        break;
+      }
+    }
+    return { results: allResults, completedAll };
+  }
+  function createYktEmbeddedWorkLoop(opts, doc, onDone) {
+    CommonProject.scripts.workResults.methods.init({ dynamic: true });
+    const { worker, questionRootRef } = createYktAnswerWorker(opts);
+    dynamicWorkTips(worker);
+    (async () => {
+      const { results, completedAll } = await runYktAnswerLoop(worker, questionRootRef, doc);
+      worker.emit("done");
+      const finishCount = results.filter((r) => {
+        var _a;
+        return (_a = r.result) == null ? void 0 : _a.finish;
+      }).length;
+      if (!completedAll) {
+        lib.$message.warn({
+          content: `题目未全部完成（已作答提交 ${finishCount}/${results.length} 题），请手动检查剩余题目。`,
+          duration: 60
+        });
+      } else {
+        lib.$message.success({ content: `作业完成，全部 ${finishCount} 题已作答并逐题提交。` });
+      }
+      onDone();
+    })();
+    return worker;
+  }
+  async function watch(options) {
+    const set = async () => {
+      var _a;
+      await lib.$.sleep(1e3);
+      const video_vue_data = (_a = document.querySelector(".xtplayer")) == null ? void 0 : _a.__vue__;
+      if (video_vue_data) {
+        video_vue_data.player.options.speed.value = parseFloat(options.playbackRate.toString());
+        video_vue_data.player.options.volume.value = options.volume;
+        video_vue_data.player.init();
+      }
+      const media = await waitForElement("video", {
+        timeout_seconds: 10 * 1e3,
+        timeout_message: "视频元素加载超时"
+      });
+      console.log("media", media);
+      await lib.$.sleep(1e3);
+      state.study.currentMedia = media;
+      media.currentTime = 1;
+      return media;
+    };
+    lib.$message.info("开始播放");
+    return new Promise((resolve, reject) => {
+      let currentVideo;
+      let videoCheckInterval;
+      let failCount = 0;
+      const clearCheckInterval = () => {
+        if (videoCheckInterval !== void 0) {
+          clearInterval(videoCheckInterval);
+          videoCheckInterval = void 0;
+        }
+      };
+      const bindEvents = (video) => {
+        video.onpause = async () => {
+          if (!video.ended) {
+            await lib.$.sleep(1e3);
+            video.play();
+          }
+        };
+        video.onended = () => {
+          clearCheckInterval();
+          $msg.success("视频学习完成");
+          resolve();
+        };
+      };
+      const watch2 = async () => {
+        try {
+          const media = await set();
+          if (!media) {
+            failCount++;
+            if (failCount >= 5) {
+              reject(new Error("video not found!"));
+              return;
+            }
+            lib.$message.info({ content: "未检测到视频，稍后重试..." });
+            setTimeout(watch2, 3e3);
+            return;
+          }
+          failCount = 0;
+          currentVideo = media;
+          bindEvents(media);
+          playMedia(() => media.play());
+          clearCheckInterval();
+          videoCheckInterval = setInterval(() => {
+            if ((currentVideo == null ? void 0 : currentVideo.isConnected) === false) {
+              clearCheckInterval();
+              lib.$message.info({ content: "检测到视频切换..." });
+              resolve();
+            }
+          }, 3e3);
+        } catch (e) {
+          clearCheckInterval();
+          reject(e);
+        }
+      };
+      watch2();
+    });
   }
   async function ai_watch(options) {
     const set = async () => {
       await lib.$.sleep(1e3);
       const media = await waitForElement(".detail-container video", {
-        timeout_seconds: 10 * 1e3
+        timeout_seconds: 10 * 1e3,
+        timeout_message: "AI数字人视频元素加载超时"
       });
       console.log("media", media);
       await lib.$.sleep(1e3);
       state.study.currentMedia = media;
-      if (media) {
-        media.currentTime = 1;
-        media.volume = options.volume;
-        media.playbackRate = options.playbackRate;
-      }
+      state.study.is_ai_watch_mode = true;
+      media.currentTime = 1;
+      media.volume = options.volume;
+      media.playbackRate = options.playbackRate;
       return state.study.currentMedia;
     };
     lib.$message.info("开始播放");
@@ -22124,45 +23297,6 @@ ${content}</tr>
       };
       video.onended = () => {
         clearInterval(videoCheckInterval);
-        resolve();
-      };
-    });
-  }
-  async function v2_watch(options) {
-    const set = async () => {
-      await lib.$.sleep(1e3);
-      const is_digital_human_video = !!document.querySelector(".digital-human-video-element-selector");
-      if (is_digital_human_video) {
-        throw new Error("AI学伴视频请在学习内容中进入，不要在成绩单里进入。");
-      } else {
-        const video_vue_data = document.querySelector(".xtplayer").__vue__;
-        video_vue_data.player.options.speed.value = parseFloat(options.playbackRate.toString());
-        video_vue_data.player.options.volume.value = options.volume;
-        video_vue_data.player.init();
-      }
-      const media = await waitForElement("video", {
-        timeout_seconds: 10 * 1e3
-      });
-      console.log("media", media);
-      await lib.$.sleep(1e3);
-      state.study.currentMedia = media;
-      media.currentTime = 1;
-      return state.study.currentMedia;
-    };
-    lib.$message.info("开始播放");
-    const video = await set();
-    if (!video) {
-      throw new Error("video not found!");
-    }
-    return new Promise((resolve, reject) => {
-      playMedia(() => video == null ? void 0 : video.play());
-      video.onpause = async () => {
-        if (!(video == null ? void 0 : video.ended)) {
-          await lib.$.sleep(1e3);
-          video == null ? void 0 : video.play();
-        }
-      };
-      video.onended = () => {
         resolve();
       };
     });
@@ -22200,1038 +23334,1816 @@ ${content}</tr>
   exports2.ZHSProject = ZHSProject;
   exports2.ZJYProject = ZJYProject;
   exports2.answerExactMatch = answerExactMatch;
+  exports2.answerNormalizedMatch = answerNormalizedMatch;
   exports2.answerSimilar = answerSimilar;
+  exports2.answerSimilarWithGap = answerSimilarWithGap;
   exports2.clearString = clearString;
   exports2.createDefaultQuestionResolver = createDefaultQuestionResolver;
   exports2.defaultAnswerWrapperHandler = defaultAnswerWrapperHandler;
   exports2.defaultWorkTypeResolver = defaultWorkTypeResolver;
   exports2.definedProjects = definedProjects;
+  exports2.disambiguateSimilarOptions = disambiguateSimilarOptions;
   exports2.domSearch = domSearch;
   exports2.domSearchAll = domSearchAll;
+  exports2.getAnswererConfigProvider = getAnswererConfigProvider;
+  exports2.isJudgementOptions = isJudgementOptions;
   exports2.isPlainAnswer = isPlainAnswer;
+  exports2.isProgramAnswer = isProgramAnswer;
+  exports2.logoSvg = logoSvg;
+  exports2.normalizeString = normalizeString;
+  exports2.openAnswererConnect = openAnswererConnect;
   exports2.removeRedundant = removeRedundant;
   exports2.request = request;
+  exports2.resolveCompletion = resolveCompletion;
+  exports2.resolveJudgement = resolveJudgement;
+  exports2.resolveMultiple = resolveMultiple;
   exports2.resolvePlainAnswer = resolvePlainAnswer;
+  exports2.resolveSingle = resolveSingle;
+  exports2.setAnswererConfigProvider = setAnswererConfigProvider;
   exports2.splitAnswer = splitAnswer;
   exports2.start = lib.start;
+  exports2.waitForAnswererConfig = waitForAnswererConfig;
   Object.defineProperties(exports2, { __esModule: { value: true }, [Symbol.toStringTag]: { value: "Module" } });
 });
 
 
-const STYLE = `/** 默认字体 */
+const STYLE = `/** easy-us 基础样式（通过 node_modules 软链引入，相对路径保证 Easy LESS 免配置直接编译） */
+/** ===== 主题主色（一键更换） ===== */
+/** 主色 */
+/** 主色 hover 变浅 */
+/** 主色浅色变体（禁用态等） */
+/** 激活态浅底 */
+/** 极浅底（提示卡片、hover 背景） */
+/** 主色边框/竖条 */
+/** focus 光环 */
+/** 默认字体 */
 /** 输入框默认边距 */
 ul,
 ol {
-	line-height: 26px;
-	padding-left: 22px;
-	margin: 0px;
+  line-height: 26px;
+  padding-left: 22px;
+  margin: 0px;
 }
 a {
-	color: #1890ff;
+  color: #2b67ff;
 }
 hr {
-	border-style: solid;
-	border-color: #63636346;
-	border-width: 0px;
-	border-bottom: 1px solid #63636346;
-	margin-block-start: 1em;
-	margin-block-end: 1em;
+  border-style: solid;
+  border-color: #63636346;
+  border-width: 0px;
+  border-bottom: 1px solid #63636346;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
 }
 .base-style-active-form-control {
-	border: 1px solid #ffffff00;
+  border: 1px solid #ffffff00;
 }
 .base-style-active-form-control:focus {
-	border: 1px solid #0e8de290;
-	box-shadow: 0px 0px 4px #0e8de252;
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
 }
 .base-style-active-form-control:focus:not([type='checkbox'], [type='radio']) {
-	border: 1px solid #0e8de290;
-	box-shadow: 0px 0px 4px #0e8de252;
-	background-color: white !important;
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+  background-color: white !important;
 }
 .base-style-active-form-control:hover {
-	background-color: #ebeef4;
+  background-color: #ebeef4;
 }
 .base-style-input {
-	outline: none;
-	border: 1px solid #ffffff00;
-	padding: 2px 8px;
-	margin: 0px;
-	background-color: #eef2f7;
-	border-radius: 2px;
-	color: black;
+  outline: none;
+  border: 1px solid #ffffff00;
+  padding: 2px 8px;
+  margin: 0px;
+  background-color: #eef2f7;
+  border-radius: 8px;
+  color: black;
 }
 .base-style-input::placeholder {
-	color: #bababa;
+  color: #bababa;
 }
 .base-style-switch {
-	appearance: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	width: fit-content;
-	min-width: 36px;
-	height: 20px;
-	border-radius: 100px;
-	display: flex;
-	align-items: center;
-	padding: 2px 4px;
-	transition: all 0.2s ease-in-out;
-	width: auto;
-	background: gainsboro;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  width: fit-content;
+  min-width: 48px;
+  height: 20px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  padding: 2px 4px;
+  transition: all 0.2s ease-in-out;
+  width: auto;
+  background: gainsboro;
 }
 .base-style-switch:checked {
-	background: #1890ff;
+  background: #2b67ff;
 }
 .base-style-switch:disabled {
-	background-color: #f7f7f78b;
+  background-color: #f7f7f78b;
 }
 .base-style-switch:checked::before {
-	transform: translate(100%, 0px);
+  transform: translate(24px, 0px);
 }
 .base-style-switch::before {
-	background-color: #fff;
-	border-radius: 9px;
-	box-shadow: 0 2px 4px #00230b33;
-	width: 14px;
-	height: 14px;
-	content: '';
+  background-color: #fff;
+  border-radius: 9px;
+  box-shadow: 0 2px 4px #00230b33;
+  width: 14px;
+  height: 14px;
+  content: '';
 }
 .base-style-button {
-	appearance: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	border-radius: 4px;
-	background-color: white;
-	border: 1px solid #2c92ff;
-	color: #409eff;
-	cursor: pointer !important;
-	margin-bottom: 4px;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  background-color: #2b67ff;
+  border: 1px solid #2b67ff;
+  color: white;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
 }
 .base-style-button:active {
-	box-shadow: 0px 0px 8px #0e8de2a5;
+  box-shadow: 0px 0px 8px rgba(43, 103, 255, 0.65);
 }
 .base-style-button + .base-style-button {
-	margin-left: 12px;
+  margin-left: 12px;
 }
 .base-style-button:hover {
-	background-color: #7abbff24;
-}
-.base-style-button.danger:hover {
-	background-color: #ffdede86;
-}
-.base-style-button:disabled {
-	background-color: white;
-	border: 1px solid #c0c0c0;
-	color: #aeaeae;
-	cursor: not-allowed;
+  background-color: #5e8cff;
+  border-color: #5e8cff;
 }
 .base-style-button.danger {
-	color: #f36669;
-	border-color: #dd5a5d;
+  background-color: #f56c6c;
+  border-color: #f56c6c;
+  color: white;
+}
+.base-style-button.danger:hover {
+  background-color: #f78989;
+  border-color: #f78989;
+}
+.base-style-button:disabled {
+  background-color: #abc2ff;
+  border-color: #abc2ff;
+  color: white;
+  cursor: not-allowed !important;
 }
 .base-style-button:disabled:active {
-	box-shadow: none;
+  box-shadow: none;
 }
 .base-style-button-secondary {
-	appearance: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	border-radius: 4px;
-	border: 1px solid #2c92ff;
-	color: #409eff;
-	cursor: pointer !important;
-	margin-bottom: 4px;
-	color: gray;
-	background-color: white;
-	border: 1px solid #dcdcdc;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  background-color: #2b67ff;
+  border: 1px solid #2b67ff;
+  color: white;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  color: #606266;
+  background-color: white;
+  border: 1px solid #dcdcdc;
 }
 .base-style-button-secondary:active {
-	box-shadow: 0px 0px 8px #0e8de2a5;
+  box-shadow: 0px 0px 8px rgba(43, 103, 255, 0.65);
 }
 .base-style-button-secondary + .base-style-button-secondary {
-	margin-left: 12px;
+  margin-left: 12px;
 }
 .base-style-button-secondary:hover {
-	background-color: #7abbff24;
-}
-.base-style-button-secondary.danger:hover {
-	background-color: #ffdede86;
-}
-.base-style-button-secondary:disabled {
-	background-color: white;
-	border: 1px solid #c0c0c0;
-	color: #aeaeae;
-	cursor: not-allowed;
+  background-color: #5e8cff;
+  border-color: #5e8cff;
 }
 .base-style-button-secondary.danger {
-	color: #f36669;
-	border-color: #dd5a5d;
+  background-color: #f56c6c;
+  border-color: #f56c6c;
+  color: white;
+}
+.base-style-button-secondary.danger:hover {
+  background-color: #f78989;
+  border-color: #f78989;
+}
+.base-style-button-secondary:disabled {
+  background-color: #abc2ff;
+  border-color: #abc2ff;
+  color: white;
+  cursor: not-allowed !important;
 }
 .base-style-button-secondary:disabled:active {
-	box-shadow: none;
+  box-shadow: none;
+}
+.base-style-button-secondary:hover {
+  color: #2b67ff;
+  border-color: #c4d5ff;
+  background-color: rgba(43, 103, 255, 0.06);
 }
 container-element.hidden {
-	display: none;
+  display: none;
 }
 container-element.minimize {
-	min-width: unset;
+  min-width: unset;
 }
 container-element {
-	position: fixed;
-	top: 10%;
-	left: 10%;
-	z-index: 99999;
-	text-align: left;
-	min-width: 300px;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	color: #636363;
-	box-shadow: 0 0 24px -12px #3f3f3f;
-	border-radius: 8px;
-	letter-spacing: 0.5px;
-	border: 1px solid #c1c1c1;
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  z-index: 99999;
+  text-align: left;
+  min-width: 300px;
+  width: max-content;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #636363;
+  box-shadow: 0 0 24px -12px #3f3f3f;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+  border: 1px solid #c1c1c1;
+  background-color: #f5f5f5;
 }
 header-element {
-	display: flex;
-	align-items: center;
-	background-color: white;
-	border-radius: 8px 8px 0px 0px;
-	user-select: none;
-	padding: 4px;
-	padding-bottom: 0px;
+  display: flex;
+  align-items: center;
+  border-radius: 12px 12px 0px 0px;
+  user-select: none;
+  padding-bottom: 0px;
 }
 header-element .extra-menu-bar {
-	width: 100%;
-	padding: 4px;
-	padding-bottom: 0px;
-	margin-top: 4px;
-	border-top: 1px solid #e8e8e8;
-	/** 默认隐藏，一直到需要激活的时候再更改 */
-	display: none;
+  width: 100%;
+  padding: 4px;
+  padding-bottom: 4px;
+  background-color: white;
+  border-top: 1px solid #e8e8e8;
+  /** 默认隐藏，一直到需要激活的时候再更改 */
+  display: none;
 }
 header-element .extra-menu-bar .script-panel-link {
-	appearance: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	border-radius: 4px;
-	border: 1px solid #2c92ff;
-	color: #409eff;
-	cursor: pointer !important;
-	margin-bottom: 4px;
-	color: gray;
-	background-color: white;
-	border: 1px solid #dcdcdc;
-	padding-bottom: 2px;
-	margin-bottom: 0px;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  background-color: #2b67ff;
+  border: 1px solid #2b67ff;
+  color: white;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  color: #606266;
+  background-color: white;
+  border: 1px solid #dcdcdc;
+  padding-bottom: 2px;
+  margin-bottom: 0px;
 }
 header-element .extra-menu-bar .script-panel-link:active {
-	box-shadow: 0px 0px 8px #0e8de2a5;
+  box-shadow: 0px 0px 8px rgba(43, 103, 255, 0.65);
 }
 header-element .extra-menu-bar .script-panel-link + header-element .extra-menu-bar .script-panel-link {
-	margin-left: 12px;
+  margin-left: 12px;
 }
 header-element .extra-menu-bar .script-panel-link:hover {
-	background-color: #7abbff24;
-}
-header-element .extra-menu-bar .script-panel-link.danger:hover {
-	background-color: #ffdede86;
-}
-header-element .extra-menu-bar .script-panel-link:disabled {
-	background-color: white;
-	border: 1px solid #c0c0c0;
-	color: #aeaeae;
-	cursor: not-allowed;
+  background-color: #5e8cff;
+  border-color: #5e8cff;
 }
 header-element .extra-menu-bar .script-panel-link.danger {
-	color: #f36669;
-	border-color: #dd5a5d;
+  background-color: #f56c6c;
+  border-color: #f56c6c;
+  color: white;
+}
+header-element .extra-menu-bar .script-panel-link.danger:hover {
+  background-color: #f78989;
+  border-color: #f78989;
+}
+header-element .extra-menu-bar .script-panel-link:disabled {
+  background-color: #abc2ff;
+  border-color: #abc2ff;
+  color: white;
+  cursor: not-allowed !important;
 }
 header-element .extra-menu-bar .script-panel-link:disabled:active {
-	box-shadow: none;
+  box-shadow: none;
+}
+header-element .extra-menu-bar .script-panel-link:hover {
+  color: #2b67ff;
+  border-color: #c4d5ff;
+  background-color: rgba(43, 103, 255, 0.06);
 }
 header-element .extra-menu-bar .script-panel-link.active {
-	background-color: #1890ff1a;
-	border-color: #1890ff;
-	color: #1890ff;
+  background-color: rgba(43, 103, 255, 0.1);
+  border-color: #2b67ff;
+  color: #2b67ff;
 }
 header-element .extra-menu-bar .script-panel-link + .script-panel-link {
-	margin-left: 4px;
+  margin-left: 4px;
+}
+header-element .header-menu-bar {
+  padding-top: 4px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  background-color: #f5f7fa;
+  align-items: center;
+  gap: 0px;
 }
 header-element .profile {
-	flex: 1;
-	cursor: move;
+  cursor: move;
+  margin-right: 4px;
 }
-header-element .switch:hover,
-header-element .dropdown:hover {
-	background-color: #f3f3f3;
+header-element .switch:hover {
+  background-color: #e4e9f0;
 }
 header-element .close:hover {
-	background-color: #ff000038;
+  background-color: #ff000038;
 }
 header-element .switch,
 header-element .close {
-	cursor: pointer;
+  cursor: pointer;
 }
 header-element .dropdown {
-	line-height: 24px;
-	text-decoration: underline;
+  line-height: 20px;
+}
+header-element .dropdown .dropdown-trigger-element {
+  padding: 2px 12px;
+  border: none;
+  border-top: 1px solid #00000000;
+  border-radius: 8px 8px 0px 0px;
+  font-weight: 500;
+  color: #606266;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+header-element .dropdown .dropdown-trigger-element:hover {
+  background-color: #ffffff80;
+  color: #2b67ff;
+}
+header-element .dropdown.active .dropdown-trigger-element {
+  --tab-border: 1px;
+  --tab-border-color: #e8ecf1;
+  --tab-bg: #ffffff;
+  --tab-radius-limit: 8px;
+  --tab-radius-grad: #0000 calc(69% - var(--tab-border)), var(--tab-border-color) calc(69% - var(--tab-border) + 0.25px), var(--tab-border-color) 69%, var(--tab-bg) calc(69% + 0.25px);
+  --radius-start: radial-gradient(circle at top left, var(--tab-radius-grad));
+  --radius-end: radial-gradient(circle at top right, var(--tab-radius-grad));
+  position: relative;
+  color: #2b67ff;
+  font-weight: 600;
+  padding: 2px 11px;
+  background-color: var(--tab-bg);
+  border: var(--tab-border) solid var(--tab-border-color);
+  border-bottom: none;
+  border-radius: var(--tab-radius-limit) var(--tab-radius-limit) 0 0;
+  box-shadow: 0 1px 0 var(--tab-bg);
+}
+header-element .dropdown.active .dropdown-trigger-element::before {
+  content: '';
+  z-index: 1;
+  position: absolute;
+  inset: auto calc(-1 * var(--tab-radius-limit)) -1px calc(-1 * var(--tab-radius-limit));
+  height: calc(var(--tab-radius-limit) + var(--tab-border));
+  transform: translate(0px, 1px);
+  pointer-events: none;
+  background-image: var(--radius-start), var(--radius-end), linear-gradient(var(--tab-bg), var(--tab-bg));
+  background-size: var(--tab-radius-limit) var(--tab-radius-limit), var(--tab-radius-limit) var(--tab-radius-limit), 100% var(--tab-border);
+  background-position: top left,
+						top right,
+						bottom left;
+  background-repeat: no-repeat;
+}
+header-element .switch {
+  border-radius: 8px;
+  line-height: 20px;
+  margin-left: auto;
+  transition: background-color 0.2s ease;
 }
 header-element .switch,
 header-element .close,
 header-element .profile {
-	display: inline-flex;
-	align-items: center;
-	padding: 0px 8px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0px 8px;
 }
 .logo {
-	width: 18px;
-	height: 18px;
-	cursor: pointer;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
 }
 .project-selector {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 .project-selector select {
-	background: #ffffff00;
-	border-radius: 4px;
-	border: 1px solid #63636346;
-	padding: 4px;
+  background: #ffffff00;
+  border-radius: 4px;
+  border: 1px solid #63636346;
+  padding: 4px;
 }
 .project-selector.expand-all {
-	display: none;
+  display: none;
 }
 .body {
-	overflow: auto;
-	width: auto;
-	height: 100%;
+  overflow: auto;
+  width: auto;
+  height: 100%;
+  overscroll-behavior: contain;
 }
 script-panel-element {
-	display: block;
-	background-color: white;
-	border-radius: 0px 0px 8px 8px;
-	padding: 0px 8px 12px 8px;
-	overflow: auto;
+  display: block;
+  background-color: white;
+  border-radius: 0px 0px 12px 12px;
+  padding: 0px 8px 12px 8px;
+  overflow: auto;
 }
 script-panel-element .script-panel-body {
-	padding: 0px 8px;
+  padding: 0px 8px;
 }
 script-panel-element + script-panel-element {
-	margin-top: 12px;
+  margin-top: 12px;
 }
 .card + .card {
-	margin-top: 12px;
+  margin-top: 12px;
 }
 .card {
-	background-color: white;
-	border-radius: 2px;
-	padding: 0px 8px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 0px 8px;
 }
 .notes {
-	background: #0099ff0e;
-	border-left: 4px solid #0099ff65;
-	width: -webkit-fill-available;
-	margin: 0px 8px;
-	line-height: 26px;
-	letter-spacing: 1px;
+  background: rgba(43, 103, 255, 0.06);
+  border-left: 4px solid rgba(43, 103, 255, 0.4);
+  border-radius: 4px 10px 10px 4px;
+  width: -webkit-fill-available;
+  margin: 0px 8px;
+  line-height: 26px;
+  letter-spacing: 1px;
+}
+.notes .notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  font-weight: bold;
+}
+.notes .notes-header .notes-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.notes .notes-header .notes-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #2b67ff;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  font-style: italic;
+  line-height: 1;
+  user-select: none;
+}
+.notes .notes-collapse-icon {
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+.notes.collapsed .notes-body {
+  display: none;
+}
+.notes.collapsed .notes-collapse-icon {
+  transform: rotate(-90deg);
 }
 .secondary {
-	font-size: 12px;
-	color: #8b8b8b;
+  font-size: 12px;
+  color: #8b8b8b;
 }
 .tooltip-container {
-	z-index: 99999999999999;
-	margin: 12px 0px 0px 12px;
-	padding: 4px;
-	color: black;
-	background: #f0f0f0;
-	box-shadow: 0px 0px 4px #949494;
-	position: fixed;
-	white-space: normal;
-	max-width: 200px;
-	height: auto;
-	border-radius: 2px;
-	line-height: 18px;
+  z-index: 99999999999999;
+  padding: 6px 10px;
+  color: white;
+  background: rgba(0, 0, 0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: fixed;
+  white-space: normal;
+  width: fit-content;
+  max-width: 400px;
+  height: auto;
+  border-radius: 6px;
+  line-height: 18px;
+  touch-action: manipulation;
+  /** 展开/收起动画：透明度 + 位移，方向随放置位置翻转 */
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  /** 气泡尾巴：水平位置由 --tooltip-arrow-left 驱动，始终对准目标中心 */
+  /** 气泡在目标下方，尾巴朝上 */
+  /** 气泡在目标上方，尾巴朝下 */
+}
+.tooltip-container.tooltip-bottom {
+  transform: translateY(-4px);
+}
+.tooltip-container.tooltip-top {
+  transform: translateY(4px);
+}
+.tooltip-container.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.tooltip-container::before {
+  content: '';
+  position: absolute;
+  left: var(--tooltip-arrow-left, 10px);
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  transform: rotate(45deg);
+}
+.tooltip-container.tooltip-bottom::before {
+  top: -4px;
+}
+.tooltip-container.tooltip-top::before {
+  bottom: -4px;
+}
+/** 移动端（粗指针）适配：限宽并加大内边距 */
+@media (pointer: coarse) {
+  .tooltip-container {
+    max-width: min(400px, 80vw);
+    padding: 8px 12px;
+  }
 }
 .configs-container.lock {
-	filter: blur(1px);
-	user-select: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
+  filter: blur(1px);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 .configs-container .lock-wrapper {
-	cursor: not-allowed !important;
-	border-radius: 4px;
-	position: absolute;
-	left: 0px;
-	z-index: 1;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+  cursor: not-allowed !important;
+  border-radius: 4px;
+  position: absolute;
+  left: 0px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .configs-container .lock-message {
-	background-color: #ffffff7d;
-	border-radius: 4px;
-	box-shadow: 0px 0px 12px #6a6a6a98;
-	padding: 2px;
+  background-color: #ffffff7d;
+  border-radius: 4px;
+  box-shadow: 0px 0px 12px #6a6a6a98;
+  padding: 2px;
 }
 .configs {
-	display: table;
-	background: #e1e1e107;
-	width: -webkit-fill-available;
+  display: table;
+  background: #e1e1e107;
+  width: -webkit-fill-available;
 }
 .configs .configs-body {
-	display: table-row-group;
+  display: table-row-group;
 }
 .configs .configs-body config-element + config-element label {
-	padding-top: 4px;
+  padding-top: 4px;
 }
 .configs .configs-body config-element + config-element .config-wrapper {
-	padding-top: 4px;
+  padding-top: 4px;
 }
 .configs .configs-body config-element {
-	width: 100%;
-	display: table-row;
-	line-height: 26px;
+  width: 100%;
+  display: table-row;
+  line-height: 26px;
+  /** 前后插槽容器：仅作布局，抵消 > * 规则带来的底色与圆角 */
 }
 .configs .configs-body config-element label {
-	white-space: nowrap;
-	color: #4e5969;
-	display: table-cell;
-	padding-right: 12px;
-	text-align: left;
-	vertical-align: top;
-	margin-right: 12px;
+  white-space: nowrap;
+  color: #4e5969;
+  display: table-cell;
+  padding-right: 12px;
+  text-align: left;
+  vertical-align: top;
+  margin-right: 12px;
 }
 .configs .configs-body config-element .config-wrapper {
-	display: table-cell;
-	vertical-align: middle;
-	/** check box 的样式 */
+  display: table-cell;
+  vertical-align: middle;
+  /** check box 的样式 */
 }
 .configs .configs-body config-element .config-wrapper select {
-	outline: none;
-	border: none;
-	border: 1px solid #e4e4e4;
-	border-radius: 4px;
-	padding: 2px 8px;
-	border: 1px solid #ffffff00;
+  outline: none;
+  border: none;
+  border: 1px solid #e4e4e4;
+  border-radius: 8px;
+  padding: 2px 8px;
+  border: 1px solid #ffffff00;
 }
 .configs .configs-body config-element .config-wrapper select:focus {
-	border: 1px solid #0e8de290;
-	box-shadow: 0px 0px 4px #0e8de252;
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
 }
 .configs .configs-body config-element .config-wrapper select:focus:not([type='checkbox'], [type='radio']) {
-	border: 1px solid #0e8de290;
-	box-shadow: 0px 0px 4px #0e8de252;
-	background-color: white !important;
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+  background-color: white !important;
 }
 .configs .configs-body config-element .config-wrapper select:hover {
-	background-color: #ebeef4;
+  background-color: #ebeef4;
 }
 .configs .configs-body config-element .config-wrapper textarea {
-	padding: 2px 8px;
-	outline: none;
-	border: none;
-	border: 1px solid #ffffff00;
+  padding: 2px 8px;
+  outline: none;
+  border: none;
+  border: 1px solid #ffffff00;
 }
 .configs .configs-body config-element .config-wrapper textarea:focus {
-	border: 1px solid #0e8de290;
-	box-shadow: 0px 0px 4px #0e8de252;
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
 }
 .configs .configs-body config-element .config-wrapper textarea:focus:not([type='checkbox'], [type='radio']) {
-	border: 1px solid #0e8de290;
-	box-shadow: 0px 0px 4px #0e8de252;
-	background-color: white !important;
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+  background-color: white !important;
 }
 .configs .configs-body config-element .config-wrapper textarea:hover {
-	background-color: #ebeef4;
+  background-color: #ebeef4;
 }
 .configs .configs-body config-element .config-wrapper input:not([type='button']) {
-	outline: none;
-	padding: 2px 8px;
-	margin: 0px;
-	background-color: #eef2f7;
-	border-radius: 2px;
-	color: black;
-	border: 1px solid #ffffff00;
+  outline: none;
+  padding: 2px 8px;
+  margin: 0px;
+  background-color: #eef2f7;
+  border-radius: 8px;
+  color: black;
+  border: 1px solid #ffffff00;
 }
 .configs .configs-body config-element .config-wrapper input:not([type='button'])::placeholder {
-	color: #bababa;
+  color: #bababa;
 }
 .configs .configs-body config-element .config-wrapper input:not([type='button']):focus {
-	border: 1px solid #0e8de290;
-	box-shadow: 0px 0px 4px #0e8de252;
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
 }
-.configs
-	.configs-body
-	config-element
-	.config-wrapper
-	input:not([type='button']):focus:not([type='checkbox'], [type='radio']) {
-	border: 1px solid #0e8de290;
-	box-shadow: 0px 0px 4px #0e8de252;
-	background-color: white !important;
+.configs .configs-body config-element .config-wrapper input:not([type='button']):focus:not([type='checkbox'], [type='radio']) {
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+  background-color: white !important;
 }
 .configs .configs-body config-element .config-wrapper input:not([type='button']):hover {
-	background-color: #ebeef4;
+  background-color: #ebeef4;
 }
 .configs .configs-body config-element .config-wrapper input[type='range'] {
-	padding: 0px;
+  padding: 0px;
 }
 .configs .configs-body config-element .config-wrapper input[type='button'] {
-	appearance: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	border-radius: 4px;
-	background-color: white;
-	border: 1px solid #2c92ff;
-	color: #409eff;
-	cursor: pointer !important;
-	margin-bottom: 4px;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  background-color: #2b67ff;
+  border: 1px solid #2b67ff;
+  color: white;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  width: auto;
+  padding: 4px 12px;
 }
 .configs .configs-body config-element .config-wrapper input[type='button']:active {
-	box-shadow: 0px 0px 8px #0e8de2a5;
+  box-shadow: 0px 0px 8px rgba(43, 103, 255, 0.65);
 }
-.configs
-	.configs-body
-	config-element
-	.config-wrapper
-	input[type='button']
-	+ .configs
-	.configs-body
-	config-element
-	.config-wrapper
-	input[type='button'] {
-	margin-left: 12px;
+.configs .configs-body config-element .config-wrapper input[type='button'] + .configs .configs-body config-element .config-wrapper input[type='button'] {
+  margin-left: 12px;
 }
 .configs .configs-body config-element .config-wrapper input[type='button']:hover {
-	background-color: #7abbff24;
-}
-.configs .configs-body config-element .config-wrapper input[type='button'].danger:hover {
-	background-color: #ffdede86;
-}
-.configs .configs-body config-element .config-wrapper input[type='button']:disabled {
-	background-color: white;
-	border: 1px solid #c0c0c0;
-	color: #aeaeae;
-	cursor: not-allowed;
+  background-color: #5e8cff;
+  border-color: #5e8cff;
 }
 .configs .configs-body config-element .config-wrapper input[type='button'].danger {
-	color: #f36669;
-	border-color: #dd5a5d;
+  background-color: #f56c6c;
+  border-color: #f56c6c;
+  color: white;
+}
+.configs .configs-body config-element .config-wrapper input[type='button'].danger:hover {
+  background-color: #f78989;
+  border-color: #f78989;
+}
+.configs .configs-body config-element .config-wrapper input[type='button']:disabled {
+  background-color: #abc2ff;
+  border-color: #abc2ff;
+  color: white;
+  cursor: not-allowed !important;
 }
 .configs .configs-body config-element .config-wrapper input[type='button']:disabled:active {
-	box-shadow: none;
+  box-shadow: none;
 }
 .configs .configs-body config-element .config-wrapper input[type='checkbox'] {
-	appearance: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	width: fit-content;
-	min-width: 36px;
-	height: 20px;
-	border-radius: 100px;
-	display: flex;
-	align-items: center;
-	padding: 2px 4px;
-	transition: all 0.2s ease-in-out;
-	width: auto;
-	background: gainsboro;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  width: fit-content;
+  min-width: 48px;
+  height: 20px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  padding: 2px 4px;
+  transition: all 0.2s ease-in-out;
+  width: auto;
+  background: gainsboro;
 }
 .configs .configs-body config-element .config-wrapper input[type='checkbox']:checked {
-	background: #1890ff;
+  background: #2b67ff;
 }
 .configs .configs-body config-element .config-wrapper input[type='checkbox']:disabled {
-	background-color: #f7f7f78b;
+  background-color: #f7f7f78b;
 }
 .configs .configs-body config-element .config-wrapper input[type='checkbox']:checked::before {
-	transform: translate(100%, 0px);
+  transform: translate(24px, 0px);
 }
 .configs .configs-body config-element .config-wrapper input[type='checkbox']::before {
-	background-color: #fff;
-	border-radius: 9px;
-	box-shadow: 0 2px 4px #00230b33;
-	width: 14px;
-	height: 14px;
-	content: '';
+  background-color: #fff;
+  border-radius: 9px;
+  box-shadow: 0 2px 4px #00230b33;
+  width: 14px;
+  height: 14px;
+  content: '';
 }
-.configs .configs-body config-element .config-wrapper input:not([type='checkbox'], [type='radio']),
+.configs .configs-body config-element .config-wrapper input:not([type='checkbox'], [type='radio'], [type='button']),
 .configs .configs-body config-element .config-wrapper textarea,
 .configs .configs-body config-element .config-wrapper select {
-	width: -webkit-fill-available;
-	font-size: inherit;
+  width: -webkit-fill-available;
+  font-size: inherit;
 }
 .configs .configs-body config-element .config-wrapper input[type='checkbox'],
 .configs .configs-body config-element .config-wrapper input[type='radio'],
 .configs .configs-body config-element .config-wrapper input[type='range'] {
-	accent-color: #0e8ee2;
+  accent-color: #2b67ff;
 }
 .configs .configs-body config-element .config-wrapper > *:not(.tooltip) {
-	background-color: #eef2f7;
-	border-radius: 2px;
-	color: black;
-	float: right;
+  background-color: #eef2f7;
+  border-radius: 8px;
+  color: black;
+  float: right;
+}
+.configs .configs-body config-element .config-wrapper > .config-provider-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: transparent;
+  border-radius: 0px;
+  padding: 0px;
+  /** 插槽中的按钮：去除下外边距保持垂直居中，禁止收缩 */
+  /** 容器内的表单控件：恢复独立控件底色 */
+}
+.configs .configs-body config-element .config-wrapper > .config-provider-container .config-prefix,
+.configs .configs-body config-element .config-wrapper > .config-provider-container .config-suffix {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  line-height: 20px;
+  flex-shrink: 0;
+}
+.configs .configs-body config-element .config-wrapper > .config-provider-container .base-style-button,
+.configs .configs-body config-element .config-wrapper > .config-provider-container .base-style-button-secondary {
+  margin-bottom: 0px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.configs .configs-body config-element .config-wrapper > .config-provider-container > input:not([type='checkbox'], [type='radio'], [type='button']),
+.configs .configs-body config-element .config-wrapper > .config-provider-container > select,
+.configs .configs-body config-element .config-wrapper > .config-provider-container > textarea {
+  width: auto;
+  min-width: 60px;
+  background-color: #eef2f7;
 }
 .configs .configs-body config-element .config-wrapper > *:disabled {
-	cursor: not-allowed;
-	background-color: #f7f7f78b;
+  cursor: not-allowed;
+  background-color: #f7f7f78b;
 }
 .message-container {
-	margin-bottom: 4px;
-	position: absolute;
-	bottom: 100%;
-	left: 50%;
-	width: 100%;
-	transform: translate(-50%, 0px);
-	min-width: 300px;
+  margin-bottom: 4px;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, 0px);
+  min-width: 300px;
+  z-index: 2;
 }
 .message-container message-element {
-	display: flex;
-	border-radius: 4px;
-	padding: 4px 12px;
-	margin-bottom: 4px;
+  display: flex;
+  border-radius: 8px;
+  padding: 4px 12px;
+  margin-bottom: 4px;
 }
 .message-container message-element .message-content-container {
-	margin-right: 8px;
-	flex: auto;
+  margin-right: 8px;
+  flex: auto;
 }
 .message-container message-element .message-text {
-	letter-spacing: 1px;
-	font-weight: bold;
+  letter-spacing: 1px;
+  font-weight: bold;
 }
 .message-container message-element .message-closer {
-	width: 18px;
-	min-width: 18px;
-	cursor: pointer;
-	background-color: #ffffffb3;
-	color: #a1a1a1;
-	border-radius: 100%;
-	text-align: center;
-	height: 18px;
-	vertical-align: middle;
-	font-size: 12px;
+  width: 18px;
+  min-width: 18px;
+  cursor: pointer;
+  background-color: #ffffffb3;
+  color: #a1a1a1;
+  border-radius: 100%;
+  text-align: center;
+  height: 18px;
+  vertical-align: middle;
+  font-size: 12px;
 }
 .message-container message-element.error {
-	background-color: #ffe6e6;
-	color: #c70208;
-	border: 1px solid #ff6b6ded;
+  background-color: #ffe6e6;
+  color: #c70208;
+  border: 1px solid #ff6b6ded;
 }
 .message-container message-element.info {
-	background-color: #c9e7ff;
-	color: #004d95;
-	border: 1px solid #1890ff69;
+  background-color: #d5e1ff;
+  color: #002991;
+  border: 1px solid #aac2ff;
 }
 .message-container message-element.success {
-	background-color: #e8ffe0;
-	color: #3e8d0d;
-	border: 1px solid #6fd91d;
+  background-color: #e8ffe0;
+  color: #3e8d0d;
+  border: 1px solid #6fd91d;
 }
 .message-container message-element.warn {
-	background-color: #ffefc8;
-	color: #9b7400;
-	border: 1px solid #ffc107;
+  background-color: #ffefc8;
+  color: #9b7400;
+  border: 1px solid #ffc107;
 }
 modal-element {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	background-color: white;
-	border-radius: 4px;
-	box-shadow: 0px 0px 24px -12px black;
-	border: 1px solid #929292;
-	height: fit-content;
-	transform: translate(-50%, -50%);
-	padding: 12px 18px 18px 18px;
-	font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
-	z-index: 99999999999;
-	line-height: 24px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: white;
+  border-radius: 14px;
+  box-shadow: 0px 0px 24px -12px black;
+  border: 1px solid #929292;
+  height: fit-content;
+  transform: translate(-50%, -50%);
+  padding: 12px 18px 18px 18px;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  z-index: 99999999999;
+  line-height: 24px;
 }
 modal-element .modal-profile {
-	zoom: 0.9;
-	color: #969696;
-	user-select: none;
-	margin-bottom: 4px;
+  zoom: 0.9;
+  color: #969696;
+  user-select: none;
+  margin-bottom: 4px;
 }
 modal-element .modal-title {
-	font-size: 18px;
-	font-weight: bold;
-	user-select: none;
+  font-size: 18px;
+  font-weight: bold;
+  user-select: none;
 }
 modal-element .modal-body {
-	margin: 12px 0px;
-	overflow: auto;
+  margin: 12px 0px;
+  overflow: auto;
 }
 modal-element .modal-footer {
-	display: flex;
-	white-space: nowrap;
-	justify-content: end;
-	align-items: end;
+  display: flex;
+  white-space: nowrap;
+  justify-content: end;
+  align-items: end;
 }
 modal-element .modal-footer > * + * {
-	margin-left: 12px;
+  margin-left: 12px;
 }
 modal-element .modal-input {
-	outline: none;
-	padding: 2px 8px;
-	margin: 0px;
-	background-color: #eef2f7;
-	border-radius: 2px;
-	color: black;
-	border: 1px solid #ffffff00;
-	width: -webkit-fill-available;
+  outline: none;
+  padding: 2px 8px;
+  margin: 0px;
+  background-color: #eef2f7;
+  border-radius: 8px;
+  color: black;
+  border: 1px solid #ffffff00;
+  width: -webkit-fill-available;
 }
 modal-element .modal-input::placeholder {
-	color: #bababa;
+  color: #bababa;
 }
 modal-element .modal-input:focus {
-	border: 1px solid #0e8de290;
-	box-shadow: 0px 0px 4px #0e8de252;
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
 }
 modal-element .modal-input:focus:not([type='checkbox'], [type='radio']) {
-	border: 1px solid #0e8de290;
-	box-shadow: 0px 0px 4px #0e8de252;
-	background-color: white !important;
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+  background-color: white !important;
 }
 modal-element .modal-input:hover {
-	background-color: #ebeef4;
+  background-color: #ebeef4;
 }
 modal-element .modal-cancel-button {
-	appearance: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	border-radius: 4px;
-	border: 1px solid #2c92ff;
-	color: #409eff;
-	cursor: pointer !important;
-	margin-bottom: 4px;
-	color: gray;
-	background-color: white;
-	border: 1px solid #dcdcdc;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  background-color: #2b67ff;
+  border: 1px solid #2b67ff;
+  color: white;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  color: gray;
+  background-color: white;
+  border: 1px solid #dcdcdc;
 }
 modal-element .modal-cancel-button:active {
-	box-shadow: 0px 0px 8px #0e8de2a5;
+  box-shadow: 0px 0px 8px rgba(43, 103, 255, 0.65);
 }
 modal-element .modal-cancel-button + modal-element .modal-cancel-button {
-	margin-left: 12px;
+  margin-left: 12px;
 }
 modal-element .modal-cancel-button:hover {
-	background-color: #7abbff24;
-}
-modal-element .modal-cancel-button.danger:hover {
-	background-color: #ffdede86;
-}
-modal-element .modal-cancel-button:disabled {
-	background-color: white;
-	border: 1px solid #c0c0c0;
-	color: #aeaeae;
-	cursor: not-allowed;
+  background-color: #5e8cff;
+  border-color: #5e8cff;
 }
 modal-element .modal-cancel-button.danger {
-	color: #f36669;
-	border-color: #dd5a5d;
+  background-color: #f56c6c;
+  border-color: #f56c6c;
+  color: white;
+}
+modal-element .modal-cancel-button.danger:hover {
+  background-color: #f78989;
+  border-color: #f78989;
+}
+modal-element .modal-cancel-button:disabled {
+  background-color: #abc2ff;
+  border-color: #abc2ff;
+  color: white;
+  cursor: not-allowed !important;
 }
 modal-element .modal-cancel-button:disabled:active {
-	box-shadow: none;
+  box-shadow: none;
 }
 modal-element .modal-confirm-button {
-	appearance: none;
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	border-radius: 4px;
-	background-color: white;
-	border: 1px solid #2c92ff;
-	color: #409eff;
-	cursor: pointer !important;
-	margin-bottom: 4px;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  background-color: #2b67ff;
+  border: 1px solid #2b67ff;
+  color: white;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
 }
 modal-element .modal-confirm-button:active {
-	box-shadow: 0px 0px 8px #0e8de2a5;
+  box-shadow: 0px 0px 8px rgba(43, 103, 255, 0.65);
 }
 modal-element .modal-confirm-button + modal-element .modal-confirm-button {
-	margin-left: 12px;
+  margin-left: 12px;
 }
 modal-element .modal-confirm-button:hover {
-	background-color: #7abbff24;
-}
-modal-element .modal-confirm-button.danger:hover {
-	background-color: #ffdede86;
-}
-modal-element .modal-confirm-button:disabled {
-	background-color: white;
-	border: 1px solid #c0c0c0;
-	color: #aeaeae;
-	cursor: not-allowed;
+  background-color: #5e8cff;
+  border-color: #5e8cff;
 }
 modal-element .modal-confirm-button.danger {
-	color: #f36669;
-	border-color: #dd5a5d;
+  background-color: #f56c6c;
+  border-color: #f56c6c;
+  color: white;
+}
+modal-element .modal-confirm-button.danger:hover {
+  background-color: #f78989;
+  border-color: #f78989;
+}
+modal-element .modal-confirm-button:disabled {
+  background-color: #abc2ff;
+  border-color: #abc2ff;
+  color: white;
+  cursor: not-allowed !important;
 }
 modal-element .modal-confirm-button:disabled:active {
-	box-shadow: none;
+  box-shadow: none;
 }
 modal-element.alert .modal-input,
 modal-element.alert .modal-cancel-button {
-	display: none;
+  display: none;
 }
 modal-element.alert .modal-confirm-button {
-	margin: 0;
+  margin: 0;
 }
 modal-element.prompt .modal-input,
 modal-element.prompt .modal-cancel-button,
 modal-element.prompt .modal-confirm-button {
-	display: block;
+  display: block;
 }
 modal-element.confirm .modal-input {
-	display: none;
+  display: none;
 }
 .modal-wrapper {
-	width: 100%;
-	height: 100%;
-	z-index: 9999;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	z-index: 9999999;
-	background-color: rgba(0, 0, 0, 0.265);
-	color: #636363;
-	font: 14px Menlo, Monaco, Consolas, 'Courier New', monospace;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 9999999;
+  background-color: rgba(0, 0, 0, 0.265);
+  color: #636363;
+  font: 14px Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 .pointer {
-	cursor: pointer;
+  cursor: pointer;
 }
 .separator {
-	display: flex;
-	align-items: center;
-	text-align: center;
-	padding: 4px 0px 8px 0px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 4px 0px 8px 0px;
 }
 .separator::before,
 .separator::after {
-	content: '';
-	flex: 1;
-	border-bottom: 1px solid #63636346;
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #63636346;
 }
 .separator:not(:empty)::before {
-	margin-right: 0.25em;
+  margin-right: 0.25em;
 }
 .separator:not(:empty)::after {
-	margin-left: 0.25em;
+  margin-left: 0.25em;
 }
 container-element.minimize .body,
 container-element.minimize header-element .dropdown,
 container-element.minimize .footer {
-	display: none;
+  display: none;
 }
 container-element.minimize header-element {
-	padding: 8px;
-	border-radius: 8px;
-	box-shadow: 0px 0px 24px -12px black;
+  border-radius: 12px;
+  padding-bottom: 8px;
+  box-shadow: 0px 0px 24px -12px black;
 }
-.user-guide > li {
-	padding: 4px 0px;
+.dropdown {
+  position: relative;
+  display: inline-block;
 }
+.dropdown.active .dropdown-trigger-element {
+  color: #2b67ff;
+}
+.dropdown-trigger-element {
+  cursor: pointer;
+}
+.dropdown-content {
+  position: absolute;
+  background-color: #ffffff;
+  overflow: auto;
+  box-shadow: 0 6px 16px 0 #00000014, 0 3px 6px -4px #0000001f;
+  z-index: 1;
+  border: 1px solid #e8ecf1;
+  border-radius: 12px;
+  padding: 4px;
+  min-width: 120px;
+  /** 下拉展开/收起动画：透明度 + 下滑 + 轻微缩放，让用户感知这是一个下拉框 */
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+  transform-origin: top center;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+.dropdown-content.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.dropdown-content {
+  cursor: pointer;
+  z-index: 999;
+}
+.dropdown-content .dropdown-option {
+  padding: 4px 12px;
+  white-space: nowrap;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.dropdown-content .dropdown-option:hover {
+  background-color: #f5f5f5;
+}
+.dropdown-content .dropdown-option.active {
+  background-color: rgba(43, 103, 255, 0.1);
+  color: #2b67ff;
+  font-weight: 500;
+}
+.space {
+  display: inline-flex;
+}
+.config-details {
+  animation: fade-in 0.5s;
+}
+.config-details label {
+  padding-left: 12px;
+}
+message-element {
+  animation: show 0.5s;
+}
+script-panel-element > div,
+script-panel-link,
+container-element,
+modal-element {
+  animation: fade-in 0.3s;
+}
+@keyframes show {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.checkbox-label {
+  display: inline-block !important;
+  position: relative;
+  cursor: pointer;
+  font-size: 16px;
+  color: #2c3e50;
+}
+/* 隐藏原始复选框 */
+.checkbox-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+/* 自定义按钮样式 */
+.checkbox-label::after {
+  content: '';
+  display: inline-block;
+  border-radius: 50%;
+  transition: all 0.1s ease;
+  position: relative;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+/* 向下箭头（未选中状态） */
+.checkbox-label::before {
+  content: '🔽';
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: 8px;
+  transition: all 0.1s ease;
+  z-index: 2;
+}
+/* 向上箭头（选中状态） */
+.checked .checkbox-label::before {
+  content: '🔼';
+}
+/** 气泡自适应：不可视气泡固定显示在屏幕正上方（从顶部向下滑出自身高度） */
+message-element.message-viewport-top {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+  max-width: 90vw;
+  animation: message-viewport-top-slide-down 0.25s ease;
+  transition: top 0.2s ease;
+}
+@keyframes message-viewport-top-slide-down {
+  from {
+    transform: translateX(-50%) translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+/** OCS 自定义样式 */
+/**
+ * OCS 自定义样式（已从 easy-us 样式中隔离）
+ * 本文件仅包含与 easy-us/assets/css/style.css 不同或新增的自定义规则。
+ */
+/** ===== 主题变量（对齐 easy-us 主题，跟随 @primary 一键更换） ===== */
+/** 注意：本文件依赖 easy-us/assets/less/style.less 中的主题变量，需在其之后编译（见 style.less） */
+/** 主色 */
+/** 按钮颜色 */
+/** 焦点边框/阴影 */
+/** ===== 通用 mixin ===== */
+/** 输入控件焦点样式 */
+/** 输入控件焦点样式（非 checkbox/radio 时填充白底） */
+/** 按钮基础样式 */
+/** 按钮状态样式（需在次级样式之前调用，保证次级 hover 覆盖默认 hover） */
+/** 次级按钮样式（白底灰边） */
+/** 标签配色 */
+a {
+  color: #2b67ff;
+}
+.base-style-active-form-control:focus {
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+}
+.base-style-active-form-control:focus:not([type='checkbox'], [type='radio']) {
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+  background-color: white !important;
+}
+.base-style-switch:checked {
+  background: #2b67ff;
+}
+/**
+ * 注意：.base-style-button / .base-style-button-secondary 与 easy-us 中的 mixin 同名，
+ * easy-us 调用 .base-style-button() 时会把同名规则集的【内部嵌套规则】一并展开，
+ * 因此这两个类的状态规则必须保持扁平写法（单独定义），不能嵌套在类内部。
+ */
+.base-style-button {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  background-color: #2b67ff;
+  border: 1px solid #2b67ff;
+  color: white;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+}
+.base-style-button:active {
+  box-shadow: 0px 0px 8px rgba(43, 103, 255, 0.65);
+}
+.base-style-button:hover {
+  background-color: #5e8cff;
+  border-color: #5e8cff;
+}
+.base-style-button:disabled {
+  background-color: #abc2ff;
+  border-color: #abc2ff;
+  color: white;
+  cursor: not-allowed !important;
+}
+.base-style-button-secondary {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  background-color: #2b67ff;
+  border: 1px solid #2b67ff;
+  color: white;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  color: #606266;
+  background-color: white;
+  border: 1px solid #dcdcdc;
+}
+.base-style-button-secondary:active {
+  box-shadow: 0px 0px 8px rgba(43, 103, 255, 0.65);
+}
+.base-style-button-secondary:hover {
+  background-color: #5e8cff;
+  border-color: #5e8cff;
+}
+.base-style-button-secondary:disabled {
+  background-color: #abc2ff;
+  border-color: #abc2ff;
+  color: white;
+  cursor: not-allowed !important;
+}
+.base-style-button-secondary:hover {
+  color: #2b67ff;
+  border-color: #91b0ff;
+  background-color: rgba(43, 103, 255, 0.06);
+}
+header-element .extra-menu-bar .script-panel-link {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  background-color: #2b67ff;
+  border: 1px solid #2b67ff;
+  color: white;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  color: #606266;
+  background-color: white;
+  border: 1px solid #dcdcdc;
+  padding-bottom: 2px;
+  margin-bottom: 0px;
+}
+header-element .extra-menu-bar .script-panel-link:active {
+  box-shadow: 0px 0px 8px rgba(43, 103, 255, 0.65);
+}
+header-element .extra-menu-bar .script-panel-link:hover {
+  background-color: #5e8cff;
+  border-color: #5e8cff;
+}
+header-element .extra-menu-bar .script-panel-link:disabled {
+  background-color: #abc2ff;
+  border-color: #abc2ff;
+  color: white;
+  cursor: not-allowed !important;
+}
+header-element .extra-menu-bar .script-panel-link:hover {
+  color: #2b67ff;
+  border-color: #91b0ff;
+  background-color: rgba(43, 103, 255, 0.06);
+}
+header-element .extra-menu-bar .script-panel-link.active {
+  background-color: rgba(43, 103, 255, 0.1);
+  border-color: #2b67ff;
+  color: #2b67ff;
+}
+header-element .dropdown .dropdown-trigger-element:hover {
+  background-color: #ffffff80;
+  color: #2b67ff;
+}
+header-element .dropdown.active .dropdown-trigger-element {
+  --tab-border: 1px;
+  --tab-border-color: #e8ecf1;
+  --tab-bg: #ffffff;
+  --tab-radius-limit: 8px;
+  --tab-radius-grad: #0000 calc(69% - var(--tab-border)), var(--tab-border-color) calc(69% - var(--tab-border) + 0.25px), var(--tab-border-color) 69%, var(--tab-bg) calc(69% + 0.25px);
+  --radius-start: radial-gradient(circle at top left, var(--tab-radius-grad));
+  --radius-end: radial-gradient(circle at top right, var(--tab-radius-grad));
+  position: relative;
+  color: #2b67ff;
+  font-weight: 600;
+  padding: 2px 11px;
+  background-color: var(--tab-bg);
+  border: var(--tab-border) solid var(--tab-border-color);
+  border-bottom: none;
+  border-radius: var(--tab-radius-limit) var(--tab-radius-limit) 0 0;
+  box-shadow: 0 1px 0 var(--tab-bg);
+}
+.notes {
+  background: rgba(43, 103, 255, 0.06);
+  border-left: 4px solid rgba(43, 103, 255, 0.4);
+  border-radius: 4px 10px 10px 4px;
+  width: -webkit-fill-available;
+  margin: 0px 8px;
+  line-height: 26px;
+  letter-spacing: 1px;
+}
+.notes .notes-header .notes-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #2b67ff;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  font-style: italic;
+  line-height: 1;
+  user-select: none;
+}
+.configs .configs-body config-element .config-wrapper select:focus {
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+}
+.configs .configs-body config-element .config-wrapper select:focus:not([type='checkbox'], [type='radio']) {
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+  background-color: white !important;
+}
+.configs .configs-body config-element .config-wrapper textarea:focus {
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+}
+.configs .configs-body config-element .config-wrapper textarea:focus:not([type='checkbox'], [type='radio']) {
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+  background-color: white !important;
+}
+.configs .configs-body config-element .config-wrapper input:not([type='button']):focus {
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+}
+.configs .configs-body config-element .config-wrapper input:not([type='button']):focus:not([type='checkbox'], [type='radio']) {
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+  background-color: white !important;
+}
+.configs .configs-body config-element .config-wrapper input[type='button'] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  background-color: #2b67ff;
+  border: 1px solid #2b67ff;
+  color: white;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  width: auto;
+  padding: 4px 12px;
+}
+.configs .configs-body config-element .config-wrapper input[type='button']:active {
+  box-shadow: 0px 0px 8px rgba(43, 103, 255, 0.65);
+}
+.configs .configs-body config-element .config-wrapper input[type='button']:hover {
+  background-color: #5e8cff;
+  border-color: #5e8cff;
+}
+.configs .configs-body config-element .config-wrapper input[type='button']:disabled {
+  background-color: #abc2ff;
+  border-color: #abc2ff;
+  color: white;
+  cursor: not-allowed !important;
+}
+.configs .configs-body config-element .config-wrapper input[type='checkbox']:checked {
+  background: #2b67ff;
+}
+.configs .configs-body config-element .config-wrapper input[type='checkbox'],
+.configs .configs-body config-element .config-wrapper input[type='radio'],
+.configs .configs-body config-element .config-wrapper input[type='range'] {
+  accent-color: #2b67ff;
+}
+.message-container message-element.info {
+  background-color: #d5e1ff;
+  color: #002991;
+  border: 1px solid #aac2ff;
+}
+modal-element .modal-input:focus {
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+}
+modal-element .modal-input:focus:not([type='checkbox'], [type='radio']) {
+  border: 1px solid #2b67ff;
+  box-shadow: 0px 0px 4px rgba(43, 103, 255, 0.32);
+  background-color: white !important;
+}
+modal-element .modal-cancel-button {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  background-color: #2b67ff;
+  border: 1px solid #2b67ff;
+  color: white;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  color: gray;
+  background-color: white;
+  border: 1px solid #dcdcdc;
+}
+modal-element .modal-cancel-button:active {
+  box-shadow: 0px 0px 8px rgba(43, 103, 255, 0.65);
+}
+modal-element .modal-cancel-button:hover {
+  background-color: #5e8cff;
+  border-color: #5e8cff;
+}
+modal-element .modal-cancel-button:disabled {
+  background-color: #abc2ff;
+  border-color: #abc2ff;
+  color: white;
+  cursor: not-allowed !important;
+}
+modal-element .modal-confirm-button {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  background-color: #2b67ff;
+  border: 1px solid #2b67ff;
+  color: white;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+}
+modal-element .modal-confirm-button:active {
+  box-shadow: 0px 0px 8px rgba(43, 103, 255, 0.65);
+}
+modal-element .modal-confirm-button:hover {
+  background-color: #5e8cff;
+  border-color: #5e8cff;
+}
+modal-element .modal-confirm-button:disabled {
+  background-color: #abc2ff;
+  border-color: #abc2ff;
+  color: white;
+  cursor: not-allowed !important;
+}
+/** ===== 题库状态列表 ===== */
+.answerer-status-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+.answerer-status-list .answerer-status-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+.answerer-status-list .answerer-status-item .name {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.answerer-status-list .answerer-status-item .status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.answerer-status-list .answerer-status-item .status .latency {
+  color: #8c8c8c;
+}
+.answerer-status-list .answerer-status-item .status .badge {
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.answerer-status-list .answerer-status-item .status .badge.success {
+  color: #52c41a;
+  background-color: #f6ffed;
+  border: 1px solid #b7eb8f;
+}
+.answerer-status-list .answerer-status-item .status .badge.error {
+  color: #ff4d4f;
+  background-color: #fff1f0;
+  border: 1px solid #ffa39e;
+}
+.answerer-status-list .answerer-status-item .status .badge.timeout {
+  color: #faad14;
+  background-color: #fffbe6;
+  border: 1px solid #ffe58f;
+}
+.answerer-status-list .answerer-status-item .status .badge.disabled {
+  color: #8c8c8c;
+  background-color: #f5f5f5;
+  border: 1px solid #d9d9d9;
+}
+.dropdown.active .dropdown-trigger-element {
+  color: #2b67ff;
+}
+.dropdown-content .dropdown-option.active {
+  background-color: rgba(43, 103, 255, 0.1);
+  color: #2b67ff;
+  font-weight: 500;
+}
+/** ===== 搜索结果样式（从 easy-us 迁移，仅 OCS 项目使用） ===== */
 .search-infos-num {
-	width: 26px;
-	margin: 2px;
-	height: 20px;
-	border-radius: 4px;
-	display: inline-block;
-	background-color: white;
-	text-align: center;
-	cursor: pointer;
-	border: 1px solid #b6b6b6;
+  width: 26px;
+  margin: 2px;
+  height: 20px;
+  border-radius: 4px;
+  display: inline-block;
+  background-color: white;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #b6b6b6;
 }
 .search-infos-num.requested {
-	border: 1px solid #63b4ff;
-	color: #63b4ff;
+  border: 1px solid #789eff;
+  color: #789eff;
+}
+.search-infos-num.searching {
+  border: 1px solid rgba(43, 103, 255, 0.4);
+  border-radius: 4px;
+  color: #2b67ff;
+  animation: ocs-searching-pulse 1.2s ease-in-out infinite;
+}
+@keyframes ocs-searching-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 3px 1px rgba(43, 103, 255, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 1px 0px rgba(43, 103, 255, 0.2);
+  }
 }
 .search-infos-num.active {
-	background-color: #127de1 !important;
-	color: white;
+  background-color: #2b67ff !important;
+  color: white;
 }
 .search-infos-num.error {
-	border: 1px solid #ff8789ed;
-	background-color: #ff6b6ded;
-	color: white;
+  border: 1px solid #ff8789ed;
+  background-color: #ff6b6ded;
+  color: white;
 }
 .search-infos-num.finish {
-	background-color: #63b4ff;
-	border: 1px solid #63b4ff;
-	color: white;
+  background-color: #789eff;
+  border: 1px solid #789eff;
+  color: white;
 }
 search-infos-element {
-	display: block;
-	overflow: auto;
-}
-search-infos-element .search-result {
-	margin-bottom: 12px;
-	padding-left: 12px;
+  display: block;
+  overflow: auto;
 }
 search-infos-element .search-result .question {
-	font-weight: bold;
-	max-height: 200px;
-	overflow: auto;
+  font-weight: bold;
+  max-height: 200px;
+  overflow: auto;
 }
 search-infos-element .search-result .answer {
-	color: #7c7c7c;
+  color: #7c7c7c;
 }
 search-infos-element .search-result .answer code {
-	border-bottom: 1px solid #dcdcdc;
-	padding: 2px 0px;
-	border-radius: 2px;
-	margin: 4px;
-	line-height: 22px;
+  border-bottom: 1px solid #dcdcdc;
+  padding: 2px 0px;
+  border-radius: 2px;
+  margin: 4px;
+  line-height: 22px;
 }
 search-infos-element .search-result .answer code + code {
-	margin-left: 4px;
+  margin-left: 4px;
 }
 search-infos-element .search-result .search-result-answer-tag {
-	padding: 2px 6px;
-	border-radius: 2px;
-	font-size: 12px;
-	cursor: pointer;
-	margin-right: 6px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-right: 6px;
 }
 search-infos-element .search-result .search-result-answer-tag + .search-result-answer-tag {
-	margin-left: 4px;
+  margin-left: 4px;
 }
 search-infos-element .search-result .search-result-answer-tag.blue {
-	background-color: #e6f7ff;
-	border: 1px solid #91d5ff;
-	color: #1890ff;
+  color: #2b67ff;
+  background-color: rgba(43, 103, 255, 0.08);
+  border: 1px solid rgba(43, 103, 255, 0.4);
 }
 search-infos-element .search-result .search-result-answer-tag.green {
-	background-color: #f6ffed;
-	border: 1px solid #b7eb8f;
-	color: #52c41a;
+  color: #52c41a;
+  background-color: #f6ffed;
+  border: 1px solid #b7eb8f;
 }
 search-infos-element .search-result .search-result-answer-tag.gray {
-	background-color: #fafafa;
-	border: 1px solid #d9d9d9;
-	color: #595959;
+  color: #595959;
+  background-color: #fafafa;
+  border: 1px solid #d9d9d9;
 }
 search-infos-element .search-result .search-result-answer-tag.red {
-	background-color: #fff1f0;
-	border: 1px solid #ffa39e;
-	color: #ff4d4f;
+  color: #ff4d4f;
+  background-color: #fff1f0;
+  border: 1px solid #ffa39e;
 }
 search-infos-element .search-result .search-result-answer-tag.yellow {
-	background-color: #fffbe6;
-	border: 1px solid #ffe58f;
-	color: #faad14;
+  color: #faad14;
+  background-color: #fffbe6;
+  border: 1px solid #ffe58f;
 }
 search-infos-element .search-result-question-type {
-	background-color: #e6f7ff;
-	border: 1px solid #91d5ff;
-	color: #1890ff;
-	margin-right: 8px;
-	padding: 0px 4px;
-	border-radius: 4px;
+  background-color: rgba(43, 103, 255, 0.08);
+  border: 1px solid rgba(43, 103, 255, 0.4);
+  color: #2b67ff;
+  margin-right: 8px;
+  padding: 0px 4px;
+  border-radius: 4px;
 }
 search-infos-element .error {
-	color: #ff6b6ded;
-	display: inline-block;
-	padding-left: 12px;
+  color: #ff6b6ded;
+  display: inline-block;
+  padding-left: 12px;
+}
+.work-result-list {
+  max-height: 400px;
+  overflow: auto;
+  padding: 4px 0px;
+}
+.work-result-question-container {
+  position: absolute;
+  width: 400px;
+  left: -100%;
+  top: 0px;
+  background: white;
+  border: 1px solid #cbcbcb;
+  border-radius: 4px;
+  box-shadow: 0px 0px 12px #d1cfcf;
+  padding: 12px;
+}
+.work-result-question-container .close-search-result {
+  font-size: 12px;
+  margin-left: 8px;
+  text-decoration: underline;
+  color: gray;
+  cursor: pointer;
+}
+.search-info-title {
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  line-height: 20px;
+  overflow: auto;
+}
+.search-info-title .title-content {
+  max-height: 200px;
+  overflow: auto;
+}
+.alert-info-wrapper {
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+.alert-info-wrapper .result-info {
+  padding: 6px;
+  text-align: center;
+  border-radius: 6px;
+}
+.alert-info-wrapper .unresolved,
+.alert-info-wrapper .no-answer {
+  color: #a1a1a1;
+  background-color: #f7f7f7;
+}
+.alert-info-wrapper .warn {
+  color: #d48806;
+  background-color: #fffbe6;
+  border: 1px solid #ffe58f;
+}
+.alert-info-wrapper .error {
+  color: #ff4d4f;
+  background-color: #fff1f0;
+  border: 1px solid #ffa39e;
+}
+/** ===== 使用指南/控制台/Markdown 样式（从 easy-us 迁移，仅 OCS 项目使用） ===== */
+.user-guide > li {
+  padding: 4px 0px;
 }
 .copy,
 .question-title-extra-btn {
-	margin-left: 4px;
-	padding: 2px 4px;
-	border-radius: 2px;
-	box-shadow: 0 0 4px #b1b1b1;
-	cursor: pointer !important;
-	font-weight: normal;
-	font-size: 12px;
-}
-.work-result-question-container {
-	position: absolute;
-	width: 400px;
-	left: -100%;
-	top: 0px;
-	background: white;
-	border: 1px solid #cbcbcb;
-	border-radius: 4px;
-	box-shadow: 0px 0px 12px #d1cfcf;
-	padding: 12px;
-}
-.work-result-question-container .close-search-result {
-	font-size: 12px;
-	margin-left: 8px;
-	text-decoration: underline;
-	color: gray;
-	cursor: pointer;
-}
-.work-result-list {
-	max-height: 400px;
-	overflow: auto;
-	margin: 12px 0px;
-	padding: 6px;
-	border: 1px solid #e1e1e1;
-	border-radius: 4px;
-}
-.search-info-title {
-	border: 1px solid #e1e1e1;
-	border-radius: 4px;
-	padding: 8px 12px;
-	margin-bottom: 12px;
-	line-height: 20px;
-	max-height: 400px;
-	overflow: auto;
-}
-.search-info-details {
-	margin-left: 4px;
+  margin-left: 4px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  box-shadow: 0 0 4px #b1b1b1;
+  cursor: pointer !important;
+  font-weight: normal;
+  font-size: 12px;
 }
 .console {
-	max-height: 300px;
-	max-width: 400px;
-	overflow: auto;
-	background-color: #292929;
-	padding: 12px 6px;
-	color: #ececec;
-	font-size: 12px;
+  max-height: 300px;
+  max-width: 400px;
+  overflow: auto;
+  background-color: #292929;
+  padding: 12px 6px;
+  color: #ececec;
+  font-size: 12px;
 }
 .console .item {
-	padding: 3px 0px;
-	border-radius: 2px;
+  padding: 3px 0px;
+  border-radius: 2px;
 }
 .console .item .time {
-	color: #757575;
+  color: #757575;
 }
 .console .item .info {
-	background-color: #2196f3a3;
+  background-color: rgba(43, 103, 255, 0.64);
 }
 .console .item .warn {
-	background-color: #ffc107db;
+  background-color: #ffc107db;
 }
 .console .item .error {
-	background-color: #f36c71cc;
+  background-color: #f36c71cc;
 }
 .console .item .debug,
 .console .item .log {
-	background-color: #9e9e9ec4;
+  background-color: #9e9e9ec4;
 }
 .console *::selection {
-	background-color: #ffffff6b;
+  background-color: #ffffff6b;
 }
 .markdown {
-	max-width: 400px;
-	max-height: 50vh;
-	overflow: auto;
+  max-width: 400px;
+  max-height: 50vh;
+  overflow: auto;
 }
 .markdown code {
-	padding: 2px 4px;
-	background-color: #f0f0f0;
-	border-radius: 6px;
-	font-size: 12px;
+  padding: 2px 4px;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  font-size: 12px;
 }
 .markdown blockquote {
-	padding: 4px 4px 4px 12px;
-	margin: 0px;
-	color: #b5b5b5;
-	border-left: #ababab 2px solid;
+  padding: 4px 4px 4px 12px;
+  margin: 0px;
+  color: #b5b5b5;
+  border-left: #ababab 2px solid;
 }
 .markdown blockquote p {
-	margin: 0px;
+  margin: 0px;
 }
 .markdown h1,
 .markdown h2,
@@ -23240,152 +25152,462 @@ search-infos-element .error {
 .markdown h5,
 .markdown h6,
 .markdown p {
-	margin: 8px 0px;
+  margin: 8px 0px;
 }
-.dropdown {
-	position: relative;
-	display: inline-block;
-}
-.dropdown.active .dropdown-trigger-element {
-	color: #1890ff;
-}
-.dropdown-trigger-element {
-	cursor: pointer;
-}
-.dropdown-content {
-	display: none;
-	position: absolute;
-	background-color: #ffffff;
-	overflow: auto;
-	box-shadow: 0px 8px 16px 0px #00000033;
-	z-index: 1;
-	border-radius: 4px;
-	padding: 8px 12px;
-	min-width: 120px;
-}
-.dropdown-content.show {
-	display: block;
-}
-.dropdown-content {
-	cursor: pointer;
-	z-index: 999;
-}
-.dropdown-content .dropdown-option {
-	padding-left: 4px;
-	white-space: nowrap;
-}
-.dropdown-content .dropdown-option:hover {
-	background-color: #f3f3f3;
-}
-.dropdown-content .dropdown-option.active {
-	background-color: #1890ff1a;
-	color: #1890ff;
-}
-.space {
-	display: inline-flex;
-}
-.config-details {
-	animation: fade-in 0.5s;
-}
-.config-details label {
-	padding-left: 12px;
-}
-.alert-info-wrapper {
-	margin-bottom: 8px;
-}
-.alert-info-wrapper .result-info {
-	padding: 12px;
-	text-align: center;
-	border-radius: 6px;
-}
-.alert-info-wrapper .unresolved {
-	color: #a1a1a1;
-	background-color: #f7f7f7;
-}
-.alert-info-wrapper .no-answer {
-	color: #a1a1a1;
-	background-color: #f7f7f7;
-}
-.alert-info-wrapper .error {
-	color: #ff4d4f;
-	background-color: #fff1f0;
-}
-message-element {
-	animation: show 0.5s;
-}
-script-panel-element > div,
-script-panel-link,
-container-element,
-modal-element {
-	animation: fade-in 0.3s;
-}
+/** ===== 动画 ===== */
 @keyframes show {
-	0% {
-		transform: translateY(20px);
-		opacity: 0;
-	}
-	100% {
-		transform: translateY(0);
-		opacity: 1;
-	}
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 @keyframes fade-in {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 @keyframes fade-out {
-	0% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
-.checkbox-label {
-	display: inline-block !important;
-	position: relative;
-	cursor: pointer;
-	font-size: 16px;
-	color: #2c3e50;
+/** ===== 边缘最小化图标模式 ===== */
+container-element .edge-minimize-icon {
+  display: none;
 }
-/* 隐藏原始复选框 */
-.checkbox-input {
-	position: absolute;
-	opacity: 0;
-	width: 0;
-	height: 0;
+container-element.edge-minimize {
+  min-width: unset;
+  width: 64px;
 }
-/* 自定义按钮样式 */
-.checkbox-label::after {
-	content: '';
-	display: inline-block;
-	border-radius: 50%;
-	transition: all 0.1s ease;
-	position: relative;
-	margin-left: 4px;
-	vertical-align: middle;
+container-element.edge-minimize header-element {
+  display: none;
 }
-/* 向下箭头（未选中状态） */
-.checkbox-label::before {
-	content: '🔽';
-	position: absolute;
-	width: 0;
-	height: 0;
-	right: 8px;
-	transition: all 0.1s ease;
-	z-index: 2;
+container-element.edge-minimize .message-container {
+  left: 0;
+  transform: none;
 }
-/* 向上箭头（选中状态） */
-.checked .checkbox-label::before {
-	content: '🔼';
+container-element.edge-minimize .edge-minimize-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  cursor: pointer;
+  user-select: none;
+}
+container-element.edge-minimize .edge-minimize-icon svg {
+  width: 42px;
+  height: 42px;
+}
+container-element.edge-minimize.edge-left {
+  border-radius: 0 12px 12px 0;
+}
+container-element.edge-minimize.edge-right {
+  border-radius: 12px 0 0 12px;
+}
+/** ===== 吸附过渡动画（仅在程序化吸附时临时添加） ===== */
+container-element.edge-snapping {
+  transition: left 0.2s ease, top 0.2s ease;
+}
+/** ===== 边缘拖放高亮区域 ===== */
+.edge-drop-zone {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 99998;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edge-drop-zone .edge-drop-zone-tip {
+  writing-mode: vertical-rl;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 6px;
+  color: rgba(43, 103, 255, 0.9);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+  user-select: none;
+}
+.edge-drop-zone.show {
+  opacity: 1;
+}
+.edge-drop-zone.zone-left {
+  left: 0;
+  background: linear-gradient(to right, rgba(43, 103, 255, 0.25), transparent);
+  border-right: 2px solid rgba(43, 103, 255, 0.6);
+}
+.edge-drop-zone.zone-right {
+  right: 0;
+  background: linear-gradient(to left, rgba(43, 103, 255, 0.25), transparent);
+  border-left: 2px solid rgba(43, 103, 255, 0.6);
+}
+container-element .edge-minimize-icon {
+  touch-action: none;
+}
+header-element .profile {
+  gap: 8px;
+}
+modal-element .modal-cancel-button:hover {
+  color: white;
+}
+/** ===== 题库配置弹窗组件（src/utils/ui.ts 配套样式） ===== */
+/** ===== 通用口风琴卡片（下拉展开/收起列表组件） =====
+ * 结构：.accordion-card > .accordion-card-header（点击整行展开/收起）+ .accordion-card-body
+ * 状态：.expanded 展开（箭头旋转 + 详情区显示），由 JS 切换 class 驱动
+ * 组件工厂：utils/ui.ts 的 createAccordionCard
+ * 使用方：题库配置卡片（aw-card）、搜索结果下拉列表 
+ */
+.accordion-card {
+  border: 1px solid #e3e8ee;
+  border-radius: 8px;
+  background-color: #fff;
+  margin-bottom: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.accordion-card:hover {
+  border-color: #b6c6dd;
+  box-shadow: 0 2px 8px rgba(31, 35, 41, 0.08);
+}
+.accordion-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.accordion-card-header:hover {
+  background-color: #f5f8fb;
+}
+.accordion-card-spacer {
+  flex: 1;
+}
+.accordion-card-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: #9aa4b2;
+  border-radius: 4px;
+  transition: transform 0.2s ease;
+  transform: rotate(-90deg);
+}
+.accordion-card.expanded .accordion-card-chevron {
+  transform: rotate(0deg);
+}
+.accordion-card-body {
+  display: none;
+  border-top: 1px solid #eef2f7;
+  background-color: #f8fafc;
+  padding: 8px 12px;
+  max-height: 300px;
+  overflow: auto;
+}
+.accordion-card.expanded .accordion-card-body {
+  display: block;
+}
+.aw-card-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1f2329;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+.aw-card.disabled .aw-card-name {
+  opacity: 0.45;
+}
+.aw-card-badge {
+  flex: none;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  line-height: 18px;
+  color: #5a6b85;
+  background-color: #eef2f7;
+  border-radius: 999px;
+  padding: 0 8px;
+}
+.aw-card-home {
+  flex: none;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 1;
+}
+.aw-card-home.no-home {
+  opacity: 0.4;
+  cursor: default;
+}
+.aw-card-status-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+.aw-card-status {
+  flex: none;
+  font-size: 11px;
+  line-height: 18px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background-color: #eef2f7;
+  color: #5a6b85;
+  white-space: nowrap;
+}
+.aw-card-status.probing {
+  color: #9aa4b2;
+}
+.aw-card-status.success {
+  background-color: #e8f7ee;
+  color: #2e7d4f;
+}
+.aw-card-status.error,
+.aw-card-status.invalid {
+  background-color: #fdeeee;
+  color: #c0392b;
+}
+.aw-card-status.timeout {
+  background-color: #fdf3e5;
+  color: #b26a00;
+}
+.aw-card-status.disabled {
+  background-color: #eef2f7;
+  color: #8a94a6;
+}
+.aw-card-status.latency {
+  background-color: #eef2f7;
+  color: #5a6b85;
+}
+.aw-card-rows {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.aw-card-row {
+  display: flex;
+  align-items: flex-start;
+  line-height: 22px;
+  font-size: 13px;
+}
+.aw-card-label {
+  flex: none;
+  width: 64px;
+  margin-right: 8px;
+  color: #8a94a6;
+}
+.aw-card-value {
+  word-break: break-all;
+  color: #1f2329;
+}
+.aw-section-header {
+  margin-top: 12px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.aw-section-copy {
+  padding: 2px 8px;
+  font-size: 12px;
+  margin-left: auto;
+}
+.aw-connect-hero {
+  text-align: center;
+  padding: 20px 16px;
+  background-color: #f6f8fb;
+  border: 1px solid #eef2f7;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+.aw-connect-hero-icon {
+  font-size: 28px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.aw-connect-hero-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2329;
+  margin-bottom: 6px;
+}
+.aw-connect-hero-subtitle {
+  font-size: 13px;
+  color: #5a6b85;
+  line-height: 18px;
+}
+.aw-connect-hero-extra {
+  font-size: 13px;
+  color: #5a6b85;
+  line-height: 18px;
+  margin-top: 6px;
+}
+.aw-connect-hero-extra b {
+  color: #1f2329;
+}
+.aw-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0;
+}
+.aw-step {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #5a6b85;
+}
+.aw-step-num {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #2b67ff;
+  color: #fff;
+  font-size: 11px;
+  line-height: 16px;
+  text-align: center;
+}
+.aw-step-arrow {
+  color: #c1c9d4;
+  font-size: 12px;
+}
+.aw-connect-status {
+  display: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 13px;
+  line-height: 20px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.aw-connect-status.info {
+  display: block;
+  background-color: #eef4ff;
+  border-color: #c9d9ff;
+  color: #3f5de0;
+}
+.aw-connect-status.success {
+  display: block;
+  background-color: #e8f7ee;
+  border-color: #b7e3c7;
+  color: #2e7d4f;
+}
+.aw-connect-status.error {
+  display: block;
+  background-color: #fdeeee;
+  border-color: #f5c6c6;
+  color: #c0392b;
+}
+.aw-connect-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #2b67ff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+.aw-connect-btn:hover:not(:disabled) {
+  background-color: #5e8cff;
+}
+.aw-connect-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+.aw-connect-btn.lg {
+  padding: 8px 24px;
+  font-size: 15px;
+}
+@keyframes ocs-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.aw-spin {
+  animation: ocs-spin 0.8s linear infinite;
+  margin-right: 6px;
+}
+/** ===== 快捷菜单链接按钮（background.ts $menu 注册）淡入淡出动画 ===== */
+.script-panel-link {
+  animation: ocs-menu-fade-in 0.3s ease both;
+  transition: opacity 0.25s ease, background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.script-panel-link:hover {
+  opacity: 0.85;
+}
+.script-panel-link.active {
+  transition: opacity 0.25s ease, background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+@keyframes ocs-menu-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/** ===== 搜索结果面板：序号列表前的帮助图标（承载答题进度/序号解释提示） ===== */
+.search-infos-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  border-radius: 50%;
+  border: 1px solid #c1c9d4;
+  color: #9aa4b2;
+  font-weight: bold;
+  cursor: help;
+  user-select: none;
+}
+.search-infos-help:hover {
+  border-color: #2b67ff;
+  color: #2b67ff;
+}
+.work-control-panel {
+  display: flex;
+  margin: 12px 0px;
+}
+.text-secondary {
+  color: #606266;
+  font-size: 12px;
 }
 `;
 
-/* eslint-disable no-undef */
+/* eslint-disable no-undef, max-len */
 /// <reference path="./global.d.ts" />
 
 // 环境检测
@@ -23416,7 +25638,7 @@ if (
 	return;
 }
 
-const { start, definedProjects, CommonProject, RenderScript } = OCS;
+const { start, definedProjects, CommonProject, RenderScript, logoSvg } = OCS;
 
 const infos = GM_info;
 
@@ -23432,7 +25654,7 @@ const infos = GM_info;
 			renderScript: RenderScript,
 			styles: [STYLE],
 			defaultPanelName: CommonProject.scripts.guide.namespace,
-			title: `OCS-${infos.script.version}`
+			title: `${logoSvg} OCS <span style="font-size: 12px; color: #969696;">v${infos.script.version}</span>`
 		},
 		updatePage: 'https://docs.ocsjs.com/docs/update'
 	});

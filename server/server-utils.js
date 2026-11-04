@@ -31,8 +31,7 @@ function normalizeAnswer(raw, type) {
     return match ? [...new Set(match[1].split(''))].sort().join('') : '';
   }
 
-  const lines = answer.split('\n').map(line => line.trim()).filter(Boolean);
-  return (lines[0] || answer).trim();
+  return answer.trim();
 }
 
 function parseLlmAnswer(data, type) {

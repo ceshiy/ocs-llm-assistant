@@ -4,16 +4,18 @@
 
 ## 重要说明
 
-> **DeepSeek 不支持多模态（图片识别）。** 如果题目包含图片，请务必配置 `LLM_VISION_MODEL` 为支持 vision 的模型（如 mimo、GPT-4o 等），否则图片内容无法传给大模型，题干不完整，回答正确率会极大降低
+> **官方 DeepSeek API 不支持多模态（图片识别）。** 如果题目包含图片，请务必配置 `LLM_VISION_MODEL` 为支持 vision 的模型（如 mimo、GPT-4o 等），否则图片内容无法传给大模型，题干不完整，回答正确率会极大降低
 >
 > 回答正确与否完全取决于大模型的能力，与本项目无关。本项目仅提供代理转发和图片处理能力
 >
 > 本项目仅在学习通平台测试，智慧树、学堂在线等其他平台未作测试，不保证可用性
+>
+> 已适配 OCS 5.2.7（含 5.1+ 图片题优化协议），旧版 OCS 仍可用并自动回退到服务端抓图
 
 ## 功能特性
 
 - 支持单选题、多选题、判断题、填空题
-- 支持图片题（自动下载图片并加白色背景处理）
+- 支持图片题（OCS 5.1+ 浏览器端 base64 直传；旧版自动下载并加白色背景处理）
 - 服务端代理模式，API Key 不暴露给客户端
 - 兼容 OpenAI 格式 API（DeepSeek、mimo 等）
 - Docker 一键部署
@@ -22,7 +24,7 @@
 
 ```
 。
-├── OCS 网课助手-4.13.19.js   # 油猴脚本（客户端）
+├── OCS 网课助手-5.2.7.js   # 油猴脚本（客户端）
 └── server/                     # 服务端代理
     ├── server.js               # 主服务
     ├── server-utils.js         # 工具函数
@@ -59,12 +61,18 @@ docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 ### 2. 安装油猴脚本
 
 1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 浏览器扩展
-2. 在 Tampermonkey 中新建脚本，粘贴 `OCS 网课助手-4.13.19.js` 的内容
+2. 在 Tampermonkey 中新建脚本，粘贴 `OCS 网课助手-5.2.7.js` 的内容
 3. 保存并启用
 
 ### 3. 配置题库
 
-在 OCS 脚本的题库设置中，添加自定义题库，配置指向你的服务端地址
+在 OCS 脚本的题库设置中，添加自定义题库，配置指向你的服务端地址：
+
+- 直接访问 `GET /api/config` 获取完整题库配置，复制到 OCS 的题库配置中；
+- OCS 5.1+ 图片题优化：配置通过 `${suggestion_title}`、`${suggestion_options}` 和 `images` 字段提交浏览器端已转换的 base64 图片，服务端不再重复下载；
+- 旧版 OCS 或关闭图片题优化时，`title` / `options` 中的图片 URL 仍由服务端下载并处理。
+
+> 如果使用响应较慢的推理模型，请在 OCS 设置中把“搜题最大耗时”调整到 60 秒以上，避免客户端先超时。
 
 ## 环境变量说明
 
@@ -103,7 +111,10 @@ docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 {
   "question": "题目内容",
   "options": "选项内容",
-  "type": "single|multiple|judgement|completion"
+  "type": "single|multiple|judgement|completion",
+  "suggestion_title": "可选：图片 URL 替换为 [图片N] 后的题干",
+  "suggestion_options": "可选：图片 URL 替换为 [图片N] 后的选项",
+  "images": ["data:image/png;base64,..."]
 }
 ```
 
