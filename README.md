@@ -19,7 +19,7 @@
 - 支持单选题、多选题、判断题、填空题
 - 支持图片题（OCS 5.1+ 浏览器端 base64 直传；旧版自动下载并加白色背景处理）
 - 服务端代理模式，API Key 不暴露给客户端
-- 兼容 OpenAI Chat Completions 格式 API（DeepSeek、Qwen、GLM、Kimi、豆包、MiMo，以及 OpenAI / Claude / Gemini 兼容网关）
+- 兼容 OpenAI Chat Completions 格式 API（DeepSeek、Qwen、GLM、Kimi、豆包、MiMo、MiniMax、Step、SenseNova、LongCat 等，以及 OpenAI / Claude / Gemini 兼容网关）
 - Docker 一键部署
 
 ## 项目结构
@@ -130,21 +130,59 @@ docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 
 ## 支持的 LLM
 
-任何兼容 OpenAI Chat Completions 格式的 API 均可使用。下表列出当前主流模型系列（以各厂商最新版本为准）：
+任何兼容 OpenAI Chat Completions 格式的 API 均可使用。以下模型默认按支持文本题和图片题（多模态）收录，实际是否开放视觉输入以模型厂商或中转服务为准。
 
-| 模型系列 | 纯文字题 | 图片题 | 备注 |
-|----------|----------|--------|------|
-| DeepSeek V4 / V4.1（含 Flash） | 支持 | 支持 | 以所用 API 是否开放视觉输入为准 |
-| OpenAI GPT-5 / GPT-4o 系列 | 支持 | 支持 | |
-| Anthropic Claude 4.x 系列 | 支持 | 支持 | 通过 OpenAI 兼容网关接入 |
-| Google Gemini 2.5 / 3 系列 | 支持 | 支持 | 通过 OpenAI 兼容网关接入 |
-| 通义千问 Qwen3-VL 系列 | 支持 | 支持 | |
-| 智谱 GLM-4.xV 系列 | 支持 | 支持 | |
-| 月之暗面 Kimi 多模态系列 | 支持 | 支持 | 以具体版本为准 |
-| 字节豆包 Doubao 多模态系列 | 支持 | 支持 | |
-| 小米 MiMo-VL | 支持 | 支持 | |
-| xAI Grok 4 系列 | 支持 | 支持 | 通过 OpenAI 兼容网关接入 |
-| 其他 OpenAI 兼容服务 | 视模型而定 | 需支持 vision | 以服务商文档为准 |
+### 近两个月（2026 年 9 月 – 11 月初）
+
+#### 2026 年 10 月
+
+| 模型 | 发布时间 |
+|------|----------|
+| 商汤 SenseNova Loop-9B-Preview | 10 月 30 日 |
+| Gemini 4 Carbon | 10 月 28–29 日 |
+| Kimi K3.1 Pro / Highspeed | 10 月 24 日 |
+| MiniMax M3.1 Flash | 10 月 19 日 |
+| DeepSeek V4.1 Flash 1017 | 10 月 17 日 |
+| Meta Muse Wonder / Muse Wonder Full | 10 月 13 日 |
+
+#### 2026 年 9 月
+
+| 模型 | 发布时间 |
+|------|----------|
+| Gemini 4 Argon | 9 月 30 日 |
+| GPT-6.1 Sol | 9 月 29 日 |
+| Claude Sonnet 5.5 | 9 月 28 日 |
+| Claude Opus 5.5 | 9 月 22 日 |
+| GPT-6 Sol / Luna | 9 月 22 日 |
+| 小米 MiMo-V2.6 系列（Pro / Flash / Pro-UltraSpeed / Distill-Qwen-9B） | 9 月 22 日 |
+| Step 5 Preview（阶跃星辰） | 9 月 20 日 |
+| GLM-5.3-FlashX（智谱） | 9 月 18 日 |
+| Xing4.0-29B-A4B（中国电信） | 9 月 17 日 |
+| Gemini 3.8 Live / Live Extended Thinking | 9 月 15 日 |
+| Grok 4.7（xAI） | 9 月 12 日 |
+| DeepSeek V4.1-Flash | 9 月 10 日 |
+| 讯飞星火 X2.5 | 9 月 7 日 |
+| GPT-6 Astra | 9 月 3 日 |
+| Gemini 3.8 Flash / Flash Cyber | 9 月 2 日 |
+| Claude Fable 5.1 / Mythos 5.1 | 9 月 1 日 |
+| Qwen3.8-Omni-Flash / Qwen3.8-LiveTranslate（阿里） | 9 月 |
+| Qwen3.8-Max-0902（阿里） | 9 月 |
+
+### 此前已收录的型号
+
+- Claude Opus 5.5 / Claude Mythos 5.5 / Fable 5.5
+- GPT-6 Astra / GPT-6.2 Astra / GPT-6 Luna
+- Gemini 4 Carbon
+- DeepSeek V4.1 Flash 1017
+- 智谱 GLM-5.3 Flash
+- 腾讯 Hy4 preview
+- MiniMax M3.1 Flash
+- Kimi K3.1 Pro
+- 阿里 Qwen3.7 Max / Qwen3.8 Flash
+- 美团 LongCat-2.5
+- 小米 MiMo-V2.6 系列
+
+> 更早的 GPT-4o、DeepSeek V3、Claude 4.x、Gemini 2.5 等型号，只要兼容 OpenAI Chat Completions 格式并支持 vision，仍可正常使用。
 
 ## License
 
