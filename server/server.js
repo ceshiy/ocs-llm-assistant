@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 // LLM 配置
 const LLM_API_URL = process.env.LLM_API_URL || 'https://api.deepseek.com/v1/chat/completions';
 const LLM_API_KEY = process.env.LLM_API_KEY;
-const LLM_MODEL = process.env.LLM_MODEL || 'deepseek-chat';
+const LLM_MODEL = process.env.LLM_MODEL || 'deepseek-flash';
 const LLM_VISION_MODEL = process.env.LLM_VISION_MODEL || '';
 const LLM_MAX_TOKENS = Number(process.env.LLM_MAX_TOKENS || 0);
 
