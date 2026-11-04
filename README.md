@@ -6,7 +6,7 @@
 
 ## 重要说明
 
-> **官方 DeepSeek API 不支持多模态（图片识别）。** 如果题目包含图片，请务必配置 `LLM_VISION_MODEL` 为支持 vision 的模型（如 mimo、GPT-4o 等），否则图片内容无法传给大模型，题干不完整，回答正确率会极大降低
+> **主流大模型已普遍支持多模态（图片识别）。** 图片题建议单独配置 `LLM_VISION_MODEL`（留空则复用 `LLM_MODEL`），并确认所用模型及中转/代理服务确实开放了视觉输入；少数纯文本模型或关闭了视觉能力的第三方 API 仍可能导致图片无法识别
 >
 > 回答正确与否完全取决于大模型的能力，与本项目无关。本项目仅提供代理转发和图片处理能力
 >
@@ -19,7 +19,7 @@
 - 支持单选题、多选题、判断题、填空题
 - 支持图片题（OCS 5.1+ 浏览器端 base64 直传；旧版自动下载并加白色背景处理）
 - 服务端代理模式，API Key 不暴露给客户端
-- 兼容 OpenAI 格式 API（DeepSeek、mimo 等）
+- 兼容 OpenAI Chat Completions 格式 API（DeepSeek、Qwen、GLM、Kimi、豆包、MiMo，以及 OpenAI / Claude / Gemini 兼容网关）
 - Docker 一键部署
 
 ## 项目结构
@@ -83,7 +83,7 @@ docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 | `LLM_API_URL` | LLM API 地址 | `https://api.deepseek.com/v1/chat/completions` |
 | `LLM_API_KEY` | API Key（必填） | - |
 | `LLM_MODEL` | 文字题模型 | `deepseek-chat` |
-| `LLM_VISION_MODEL` | 图片题模型（**图片题必填**） | - |
+| `LLM_VISION_MODEL` | 图片题模型（留空则复用 `LLM_MODEL`） | - |
 | `LLM_MAX_TOKENS` | 最大 token 数（0=不限制） | `0` |
 | `PORT` | 服务端口 | `3000` |
 | `SERVER_BASE_URL` | 服务外网地址 | `http://localhost:3000` |
@@ -91,7 +91,7 @@ docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 | `JSON_LIMIT` | 请求体大小限制 | `15mb` |
 
 > **注意：**
-> - `LLM_VISION_MODEL` 必须配置为支持多模态（vision）的模型。DeepSeek 仅支持纯文本，无法识别图片
+> - `LLM_VISION_MODEL` 建议配置为支持多模态的模型；留空时使用 `LLM_MODEL`。请确认所用模型和中转服务实际开放了视觉输入
 > - `LLM_MAX_TOKENS` 设置过小会导致大模型回答被截断，答案无法解析。默认为 0（不限制），如有需要请自行修改
 
 ## API 接口
@@ -129,14 +129,21 @@ docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 
 ## 支持的 LLM
 
-任何兼容 OpenAI Chat Completions 格式的 API 均可使用：
+任何兼容 OpenAI Chat Completions 格式的 API 均可使用。下表列出当前主流模型系列（以各厂商最新版本为准）：
 
-| 模型 | 纯文字题 | 图片题 |
-|------|----------|--------|
-| DeepSeek | 支持 | **不支持**（无多模态） |
-| mimo | 支持 | 支持（v2.5pro无多模态能力） |
-| GPT-4o | 支持 | 支持 |
-| 其他 OpenAI 兼容服务 | 视模型能力而定 | 需支持 vision |
+| 模型系列 | 纯文字题 | 图片题 | 备注 |
+|----------|----------|--------|------|
+| DeepSeek V4 / V4.1（含 Flash） | 支持 | 支持 | 以所用 API 是否开放视觉输入为准 |
+| OpenAI GPT-5 / GPT-4o 系列 | 支持 | 支持 | |
+| Anthropic Claude 4.x 系列 | 支持 | 支持 | 通过 OpenAI 兼容网关接入 |
+| Google Gemini 2.5 / 3 系列 | 支持 | 支持 | 通过 OpenAI 兼容网关接入 |
+| 通义千问 Qwen3-VL 系列 | 支持 | 支持 | |
+| 智谱 GLM-4.xV 系列 | 支持 | 支持 | |
+| 月之暗面 Kimi 多模态系列 | 支持 | 支持 | 以具体版本为准 |
+| 字节豆包 Doubao 多模态系列 | 支持 | 支持 | |
+| 小米 MiMo-VL | 支持 | 支持 | |
+| xAI Grok 4 系列 | 支持 | 支持 | 通过 OpenAI 兼容网关接入 |
+| 其他 OpenAI 兼容服务 | 视模型而定 | 需支持 vision | 以服务商文档为准 |
 
 ## License
 
