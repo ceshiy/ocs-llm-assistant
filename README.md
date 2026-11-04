@@ -105,6 +105,10 @@ docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 
 获取题库配置（供油猴脚本使用）
 
+### HEAD / GET /api/proxy
+
+题库状态检测接口，返回 `200`。OCS 5.x 会先发 `HEAD` 探测，遇到 `405/501` 时回退 `GET`；实际答题仍使用 `POST`。
+
 ### POST /api/proxy
 
 代理答题接口

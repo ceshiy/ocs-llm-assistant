@@ -201,6 +201,18 @@ function cleanCompletionOptions(options) {
   return options;
 }
 
+// OCS 5.x 题库状态检测会向题库 URL 发 HEAD 请求，成功条件是 HTTP 200-399
+app.head('/api/proxy', (req, res) => {
+  res.status(200).end();
+});
+
+app.get('/api/proxy', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: '答题请使用 POST /api/proxy'
+  });
+});
+
 // 代理端点 - 接收题目，服务器端调用 LLM，不暴露 Key
 app.post('/api/proxy', async (req, res) => {
   console.log(`[${new Date().toISOString()}] 收到请求:`, JSON.stringify({
