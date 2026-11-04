@@ -26,7 +26,8 @@
 
 ```
 。
-├── OCS 网课助手-5.2.7.js   # 油猴脚本（客户端）
+├── OCS 网课助手-5.2.7.js   # 油猴脚本（标准版）
+├── OCS 网课助手-5.2.7-全域名通用版.js  # 油猴脚本（@connect *，任意自建域名）
 └── server/                     # 服务端代理
     ├── server.js               # 主服务
     ├── server-utils.js         # 工具函数
@@ -63,14 +64,16 @@ docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 ### 2. 安装油猴脚本
 
 1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 浏览器扩展
-2. 在 Tampermonkey 中新建脚本，粘贴 `OCS 网课助手-5.2.7.js` 的内容
+2. 任选一个版本导入（二选一，不要同时启用）：
+   - **标准版** `OCS 网课助手-5.2.7.js`：自建题库需手动在脚本头部 `@connect` 中加入你的域名或 IP
+   - **全域名通用版** `OCS 网课助手-5.2.7-全域名通用版.js`：已内置 `// @connect *`，可连接任意自建域名/IP，无需修改脚本
 3. 保存并启用
 
 ### 3. 配置题库
 
 在 OCS 脚本的题库设置中，添加自定义题库，配置指向你的服务端地址：
 
-- 自建服务需要先在油猴脚本头部的 `@connect` 中加入你的域名或公网 IP（如 `// @connect ocs.example.com`），否则 `GM_xmlhttpRequest` 会被拦截，详见 [使用教程](docs/使用教程.md)；
+- 自建服务需要先在油猴脚本头部的 `@connect` 中加入你的域名或公网 IP（如 `// @connect ocs.example.com`），否则 `GM_xmlhttpRequest` 会被拦截，详见 [使用教程](docs/使用教程.md)；不想改脚本可直接使用「全域名通用版」（已内置 `// @connect *`），但脚本会获得访问任意域名的权限，请仅使用可信来源；
 - 直接访问 `GET /api/config` 获取完整题库配置，复制到 OCS 的题库配置中；
 - OCS 5.1+ 图片题优化：配置通过 `${suggestion_title}`、`${suggestion_options}` 和 `images` 字段提交浏览器端已转换的 base64 图片，服务端不再重复下载；
 - 旧版 OCS 或关闭图片题优化时，`title` / `options` 中的图片 URL 仍由服务端下载并处理。
