@@ -70,6 +70,7 @@ docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 
 在 OCS 脚本的题库设置中，添加自定义题库，配置指向你的服务端地址：
 
+- 自建服务需要先在油猴脚本头部的 `@connect` 中加入你的域名或公网 IP（如 `// @connect ocs.example.com`），否则 `GM_xmlhttpRequest` 会被拦截，详见 [使用教程](docs/使用教程.md)；
 - 直接访问 `GET /api/config` 获取完整题库配置，复制到 OCS 的题库配置中；
 - OCS 5.1+ 图片题优化：配置通过 `${suggestion_title}`、`${suggestion_options}` 和 `images` 字段提交浏览器端已转换的 base64 图片，服务端不再重复下载；
 - 旧版 OCS 或关闭图片题优化时，`title` / `options` 中的图片 URL 仍由服务端下载并处理。
