@@ -71,6 +71,17 @@ docker build -t ocs-llm-proxy .
 docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ocs-llm-proxy
 ```
 
+**方式三：使用预构建镜像**
+
+GitHub Actions 会将镜像推送到 GitHub Container Registry：
+
+```bash
+docker pull ghcr.io/ceshiy/ocs-llm-proxy:latest
+docker run -d -p 3000:3000 --env-file .env --name ocs-proxy ghcr.io/ceshiy/ocs-llm-proxy:latest
+```
+
+可用标签包括 `latest`、`main`、版本号（如 `1.0.2`）和 `sha-<提交>`。首次发布后，请在仓库的 Packages 设置中将镜像可见性改为 Public，否则拉取时需要登录。
+
 启动后，可访问 `http://localhost:3000/health` 检查服务是否可访问。如果服务部署在其他设备上，请将地址替换为实际服务地址。
 
 ### 3. 安装油猴脚本
@@ -202,6 +213,9 @@ OCS 5.x 会先发送 `HEAD` 请求；如果收到 `405` 或 `501`，则回退到
 
 ```text
 .
+├── .github/
+│   └── workflows/
+│       └── release.yml                 # 自动构建与发布
 ├── OCS 网课助手-5.2.7.js              # 油猴脚本（标准版）
 ├── OCS 网课助手-5.2.7-全域名通用版.js  # 油猴脚本（@connect *，任意自建域名）
 └── server/                             # 服务端代理
@@ -209,14 +223,25 @@ OCS 5.x 会先发送 `HEAD` 请求；如果收到 `405` 或 `501`，则回退到
     ├── server-utils.js                 # 工具函数
     ├── package.json
     ├── Dockerfile
+    ├── .dockerignore                   # Docker 构建排除项
     ├── .env.example                    # 环境变量模板
     └── .gitignore
 ```
+
+## 发布
+
+推送 `v*` 标签会触发 GitHub Actions：
+
+- 构建并推送 Docker 镜像到 `ghcr.io/ceshiy/ocs-llm-proxy`。
+- 创建 GitHub Release，附带 `ocs.user.js`、`ocs-universal.user.js` 和服务端源码包。
+
+工作流文件：`.github/workflows/release.yml`。
 
 ## 版本记录
 
 | 版本 | 说明 |
 | --- | --- |
+| `v1.0.2` | 默认模型改为 `deepseek-flash`；新增 GitHub Actions 自动构建 Docker 镜像和 Release 软件包。 |
 | `v1.0.1` | 修复题库健康检查误报；新增全域名通用版脚本；更新安装文档。 |
 | `v1.0.0` | 适配 OCS 5.2.7；支持 5.1+ 图片题 Base64 直传；发布使用教程。 |
 
